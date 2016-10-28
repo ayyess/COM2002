@@ -19,12 +19,17 @@ public class Main extends JFrame{
     }
 
     public static void main(String[] args) {
-        try{
-            UIManager.setLookAndFeel(
-                    UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-            //we can ignore any exceptions here as they won't change the functionality of the program, it just won't look native
-        }
-        new Main();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                try{
+                    UIManager.setLookAndFeel(
+                            UIManager.getSystemLookAndFeelClassName());
+                } catch (Exception e) {
+                    //we can ignore any exceptions here as they won't change the functionality of the program, it just won't look native
+                }
+                
+                new Main();
+            }
+        });
     }
 }
