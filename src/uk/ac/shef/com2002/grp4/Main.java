@@ -27,7 +27,7 @@ public class Main extends JFrame{
                 } catch (Exception e) {
                     //we can ignore any exceptions here as they won't change the functionality of the program, it just won't look native
                 }
-                
+
                 new Main();
             }
         });
