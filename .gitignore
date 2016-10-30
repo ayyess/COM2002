@@ -59,3 +59,9 @@ hs_err_pid*
 #Ignore all .idea folder stuff, and *.iml stuff for now
 .idea/
 *.iml
+/bin/
+
+#Eclipse
+bin/
+.project
+.classpath
