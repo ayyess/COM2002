@@ -54,9 +54,6 @@ public class AppointmentPanel extends JPanel {
 		p.put("text.month", "Month");
 		p.put("text.year", "Year");
 		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
-		// Don't know about the formatter, but there it is...
-		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-		this.add(datePicker);
-		add(new JLabel("Hello World"));
+		this.add(datePanel);
 	}
 }
