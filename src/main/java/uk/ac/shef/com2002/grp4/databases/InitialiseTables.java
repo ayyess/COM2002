@@ -5,8 +5,9 @@ import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -23,31 +24,47 @@ public class InitialiseTables {
     }
 
     //Gets the data from a file, whose name is passed in
-    private String getTableData(String fileName) {
+    private List<String> getTableData(String fileName) {
+        List<String> statements = new ArrayList<String>();
         StringBuilder data = new StringBuilder();
         try {
             File file = new File(fileName);
             Scanner scanner = new Scanner(file);
 
             while (scanner.hasNextLine()) {
-                data.append(scanner.nextLine());
+                String line = scanner.nextLine();
+                if(line.isEmpty()){
+                    statements.add(data.toString());
+                    data = new StringBuilder();
+                }else {
+                    data.append(line);
+                    data.append("\r\n");
+                }
             }
             scanner.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return data.toString();
+        return statements;
     }
 
     //Pushes data from a file to the remote server
     public void pushToServer(String fileName) {
-        String dataStream = getTableData("up.sql");
         try {
-            stmt = con.prepareStatement(dataStream);
-            stmt.execute();
+            con.setAutoCommit(false);
+            for(String statement: getTableData(fileName)) {
+                stmt = con.prepareStatement(statement);
+                stmt.execute();
+            }
+            con.commit();
         }
         catch (SQLException ex) {
             ex.printStackTrace();
+            try {
+                con.rollback();
+            } catch (SQLException e) {
+                //if we can't rollback then somethings very wrong anyway
+            }
         }
         finally {
             if (stmt != null) {
