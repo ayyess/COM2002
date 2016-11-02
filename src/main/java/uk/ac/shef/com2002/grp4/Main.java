@@ -9,12 +9,11 @@ public class Main extends JFrame {
         //TODO add a practitioner ui that can be switched out for use in the treatment rooms
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setPreferredSize(new Dimension(800,600));
-        pack();
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Appointments", null, new AppointmentPanel(), null);
         tabbedPane.addTab("Customers", null, new CustomerPanel(), null);
-        tabbedPane.addTab("Payment", null, new PaymentPanel(), null);
         add(tabbedPane);
+        pack();
         setVisible(true);
     }
 

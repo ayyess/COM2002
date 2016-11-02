@@ -1,13 +1,12 @@
 package uk.ac.shef.com2002.grp4.databases;
 
-import com.sun.org.apache.xml.internal.security.Init;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.util.Scanner;
 
 /**
@@ -16,26 +15,11 @@ import java.util.Scanner;
 public class InitialiseTables {
 
     private Connection con = null;
-    private Statement stmt = null;
+    private PreparedStatement stmt = null;
 
     //Gets connection with remote server
-    public InitialiseTables() {
-        try {
-            con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team004?user=team004&password=492cebac");
-        }
-        catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        finally {
-            if (con != null) {
-                try {
-                    con.close();
-                }
-                catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }
+    public InitialiseTables(Connection con) {
+	    this.con = con;
     }
 
     //Gets the data from a file, whose name is passed in
@@ -59,8 +43,8 @@ public class InitialiseTables {
     public void pushToServer(String fileName) {
         String dataStream = getTableData("up.sql");
         try {
-            stmt = con.createStatement();
-            stmt.executeQuery(dataStream);
+            stmt = con.prepareStatement(dataStream);
+            stmt.execute();
         }
         catch (SQLException ex) {
             ex.printStackTrace();
@@ -78,7 +62,26 @@ public class InitialiseTables {
     }
 
     public static void main(String[] args) {
-        InitialiseTables it = new InitialiseTables();
-        it.pushToServer("up.sql");
+	Connection con = null;
+	try {
+            con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team004?user=team004&password=492cebac");
+		InitialiseTables it = new InitialiseTables(con);
+		it.pushToServer("up.sql");
+
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        finally {
+            if (con != null) {
+                try {
+                    con.close();
+                }
+                catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+
     }
 }
