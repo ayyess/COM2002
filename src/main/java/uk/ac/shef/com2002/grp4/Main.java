@@ -27,7 +27,15 @@ public class Main extends JFrame{
 					//hack for dpi scaling, really only because 4k screens are annoying
 					float dpiScaling =Toolkit.getDefaultToolkit().getScreenResolution()/86;
 					for(Object key: UIManager.getLookAndFeelDefaults().keySet()){
-
+                                                if(key != null && key.toString().toLowerCase().contains("font")){
+                                                        Font font = UIManager.getDefaults().getFont(key);
+                                                        if(font != null){
+                                                                int size = font.getSize();
+                                                                float scaledSize = size*dpiScaling;
+                                                                font = font.deriveFont(scaledSize);
+                                                                UIManager.put(key,font);
+                                                        }
+                                                }
 
 					}
 
