@@ -56,7 +56,7 @@ public class InitialiseTables {
     }
 
     //Pushes data from a file to the remote server
-    public void pushToServer(String fileName) throws SQLException {
+    public void pushToServer(String fileName) {
         String dataStream = getTableData("up.sql");
         try {
             stmt = con.createStatement();
@@ -75,5 +75,10 @@ public class InitialiseTables {
                 }
             }
         }
+    }
+
+    public static void main(String[] args) {
+        InitialiseTables it = new InitialiseTables();
+        it.pushToServer("up.sql");
     }
 }
