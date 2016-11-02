@@ -10,8 +10,16 @@ public class Address {
 
 	//TODO add creation from db?
 	
+	public Address(int houseNumber, String street, String district, String city, String postcode) {
+		this.houseNumber = houseNumber;
+		this.street = street;
+		this.district = district;
+		this.city = city;
+		this.postcode = postcode;
+	}
+	
 	public String toString() {
 		return houseNumber + " " + street + ", " + district + ", " + city + ", " + postcode;
 	}
-	
+
 }
