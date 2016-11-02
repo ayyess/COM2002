@@ -3,9 +3,9 @@ package uk.ac.shef.com2002.grp4;
 import javax.swing.*;
 import java.awt.*;
 
-public class Main extends JFrame{
+public class Main extends JFrame {
 
-	public Main(){
+	public Main() {
 		//TODO add a practitioner ui that can be switched out for use in the treatment rooms
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setPreferredSize(new Dimension(800,600));
@@ -21,12 +21,12 @@ public class Main extends JFrame{
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				try{
+				try {
 					UIManager.setLookAndFeel(
-							UIManager.getSystemLookAndFeelClassName());
+					    UIManager.getSystemLookAndFeelClassName());
 					//hack for dpi scaling, really only because 4k screens are annoying
 					float dpiScaling =Toolkit.getDefaultToolkit().getScreenResolution()/86;
-					for(Object key: UIManager.getLookAndFeelDefaults().keySet()){
+					for (Object key: UIManager.getLookAndFeelDefaults().keySet()) {
 
 
 					}
