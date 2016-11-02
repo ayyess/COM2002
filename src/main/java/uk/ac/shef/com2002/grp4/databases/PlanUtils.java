@@ -10,12 +10,12 @@ import java.sql.Statement;
 /**
  * Created by Dan-L on 02/11/2016.
  */
-public class PatientPlanUtils {
+public class PlanUtils {
 
     private Connection con = null;
     private Statement stmt = null;
 
-    public PatientPlanUtils(Connection con) {
+    public PlanUtils(Connection con) {
         this.con = con;
     }
     /*
