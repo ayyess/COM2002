@@ -17,12 +17,15 @@ public class Controller {
     private Statement stmt = null;
 
     private AddressUtils address = null;
+    private TreatmentPlanUtils treatmentPlan = null;
+    private PatientPlanUtils patientPlan = null;
 
     //Gets connection with remote server
     public Controller() {
         try {
             con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team004?user=team004&password=492cebac");
             address = new AddressUtils(con);
+            treatmentPlan = new TreatmentPlanUtils(con);
         }
         catch (SQLException ex) {
             ex.printStackTrace();

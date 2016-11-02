@@ -10,22 +10,21 @@ import java.sql.Statement;
 /**
  * Created by Dan-L on 02/11/2016.
  */
-public class AddressUtils {
+public class PatientPlanUtils {
 
     private Connection con = null;
     private Statement stmt = null;
 
-    public AddressUtils(Connection con) {
+    public PatientPlanUtils(Connection con) {
         this.con = con;
     }
-
     /*
-    public Address getAddressByID(int id) {
+    public Address getPlanByPatientID(int id) {
         ResultSet res;
         try {
             stmt = con.createStatement();
-            res = stmt.executeQuery("SELECT * FROM address WHERE id="+id);
-            return new Address(res.getInt(2),res.getString(3),res.getString(4),res.getString(5),res.getString(6));
+            res = stmt.executeQuery("SELECT * FROM patient_plan WHERE id="+id);
+            return new PatientPlan();
         }
         catch (SQLException ex) {
             ex.printStackTrace();

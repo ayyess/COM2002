@@ -10,22 +10,27 @@ import java.sql.Statement;
 /**
  * Created by Dan-L on 02/11/2016.
  */
-public class AddressUtils {
-
+public class AppointmentUtils {
     private Connection con = null;
     private Statement stmt = null;
 
-    public AddressUtils(Connection con) {
+    public AppointmentUtils(Connection con) {
         this.con = con;
     }
 
     /*
-    public Address getAddressByID(int id) {
+    public Appointment[] getAppointmentByPatientID(int id) {
+        Appointment[] appointments;
         ResultSet res;
         try {
             stmt = con.createStatement();
-            res = stmt.executeQuery("SELECT * FROM address WHERE id="+id);
-            return new Address(res.getInt(2),res.getString(3),res.getString(4),res.getString(5),res.getString(6));
+            res = stmt.executeQuery("SELECT * FROM appointment WHERE id="+id);
+            ResultSet res_size = stmt.executeQuery("SELECT COUNT(*) FROM appointment WHERE id="+id);
+            appointments = new Appointment[res_size.getInt(1)];
+            for (int i=0; i < res_size.getInt(1); i++) {
+                //appointments[i] = new Appointment();
+            }
+            return appointments;
         }
         catch (SQLException ex) {
             ex.printStackTrace();

@@ -10,22 +10,21 @@ import java.sql.Statement;
 /**
  * Created by Dan-L on 02/11/2016.
  */
-public class AddressUtils {
-
+public class PatientUtils {
     private Connection con = null;
     private Statement stmt = null;
 
-    public AddressUtils(Connection con) {
+    public PatientUtils(Connection con) {
         this.con = con;
     }
 
-    /*
-    public Address getAddressByID(int id) {
+    public Address getPatientByID(int id) {
         ResultSet res;
+        /*
         try {
             stmt = con.createStatement();
-            res = stmt.executeQuery("SELECT * FROM address WHERE id="+id);
-            return new Address(res.getInt(2),res.getString(3),res.getString(4),res.getString(5),res.getString(6));
+            res = stmt.executeQuery("SELECT * FROM patient WHERE id="+id);
+            return new Patient();
         }
         catch (SQLException ex) {
             ex.printStackTrace();
@@ -40,6 +39,7 @@ public class AddressUtils {
                 }
             }
         }
+        */
+        return null;
     }
-    */
 }
