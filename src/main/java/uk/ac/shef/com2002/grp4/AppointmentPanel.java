@@ -8,6 +8,6 @@ import java.awt.*;
  * Created on 28/10/2016.
  */
 public class AppointmentPanel extends Component {
-    //TODO searching appointments
-    //TODO creating appointments
+	//TODO searching appointments
+	//TODO creating appointments
 }

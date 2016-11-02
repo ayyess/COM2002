@@ -8,6 +8,6 @@ import java.awt.*;
  * Created on 28/10/2016.
  */
 public class CustomerPanel extends Component {
-    //TODO searching customers
-    //TODO adding customers
+	//TODO searching customers
+	//TODO adding customers
 }
