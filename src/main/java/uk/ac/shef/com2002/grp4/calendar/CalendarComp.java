@@ -24,7 +24,7 @@ public class CalendarComp extends JComponent {
 	final static int DIV = 20;
 	final static int SLOT_SIZE = 30;
 	
-	ArrayList<Appointment> appointments = new ArrayList<Appointment>();
+	ArrayList<AppointmentComp> appointments = new ArrayList<AppointmentComp>();
 	
 	public CalendarComp() {
 		layout = new GridBagLayout();
@@ -38,7 +38,7 @@ public class CalendarComp extends JComponent {
 		System.out.println("Ignore");
 		removeAll();
 		int[] times = new int[(24*60)/DIV];
-		for (Appointment a : appointments) {
+		for (AppointmentComp a : appointments) {
 			GridBagConstraints c = new GridBagConstraints();
 			c.gridx = 0;
 			int d = 0;
@@ -79,7 +79,7 @@ public class CalendarComp extends JComponent {
 		}
 	}
 	
-	public void addAppointment(Appointment a) {
+	public void addAppointment(AppointmentComp a) {
 		appointments.add(a);
 		showAll();
 	}
