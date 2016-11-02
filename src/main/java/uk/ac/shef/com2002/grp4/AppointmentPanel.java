@@ -19,7 +19,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import uk.ac.shef.com2002.grp4.calendar.CalendarComp;
-import uk.ac.shef.com2002.grp4.calendar.Appointment;
+import uk.ac.shef.com2002.grp4.calendar.AppointmentComp;
 
 /**
  * Panel for appointment interaction workflow
@@ -79,13 +79,13 @@ public class AppointmentPanel extends JPanel {
 			Calendar calE = Calendar.getInstance();
 			calS.set(2016, 11, 2, 10, 40, 0);
 			calE.set(2016, 11, 2, 11, 40, 0);
-			c.addAppointment(new Appointment(calS,calE));
+			c.addAppointment(new AppointmentComp(calS,calE));
 			calS.set(2016, 11, 2, 16, 0, 0);
 			calE.set(2016, 11, 2, 16, 40, 0);
-			c.addAppointment(new Appointment(calS,calE));
+			c.addAppointment(new AppointmentComp(calS,calE));
 			calS.set(2016, 11, 2, 20, 0, 0);
 			calE.set(2016, 11, 2, 21, 40, 0);
-			c.addAppointment(new Appointment(calS,calE));
+			c.addAppointment(new AppointmentComp(calS,calE));
 			p.setVerticalScrollBarPolicy(p.VERTICAL_SCROLLBAR_ALWAYS);
 			//p.add(new JLabel("hellow world"));
 			p.getViewport().add(c);
