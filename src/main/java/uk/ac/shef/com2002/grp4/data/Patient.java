@@ -7,14 +7,14 @@ public class Patient {
 	private String title;
 	private String forename;
 	private String surname;
-	private Calendar dob;
+	private String dob;
 	private String phoneNumber;
 	
 	private Address address;
 	
 	//TODO Add creation from db?
 	
-	public Patient(String title, String forename, String surname, Calendar dob, String phoneNumber) {
+	public Patient(String title, String forename, String surname, String dob, String phoneNumber) {
 		this.title = title;
 		this.forename = forename;
 		this.surname = surname;
