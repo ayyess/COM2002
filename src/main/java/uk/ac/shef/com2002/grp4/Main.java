@@ -1,5 +1,7 @@
 package uk.ac.shef.com2002.grp4;
 
+import uk.ac.shef.com2002.grp4.util.DPIScaling;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -24,19 +26,8 @@ public class Main extends JFrame {
                 try {
                     UIManager.setLookAndFeel(
                         UIManager.getSystemLookAndFeelClassName());
-                    //hack for dpi scaling, really only because 4k screens are annoying
-                    float dpiScaling =Toolkit.getDefaultToolkit().getScreenResolution()/86;
-                    for(Object key: UIManager.getLookAndFeelDefaults().keySet()) {
-                        if(key != null && key.toString().toLowerCase().contains("font")) {
-                            Font font = UIManager.getDefaults().getFont(key);
-                            if(font != null) {
-                                int size = font.getSize();
-                                float scaledSize = size*dpiScaling;
-                                font = font.deriveFont(scaledSize);
-                                UIManager.put(key,font);
-                            }
-                        }
-                    }
+
+                    DPIScaling.rescaleFonts();
                 } catch (Exception e) {
                     //we can ignore any exceptions here as they won't change the functionality of the program, it just won't look native
                 }
