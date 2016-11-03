@@ -14,11 +14,9 @@ public class EmptyAppointment extends JPanel {
 	 */
 	private int time;
 	
-	public EmptyAppointment(int time, int width, int slotSize) {
+	public EmptyAppointment(int time) {
 		this.time = time;
 		setBorder(BorderFactory.createLineBorder(Color.black));
-		setPreferredSize(new Dimension(width, slotSize));
-		setMaximumSize(new Dimension(width, slotSize));
 		setBackground(Color.WHITE);
 	}
 	

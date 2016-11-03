@@ -5,10 +5,11 @@ import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 
-import javax.swing.JComponent;
+import javax.swing.*;
 
-public class CalendarComp extends JComponent {
+public class CalendarComp extends JPanel {
 
 	GridBagLayout layout;
 	
@@ -87,9 +88,12 @@ public class CalendarComp extends JComponent {
 	
 	
 	public CalendarComp() {
+		super();
 		layout = new GridBagLayout();
 		layout.columnWidths = new int[] {1};
 		layout.rowHeights = new int[(24*60)/DIV];
+		//set all slot sizes to SLOT_SIZE, later we just choose how many of these slots to use with gridheight
+		Arrays.fill(layout.rowHeights,SLOT_SIZE);
 		setLayout(layout);
 		
 		addAppointmentClickListener(calApointClick);
@@ -112,15 +116,8 @@ public class CalendarComp extends JComponent {
 			} while (d < a.duration);
 			c.gridy = a.start/DIV;
 			c.gridheight = d/DIV;
-			//c.weighty = d/DIV;
-			int height = (d/DIV)*SLOT_SIZE;
-			height = height < SLOT_SIZE ? SLOT_SIZE: height;
-			Dimension size = new Dimension(100, height);
-			//a.setMinimumSize(size);
-			a.setPreferredSize(size);
-			//a.setSize(size);
-			c.gridwidth = 1;
-			c.fill = c.BOTH;
+			c.weightx = 1.0;
+			c.fill = GridBagConstraints.BOTH;
 			add(a, c);
 		}
 		for (int i = 0; i < times.length; i++) {
@@ -129,10 +126,9 @@ public class CalendarComp extends JComponent {
 				c.gridx = 0;
 				times[i] = 1;
 				c.gridy = i;
-				c.gridheight = 1;
-				c.gridwidth = 1;
-				c.fill = c.BOTH;
-				EmptyAppointment gap = new EmptyAppointment(i, 100, SLOT_SIZE);
+				c.weightx = 1.0;
+				c.fill = GridBagConstraints.BOTH;
+				EmptyAppointment gap = new EmptyAppointment(i);
 				gap.addMouseListener(slotAdapter);
 				add(gap, c);
 			}
