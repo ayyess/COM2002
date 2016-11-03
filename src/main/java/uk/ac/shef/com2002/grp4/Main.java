@@ -12,7 +12,8 @@ public class Main extends JFrame {
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Appointments", null, new AppointmentPanel(), null);
         tabbedPane.addTab("Customers", null, new CustomerPanel(), null);
-        add(tabbedPane);
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add(tabbedPane,BorderLayout.CENTER);
         pack();
         setVisible(true);
     }

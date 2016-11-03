@@ -51,6 +51,7 @@ public class AppointmentPanel extends JPanel {
 	//TODO searching appointments
 	//TODO creating appointments
 	public AppointmentPanel () {
+		super(new BorderLayout());
 		UtilDateModel model = new UtilDateModel();
 		//model.setDate(20,04,2014);
 		// Need this...
@@ -86,12 +87,11 @@ public class AppointmentPanel extends JPanel {
 			calS.set(2016, 11, 2, 20, 0, 0);
 			calE.set(2016, 11, 2, 21, 40, 0);
 			c.addAppointment(new AppointmentComp(calS,calE));
-			p.setVerticalScrollBarPolicy(p.VERTICAL_SCROLLBAR_ALWAYS);
-			//p.add(new JLabel("hellow world"));
+			p.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 			p.getViewport().add(c);
 
-			p.setPreferredSize(new Dimension(200, 600));
-			this.add(p, BorderLayout.LINE_END);
+			//p.setPreferredSize(new Dimension(200, 600));
+			this.add(p, BorderLayout.CENTER);
 		}
 	}
 }
