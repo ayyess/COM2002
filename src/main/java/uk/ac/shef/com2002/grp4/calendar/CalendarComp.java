@@ -1,21 +1,12 @@
 package uk.ac.shef.com2002.grp4.calendar;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.text.SimpleDateFormat;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Calendar;
 
-import javax.swing.BorderFactory;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.text.DateFormatter;
-
 
 public class CalendarComp extends JComponent {
 
@@ -26,19 +17,92 @@ public class CalendarComp extends JComponent {
 	
 	ArrayList<AppointmentComp> appointments = new ArrayList<AppointmentComp>();
 	
+	ArrayList<CalendarClickListener> appointmentListeners = new ArrayList<CalendarClickListener>();
+	ArrayList<CalendarClickListener> slotListeners = new ArrayList<CalendarClickListener>();
+	
+	/** TODO Remove... This is an example for a empty slot listener */
+	private CalendarClickListener calSlotClick = new CalendarClickListener() {
+		
+		@Override
+		public void onRelease(MouseEvent e) {
+			int time = ((EmptyAppointment)e.getSource()).getTime();
+			System.out.println("Slot released " + e.getSource().getClass() + time);
+		}
+		
+		@Override
+		public void onPressed(MouseEvent e) {
+			int time = ((EmptyAppointment)e.getSource()).getTime();
+			System.out.println("Slot pressed " + e.getSource().getClass() + time);
+		}
+		
+		@Override
+		public void onClick(MouseEvent e) {
+			int time = ((EmptyAppointment)e.getSource()).getTime();
+			System.out.println("Slot click " + e.getSource().getClass() + time);
+		}
+	}; 
+	
+	/** TODO Remove... This is an example for an appointment listener */
+	private CalendarClickListener calApointClick = new CalendarClickListener() {
+		
+		@Override
+		public void onRelease(MouseEvent e) {
+			System.out.println("Appointment released " + e.getSource().getClass());
+		}
+		
+		@Override
+		public void onPressed(MouseEvent e) {
+			System.out.println("Appointment pressed " + e.getSource().getClass());
+		}
+		
+		@Override
+		public void onClick(MouseEvent e) {
+			System.out.println("Appointment click " + e.getSource().getClass());
+		}
+	}; 
+	
+	private MouseAdapter appointmentAdapter = new MouseAdapter() {
+		public void mouseClicked(MouseEvent e) {
+			notifyAppointmentListener(e);
+		}
+		public void mousePressed(MouseEvent e) {
+			notifyAppointmentListener(e);
+		}
+		public void mouseReleased(MouseEvent e) {
+			notifyAppointmentListener(e);
+		}
+	};
+	
+	private MouseAdapter slotAdapter = new MouseAdapter() {
+		public void mouseClicked(MouseEvent e) {
+			notifySlotListener(e);
+		}
+		public void mousePressed(MouseEvent e) {
+			notifySlotListener(e);
+		}
+		public void mouseReleased(MouseEvent e) {
+			notifySlotListener(e);
+		}
+	};
+	
+	
 	public CalendarComp() {
 		layout = new GridBagLayout();
 		layout.columnWidths = new int[] {1};
 		layout.rowHeights = new int[(24*60)/DIV];
 		setLayout(layout);
+		
+		addAppointmentClickListener(calApointClick);
+		addSlotClickListener(calSlotClick);
+		
 		showAll();
 	}
 		
 	public void showAll() {
-		System.out.println("Ignore");
 		removeAll();
 		int[] times = new int[(24*60)/DIV];
 		for (AppointmentComp a : appointments) {
+			a.addMouseListener(appointmentAdapter);
 			GridBagConstraints c = new GridBagConstraints();
 			c.gridx = 0;
 			int d = 0;
@@ -47,7 +111,6 @@ public class CalendarComp extends JComponent {
 				d += DIV;
 			} while (d < a.duration);
 			c.gridy = a.start/DIV;
-			System.out.println(a.start + ", " + a.end + " At" + c.gridy + " Span" + (((d/DIV)*10)+40));
 			c.gridheight = d/DIV;
 			//c.weighty = d/DIV;
 			int height = (d/DIV)*SLOT_SIZE;
@@ -69,11 +132,8 @@ public class CalendarComp extends JComponent {
 				c.gridheight = 1;
 				c.gridwidth = 1;
 				c.fill = c.BOTH;
-				JPanel gap = new JPanel();
-				gap.setBorder(BorderFactory.createLineBorder(Color.black));
-				gap.setPreferredSize(new Dimension(100, SLOT_SIZE));
-				gap.setMaximumSize(new Dimension(100, SLOT_SIZE));
-				gap.setBackground(Color.WHITE);
+				EmptyAppointment gap = new EmptyAppointment(i, 100, SLOT_SIZE);
+				gap.addMouseListener(slotAdapter);
 				add(gap, c);
 			}
 		}
@@ -82,6 +142,36 @@ public class CalendarComp extends JComponent {
 	public void addAppointment(AppointmentComp a) {
 		appointments.add(a);
 		showAll();
+	}
+	
+	/**
+	 * Adds the given listener. When a empty slot is clicked the onClick/onPressed/onReleased 
+	 * method of the listener will be called. 
+	 * @param l - Listener to add
+	 */
+	public void addSlotClickListener(CalendarClickListener l) {
+		slotListeners.add(l);
+	}
+	
+	/**
+	 * Adds the given listener. When an appointment is clicked the onClick/onPressed/onReleased 
+	 * method of the listener will be called. 
+	 * @param l - Listener to add
+	 */
+	public void addAppointmentClickListener(CalendarClickListener l) {
+		appointmentListeners.add(l);
+	}
+	
+	public void notifyAppointmentListener(MouseEvent e) {
+		for (CalendarClickListener l : appointmentListeners) {
+			l.notify(e);
+		}
+	}
+
+	public void notifySlotListener(MouseEvent e) {
+		for (CalendarClickListener l : slotListeners) {
+			l.notify(e);
+		}
 	}
 	
 }
