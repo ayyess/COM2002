@@ -1,6 +1,7 @@
 package uk.ac.shef.com2002.grp4.databases;
 
 import uk.ac.shef.com2002.grp4.data.Address;
+import uk.ac.shef.com2002.grp4.data.Appointment;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -18,7 +19,7 @@ public class AppointmentUtils {
         this.con = con;
     }
 
-    /*
+
     public Appointment[] getAppointmentByPatientID(int id) {
         Appointment[] appointments;
         ResultSet res;
@@ -27,8 +28,8 @@ public class AppointmentUtils {
             res = stmt.executeQuery("SELECT * FROM appointment WHERE id="+id);
             ResultSet res_size = stmt.executeQuery("SELECT COUNT(*) FROM appointment WHERE id="+id);
             appointments = new Appointment[res_size.getInt(1)];
-            for (int i=0; i < res_size.getInt(1); i++) {
-                //appointments[i] = new Appointment();
+            for (int i=0; i < appointments.length; i++) {
+                //appointments[i] = new Appointment(res.getDate(1), res.getTime(4),res.getTime(5), res.getString(2));
             }
             return appointments;
         }
@@ -45,6 +46,6 @@ public class AppointmentUtils {
                 }
             }
         }
+        return null;
     }
-    */
 }

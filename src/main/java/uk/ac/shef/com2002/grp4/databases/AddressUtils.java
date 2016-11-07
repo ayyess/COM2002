@@ -19,7 +19,7 @@ public class AddressUtils {
         this.con = con;
     }
 
-    /*
+
     public Address getAddressByID(int id) {
         ResultSet res;
         try {
@@ -40,6 +40,70 @@ public class AddressUtils {
                 }
             }
         }
+        return null;
     }
-    */
+
+    public int getAddressID(int houseNumber, String postcode) {
+        try {
+            stmt = con.createStatement();
+            return stmt.executeQuery("SELECT id FROM address WHERE house_number=" + houseNumber + ", postcode=" + postcode).getInt(1);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return 0;
+    }
+
+    public void updateAddressByID(int id, int houseNumber, String street, String district, String city, String postcode) {
+        try {
+            stmt = con.createStatement();
+            int count = stmt.executeUpdate("UPDATE address SET house_number =" +
+                    houseNumber + ", street =" + street + ", district =" +
+                    district + ", city =" + city + ", postcode =" + postcode +"WHERE id=" + id);
+
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        finally {
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void insertAddress(int houseNumber, String street, String district, String city, String postcode) {
+        try {
+            stmt = con.createStatement();
+            int new_id = stmt.executeQuery("SELECT MAX(id) FROM address").getInt(1) + 1;
+            int count = stmt.executeUpdate("INSERT INTO address VALUES " +
+                            new_id + "," + houseNumber + "," + street + "," + district + "," + city + "," + postcode);
+
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        finally {
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }

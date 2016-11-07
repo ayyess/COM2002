@@ -40,4 +40,54 @@ public class PatientUtils {
         }
         return null;
     }
+
+    public void updatePatientByID(int id, String title, String forename, String surname, int phone) {
+        try {
+            stmt = con.createStatement();
+            int count = stmt.executeUpdate("UPDATE patient SET title =" +
+                    title + ", forname =" + forename + ", surname =" +
+                    surname + ", phone_number =" + phone + "WHERE id=" + id);
+
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        finally {
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+
+    public void insertPatient(String title, String forename, String surname, Date date, int phone, int address_id) {
+        try {
+            stmt = con.createStatement();
+            int new_id = stmt.executeQuery("SELECT MAX(id) FROM patient").getInt(1) + 1;
+            java.sql.Date dob = new java.sql.Date(date.getTime());
+            int count = stmt.executeUpdate("INSERT INTO patient VALUES " +
+                    new_id + "," + title + "," + forename + "," + surname + "," + dob + "," + phone + "," + address_id);
+
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        finally {
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+
 }
