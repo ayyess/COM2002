@@ -9,8 +9,6 @@ import java.sql.*;
 import java.util.*;
 import java.util.Calendar;
 import java.util.Date;
-import org.jdatepicker.impl.*;
-import org.jdatepicker.util.*;
 import org.jdatepicker.*;
 import javax.swing.JFormattedTextField.AbstractFormatter;
 import java.text.SimpleDateFormat;
@@ -60,7 +58,8 @@ public class AppointmentPanel extends JPanel {
 			p.put("text.today", "Today");
 			p.put("text.month", "Month");
 			p.put("text.year", "Year");
-			JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+
+			JDatePanel datePanel = new JDatePanel(model);
 			datePanel.getModel().addChangeListener(new ChangeListener() {
 					public void stateChanged(ChangeEvent e) {
 						UtilDateModel source = (UtilDateModel) e.getSource();
@@ -69,7 +68,12 @@ public class AppointmentPanel extends JPanel {
 						// AppointmentPanel.this.updateDat
 					}
 				});
-			this.add(datePanel ,BorderLayout.LINE_START);
+			datePanel.setPreferredSize(new Dimension(200*3,180*3));
+			datePanel.setSize(new Dimension(200*3,180*3));
+
+			JPanel datePanelContainer = new JPanel(new BorderLayout());
+			datePanelContainer.add(datePanel, BorderLayout.NORTH);
+			this.add(datePanelContainer ,BorderLayout.LINE_START);
 		}
 		//this.add(new JLabel ("Hello") ,BorderLayout.LINE_END);
 
