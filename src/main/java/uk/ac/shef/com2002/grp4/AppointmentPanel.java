@@ -1,25 +1,25 @@
 package uk.ac.shef.com2002.grp4;
 
-import java.awt.*;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.sql.*;
-import java.util.*;
-import java.util.Calendar;
-import java.util.Date;
-import org.jdatepicker.impl.*;
-import org.jdatepicker.util.*;
-import org.jdatepicker.*;
-import javax.swing.JFormattedTextField.AbstractFormatter;
-import java.text.SimpleDateFormat;
+import java.awt.BorderLayout;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Calendar;
+import java.util.Properties;
+
+import javax.swing.JFormattedTextField.AbstractFormatter;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import uk.ac.shef.com2002.grp4.calendar.CalendarComp;
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.UtilDateModel;
+
 import uk.ac.shef.com2002.grp4.calendar.AppointmentComp;
+import uk.ac.shef.com2002.grp4.calendar.CalendarComp;
+import uk.ac.shef.com2002.grp4.data.Appointment;
 
 /**
  * Panel for appointment interaction workflow
@@ -76,17 +76,9 @@ public class AppointmentPanel extends JPanel {
 		{
 			JScrollPane p = new JScrollPane();
 			CalendarComp c = new CalendarComp();
-			Calendar calS = Calendar.getInstance();
-			Calendar calE = Calendar.getInstance();
-			calS.set(2016, 11, 2, 10, 40, 0);
-			calE.set(2016, 11, 2, 11, 40, 0);
-			c.addAppointment(new AppointmentComp(calS,calE));
-			calS.set(2016, 11, 2, 16, 0, 0);
-			calE.set(2016, 11, 2, 16, 40, 0);
-			c.addAppointment(new AppointmentComp(calS,calE));
-			calS.set(2016, 11, 2, 20, 0, 0);
-			calE.set(2016, 11, 2, 21, 40, 0);
-			c.addAppointment(new AppointmentComp(calS,calE));
+			c.addAppointment(new AppointmentComp(new Appointment(LocalDate.now(), LocalTime.of(12, 0), LocalTime.of(13, 0), "Dentist")));
+			c.addAppointment(new AppointmentComp(new Appointment(LocalDate.now(), LocalTime.of(14, 30), LocalTime.of(15, 0), "Dentist")));
+			c.addAppointment(new AppointmentComp(new Appointment(LocalDate.now(), LocalTime.of(16, 20), LocalTime.of(16, 50), "Dentist")));
 			p.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 			p.getViewport().add(c);
 

@@ -29,7 +29,7 @@ public class AppointmentUtils {
             ResultSet res_size = stmt.executeQuery("SELECT COUNT(*) FROM appointment WHERE id="+id);
             appointments = new Appointment[res_size.getInt(1)];
             for (int i=0; i < appointments.length; i++) {
-                //appointments[i] = new Appointment(res.getDate(1), res.getTime(4),res.getTime(5), res.getString(2));
+                appointments[i] = new Appointment(res.getDate(1), res.getTime(4),res.getTime(5), res.getString(2));
             }
             return appointments;
         }
