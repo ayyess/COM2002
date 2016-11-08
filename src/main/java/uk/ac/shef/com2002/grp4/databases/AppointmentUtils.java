@@ -4,9 +4,12 @@ import uk.ac.shef.com2002.grp4.data.Address;
 import uk.ac.shef.com2002.grp4.data.Appointment;
 
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  * Created by Dan-L on 02/11/2016.
@@ -48,4 +51,36 @@ public class AppointmentUtils {
         }
         return null;
     }
+    
+    public Appointment[] getAppointmentByDate(Date date) {
+    	ArrayList<Appointment> appointments = new ArrayList<Appointment>(); 
+        ResultSet res;
+        try {
+            stmt = con.createStatement();
+            PreparedStatement preStm = con.prepareStatement("SELECT * FROM appointment WHERE date=?");
+            preStm.setDate(1, date);
+            res = preStm.executeQuery();
+            while (res.next()) {
+            	appointments.add(new Appointment(res.getDate(1), res.getTime(4),res.getTime(5), res.getString(2)));
+            }
+            Appointment[] ap = new Appointment[appointments.size()];
+            appointments.toArray(ap);
+            return ap;
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        finally {
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+    
 }
