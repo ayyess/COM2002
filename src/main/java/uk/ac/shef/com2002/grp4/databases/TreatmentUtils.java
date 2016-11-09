@@ -12,63 +12,24 @@ import java.util.ArrayList;
  * Created by Dan-L on 09/11/2016.
  */
 public class TreatmentUtils {
-
-    private Connection con = null;
-    private PreparedStatement stmt = null;
-
-    public TreatmentUtils(Connection con) {
-        this.con = con;
-    }
-
-    public Treatment getCostByName(String s) {
-        try {
-            stmt = con.prepareStatement("SELECT cost FROM treatment WHERE name=?");
+    public static Treatment getCostByName(String s) {
+        return ConnectionManager.withStatement("SELECT cost FROM treatment WHERE name=?",(stmt)-> {
             stmt.setString(1, s);
             ResultSet res = stmt.executeQuery();
             return new Treatment(s, res.getInt(1));
-        }
-        catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        finally {
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                }
-                catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return null;
+        });
     }
 
-    public Treatment[] getTreatments() {
+    public static  Treatment[] getTreatments() {
         ArrayList<Treatment> treatments = new ArrayList<Treatment>();
-        ResultSet res;
-        try {
-            stmt = con.prepareStatement("SELECT * FROM treatment");
-            res = stmt.executeQuery();
+        return ConnectionManager.withStatement("SELECT cost FROM treatment",(stmt)-> {
+            ResultSet res = stmt.executeQuery();
             while (res.next()) {
                 treatments.add(new Treatment(res.getString(1), res.getInt(2)));
             }
             Treatment[] tp = new Treatment[treatments.size()];
             treatments.toArray(tp);
             return tp;
-        }
-        catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        finally {
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                }
-                catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return null;
+        });
     }
 }

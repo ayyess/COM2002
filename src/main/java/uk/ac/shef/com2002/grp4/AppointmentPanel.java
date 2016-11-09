@@ -3,6 +3,7 @@ package uk.ac.shef.com2002.grp4;
 import java.awt.BorderLayout;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Properties;
 
 import javax.swing.JPanel;
@@ -16,7 +17,7 @@ import org.jdatepicker.impl.UtilDateModel;
 import uk.ac.shef.com2002.grp4.calendar.AppointmentComp;
 import uk.ac.shef.com2002.grp4.calendar.CalendarComp;
 import uk.ac.shef.com2002.grp4.data.Appointment;
-import uk.ac.shef.com2002.grp4.databases.Controller;
+import uk.ac.shef.com2002.grp4.databases.AppointmentUtils;
 
 /**
  * Panel for appointment interaction workflow
@@ -55,8 +56,7 @@ public class AppointmentPanel extends JPanel {
 			CalendarComp calendar = new CalendarComp();
 			//FIXME Probably not the correct way to connect but it works for now
 			//TODO add date lookup based on selected date in JDatePicker
-			Controller controller = new Controller();
-			Appointment[] appointments = controller.getAppointmentUtils().getAppointmentByDate(
+			List<Appointment> appointments = AppointmentUtils.getAppointmentByDate(
 					Date.valueOf(LocalDate.now()));
 			for (Appointment a : appointments) {
 				calendar.addAppointment(new AppointmentComp(a));
