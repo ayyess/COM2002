@@ -7,6 +7,7 @@ import java.time.LocalDate;
  * Created by Dan-L on 09/11/2016.
  */
 public class PatientPlan {
+    private int patientID;
     private String name;
     private int cost;
     private LocalDate startDate;
@@ -14,7 +15,8 @@ public class PatientPlan {
     private int remHygiene;
     private int remRepairs;
 
-    public PatientPlan(String name, int cost, Date startDate, int checks, int hygienes, int repairs) {
+    public PatientPlan(int id, String name, int cost, Date startDate, int checks, int hygienes, int repairs) {
+        this.patientID = id;
         this.name = name;
         this.cost = cost;
         this.startDate = startDate.toLocalDate();
@@ -23,7 +25,8 @@ public class PatientPlan {
         this.remRepairs = repairs;
     }
 
-    public PatientPlan(String name, int cost, LocalDate startDate, int checks, int hygienes, int repairs) {
+    public PatientPlan(int id, String name, int cost, LocalDate startDate, int checks, int hygienes, int repairs) {
+        this.patientID = id;
         this.name = name;
         this.cost = cost;
         this.startDate = startDate;

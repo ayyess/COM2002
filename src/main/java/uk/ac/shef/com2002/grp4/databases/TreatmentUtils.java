@@ -1,6 +1,6 @@
 package uk.ac.shef.com2002.grp4.databases;
 
-import uk.ac.shef.com2002.grp4.data.Plan;
+import uk.ac.shef.com2002.grp4.data.Treatment;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,20 +11,21 @@ import java.util.ArrayList;
 /**
  * Created by Dan-L on 09/11/2016.
  */
-public class PlanUtils {
+public class TreatmentUtils {
+
     private Connection con = null;
     private PreparedStatement stmt = null;
 
-    public PlanUtils(Connection con) {
+    public TreatmentUtils(Connection con) {
         this.con = con;
     }
 
-    public Plan getDetailsByName(String s) {
+    public Treatment getCostByName(String s) {
         try {
-            stmt = con.prepareStatement("SELECT * FROM treatment_plan WHERE name=?");
+            stmt = con.prepareStatement("SELECT cost FROM treatment WHERE name=?");
             stmt.setString(1, s);
             ResultSet res = stmt.executeQuery();
-            return new Plan(s, res.getInt(2), res.getInt(3), res.getInt(4), res.getInt(5));
+            return new Treatment(s, res.getInt(1));
         }
         catch (SQLException ex) {
             ex.printStackTrace();
@@ -42,18 +43,18 @@ public class PlanUtils {
         return null;
     }
 
-    public Plan[] getTreatmentPlans() {
-        ArrayList<Plan> plans = new ArrayList<Plan>();
+    public Treatment[] getTreatments() {
+        ArrayList<Treatment> treatments = new ArrayList<Treatment>();
         ResultSet res;
         try {
-            stmt = con.prepareStatement("SELECT * FROM treatment_plan");
+            stmt = con.prepareStatement("SELECT * FROM treatment");
             res = stmt.executeQuery();
             while (res.next()) {
-                plans.add(new Plan(res.getString(1), res.getInt(2), res.getInt(3), res.getInt(4), res.getInt(5)));
+                treatments.add(new Treatment(res.getString(1), res.getInt(2)));
             }
-            Plan[] pl = new Plan[plans.size()];
-            plans.toArray(pl);
-            return pl;
+            Treatment[] tp = new Treatment[treatments.size()];
+            treatments.toArray(tp);
+            return tp;
         }
         catch (SQLException ex) {
             ex.printStackTrace();
