@@ -1,14 +1,12 @@
 package uk.ac.shef.com2002.grp4;
 
+import java.util.List;
 import java.awt.*;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.sql.*;
-import java.util.*;
+import java.time.LocalDate;
 import java.util.Calendar;
-import java.util.Date;
+import java.sql.Date;
 import org.jdatepicker.*;
 import javax.swing.JFormattedTextField.AbstractFormatter;
 import java.text.SimpleDateFormat;
@@ -18,6 +16,8 @@ import javax.swing.event.ChangeListener;
 
 import uk.ac.shef.com2002.grp4.calendar.CalendarComp;
 import uk.ac.shef.com2002.grp4.calendar.AppointmentComp;
+import uk.ac.shef.com2002.grp4.data.Appointment;
+import uk.ac.shef.com2002.grp4.databases.AppointmentUtils;
 import uk.ac.shef.com2002.grp4.util.DPIScaling;
 
 /**
@@ -65,7 +65,7 @@ public class AppointmentPanel extends JPanel {
 						// AppointmentPanel.this.updateDat
 					}
 				});
-			float dpiScaling = DPIScaling.get();
+			int dpiScaling = (int)DPIScaling.get();
 			datePanel.setPreferredSize(new Dimension(200*dpiScaling,180*dpiScaling));
 			datePanel.setSize(new Dimension(200*dpiScaling,180*dpiScaling));
 
@@ -89,7 +89,7 @@ public class AppointmentPanel extends JPanel {
 			scroll.getViewport().add(calendar);
 
 			//p.setPreferredSize(new Dimension(200, 600));
-			this.add(p, BorderLayout.CENTER);
+			this.add(scroll, BorderLayout.CENTER);
 		}
 	}
 }
