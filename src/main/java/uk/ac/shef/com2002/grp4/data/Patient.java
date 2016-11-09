@@ -44,5 +44,24 @@ public class Patient {
 	public String toString() {
 		return getName() + " " + dob + " " + phoneNumber;
 	}
-	
+
+	public String getTitle() {
+		return title;
+	}
+
+	public String getForename() {
+		return forename;
+	}
+
+	public String getSurname() {
+		return surname;
+	}
+
+	public String getDob() {
+		return dob;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
 }
