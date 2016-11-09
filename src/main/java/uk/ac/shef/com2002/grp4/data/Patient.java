@@ -33,7 +33,6 @@ public class Patient {
 		this.surname = surname;
 		this.dob = dob;
 		this.phoneNumber = phoneNumber;
-		this.id = Optional.empty();
 		this.id = id;
 		//TODO Fetch address
 	}

@@ -3,17 +3,23 @@ package uk.ac.shef.com2002.grp4.databases;
 import uk.ac.shef.com2002.grp4.data.Patient;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Dan-L on 02/11/2016.
  */
 public class PatientUtils {
 
-    public static Patient findPatientByFirstName(String firstName) {
+    public static List<Patient> findPatientByFirstName(String firstName) {
         return ConnectionManager.withStatement("SELECT * FROM patient WHERE first_name=?",(stmt)->{
             stmt.setString(1,firstName);
             ResultSet res = stmt.executeQuery();
-            return new Patient(res.getInt(1),res.getString(2),res.getString(3),res.getString(4), res.getString(5),res.getString(6));
+            List<Patient> patients = new ArrayList<>();
+            while(res.next()){
+                patients.add(new Patient(res.getInt(1),res.getString(2),res.getString(3),res.getString(4), res.getString(5),res.getString(6)));
+            }
+            return patients;
         });
     }
 
