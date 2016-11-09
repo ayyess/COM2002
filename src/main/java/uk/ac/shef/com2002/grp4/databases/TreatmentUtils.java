@@ -22,7 +22,7 @@ public class TreatmentUtils {
 
     public static  Treatment[] getTreatments() {
         ArrayList<Treatment> treatments = new ArrayList<Treatment>();
-        return ConnectionManager.withStatement("SELECT cost FROM treatment WHERE name=?",(stmt)-> {
+        return ConnectionManager.withStatement("SELECT cost FROM treatment",(stmt)-> {
             ResultSet res = stmt.executeQuery();
             while (res.next()) {
                 treatments.add(new Treatment(res.getString(1), res.getInt(2)));
