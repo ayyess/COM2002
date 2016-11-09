@@ -1,9 +1,11 @@
 package uk.ac.shef.com2002.grp4.data;
 
 import java.util.Calendar;
+import java.util.Optional;
 
 public class Patient {
 
+	private Optional<Integer> id;
 	private String title;
 	private String forename;
 	private String surname;
@@ -15,11 +17,24 @@ public class Patient {
 	//TODO Add creation from db?
 	
 	public Patient(String title, String forename, String surname, String dob, String phoneNumber) {
+		this(Optional.<Integer>empty(),title,forename,surname,dob,phoneNumber);
+		//TODO Fetch address
+	}
+
+	public Patient(int id, String title, String forename, String surname, String dob, String phoneNumber) {
+		this(Optional.of(id),title,forename,surname,dob,phoneNumber);
+		this.id = Optional.of(id);
+		//TODO Fetch address
+	}
+
+	public Patient(Optional<Integer> id, String title, String forename, String surname, String dob, String phoneNumber) {
 		this.title = title;
 		this.forename = forename;
 		this.surname = surname;
 		this.dob = dob;
 		this.phoneNumber = phoneNumber;
+		this.id = Optional.empty();
+		this.id = id;
 		//TODO Fetch address
 	}
 	
