@@ -26,8 +26,8 @@ CREATE TABLE appointment(
     practitioner VARCHAR(255) NOT NULL,
     patient_id BIGINT UNSIGNED, -- this is allowed to be null so that balnk appointments can be booked, as specified
     start TIME NOT NULL,
-    end TIME NOT NULL,
-    PRIMARY KEY(date,practitioner),
+    duration INT NOT NULL,
+    PRIMARY KEY(date,practitioner,start),
     FOREIGN KEY(patient_id)
         REFERENCES patient(id)
 );

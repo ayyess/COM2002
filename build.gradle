@@ -31,6 +31,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
 apply plugin:'application'
 mainClassName = "uk.ac.shef.com2002.grp4.Main"
 
@@ -42,3 +45,4 @@ task (init_tables, type: JavaExec, dependsOn: classes){
     main= "uk.ac.shef.com2002.grp4.databases.InitialiseTables"
     classpath( sourceSets.main.runtimeClasspath, sourceSets.main.compileClasspath )
 }
+

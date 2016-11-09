@@ -1,44 +1,37 @@
 package uk.ac.shef.com2002.grp4.databases;
 
-import uk.ac.shef.com2002.grp4.data.Address;
+import uk.ac.shef.com2002.grp4.data.Plan;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
- * Created by Dan-L on 02/11/2016.
+ * Created by Dan-L on 09/11/2016.
  */
 public class PlanUtils {
 
-    private Connection con = null;
-    private Statement stmt = null;
+    public static Plan getDetailsByName(String s) {
+        return ConnectionManager.withStatement("SELECT * FROM treatment_plan WHERE name=?",(stmt)-> {
+            stmt.setString(1, s);
+            ResultSet res = stmt.executeQuery();
+            return new Plan(s, res.getInt(2), res.getInt(3), res.getInt(4), res.getInt(5));
+        });
+    }
 
-    public PlanUtils(Connection con) {
-        this.con = con;
-    }
-    /*
-    public Address getPlanByPatientID(int id) {
-        ResultSet res;
-        try {
-            stmt = con.createStatement();
-            res = stmt.executeQuery("SELECT * FROM patient_plan WHERE id="+id);
-            return new PatientPlan();
-        }
-        catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        finally {
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                }
-                catch (SQLException e) {
-                    e.printStackTrace();
-                }
+    public static Plan[] getTreatmentPlans() {
+        ArrayList<Plan> plans = new ArrayList<Plan>();
+
+        return ConnectionManager.withStatement("SELECT * FROM treatment_plan",(stmt)-> {
+            ResultSet res = stmt.executeQuery();
+            while (res.next()) {
+                plans.add(new Plan(res.getString(1), res.getInt(2), res.getInt(3), res.getInt(4), res.getInt(5)));
             }
-        }
+            Plan[] pl = new Plan[plans.size()];
+            plans.toArray(pl);
+            return pl;
+        });
     }
-    */
 }

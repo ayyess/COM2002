@@ -18,6 +18,7 @@ import javax.swing.event.ChangeListener;
 
 import uk.ac.shef.com2002.grp4.calendar.CalendarComp;
 import uk.ac.shef.com2002.grp4.calendar.AppointmentComp;
+import uk.ac.shef.com2002.grp4.util.DPIScaling;
 
 /**
  * Panel for appointment interaction workflow
@@ -54,10 +55,6 @@ public class AppointmentPanel extends JPanel {
 		//model.setDate(20,04,2014);
 		// Need this...
 		{
-			Properties p = new Properties();
-			p.put("text.today", "Today");
-			p.put("text.month", "Month");
-			p.put("text.year", "Year");
 
 			JDatePanel datePanel = new JDatePanel(model);
 			datePanel.getModel().addChangeListener(new ChangeListener() {
@@ -68,8 +65,9 @@ public class AppointmentPanel extends JPanel {
 						// AppointmentPanel.this.updateDat
 					}
 				});
-			datePanel.setPreferredSize(new Dimension(200*3,180*3));
-			datePanel.setSize(new Dimension(200*3,180*3));
+			float dpiScaling = DPIScaling.get();
+			datePanel.setPreferredSize(new Dimension(200*dpiScaling,180*dpiScaling));
+			datePanel.setSize(new Dimension(200*dpiScaling,180*dpiScaling));
 
 			JPanel datePanelContainer = new JPanel(new BorderLayout());
 			datePanelContainer.add(datePanel, BorderLayout.NORTH);
@@ -78,21 +76,17 @@ public class AppointmentPanel extends JPanel {
 		//this.add(new JLabel ("Hello") ,BorderLayout.LINE_END);
 
 		{
-			JScrollPane p = new JScrollPane();
-			CalendarComp c = new CalendarComp();
-			Calendar calS = Calendar.getInstance();
-			Calendar calE = Calendar.getInstance();
-			calS.set(2016, 11, 2, 10, 40, 0);
-			calE.set(2016, 11, 2, 11, 40, 0);
-			c.addAppointment(new AppointmentComp(calS,calE));
-			calS.set(2016, 11, 2, 16, 0, 0);
-			calE.set(2016, 11, 2, 16, 40, 0);
-			c.addAppointment(new AppointmentComp(calS,calE));
-			calS.set(2016, 11, 2, 20, 0, 0);
-			calE.set(2016, 11, 2, 21, 40, 0);
-			c.addAppointment(new AppointmentComp(calS,calE));
-			p.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-			p.getViewport().add(c);
+			JScrollPane scroll = new JScrollPane();
+			CalendarComp calendar = new CalendarComp();
+			//FIXME Probably not the correct way to connect but it works for now
+			//TODO add date lookup based on selected date in JDatePicker
+			List<Appointment> appointments = AppointmentUtils.getAppointmentByDate(
+					Date.valueOf(LocalDate.now()));
+			for (Appointment a : appointments) {
+				calendar.addAppointment(new AppointmentComp(a));
+			}
+			scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+			scroll.getViewport().add(calendar);
 
 			//p.setPreferredSize(new Dimension(200, 600));
 			this.add(p, BorderLayout.CENTER);

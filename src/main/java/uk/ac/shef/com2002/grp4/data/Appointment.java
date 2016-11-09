@@ -1,17 +1,49 @@
 package uk.ac.shef.com2002.grp4.data;
 
-import java.util.Calendar;
+import java.sql.Date;
+import java.sql.Time;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Appointment {
 
-	private Calendar start;
-	private Calendar end;
-	private int duration;
+	private LocalDate date;
+	private LocalTime start;
+	private LocalTime end;
+	private String practitioner;
 
-	public Appointment(Calendar start, Calendar end, int duration) {
-		this.start = start;
-		this.end = end;
-		this.duration = duration;
+	public Appointment(Date date, Time start, Time end, String practitioner) {
+		this.date = date.toLocalDate();
+		this.start = start.toLocalTime();
+		this.end = end.toLocalTime();
+		this.practitioner = practitioner;
 	}
 	
+	public Appointment(LocalDate date, LocalTime start, LocalTime end, String practitioner) {
+		this.date = date;
+		this.start = start;
+		this.end = end;
+		this.practitioner = practitioner;
+	}
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public LocalTime getStart() {
+		return start;
+	}
+	
+	public LocalTime getEnd() {
+		return end;
+	}
+
+	public String getPractitioner() {
+		return practitioner;
+	}
+	
+	public int getDuration() {
+		return (int) Duration.between(start, end).getSeconds()/60;
+	}
 }

@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -16,20 +17,17 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.text.DateFormatter;
 
+import uk.ac.shef.com2002.grp4.data.Appointment;
+
 public class AppointmentComp extends JComponent {
-	
-	Calendar startC;
-	Calendar endC;
 	
 	int start;
 	int end;
 	int duration;
 	
-	public AppointmentComp(Calendar start, Calendar end) {
-		this.startC = start;
-		this.endC = end;
-		this.start = convertMins(start);
-		this.end = convertMins(end);
+	public AppointmentComp(Appointment appointment) {
+		this.start = convertMins(appointment.getStart());
+		this.end = convertMins(appointment.getEnd());
 		this.duration = this.end - this.start;
 		
 		setLayout(new FlowLayout());
@@ -37,12 +35,12 @@ public class AppointmentComp extends JComponent {
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		
 		SimpleDateFormat f = new SimpleDateFormat("h:M");		
-		add(new JLabel("S"+f.format(start.getTime())));
+		add(new JLabel("S"+appointment.getStart().toString()));
 		add(new JLabel("D"+duration));
-		add(new JLabel("E"+f.format(end.getTime())));
+		add(new JLabel("E"+appointment.getEnd().toString()));
 	}
 	
-	public static int convertMins(Calendar c) {
-		return c.get(Calendar.HOUR)*60 + c.get(Calendar.MINUTE);
+	public static int convertMins(LocalTime time) {
+		return time.getHour()*60+time.getMinute();
 	}
 }

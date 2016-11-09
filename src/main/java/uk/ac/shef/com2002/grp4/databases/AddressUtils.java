@@ -2,44 +2,50 @@ package uk.ac.shef.com2002.grp4.databases;
 
 import uk.ac.shef.com2002.grp4.data.Address;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 /**
  * Created by Dan-L on 02/11/2016.
  */
 public class AddressUtils {
-
-    private Connection con = null;
-    private Statement stmt = null;
-
-    public AddressUtils(Connection con) {
-        this.con = con;
-    }
-
-    /*
-    public Address getAddressByID(int id) {
-        ResultSet res;
-        try {
-            stmt = con.createStatement();
-            res = stmt.executeQuery("SELECT * FROM address WHERE id="+id);
+    public static Address getAddressByID(int id) {
+        return ConnectionManager.withStatement("SELECT * FROM address WHERE id=?",(stmt)->{
+            stmt.setInt(1,id);
+            ResultSet res = stmt.executeQuery();
             return new Address(res.getInt(2),res.getString(3),res.getString(4),res.getString(5),res.getString(6));
-        }
-        catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        finally {
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                }
-                catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        });
     }
-    */
+
+    public static int getAddressID(int houseNumber, String postcode) {
+        return ConnectionManager.withStatement("SELECT id FROM address WHERE house_number=?, postcode=?",(stmt)->{
+            stmt.setInt(1,houseNumber);
+            stmt.setString(2,postcode);
+            return stmt.executeQuery().getInt(1);
+        });
+    }
+
+    public static void updateAddressByID(int id, int houseNumber, String street, String district, String city, String postcode) {
+        ConnectionManager.withStatement("UPDATE address SET house_number=?, street=?, district=?, city=?, postcode=? WHERE id=?",(stmt)->{
+            stmt.setInt(1, houseNumber);
+            stmt.setString(2, street);
+            stmt.setString(3, district);
+            stmt.setString(4, city);
+            stmt.setString(5, postcode);
+            stmt.setInt(6, id);
+            stmt.executeUpdate();
+            return null;
+        });
+    }
+
+    public static void insertAddress(int houseNumber, String street, String district, String city, String postcode) {
+        ConnectionManager.withStatement("INSERT INTO address VALUES DEFAULT,?,?,?,?,?",(stmt)->{
+            stmt.setInt(1,houseNumber);
+            stmt.setString(2, street);
+            stmt.setString(3, district);
+            stmt.setString(4, city);
+            stmt.setString(5, postcode);
+            stmt.executeUpdate();
+            return null;
+        });
+    }
 }

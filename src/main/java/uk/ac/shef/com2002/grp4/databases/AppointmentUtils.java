@@ -1,50 +1,39 @@
 package uk.ac.shef.com2002.grp4.databases;
 
-import uk.ac.shef.com2002.grp4.data.Address;
+import uk.ac.shef.com2002.grp4.data.Appointment;
 
-import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Dan-L on 02/11/2016.
  */
 public class AppointmentUtils {
-    private Connection con = null;
-    private Statement stmt = null;
 
-    public AppointmentUtils(Connection con) {
-        this.con = con;
-    }
-
-    /*
-    public Appointment[] getAppointmentByPatientID(int id) {
-        Appointment[] appointments;
-        ResultSet res;
-        try {
-            stmt = con.createStatement();
-            res = stmt.executeQuery("SELECT * FROM appointment WHERE id="+id);
-            ResultSet res_size = stmt.executeQuery("SELECT COUNT(*) FROM appointment WHERE id="+id);
-            appointments = new Appointment[res_size.getInt(1)];
-            for (int i=0; i < res_size.getInt(1); i++) {
-                //appointments[i] = new Appointment();
+    public static List<Appointment> getAppointmentByPatientID(int id) {
+        List<Appointment> appointments = new ArrayList<>();
+        return ConnectionManager.withStatement("SELECT * FROM appointment WHERE id=?",(stmt)->{
+            stmt.setInt(1,id);
+            ResultSet res = stmt.executeQuery();
+            while(res.next()){
+                appointments.add(new Appointment(res.getDate(1), res.getTime(4),res.getTime(5), res.getString(2)));
             }
             return appointments;
-        }
-        catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        finally {
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                }
-                catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        });
     }
-    */
+    
+    public static List<Appointment> getAppointmentByDate(Date date) {
+        List<Appointment> appointments = new ArrayList<>();
+        return ConnectionManager.withStatement("SELECT * FROM appointment WHERE date=?",(stmt)-> {
+            stmt.setDate(1, date);
+            ResultSet res = stmt.executeQuery();
+            while (res.next()) {
+                appointments.add(new Appointment(res.getDate(1), res.getTime(4),res.getTime(5), res.getString(2)));
+            }
+            return appointments;
+        });
+    }
+    
 }
