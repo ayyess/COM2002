@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public class AppointmentUtils {
     private Connection con = null;
-    private Statement stmt = null;
+    private PreparedStatement stmt = null;
 
     public AppointmentUtils(Connection con) {
         this.con = con;
@@ -25,11 +25,13 @@ public class AppointmentUtils {
 
     public Appointment[] getAppointmentByPatientID(int id) {
         Appointment[] appointments;
-        ResultSet res;
         try {
-            stmt = con.createStatement();
-            res = stmt.executeQuery("SELECT * FROM appointment WHERE id="+id);
-            ResultSet res_size = stmt.executeQuery("SELECT COUNT(*) FROM appointment WHERE id="+id);
+            stmt = con.prepareStatement("SELECT * FROM appointment WHERE id=?");
+            stmt.setInt(1,id);
+            ResultSet res = stmt.executeQuery();
+            stmt = con.prepareStatement("SELECT COUNT(*) FROM appointment WHERE id=?");
+            stmt.setInt(1,id);
+            ResultSet res_size = stmt.executeQuery();
             appointments = new Appointment[res_size.getInt(1)];
             for (int i=0; i < appointments.length; i++) {
                 appointments[i] = new Appointment(res.getDate(1), res.getTime(4),res.getTime(5), res.getString(2));
@@ -56,10 +58,9 @@ public class AppointmentUtils {
     	ArrayList<Appointment> appointments = new ArrayList<Appointment>(); 
         ResultSet res;
         try {
-            stmt = con.createStatement();
-            PreparedStatement preStm = con.prepareStatement("SELECT * FROM appointment WHERE date=?");
-            preStm.setDate(1, date);
-            res = preStm.executeQuery();
+            stmt = con.prepareStatement("SELECT * FROM appointment WHERE date=?");
+            stmt.setDate(1, date);
+            res = stmt.executeQuery();
             while (res.next()) {
             	appointments.add(new Appointment(res.getDate(1), res.getTime(4),res.getTime(5), res.getString(2)));
             }
