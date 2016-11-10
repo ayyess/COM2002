@@ -13,19 +13,19 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 /**
- * Panel for customer record interaction workflow
+ * Panel for patient record interaction workflow
  *
  * Created on 28/10/2016.
  */
-public class CustomerPanel extends JPanel implements DocumentListener, ActionListener{
+public class PatientPanel extends JPanel implements DocumentListener, ActionListener{
 	private JTextField firstNameField;
 	private String searchText;
 	private DefaultTableModel searchResults;
-	private JButton addCustomerButton;
+	private JButton addPatientButton;
 
-	//TODO searching customers: should mostly work now, but untested
-	//TODO adding customers
-	public CustomerPanel(){
+	//TODO searching patients: should mostly work now, but untested
+	//TODO adding patients
+	public PatientPanel(){
 		super(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		firstNameField = new JTextField(20);
@@ -53,8 +53,8 @@ public class CustomerPanel extends JPanel implements DocumentListener, ActionLis
 		c.fill = GridBagConstraints.BOTH;
 		add(new JScrollPane(searchResultsDisplay),c);
 
-		addCustomerButton = new JButton("New Patient");
-		addCustomerButton.addActionListener(this);
+		addPatientButton = new JButton("New Patient");
+		addPatientButton.addActionListener(this);
 
 		c.weightx = 0;
 		c.weighty = 0;
@@ -63,7 +63,7 @@ public class CustomerPanel extends JPanel implements DocumentListener, ActionLis
 		c.gridy = 2;
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.EAST;
-		add(addCustomerButton,c);
+		add(addPatientButton,c);
 
 	}
 
@@ -105,7 +105,7 @@ public class CustomerPanel extends JPanel implements DocumentListener, ActionLis
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == firstNameField) {
 			doSearch();
-		}else if(e.getSource() == addCustomerButton){
+		}else if(e.getSource() == addPatientButton){
 			CreatePatientDialog createDialog = new CreatePatientDialog((JFrame)SwingUtilities.getWindowAncestor(this));
 			createDialog.setVisible(true);
 		}

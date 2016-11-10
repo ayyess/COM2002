@@ -13,7 +13,7 @@ public class Main extends JFrame {
         setPreferredSize(new Dimension(800,600));
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Appointments", null, new AppointmentPanel(), null);
-        tabbedPane.addTab("Customers", null, new CustomerPanel(), null);
+        tabbedPane.addTab("Patients", null, new PatientPanel(), null);
         getContentPane().add(tabbedPane);
         pack();
         setVisible(true);

@@ -17,12 +17,12 @@ class PatientButton extends JButton {
 	};
 }
 
-public class FindCustomerDialog extends JDialog {
+public class FindPatientDialog extends JDialog {
 
-	JPanel customerList = new JPanel();
+	JPanel patientList = new JPanel();
 	JTextField textField = new JTextField("");
 	
-	public FindCustomerDialog(JFrame parent) {
+	public FindPatientDialog(JFrame parent) {
 		super(parent);
 		
 		setLayout(new FlowLayout());
@@ -60,7 +60,7 @@ public class FindCustomerDialog extends JDialog {
 		String searchTerm = textField.getText();
 		List<Patient> patients = PatientUtils.findPatientByFirstName(searchTerm);
 
-		customerList.removeAll();
+		patientList.removeAll();
 		for (Patient patient : patients) {
 			JButton patient_button = new PatientButton(patient);
 			patient_button.addActionListener(new ActionListener() {
@@ -70,7 +70,7 @@ public class FindCustomerDialog extends JDialog {
 						close();
 					}
 				});
-			customerList.add(patient_button);
+			patientList.add(patient_button);
 				}
 	}
 }

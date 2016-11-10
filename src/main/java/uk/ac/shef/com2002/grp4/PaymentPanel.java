@@ -10,6 +10,6 @@ import java.awt.*;
 public class PaymentPanel extends Component {
     //TODO searching outstanding payments
     //TODO printing outstanding payments
-    //thoughts: payments could potentially be reachable via the customer record, should
+    //thoughts: payments could potentially be reachable via the patient record, should
     //this panel instead be integrated into that one somehow?
 }

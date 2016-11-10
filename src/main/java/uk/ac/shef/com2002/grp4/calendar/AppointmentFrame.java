@@ -1,6 +1,6 @@
 package uk.ac.shef.com2002.grp4.calendar;
 
-import uk.ac.shef.com2002.grp4.FindCustomerDialog;
+import uk.ac.shef.com2002.grp4.FindPatientDialog;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,7 +34,7 @@ public class AppointmentFrame extends JDialog {
 		this.add(patient_button);
 		patient_button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent ae){
-					FindCustomerDialog dialog = new FindCustomerDialog(null);
+					FindPatientDialog dialog = new FindPatientDialog(null);
 					System.out.println("here");
 					System.out.println(dialog.patient);
 					System.out.println(dialog.patient.getID());
