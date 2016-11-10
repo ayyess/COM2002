@@ -7,8 +7,7 @@ import uk.ac.shef.com2002.grp4.CreatePatientDialog;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -31,6 +30,7 @@ public class CustomerPanel extends JPanel implements DocumentListener, ActionLis
 		GridBagConstraints c = new GridBagConstraints();
 		firstNameField = new JTextField(20);
 		firstNameField.getDocument().addDocumentListener(this);
+		firstNameField.addActionListener(this);
 		c.gridx = 0;
 		add(new JLabel("First Name:"),c);
 		c.gridx = 1;
@@ -113,7 +113,7 @@ public class CustomerPanel extends JPanel implements DocumentListener, ActionLis
 
 	private void doSearch() {
 		List<Patient> found = PatientUtils.findPatientByFirstName(searchText);
-		while(searchResults.getRowCount() != 0){
+		while(searchResults.getRowCount() > 0){
 			searchResults.removeRow(0);
 		}
 		for(Patient patient:found) {
