@@ -1,4 +1,4 @@
-package uk.ac.shef.com2002.grp4.calendar;
+package uk.ac.shef.com2002.grp4;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;

@@ -23,6 +23,7 @@ import java.util.Date;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import uk.ac.shef.com2002.grp4.FindCustomerDialog;
 
 
 import uk.ac.shef.com2002.grp4.data.Appointment;
