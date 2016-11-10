@@ -64,4 +64,8 @@ public class Patient {
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
+
+	public int getID() {
+		return id.get();
+	}
 }

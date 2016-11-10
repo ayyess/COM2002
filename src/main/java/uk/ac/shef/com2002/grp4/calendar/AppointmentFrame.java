@@ -32,6 +32,8 @@ public class AppointmentFrame extends JDialog {
 	int start;
 	int end;
 	int duration;
+
+	JTextField patientID = new JTextField("");
 	
 	public AppointmentFrame(JFrame parent, Date date) {
 		super(parent);
@@ -42,14 +44,24 @@ public class AppointmentFrame extends JDialog {
 
 		String[] items = {"PractionerA", "PractionerB"};
 		JComboBox combo = new JComboBox(items);
-		JTextField patientID = new JTextField("");
 		patientID.setPreferredSize(new Dimension(100,100));
 		this.add(new JLabel("Practioner"));
 		this.add(combo);
 		this.add(new JLabel("Patient"));
 		this.add(patientID);
+		JButton patient_button = new JButton("Find patient");
+		this.add(patient_button);
+		patient_button.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent ae){
+					FindCustomerDialog dialog = new FindCustomerDialog(null);
+					System.out.println("here");
+					System.out.println(dialog.patient);
+					System.out.println(dialog.patient.getID());
+					patientID.setText(Integer.toString(dialog.patient.getID()));
+				}
+			});
 
-		JButton cancel_button = new JButton("Cancel");
+	JButton cancel_button = new JButton("Cancel");
 		this.add(cancel_button);
 		cancel_button.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent ae){
