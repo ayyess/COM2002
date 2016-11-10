@@ -43,7 +43,7 @@ public class AppointmentFrame extends JDialog {
 		
 
 		String[] items = {"PractionerA", "PractionerB"};
-		JComboBox combo = new JComboBox(items);
+		JComboBox<String> combo = new JComboBox<>(items);
 		patientID.setPreferredSize(new Dimension(100,100));
 		this.add(new JLabel("Practioner"));
 		this.add(combo);

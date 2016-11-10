@@ -44,7 +44,7 @@ public class CalendarComp extends JPanel {
 			cal.setTime(date);
 			cal.add(Calendar.MINUTE, time * 20);
 			AppointmentFrame f = new AppointmentFrame(null, cal.getTime());
-			f.show();
+			f.setVisible(true);
 			System.out.println("here");
 		}
 		
