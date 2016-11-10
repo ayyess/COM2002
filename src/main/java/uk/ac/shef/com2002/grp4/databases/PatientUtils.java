@@ -12,7 +12,7 @@ import java.util.List;
 public class PatientUtils {
 
     public static List<Patient> findPatientByFirstName(String firstName) {
-        return ConnectionManager.withStatement("SELECT * FROM patient WHERE first_name=?",(stmt)->{
+        return ConnectionManager.withStatement("SELECT * FROM patient WHERE forname=?",(stmt)->{
             stmt.setString(1,firstName);
             ResultSet res = stmt.executeQuery();
             List<Patient> patients = new ArrayList<>();
