@@ -2,10 +2,10 @@ package uk.ac.shef.com2002.grp4;
 
 import uk.ac.shef.com2002.grp4.data.Patient;
 import uk.ac.shef.com2002.grp4.databases.PatientUtils;
-import uk.ac.shef.com2002.grp4.CreatePatientDialog;
 
 import javax.swing.*;
-import javax.swing.event.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;

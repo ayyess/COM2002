@@ -1,6 +1,5 @@
 package uk.ac.shef.com2002.grp4.calendar;
 
-import java.awt.Component;
 import java.awt.event.MouseEvent;
 
 public abstract class CalendarClickListener {

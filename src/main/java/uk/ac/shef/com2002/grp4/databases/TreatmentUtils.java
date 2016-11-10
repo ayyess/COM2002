@@ -2,10 +2,7 @@ package uk.ac.shef.com2002.grp4.databases;
 
 import uk.ac.shef.com2002.grp4.data.Treatment;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**

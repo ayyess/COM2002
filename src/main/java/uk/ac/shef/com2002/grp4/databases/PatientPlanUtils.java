@@ -2,10 +2,7 @@ package uk.ac.shef.com2002.grp4.databases;
 
 import uk.ac.shef.com2002.grp4.data.PatientPlan;
 
-import java.sql.*;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Calendar;
+import java.sql.ResultSet;
 
 /**
  * Created by Dan-L on 02/11/2016.

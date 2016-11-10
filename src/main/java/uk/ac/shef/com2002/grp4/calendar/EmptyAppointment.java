@@ -1,18 +1,7 @@
 package uk.ac.shef.com2002.grp4.calendar;
 
-import java.awt.Color;
-import java.awt.Dimension;
-
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.text.DateFormatter;
+import javax.swing.*;
+import java.awt.*;
 import java.sql.Time;
 
 public class EmptyAppointment extends JPanel {

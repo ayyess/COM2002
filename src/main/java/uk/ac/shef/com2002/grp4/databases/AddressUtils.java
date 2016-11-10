@@ -2,7 +2,7 @@ package uk.ac.shef.com2002.grp4.databases;
 
 import uk.ac.shef.com2002.grp4.data.Address;
 
-import java.sql.*;
+import java.sql.ResultSet;
 
 /**
  * Created by Dan-L on 02/11/2016.

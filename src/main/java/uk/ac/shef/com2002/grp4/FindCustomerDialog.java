@@ -1,33 +1,12 @@
 package uk.ac.shef.com2002.grp4;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.text.SimpleDateFormat;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Calendar;
 
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.JComboBox;
-import javax.swing.JScrollPane;
-import javax.swing.*;
-import javax.swing.text.DateFormatter;
-import java.util.Date;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-
-import uk.ac.shef.com2002.grp4.data.Appointment;
 import uk.ac.shef.com2002.grp4.data.Patient;
 import uk.ac.shef.com2002.grp4.databases.PatientUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 class PatientButton extends JButton {

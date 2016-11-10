@@ -3,8 +3,8 @@ package uk.ac.shef.com2002.grp4.databases;
 import uk.ac.shef.com2002.grp4.data.Appointment;
 
 import java.sql.Date;
-import java.sql.Time;
 import java.sql.ResultSet;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 

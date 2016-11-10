@@ -1,28 +1,21 @@
 package uk.ac.shef.com2002.grp4;
 
-import java.util.List;
-import java.awt.*;
-
-import javax.swing.*;
-import java.time.LocalDate;
-import java.util.Calendar;
-import java.sql.Date;
-import org.jdatepicker.*;
-import javax.swing.JFormattedTextField.AbstractFormatter;
-import java.text.SimpleDateFormat;
-import java.text.ParseException;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import uk.ac.shef.com2002.grp4.calendar.CalendarComp;
+import org.jdatepicker.JDatePanel;
+import org.jdatepicker.UtilDateModel;
 import uk.ac.shef.com2002.grp4.calendar.AppointmentComp;
+import uk.ac.shef.com2002.grp4.calendar.CalendarComp;
 import uk.ac.shef.com2002.grp4.data.Appointment;
 import uk.ac.shef.com2002.grp4.databases.AppointmentUtils;
 import uk.ac.shef.com2002.grp4.util.DPIScaling;
-import uk.ac.shef.com2002.grp4.calendar.AppointmentComp;
-import uk.ac.shef.com2002.grp4.calendar.CalendarComp;
-import uk.ac.shef.com2002.grp4.data.Appointment;
-import uk.ac.shef.com2002.grp4.databases.AppointmentUtils;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * Panel for appointment interaction workflow

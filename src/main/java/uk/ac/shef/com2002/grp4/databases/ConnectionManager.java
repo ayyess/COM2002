@@ -1,7 +1,10 @@
 package uk.ac.shef.com2002.grp4.databases;
 
 import javax.swing.*;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
  * <Doc here>

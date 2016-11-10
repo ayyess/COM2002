@@ -1,15 +1,14 @@
 package uk.ac.shef.com2002.grp4;
 
+import org.jdatepicker.JDatePicker;
+import uk.ac.shef.com2002.grp4.databases.PatientUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.util.Calendar;
-
-import org.jdatepicker.*;
-import uk.ac.shef.com2002.grp4.databases.PatientUtils;
-import uk.ac.shef.com2002.grp4.util.DPIScaling;
 
 public class CreatePatientDialog extends JDialog implements ActionListener {
 	private int row = 0;

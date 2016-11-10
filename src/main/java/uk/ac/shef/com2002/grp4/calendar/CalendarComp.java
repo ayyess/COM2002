@@ -1,16 +1,13 @@
 package uk.ac.shef.com2002.grp4.calendar;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import javax.swing.JPanel;
-import java.util.Date;
 import java.util.Calendar;
+import java.util.Date;
 
 public class CalendarComp extends JPanel {
 

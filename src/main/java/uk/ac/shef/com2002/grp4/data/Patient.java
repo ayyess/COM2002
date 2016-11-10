@@ -1,6 +1,5 @@
 package uk.ac.shef.com2002.grp4.data;
 
-import java.util.Calendar;
 import java.util.Optional;
 
 public class Patient {
