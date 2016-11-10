@@ -87,7 +87,7 @@ public class CreatePatientDialog extends JDialog implements ActionListener {
 			System.out.println(cal);
 			Date dob = new Date(cal.getTimeInMillis());
 			String phoneNumber = phoneField.getText();
-			int addressId = -1;//FIXME need to provide a way to search for, or create an address
+			int addressId = 1;//FIXME need to provide a way to search for, or create an address
 			PatientUtils.insertPatient(title,forename,surname,dob,phoneNumber,addressId);
 		}
 	}
