@@ -44,14 +44,14 @@ public class PatientUtils {
     }
 
 
-    public static void insertPatient(String title, String forename, String surname, Date date, int phone, int address_id) {
-        ConnectionManager.withStatement("INSERT INTO patient VALUES DEFAULT,?,?,?,?,?,?",(stmt)-> {
+    public static void insertPatient(String title, String forename, String surname, Date date, String phone, int address_id) {
+        ConnectionManager.withStatement("INSERT INTO patient VALUES (DEFAULT,?,?,?,?,?,?)",(stmt)-> {
             java.sql.Date dob = new java.sql.Date(date.getTime());
             stmt.setString(1, title);
             stmt.setString(2, forename);
             stmt.setString(3, surname);
             stmt.setDate(4, dob);
-            stmt.setInt(5, phone);
+            stmt.setString(5, phone);
             stmt.setInt(6, address_id);
             stmt.executeUpdate();
             return null;

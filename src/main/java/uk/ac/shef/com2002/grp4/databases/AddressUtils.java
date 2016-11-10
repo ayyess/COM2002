@@ -38,7 +38,7 @@ public class AddressUtils {
     }
 
     public static void insertAddress(int houseNumber, String street, String district, String city, String postcode) {
-        ConnectionManager.withStatement("INSERT INTO address VALUES DEFAULT,?,?,?,?,?",(stmt)->{
+        ConnectionManager.withStatement("INSERT INTO address VALUES (DEFAULT,?,?,?,?,?)",(stmt)->{
             stmt.setInt(1,houseNumber);
             stmt.setString(2, street);
             stmt.setString(3, district);
