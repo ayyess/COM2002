@@ -2,6 +2,7 @@ package uk.ac.shef.com2002.grp4;
 
 import java.awt.BorderLayout;
 import java.sql.Date;
+import java.util.Calendar;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Properties;
@@ -53,7 +54,10 @@ public class AppointmentPanel extends JPanel {
 
 		{
 			JScrollPane scroll = new JScrollPane();
-			CalendarComp calendar = new CalendarComp();
+			Calendar currenttime = Calendar.getInstance();
+			Date date = new Date((currenttime.getTime()).getTime());
+
+			CalendarComp calendar = new CalendarComp(date);
 			//FIXME Probably not the correct way to connect but it works for now
 			//TODO add date lookup based on selected date in JDatePicker
 			List<Appointment> appointments = AppointmentUtils.getAppointmentByDate(

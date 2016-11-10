@@ -3,6 +3,7 @@ package uk.ac.shef.com2002.grp4.databases;
 import uk.ac.shef.com2002.grp4.data.Appointment;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,5 +36,19 @@ public class AppointmentUtils {
             return appointments;
         });
     }
+
+	public static void insertAppointment(Date date, String practioner, int patient_id, Time start, Time duration) {
+        ConnectionManager.withStatement("INSERT INTO appointment VALUES ?,?,?,?,?",(stmt)-> {
+            java.sql.Date dob = new java.sql.Date(date.getTime());
+            stmt.setDate(1, date);
+            stmt.setString(2, practioner);
+            stmt.setInt(3, patient_id);
+            stmt.setTime(4, start);
+            stmt.setInt(5, (int)duration.getTime());
+            stmt.executeUpdate();
+            return null;
+        });
+    }
+
     
 }

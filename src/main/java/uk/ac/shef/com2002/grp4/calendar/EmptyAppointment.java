@@ -6,6 +6,15 @@ import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.text.DateFormatter;
+import java.sql.Time;
+
 public class EmptyAppointment extends JPanel {
 
 	/* The slot counting from 0. Based on calculations done in CalendarComp
@@ -18,6 +27,13 @@ public class EmptyAppointment extends JPanel {
 		this.time = time;
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		setBackground(Color.WHITE);
+
+		//setLayout(new FlowLayout());
+		//setBackground(Color.WHITE);
+		//setBorder(BorderFactory.createLineBorder(Color.black));
+		
+		Time t = new Time(time * 60000 * 20); // Time will start from 1am due to timezones
+		add(new JLabel(time + " " + t.toString()));
 	}
 	
 	public int getTime() {

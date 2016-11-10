@@ -9,9 +9,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.JPanel;
+import java.util.Date;
+import java.util.Calendar;
 
 public class CalendarComp extends JPanel {
 
+	Date date;
+	
 	GridBagLayout layout;
 	
 	final static int DIV = 20;
@@ -29,12 +33,19 @@ public class CalendarComp extends JPanel {
 		public void onRelease(MouseEvent e) {
 			int time = ((EmptyAppointment)e.getSource()).getTime();
 			System.out.println("Slot released " + e.getSource().getClass() + time);
+
 		}
 		
 		@Override
 		public void onPressed(MouseEvent e) {
 			int time = ((EmptyAppointment)e.getSource()).getTime();
 			System.out.println("Slot pressed " + e.getSource().getClass() + time);
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+			cal.add(Calendar.MINUTE, time * 20);
+			AppointmentFrame f = new AppointmentFrame(null, cal.getTime());
+			f.show();
+			System.out.println("here");
 		}
 		
 		@Override
@@ -88,8 +99,9 @@ public class CalendarComp extends JPanel {
 	};
 	
 	
-	public CalendarComp() {
+	public CalendarComp(Date date) {
 		super();
+		this.date = date;
 		layout = new GridBagLayout();
 		layout.columnWidths = new int[] {1};
 		layout.rowHeights = new int[(24*60)/DIV];
