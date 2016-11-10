@@ -1,20 +1,24 @@
 package uk.ac.shef.com2002.grp4;
 
-import java.awt.BorderLayout;
-import java.sql.Date;
-import java.util.Calendar;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Properties;
+import java.awt.*;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.*;
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.sql.Date;
+import org.jdatepicker.*;
+import javax.swing.JFormattedTextField.AbstractFormatter;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.jdatepicker.impl.JDatePanelImpl;
-import org.jdatepicker.impl.UtilDateModel;
-
+import uk.ac.shef.com2002.grp4.calendar.CalendarComp;
+import uk.ac.shef.com2002.grp4.calendar.AppointmentComp;
+import uk.ac.shef.com2002.grp4.data.Appointment;
+import uk.ac.shef.com2002.grp4.databases.AppointmentUtils;
+import uk.ac.shef.com2002.grp4.util.DPIScaling;
 import uk.ac.shef.com2002.grp4.calendar.AppointmentComp;
 import uk.ac.shef.com2002.grp4.calendar.CalendarComp;
 import uk.ac.shef.com2002.grp4.data.Appointment;
@@ -26,7 +30,6 @@ import uk.ac.shef.com2002.grp4.databases.AppointmentUtils;
  * Created on 28/10/2016.
  */
 public class AppointmentPanel extends JPanel {
-	
 	//TODO searching appointments
 	//TODO creating appointments
 	public AppointmentPanel () {
@@ -35,11 +38,8 @@ public class AppointmentPanel extends JPanel {
 		//model.setDate(20,04,2014);
 		// Need this...
 		{
-			Properties p = new Properties();
-			p.put("text.today", "Today");
-			p.put("text.month", "Month");
-			p.put("text.year", "Year");
-			JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+
+			JDatePanel datePanel = new JDatePanel(model);
 			datePanel.getModel().addChangeListener(new ChangeListener() {
 					public void stateChanged(ChangeEvent e) {
 						UtilDateModel source = (UtilDateModel) e.getSource();
@@ -48,16 +48,19 @@ public class AppointmentPanel extends JPanel {
 						// AppointmentPanel.this.updateDat
 					}
 				});
-			this.add(datePanel ,BorderLayout.LINE_START);
+			int dpiScaling = (int)DPIScaling.get();
+			datePanel.setPreferredSize(new Dimension(200*dpiScaling,180*dpiScaling));
+			datePanel.setSize(new Dimension(200*dpiScaling,180*dpiScaling));
+
+			JPanel datePanelContainer = new JPanel(new BorderLayout());
+			datePanelContainer.add(datePanel, BorderLayout.NORTH);
+			this.add(datePanelContainer ,BorderLayout.LINE_START);
 		}
 		//this.add(new JLabel ("Hello") ,BorderLayout.LINE_END);
 
 		{
 			JScrollPane scroll = new JScrollPane();
-			Calendar currenttime = Calendar.getInstance();
-			Date date = new Date((currenttime.getTime()).getTime());
-
-			CalendarComp calendar = new CalendarComp(date);
+			CalendarComp calendar = new CalendarComp(Calendar.getInstance().getTime());
 			//FIXME Probably not the correct way to connect but it works for now
 			//TODO add date lookup based on selected date in JDatePicker
 			List<Appointment> appointments = AppointmentUtils.getAppointmentByDate(
@@ -68,6 +71,7 @@ public class AppointmentPanel extends JPanel {
 			scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 			scroll.getViewport().add(calendar);
 
+			//p.setPreferredSize(new Dimension(200, 600));
 			this.add(scroll, BorderLayout.CENTER);
 		}
 	}

@@ -2,6 +2,7 @@ package uk.ac.shef.com2002.grp4;
 
 import uk.ac.shef.com2002.grp4.data.Patient;
 import uk.ac.shef.com2002.grp4.databases.PatientUtils;
+import uk.ac.shef.com2002.grp4.CreatePatientDialog;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -21,6 +22,7 @@ public class CustomerPanel extends JPanel implements DocumentListener, ActionLis
 	private JTextField firstNameField;
 	private String searchText;
 	private DefaultTableModel searchResults;
+	private JButton addCustomerButton;
 
 	//TODO searching customers: should mostly work now, but untested
 	//TODO adding customers
@@ -51,7 +53,8 @@ public class CustomerPanel extends JPanel implements DocumentListener, ActionLis
 		c.fill = GridBagConstraints.BOTH;
 		add(new JScrollPane(searchResultsDisplay),c);
 
-		JButton addCustomerButton = new JButton("New Patient");
+		addCustomerButton = new JButton("New Patient");
+		addCustomerButton.addActionListener(this);
 
 		c.weightx = 0;
 		c.weighty = 0;
@@ -102,6 +105,9 @@ public class CustomerPanel extends JPanel implements DocumentListener, ActionLis
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == firstNameField) {
 			doSearch();
+		}else if(e.getSource() == addCustomerButton){
+			CreatePatientDialog createDialog = new CreatePatientDialog((JFrame)SwingUtilities.getWindowAncestor(this));
+			createDialog.setVisible(true);
 		}
 	}
 
