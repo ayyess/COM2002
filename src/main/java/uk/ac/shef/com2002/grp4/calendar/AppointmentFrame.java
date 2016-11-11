@@ -11,13 +11,24 @@ import java.time.LocalTime;
 import java.time.Duration;
 
 import uk.ac.shef.com2002.grp4.databases.AppointmentUtils;
+import uk.ac.shef.com2002.grp4.data.Patient;
 
 public class AppointmentFrame extends JDialog {
 	
 	LocalDate date;
 	LocalTime time;
 	JComboBox<String> combo;
-	JTextField patientID;
+	Patient patient;
+	JTextField patientName;
+
+	public void setPatient(Patient patient) {
+		if (patient == null) {
+			return;
+		}
+		this.patient = patient;
+		patientName.setText(patient.getName());
+		
+	}
 	
 	public AppointmentFrame(JFrame parent, LocalDate date, LocalTime time) {
 		super(parent);
@@ -30,22 +41,20 @@ public class AppointmentFrame extends JDialog {
 
 		String[] items = {"PractionerA", "PractionerB"};
 		combo = new JComboBox<>(items);
-		patientID = new JTextField("");
-		patientID.setPreferredSize(new Dimension(100,100));
+		patientName = new JTextField("");
+		patientName.setPreferredSize(new Dimension(100,100));
+		patientName.setEditable(false);
+		
 		this.add(new JLabel("Practioner"));
 		this.add(combo);
 		this.add(new JLabel("Patient"));
-		this.add(patientID);
+		this.add(patientName);
 		JButton patient_button = new JButton("Find patient");
 		this.add(patient_button);
 		patient_button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent ae){
 					FindPatientDialog dialog = new FindPatientDialog(null);
-					if (dialog.patient) {
-						System.out.println(dialog.patient);
-						System.out.println(dialog.patient.getID());
-						patientID.setText(Integer.toString(dialog.patient.getID()));
-					}
+					setPatient(dialog.patient);
 				}
 			});
 
@@ -75,6 +84,6 @@ public class AppointmentFrame extends JDialog {
 	}
 
 	void saveDetails() {
-		AppointmentUtils.insertAppointment(date, (String)combo.getSelectedItem(), Integer.parseInt(patientID.getText()), time, Duration.ofMinutes(20));
+		AppointmentUtils.insertAppointment(date, (String)combo.getSelectedItem(), patient.getID(), time, Duration.ofMinutes(20));
 	}
 }
