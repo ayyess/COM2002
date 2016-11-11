@@ -7,14 +7,13 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 
 public class CalendarComp extends JPanel {
 
-	Date date;
+	LocalDate date;
 	
 	GridBagLayout layout;
 	
@@ -40,10 +39,9 @@ public class CalendarComp extends JPanel {
 		public void onPressed(MouseEvent e) {
 			int time = ((EmptyAppointment)e.getSource()).getTime();
 			System.out.println("Slot pressed " + e.getSource().getClass() + time);
-			LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // http://stackoverflow.com/a/21242111
 			LocalTime localTime = LocalTime.of(0, 0).plusMinutes(time*20);
 			
-			AppointmentFrame f = new AppointmentFrame(null, localDate, localTime);
+			AppointmentFrame f = new AppointmentFrame(null, date, localTime);
 			f.setVisible(true);
 			System.out.println("here");
 		}
@@ -99,7 +97,7 @@ public class CalendarComp extends JPanel {
 	};
 	
 	
-	public CalendarComp(Date date) {
+	public CalendarComp(LocalDate date) {
 		super();
 		this.date = date;
 		layout = new GridBagLayout();

@@ -14,7 +14,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -53,7 +52,7 @@ public class AppointmentPanel extends JPanel {
 
 		{
 			JScrollPane scroll = new JScrollPane();
-			CalendarComp calendar = new CalendarComp(Calendar.getInstance().getTime());
+			CalendarComp calendar = new CalendarComp(LocalDate.now());
 			//FIXME Probably not the correct way to connect but it works for now
 			//TODO add date lookup based on selected date in JDatePicker
 			List<Appointment> appointments = AppointmentUtils.getAppointmentByDate(LocalDate.now());
