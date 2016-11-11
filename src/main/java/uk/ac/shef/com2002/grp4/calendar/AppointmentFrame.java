@@ -41,10 +41,11 @@ public class AppointmentFrame extends JDialog {
 		patient_button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent ae){
 					FindPatientDialog dialog = new FindPatientDialog(null);
-					System.out.println("here");
-					System.out.println(dialog.patient);
-					System.out.println(dialog.patient.getID());
-					patientID.setText(Integer.toString(dialog.patient.getID()));
+					if (dialog.patient) {
+						System.out.println(dialog.patient);
+						System.out.println(dialog.patient.getID());
+						patientID.setText(Integer.toString(dialog.patient.getID()));
+					}
 				}
 			});
 
