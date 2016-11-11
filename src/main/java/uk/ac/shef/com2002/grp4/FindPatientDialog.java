@@ -40,6 +40,7 @@ public class FindPatientDialog extends JDialog {
                 }
             });
 		this.add(search_button);
+		this.add(patientList);
 		pack();
 		setModal(true);
 		setVisible(true);
@@ -72,5 +73,6 @@ public class FindPatientDialog extends JDialog {
 				});
 			patientList.add(patient_button);
 				}
+		pack();
 	}
 }
