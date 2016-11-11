@@ -7,11 +7,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
 import java.util.Calendar;
 import java.time.*;
 
-public class CreatePatientDialog extends JDialog implements ActionListener {
+public class CreatePatientDialog extends BaseDialog implements ActionListener {
 	private int row = 0;
 	private JButton createButton;
 	private JTextField titleField;
@@ -20,28 +19,10 @@ public class CreatePatientDialog extends JDialog implements ActionListener {
 	private JDatePicker dobField;
 	private JTextField phoneField;
 
-	protected GridBagConstraints getBaseConstraints(){
-		GridBagConstraints c = new GridBagConstraints();
-		c.insets = new Insets(5,5,5,5);
-		c.gridy=row;
-		return c;
-	}
-	protected void addLabeledInput(String label,JComponent input){
-		Container contentPane = rootPane.getContentPane();
-		GridBagConstraints c = getBaseConstraints();
-
-		c.fill=GridBagConstraints.HORIZONTAL;
-		c.anchor=GridBagConstraints.EAST;
-		contentPane.add(new JLabel(label+":"),c);
-		c.anchor=GridBagConstraints.WEST;
-		contentPane.add(input,c);
-
-		row++;
-	}
 	public CreatePatientDialog(JFrame owner){
-		super(owner,"Create Patient",false);
+		super(owner,"Create Patient");
+
 		Container contentPane = rootPane.getContentPane();
-		contentPane.setLayout(new GridBagLayout());
 
 		titleField = new JTextField();
 		forenameField = new JTextField();
@@ -68,7 +49,7 @@ public class CreatePatientDialog extends JDialog implements ActionListener {
 		createButton.addActionListener(this);
 		contentPane.add(createButton,c);
 
-		row++;
+		nextRow();
 
 		pack();
 	}
@@ -85,7 +66,7 @@ public class CreatePatientDialog extends JDialog implements ActionListener {
 				return;
 			}
 			System.out.println(cal);
-			LocalDate dob = LocalDate.of(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_YEAR));
+			LocalDate dob = LocalDate.of(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH));
 			String phoneNumber = phoneField.getText();
 			int addressId = 1;//FIXME need to provide a way to search for, or create an address
 			PatientUtils.insertPatient(title,forename,surname,dob,phoneNumber,addressId);

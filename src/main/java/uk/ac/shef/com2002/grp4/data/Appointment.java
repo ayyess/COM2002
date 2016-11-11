@@ -1,7 +1,5 @@
 package uk.ac.shef.com2002.grp4.data;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -13,13 +11,6 @@ public class Appointment {
 	private LocalTime end;
 	private String practitioner;
 
-	public Appointment(Date date, Time start, Time end, String practitioner) {
-		this.date = date.toLocalDate();
-		this.start = start.toLocalTime();
-		this.end = end.toLocalTime();
-		this.practitioner = practitioner;
-	}
-	
 	public Appointment(LocalDate date, LocalTime start, LocalTime end, String practitioner) {
 		this.date = date;
 		this.start = start;

@@ -2,7 +2,7 @@ package uk.ac.shef.com2002.grp4.calendar;
 
 import javax.swing.*;
 import java.awt.*;
-import java.sql.Time;
+import java.time.LocalTime;
 
 public class EmptyAppointment extends JPanel {
 
@@ -21,7 +21,7 @@ public class EmptyAppointment extends JPanel {
 		//setBackground(Color.WHITE);
 		//setBorder(BorderFactory.createLineBorder(Color.black));
 		
-		Time t = new Time(time * 60000 * 20); // Time will start from 1am due to timezones
+		LocalTime t = LocalTime.of(0,0).plusMinutes(time * 20);
 		add(new JLabel(time + " " + t.toString()));
 	}
 	
