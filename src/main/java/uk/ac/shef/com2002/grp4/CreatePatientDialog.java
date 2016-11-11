@@ -66,7 +66,7 @@ public class CreatePatientDialog extends BaseDialog implements ActionListener {
 				return;
 			}
 			System.out.println(cal);
-			LocalDate dob = LocalDate.of(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_YEAR));
+			LocalDate dob = LocalDate.of(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH));
 			String phoneNumber = phoneField.getText();
 			int addressId = 1;//FIXME need to provide a way to search for, or create an address
 			PatientUtils.insertPatient(title,forename,surname,dob,phoneNumber,addressId);
