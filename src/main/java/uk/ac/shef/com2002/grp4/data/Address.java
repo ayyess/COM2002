@@ -39,4 +39,8 @@ public class Address {
 			id = Optional.of(AddressUtils.insertAddress(houseNumber,street,district,city,postcode));
 		}
 	}
+
+	public Optional<Long> getId() {
+		return id;
+	}
 }

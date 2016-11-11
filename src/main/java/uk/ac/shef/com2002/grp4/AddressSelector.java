@@ -47,9 +47,11 @@ public class AddressSelector extends JPanel implements ActionListener {
 		if(e.getSource() == findAddressButton){
 			FindAddressDialog finder = new FindAddressDialog(this);
 			finder.setVisible(true);
+			setAddress(finder.getAddress());
 		}else if(e.getSource() == createAddressButton){
 			CreateAddressDialog creator = new CreateAddressDialog(this);
 			creator.setVisible(true);
+			setAddress(creator.getAddress());
 		}
 	}
 }

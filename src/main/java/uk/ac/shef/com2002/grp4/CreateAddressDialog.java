@@ -63,4 +63,8 @@ public class CreateAddressDialog extends BaseDialog implements ActionListener {
 			setVisible(false);
 		}
 	}
+
+	public Optional<Address> getAddress() {
+		return address;
+	}
 }

@@ -3,6 +3,7 @@ package uk.ac.shef.com2002.grp4.databases;
 import uk.ac.shef.com2002.grp4.data.Address;
 
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.*;
 
 /**
@@ -60,7 +61,9 @@ public class AddressUtils {
             stmt.setString(4, city);
             stmt.setString(5, postcode);
             stmt.executeUpdate();
-            return stmt.getGeneratedKeys().getLong(1);
+			ResultSet generatedKeys = stmt.getGeneratedKeys();
+			generatedKeys.next();
+            return generatedKeys.getLong(1);
         });
     }
 }

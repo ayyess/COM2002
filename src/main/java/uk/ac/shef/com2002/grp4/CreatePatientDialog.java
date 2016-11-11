@@ -1,6 +1,7 @@
 package uk.ac.shef.com2002.grp4;
 
 import org.jdatepicker.JDatePicker;
+import uk.ac.shef.com2002.grp4.data.Address;
 import uk.ac.shef.com2002.grp4.databases.PatientUtils;
 
 import javax.swing.*;
@@ -9,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.time.*;
+import java.util.Optional;
 
 public class CreatePatientDialog extends BaseDialog implements ActionListener {
 	private int row = 0;
@@ -71,8 +73,12 @@ public class CreatePatientDialog extends BaseDialog implements ActionListener {
 			System.out.println(cal);
 			LocalDate dob = LocalDate.of(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH));
 			String phoneNumber = phoneField.getText();
-			int addressId = 1;//FIXME need to provide a way to search for, or create an address
-			PatientUtils.insertPatient(title,forename,surname,dob,phoneNumber,addressId);
+			Optional<Long> optAddressId = addressField.getAddress().flatMap(Address::getId);
+			if(optAddressId.isPresent()) {
+				long addressId = optAddressId.get();
+				PatientUtils.insertPatient(title, forename, surname, dob, phoneNumber, addressId);
+				setVisible(false);
+			}
 		}
 	}
 }

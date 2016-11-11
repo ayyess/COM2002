@@ -1,10 +1,7 @@
 package uk.ac.shef.com2002.grp4.databases;
 
 import javax.swing.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * <Doc here>
@@ -48,7 +45,7 @@ public class ConnectionManager {
 	public static <RETURN> RETURN withStatement(String sql, With<PreparedStatement, RETURN, SQLException> with) {
 		return withConnection((conn) -> {
 			//try with resources will auto close the statement
-			try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+			try (PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 				return with.with(stmt);
 			} catch (SQLException ex) {
 				ex.printStackTrace();

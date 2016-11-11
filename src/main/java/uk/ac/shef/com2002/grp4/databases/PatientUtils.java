@@ -58,7 +58,7 @@ public class PatientUtils {
 	}
 
 
-	public static void insertPatient(String title, String forename, String surname, LocalDate date, String phone, int address_id) {
+	public static void insertPatient(String title, String forename, String surname, LocalDate date, String phone, long addressId) {
 		ConnectionManager.withStatement("INSERT INTO patients VALUES (DEFAULT,?,?,?,?,?,?)",(stmt)-> {
 			java.sql.Date dob = java.sql.Date.valueOf(date);
 			stmt.setString(1, title);
@@ -66,7 +66,7 @@ public class PatientUtils {
 			stmt.setString(3, surname);
 			stmt.setDate(4, dob);
 			stmt.setString(5, phone);
-			stmt.setInt(6, address_id);
+			stmt.setLong(6, addressId);
 			stmt.executeUpdate();
 			return null;
 		});
