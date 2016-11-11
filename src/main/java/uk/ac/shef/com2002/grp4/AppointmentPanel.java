@@ -2,10 +2,8 @@ package uk.ac.shef.com2002.grp4;
 
 import org.jdatepicker.JDatePanel;
 import org.jdatepicker.UtilDateModel;
-import uk.ac.shef.com2002.grp4.calendar.AppointmentComp;
 import uk.ac.shef.com2002.grp4.calendar.CalendarComp;
 import uk.ac.shef.com2002.grp4.data.Appointment;
-import uk.ac.shef.com2002.grp4.databases.AppointmentUtils;
 import uk.ac.shef.com2002.grp4.util.DPIScaling;
 
 import javax.swing.*;
@@ -65,7 +63,7 @@ public class AppointmentPanel extends JPanel {
 	}
 	
 	public void updateAppointmentList(CalendarComp calendar, LocalDate date) {
-		List<Appointment> appointments = AppointmentUtils.getAppointmentByDate(date);
+		List<Appointment> appointments = Appointment.getByDate(date);
 		calendar.setAppointments(appointments);
 	}
 }

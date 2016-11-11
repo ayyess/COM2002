@@ -1,7 +1,6 @@
 package uk.ac.shef.com2002.grp4;
 
 import uk.ac.shef.com2002.grp4.data.Patient;
-import uk.ac.shef.com2002.grp4.databases.PatientUtils;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -112,7 +111,7 @@ public class PatientPanel extends JPanel implements DocumentListener, ActionList
 	}
 
 	private void doSearch() {
-		List<Patient> found = PatientUtils.fuzzyFindPatientByFirstName(searchText);
+		List<Patient> found = Patient.fuzzyFindByFirstName(searchText);
 		while(searchResults.getRowCount() > 0){
 			searchResults.removeRow(0);
 		}

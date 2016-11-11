@@ -1,7 +1,6 @@
 package uk.ac.shef.com2002.grp4;
 
 import uk.ac.shef.com2002.grp4.data.Patient;
-import uk.ac.shef.com2002.grp4.databases.PatientUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -67,7 +66,7 @@ public class FindPatientDialog extends JDialog {
 	
 	void search() {
 		String searchTerm = textField.getText();
-		List<Patient> patients = PatientUtils.fuzzyFindPatientByFirstName(searchTerm);
+		List<Patient> patients = Patient.fuzzyFindByFirstName(searchTerm);
 
 		patientList.removeAll();
 		for (Patient patient : patients) {

@@ -1,15 +1,8 @@
 package uk.ac.shef.com2002.grp4;
 
-import org.jdatepicker.JDatePicker;
-import uk.ac.shef.com2002.grp4.databases.PatientUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.util.Calendar;
-import java.time.*;
 
 abstract public class BaseDialog extends JDialog {
 	private int row = 0;

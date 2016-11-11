@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Duration;
 
-import uk.ac.shef.com2002.grp4.databases.AppointmentUtils;
+import uk.ac.shef.com2002.grp4.data.Appointment;
 import uk.ac.shef.com2002.grp4.data.Patient;
 
 public class AppointmentFrame extends JDialog {
@@ -84,6 +84,6 @@ public class AppointmentFrame extends JDialog {
 	}
 
 	void saveDetails() {
-		AppointmentUtils.insertAppointment(date, (String)combo.getSelectedItem(), patient.getID(), time, Duration.ofMinutes(20));
+		new Appointment(date,(String)combo.getSelectedItem(),patient.getID(),time, Duration.ofMinutes(20));
 	}
 }
