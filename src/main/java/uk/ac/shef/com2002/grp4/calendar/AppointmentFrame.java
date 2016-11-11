@@ -6,25 +6,31 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.Duration;
+
+import uk.ac.shef.com2002.grp4.databases.AppointmentUtils;
 
 public class AppointmentFrame extends JDialog {
 	
-	int start;
-	int end;
-	int duration;
-
-	JTextField patientID = new JTextField("");
+	LocalDate date;
+	LocalTime time;
+	JComboBox<String> combo;
+	JTextField patientID;
 	
-	public AppointmentFrame(JFrame parent, Date date) {
+	public AppointmentFrame(JFrame parent, LocalDate date, LocalTime time) {
 		super(parent);
+		this.date = date;
+		this.time = time;
 		
 		setLayout(new FlowLayout());
 		setBackground(Color.WHITE);
-		
+	
 
 		String[] items = {"PractionerA", "PractionerB"};
-		JComboBox<String> combo = new JComboBox<>(items);
+		combo = new JComboBox<>(items);
+		patientID = new JTextField("");
 		patientID.setPreferredSize(new Dimension(100,100));
 		this.add(new JLabel("Practioner"));
 		this.add(combo);
@@ -68,6 +74,6 @@ public class AppointmentFrame extends JDialog {
 	}
 
 	void saveDetails() {
-		
+		AppointmentUtils.insertAppointment(date, (String)combo.getSelectedItem(), Integer.parseInt(patientID.getText()), time, Duration.ofMinutes(20));
 	}
 }

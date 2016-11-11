@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
 
 public class CalendarComp extends JPanel {
 
@@ -37,10 +40,10 @@ public class CalendarComp extends JPanel {
 		public void onPressed(MouseEvent e) {
 			int time = ((EmptyAppointment)e.getSource()).getTime();
 			System.out.println("Slot pressed " + e.getSource().getClass() + time);
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(date);
-			cal.add(Calendar.MINUTE, time * 20);
-			AppointmentFrame f = new AppointmentFrame(null, cal.getTime());
+			LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // http://stackoverflow.com/a/21242111
+			LocalTime localTime = LocalTime.of(0, 0).plusMinutes(time*20);
+			
+			AppointmentFrame f = new AppointmentFrame(null, localDate, localTime);
 			f.setVisible(true);
 			System.out.println("here");
 		}

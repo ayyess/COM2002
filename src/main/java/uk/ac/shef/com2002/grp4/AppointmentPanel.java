@@ -56,8 +56,7 @@ public class AppointmentPanel extends JPanel {
 			CalendarComp calendar = new CalendarComp(Calendar.getInstance().getTime());
 			//FIXME Probably not the correct way to connect but it works for now
 			//TODO add date lookup based on selected date in JDatePicker
-			List<Appointment> appointments = AppointmentUtils.getAppointmentByDate(
-					Date.valueOf(LocalDate.now()));
+			List<Appointment> appointments = AppointmentUtils.getAppointmentByDate(LocalDate.now());
 			for (Appointment a : appointments) {
 				calendar.addAppointment(new AppointmentComp(a));
 			}
