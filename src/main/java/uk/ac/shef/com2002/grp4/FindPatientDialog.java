@@ -19,9 +19,11 @@ class PatientButton extends JButton {
 
 public class FindPatientDialog extends JDialog {
 
-	JPanel patientList = new JPanel();
 	JTextField textField = new JTextField("");
-	
+
+	JScrollPane listScroller;
+	JPanel patientList = new JPanel();
+
 	public FindPatientDialog(JFrame parent) {
 		super(parent);
 		
@@ -40,7 +42,11 @@ public class FindPatientDialog extends JDialog {
                 }
             });
 		this.add(search_button);
-		this.add(patientList);
+
+		listScroller = new JScrollPane(patientList);
+		listScroller.setPreferredSize(new Dimension(500, 500));
+		this.add(listScroller);
+		
 		pack();
 		setModal(true);
 		setVisible(true);

@@ -13,13 +13,6 @@ public class Appointment {
 	private LocalTime end;
 	private String practitioner;
 
-	public Appointment(Date date, Time start, Time end, String practitioner) {
-		this.date = date.toLocalDate();
-		this.start = start.toLocalTime();
-		this.end = end.toLocalTime();
-		this.practitioner = practitioner;
-	}
-	
 	public Appointment(LocalDate date, LocalTime start, LocalTime end, String practitioner) {
 		this.date = date;
 		this.start = start;
