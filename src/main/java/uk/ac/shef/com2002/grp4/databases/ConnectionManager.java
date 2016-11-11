@@ -55,6 +55,3 @@ public class ConnectionManager {
 	}
 }
 
-interface With<T, R, EXCEPTION_TYPE extends Exception> {
-	R with(T t) throws EXCEPTION_TYPE;
-}
