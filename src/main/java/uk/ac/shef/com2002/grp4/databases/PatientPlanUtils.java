@@ -13,7 +13,7 @@ public class PatientPlanUtils {
         return ConnectionManager.withStatement("SELECT * FROM patient_plan JOIN treatment_plan ON patient_plan.plan_name = treatment_plan.name WHERE id=?",(stmt)-> {
             stmt.setInt(1, id);
             ResultSet res = stmt.executeQuery();
-            return new PatientPlan(res.getInt(1),res.getString(2), res.getInt(7), res.getDate(3), res.getInt(4), res.getInt(5), res.getInt(6));
+            return new PatientPlan(res.getInt(1),res.getString(2), res.getInt(7), res.getDate(3).toLocalDate(), res.getInt(4), res.getInt(5), res.getInt(6));
         });
     }
 

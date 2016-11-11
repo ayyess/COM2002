@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.*;
 
 /**
  * Created by Dan-L on 02/11/2016.
@@ -45,9 +46,9 @@ public class PatientUtils {
     }
 
 
-    public static void insertPatient(String title, String forename, String surname, Date date, String phone, int address_id) {
+    public static void insertPatient(String title, String forename, String surname, LocalDate date, String phone, int address_id) {
         ConnectionManager.withStatement("INSERT INTO patient VALUES (DEFAULT,?,?,?,?,?,?)",(stmt)-> {
-            java.sql.Date dob = new java.sql.Date(date.getTime());
+            java.sql.Date dob = java.sql.Date.valueOf(date);
             stmt.setString(1, title);
             stmt.setString(2, forename);
             stmt.setString(3, surname);
