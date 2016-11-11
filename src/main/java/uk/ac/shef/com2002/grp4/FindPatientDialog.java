@@ -65,7 +65,7 @@ public class FindPatientDialog extends JDialog {
 	
 	void search() {
 		String searchTerm = textField.getText();
-		List<Patient> patients = PatientUtils.findPatientByFirstName(searchTerm);
+		List<Patient> patients = PatientUtils.fuzzyFindPatientByFirstName(searchTerm);
 
 		patientList.removeAll();
 		for (Patient patient : patients) {
