@@ -72,12 +72,16 @@ public class CreatePatientDialog extends BaseDialog implements ActionListener {
 			LocalDate dob = LocalDate.of(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH));
 			String phoneNumber = phoneField.getText();
 			Optional<Long> optAddressId = addressField.getAddress().flatMap(Address::getId);
-			if(optAddressId.isPresent()) {
-				long addressId = optAddressId.get();
-				PatientUtils.insertPatient(title, forename, surname, dob, phoneNumber, addressId);
-				setVisible(false);
+
+			if(!optAddressId.isPresent()) {
+				JOptionPane.showMessageDialog(this, "You must select an address", "Validation error", JOptionPane.ERROR_MESSAGE);
+				return;
 			}
-			//FIXME handle the missing case
+
+			long addressId = optAddressId.get();
+			PatientUtils.insertPatient(title, forename, surname, dob, phoneNumber, addressId);
+			setVisible(false);
+
 		}else if(e.getSource() == cancelButton){
 			setVisible(false);
 		}
