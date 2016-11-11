@@ -9,11 +9,11 @@ import java.util.ArrayList;
  * Created by Dan-L on 09/11/2016.
  */
 public class TreatmentUtils {
-    public static Treatment getCostByName(String s) {
-        return ConnectionManager.withStatement("SELECT cost FROM treatment WHERE name=?",(stmt)-> {
+    public static Treatment getDetailsByName(String s) {
+        return ConnectionManager.withStatement("SELECT cost, treatment_type FROM treatment WHERE name=?",(stmt)-> {
             stmt.setString(1, s);
             ResultSet res = stmt.executeQuery();
-            return new Treatment(s, res.getInt(1));
+            return new Treatment(s, res.getInt(1), res.getInt(2));
         });
     }
 
