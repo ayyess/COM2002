@@ -13,13 +13,13 @@ public class TreatmentUtils {
         return ConnectionManager.withStatement("SELECT cost, treatment_type FROM treatments WHERE name=?",(stmt)-> {
             stmt.setString(1, s);
             ResultSet res = stmt.executeQuery();
-            return new Treatment(s, res.getInt(2), res.getString(3));
+            return new Treatment(s, res.getInt(1), res.getString(2));
         });
     }
 
     public static  Treatment[] getTreatments() {
         ArrayList<Treatment> treatments = new ArrayList<Treatment>();
-        return ConnectionManager.withStatement("SELECT * FROM treatment",(stmt)-> {
+        return ConnectionManager.withStatement("SELECT * FROM treatments",(stmt)-> {
             ResultSet res = stmt.executeQuery();
             while (res.next()) {
                 treatments.add(new Treatment(res.getString(1), res.getInt(2), res.getString(3)));
