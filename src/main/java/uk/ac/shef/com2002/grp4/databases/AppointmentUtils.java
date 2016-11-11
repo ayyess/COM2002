@@ -18,7 +18,7 @@ public class AppointmentUtils {
 
     public static List<Appointment> getAppointmentByPatientID(int id) {
         List<Appointment> appointments = new ArrayList<>();
-        return ConnectionManager.withStatement("SELECT * FROM appointment WHERE id=?",(stmt)->{
+        return ConnectionManager.withStatement("SELECT * FROM appointments WHERE id=?",(stmt)->{
             stmt.setInt(1,id);
             ResultSet res = stmt.executeQuery();
             while(res.next()){
@@ -31,7 +31,7 @@ public class AppointmentUtils {
     public static List<Appointment> getAppointmentByDate(LocalDate date) {
 		java.sql.Date sqlDate = java.sql.Date.valueOf(date);
         List<Appointment> appointments = new ArrayList<>();
-        return ConnectionManager.withStatement("SELECT * FROM appointment WHERE date=?",(stmt)-> {
+        return ConnectionManager.withStatement("SELECT * FROM appointments WHERE date=?",(stmt)-> {
             stmt.setDate(1, sqlDate);
             ResultSet res = stmt.executeQuery();
             while (res.next()) {
@@ -45,7 +45,7 @@ public class AppointmentUtils {
 		java.sql.Date sqlDate = java.sql.Date.valueOf(date);
 		java.sql.Time sqlStartTime = java.sql.Time.valueOf(start);
 
-		ConnectionManager.withStatement("INSERT INTO appointment VALUES (?,?,?,?,?)",(stmt)-> {
+		ConnectionManager.withStatement("INSERT INTO appointments VALUES (?,?,?,?,?)",(stmt)-> {
             stmt.setDate(1, sqlDate);
             stmt.setString(2, practioner);
             stmt.setInt(3, patient_id);

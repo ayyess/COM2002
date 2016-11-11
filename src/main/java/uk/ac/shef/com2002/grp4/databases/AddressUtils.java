@@ -9,7 +9,7 @@ import java.sql.ResultSet;
  */
 public class AddressUtils {
     public static Address getAddressByID(int id) {
-        return ConnectionManager.withStatement("SELECT * FROM address WHERE id=?",(stmt)->{
+        return ConnectionManager.withStatement("SELECT * FROM addresses WHERE id=?",(stmt)->{
             stmt.setInt(1,id);
             ResultSet res = stmt.executeQuery();
             return new Address(res.getInt(2),res.getString(3),res.getString(4),res.getString(5),res.getString(6));
@@ -17,7 +17,7 @@ public class AddressUtils {
     }
 
     public static int getAddressID(int houseNumber, String postcode) {
-        return ConnectionManager.withStatement("SELECT id FROM address WHERE house_number=?, postcode=?",(stmt)->{
+        return ConnectionManager.withStatement("SELECT id FROM addresses WHERE house_number=?, postcode=?",(stmt)->{
             stmt.setInt(1,houseNumber);
             stmt.setString(2,postcode);
             return stmt.executeQuery().getInt(1);
@@ -25,7 +25,7 @@ public class AddressUtils {
     }
 
     public static void updateAddressByID(int id, int houseNumber, String street, String district, String city, String postcode) {
-        ConnectionManager.withStatement("UPDATE address SET house_number=?, street=?, district=?, city=?, postcode=? WHERE id=?",(stmt)->{
+        ConnectionManager.withStatement("UPDATE addresses SET house_number=?, street=?, district=?, city=?, postcode=? WHERE id=?",(stmt)->{
             stmt.setInt(1, houseNumber);
             stmt.setString(2, street);
             stmt.setString(3, district);
@@ -38,7 +38,7 @@ public class AddressUtils {
     }
 
     public static void insertAddress(int houseNumber, String street, String district, String city, String postcode) {
-        ConnectionManager.withStatement("INSERT INTO address VALUES (DEFAULT,?,?,?,?,?)",(stmt)->{
+        ConnectionManager.withStatement("INSERT INTO addresses VALUES (DEFAULT,?,?,?,?,?)",(stmt)->{
             stmt.setInt(1,houseNumber);
             stmt.setString(2, street);
             stmt.setString(3, district);

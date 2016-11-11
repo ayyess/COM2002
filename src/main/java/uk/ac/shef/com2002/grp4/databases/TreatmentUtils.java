@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class TreatmentUtils {
     public static Treatment getDetailsByName(String s) {
-        return ConnectionManager.withStatement("SELECT cost, treatment_type FROM treatment WHERE name=?",(stmt)-> {
+        return ConnectionManager.withStatement("SELECT cost, treatment_type FROM treatments WHERE name=?",(stmt)-> {
             stmt.setString(1, s);
             ResultSet res = stmt.executeQuery();
             return new Treatment(s, res.getInt(2), res.getString(3));
