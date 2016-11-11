@@ -37,7 +37,7 @@ public class PatientUtils {
 		});
 	}
 
-	public static patients getPatientByID(int id) {
+	public static Patient getPatientByID(int id) {
 		return ConnectionManager.withStatement("SELECT * FROM patients WHERE id=?",(stmt)-> {
 			stmt.setInt(1, id);
 			ResultSet res = stmt.executeQuery();
