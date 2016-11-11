@@ -14,7 +14,7 @@ import java.time.*;
 public class PatientUtils {
 
 	public static List<Patient> findPatientByFirstName(String firstName) {
-		return ConnectionManager.withStatement("SELECT * FROM patients WHERE forname=?",(stmt)->{
+		return ConnectionManager.withStatement("SELECT * FROM patients WHERE first_name=?",(stmt)->{
 			stmt.setString(1,firstName);
 			ResultSet res = stmt.executeQuery();
 			List<Patient> patients = new ArrayList<>();
@@ -26,7 +26,7 @@ public class PatientUtils {
 	}
 
 	public static List<Patient> fuzzyFindPatientByFirstName(String firstName) {
-		return ConnectionManager.withStatement("SELECT * FROM patients WHERE forname LIKE ?",(stmt)->{
+		return ConnectionManager.withStatement("SELECT * FROM patients WHERE first_name LIKE ?",(stmt)->{
 			stmt.setString(1,"%"+firstName+"%");
 			ResultSet res = stmt.executeQuery();
 			List<Patient> patients = new ArrayList<>();
@@ -46,7 +46,7 @@ public class PatientUtils {
 	}
 
 	public static void updatePatientByID(int id, String title, String forename, String surname, int phone) {
-		ConnectionManager.withStatement("UPDATE patients SET title=?, forname=?, surname=?, phone_number=? WHERE id=?",(stmt)-> {
+		ConnectionManager.withStatement("UPDATE patients SET title=?, first_name=?, surname=?, phone_number=? WHERE id=?",(stmt)-> {
 			stmt.setString(1, title);
 			stmt.setString(2, forename);
 			stmt.setString(3, surname);
