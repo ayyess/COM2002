@@ -15,6 +15,7 @@ import java.util.Optional;
 public class CreatePatientDialog extends BaseDialog implements ActionListener {
 	private int row = 0;
 	private JButton createButton;
+	private JButton cancelButton;
 	private JTextField titleField;
 	private JTextField forenameField;
 	private JTextField surnameField;
@@ -47,14 +48,11 @@ public class CreatePatientDialog extends BaseDialog implements ActionListener {
 		addLabeledInput("Phone number",phoneField);
 		addLabeledInput("Address",addressField);
 
-		GridBagConstraints c = getBaseConstraints();
-
-		c.gridwidth=2;
 		createButton = new JButton("Create");
 		createButton.addActionListener(this);
-		contentPane.add(createButton,c);
-
-		nextRow();
+		cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(this);
+		addButtons(cancelButton,createButton);
 
 		pack();
 	}
@@ -79,6 +77,9 @@ public class CreatePatientDialog extends BaseDialog implements ActionListener {
 				PatientUtils.insertPatient(title, forename, surname, dob, phoneNumber, addressId);
 				setVisible(false);
 			}
+			//FIXME handle the missing case
+		}else if(e.getSource() == cancelButton){
+			setVisible(false);
 		}
 	}
 }
