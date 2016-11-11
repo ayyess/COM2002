@@ -12,7 +12,6 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
