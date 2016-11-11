@@ -27,7 +27,11 @@ public class Address {
 		this.city = city;
 		this.postcode = postcode;
 	}
-	
+
+	public String formatted() {
+		return houseNumber + " " + street + "\n" + district + "\n" + city + "\n" + postcode;
+	}
+
 	public String toString() {
 		return houseNumber + " " + street + ", " + district + ", " + city + ", " + postcode;
 	}

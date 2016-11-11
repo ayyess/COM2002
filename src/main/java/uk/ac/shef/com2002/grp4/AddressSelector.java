@@ -14,28 +14,46 @@ import java.util.Optional;
  * Created on 11/11/2016.
  */
 public class AddressSelector extends JPanel implements ActionListener {
-	private JTextField displayField;
+	private JTextArea displayField;
 	private JButton findAddressButton;
 	private JButton createAddressButton;
 
 	private Optional<Address> address = Optional.empty();
 
 	public AddressSelector(){
-		super(new FlowLayout(FlowLayout.LEADING,0,0));
-		displayField = new JTextField(address.toString());
+		super(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.insets = new Insets(0,0,0,0);
+		c.gridheight = 2;
+		c.gridy = 0;
+		c.gridx = 0;
+		c.weightx = 1;
+		c.fill = GridBagConstraints.BOTH;
+		displayField = new JTextArea("");
 		displayField.setEnabled(false);
-		add(displayField);
+		add(displayField,c);
+
+		c.weightx = 0;
+		c.gridheight = 1;
+		c.gridx = 1;
 		findAddressButton = new JButton("Find");
 		findAddressButton.addActionListener(this);
-		add(findAddressButton);
+		add(findAddressButton,c);
+		c.gridy = 1;
 		createAddressButton = new JButton("Create");
 		createAddressButton.addActionListener(this);
-		add(createAddressButton);
+		add(createAddressButton,c);
 	}
 
 	public void setAddress(Optional<Address> address){
 		this.address = address;
-		displayField.setText(address.toString());
+		if(address.isPresent()) {
+			displayField.setText(address.get().formatted());
+		}else{
+			displayField.setText("");
+		}
+		//FIXME there has to be a better way to get the dialog to resize if needed
+		SwingUtilities.getWindowAncestor(this).pack();
 	}
 
 	public Optional<Address> getAddress(){

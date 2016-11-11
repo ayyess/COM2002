@@ -54,10 +54,10 @@ public class FindAddressDialog extends BaseDialog implements ActionListener{
 				model.addElement(a);
 			}
 		}else if(e.getSource() == selectButton){
-			address = Optional.of(searchResults.getSelectedValue());
-			setVisible(false);
+			address = Optional.ofNullable(searchResults.getSelectedValue());
+			dispose();
 		}else if(e.getSource() == cancelButton){
-			setVisible(false);
+			dispose();
 		}
 	}
 

@@ -80,10 +80,10 @@ public class CreatePatientDialog extends BaseDialog implements ActionListener {
 
 			long addressId = optAddressId.get();
 			PatientUtils.insertPatient(title, forename, surname, dob, phoneNumber, addressId);
-			setVisible(false);
+			dispose();
 
 		}else if(e.getSource() == cancelButton){
-			setVisible(false);
+			dispose();
 		}
 	}
 }
