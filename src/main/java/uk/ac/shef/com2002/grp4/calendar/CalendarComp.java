@@ -22,8 +22,8 @@ public class CalendarComp extends JPanel {
 	
 	final static int DIV = 20;
 	final static int SLOT_SIZE = 30;
-	final static int START = 9;
-	final static int END = 17;
+	final static int START = 9 * 60;
+	final static int END = 17 * 60;
 	
 	ArrayList<AppointmentComp> appointments = new ArrayList<AppointmentComp>();
 	
@@ -107,7 +107,7 @@ public class CalendarComp extends JPanel {
 		this.date = date;
 		layout = new GridBagLayout();
 		layout.columnWidths = new int[] {1};
-		layout.rowHeights = new int[((END-START)*60)/DIV];
+		layout.rowHeights = new int[((END-START))/DIV];
 		//set all slot sizes to SLOT_SIZE, later we just choose how many of these slots to use with gridheight
 		Arrays.fill(layout.rowHeights,SLOT_SIZE);
 		setLayout(layout);
@@ -120,7 +120,7 @@ public class CalendarComp extends JPanel {
 		
 	public void showAll() {
 		removeAll();
-		int[] times = new int[((END-START)*60)/DIV];
+		int[] times = new int[((END-START))/DIV];
 		for (AppointmentComp a : appointments) {
 			if (a.start >= START) {
 				a.addMouseListener(appointmentAdapter);
@@ -128,10 +128,10 @@ public class CalendarComp extends JPanel {
 				int d = 0;
 				c.gridx = 0;
 				do {
-					times[(a.start+d)/DIV] = 1;
+					times[((a.start+d-START)/DIV)] = 1;
 					d += DIV;
 				} while (d < a.duration);
-				c.gridy = (a.start)/DIV;
+				c.gridy = (a.start-START)/DIV;
 				c.gridheight = d/DIV;
 				c.weightx = 1.0;
 				c.fill = GridBagConstraints.BOTH;
