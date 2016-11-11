@@ -13,7 +13,7 @@ public class AddressUtils {
         return ConnectionManager.withStatement("SELECT * FROM addresses WHERE id=?",(stmt)->{
             stmt.setInt(1,id);
             ResultSet res = stmt.executeQuery();
-            return new Address(res.getInt(2),res.getString(3),res.getString(4),res.getString(5),res.getString(6));
+            return new Address(Optional.of(res.getLong(1)),res.getInt(2),res.getString(3),res.getString(4),res.getString(5),res.getString(6));
         });
     }
 
@@ -23,8 +23,7 @@ public class AddressUtils {
             stmt.setString(1,postcode);
             ResultSet res = stmt.executeQuery();
 			while(res.next()){
-				int id = res.getInt(1);
-				addresses.add(new Address(res.getInt(2),res.getString(3),res.getString(4),res.getString(5),res.getString(6)));
+				addresses.add(new Address(Optional.of(res.getLong(1)),res.getInt(2),res.getString(3),res.getString(4),res.getString(5),res.getString(6)));
 			}
 			return null;
         });
@@ -40,28 +39,28 @@ public class AddressUtils {
         });
     }
 
-    public static void updateAddressByID(int id, int houseNumber, String street, String district, String city, String postcode) {
+    public static void updateAddressByID(long id, int houseNumber, String street, String district, String city, String postcode) {
         ConnectionManager.withStatement("UPDATE addresses SET house_number=?, street=?, district=?, city=?, postcode=? WHERE id=?",(stmt)->{
             stmt.setInt(1, houseNumber);
             stmt.setString(2, street);
             stmt.setString(3, district);
             stmt.setString(4, city);
             stmt.setString(5, postcode);
-            stmt.setInt(6, id);
+            stmt.setLong(6, id);
             stmt.executeUpdate();
             return null;
         });
     }
 
-    public static void insertAddress(int houseNumber, String street, String district, String city, String postcode) {
-        ConnectionManager.withStatement("INSERT INTO addresses VALUES (DEFAULT,?,?,?,?,?)",(stmt)->{
+    public static long insertAddress(int houseNumber, String street, String district, String city, String postcode) {
+        return ConnectionManager.withStatement("INSERT INTO addresses VALUES (DEFAULT,?,?,?,?,?)",(stmt)->{
             stmt.setInt(1,houseNumber);
             stmt.setString(2, street);
             stmt.setString(3, district);
             stmt.setString(4, city);
             stmt.setString(5, postcode);
             stmt.executeUpdate();
-            return null;
+            return stmt.getGeneratedKeys().getLong(1);
         });
     }
 }

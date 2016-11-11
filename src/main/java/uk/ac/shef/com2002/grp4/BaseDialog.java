@@ -7,11 +7,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
 import java.sql.Date;
 import java.util.Calendar;
 import java.time.*;
 
-abstract public class BaseDialog extends JDialog implements ActionListener {
+abstract public class BaseDialog extends JDialog {
 	private int row = 0;
 
 	protected int nextRow(){
@@ -36,8 +37,25 @@ abstract public class BaseDialog extends JDialog implements ActionListener {
 
 		nextRow();
 	}
-	public BaseDialog(JFrame owner,String title){
+	protected void addButtons(JButton... buttons) {
+		Container contentPane = rootPane.getContentPane();
+		GridBagConstraints c = getBaseConstraints();
+
+		c.fill=GridBagConstraints.HORIZONTAL;
+		for(JButton button: buttons) {
+			contentPane.add(button,c);
+		}
+
+		nextRow();
+	}
+
+	public BaseDialog(Component c, String title){
+		this((Frame)SwingUtilities.getWindowAncestor(c).getOwner(),title);
+	}
+
+	public BaseDialog(Frame owner,String title){
 		super(owner,title,true);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		Container contentPane = rootPane.getContentPane();
 		contentPane.setLayout(new GridBagLayout());
 	}

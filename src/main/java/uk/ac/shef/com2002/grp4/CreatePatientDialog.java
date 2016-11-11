@@ -18,8 +18,9 @@ public class CreatePatientDialog extends BaseDialog implements ActionListener {
 	private JTextField surnameField;
 	private JDatePicker dobField;
 	private JTextField phoneField;
+	private AddressSelector addressField;
 
-	public CreatePatientDialog(JFrame owner){
+	public CreatePatientDialog(Component owner){
 		super(owner,"Create Patient");
 
 		Container contentPane = rootPane.getContentPane();
@@ -36,11 +37,13 @@ public class CreatePatientDialog extends BaseDialog implements ActionListener {
 				return field.getText().matches("^[0-9 \\-]+$");
 			}
 		});
+		addressField = new AddressSelector();
 		addLabeledInput("Title",titleField);
 		addLabeledInput("Forename",forenameField);
 		addLabeledInput("Surname",surnameField);
 		addLabeledInput("DoB",dobField);
 		addLabeledInput("Phone number",phoneField);
+		addLabeledInput("Address",addressField);
 
 		GridBagConstraints c = getBaseConstraints();
 

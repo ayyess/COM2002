@@ -106,7 +106,7 @@ public class PatientPanel extends JPanel implements DocumentListener, ActionList
 		if(e.getSource() == firstNameField) {
 			doSearch();
 		}else if(e.getSource() == addPatientButton){
-			CreatePatientDialog createDialog = new CreatePatientDialog((JFrame)SwingUtilities.getWindowAncestor(this));
+			CreatePatientDialog createDialog = new CreatePatientDialog(this);
 			createDialog.setVisible(true);
 		}
 	}
