@@ -22,7 +22,7 @@ public class AppointmentUtils {
             stmt.setInt(1,id);
             ResultSet res = stmt.executeQuery();
             while(res.next()){
-                appointments.add(new Appointment(res.getDate(1).toLocalDate(), res.getTime(4).toLocalTime(),res.getTime(5).toLocalTime(), res.getString(2)));
+                appointments.add(new Appointment(res.getDate(1).toLocalDate(), res.getTime(4).toLocalTime(),res.getInt(5), res.getString(2)));
             }
             return appointments;
         });
@@ -35,7 +35,7 @@ public class AppointmentUtils {
             stmt.setDate(1, sqlDate);
             ResultSet res = stmt.executeQuery();
             while (res.next()) {
-                appointments.add(new Appointment(res.getDate(1).toLocalDate(), res.getTime(4).toLocalTime(),res.getTime(5).toLocalTime(), res.getString(2)));
+                appointments.add(new Appointment(res.getDate(1).toLocalDate(), res.getTime(4).toLocalTime(),res.getInt(5), res.getString(2)));
             }
             return appointments;
         });

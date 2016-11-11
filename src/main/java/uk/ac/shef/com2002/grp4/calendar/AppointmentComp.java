@@ -22,7 +22,6 @@ public class AppointmentComp extends JComponent {
 		setBackground(Color.WHITE);
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		
-		SimpleDateFormat f = new SimpleDateFormat("h:M");		
 		add(new JLabel("S"+appointment.getStart().toString()));
 		add(new JLabel("D"+duration));
 		add(new JLabel("E"+appointment.getEnd().toString()));

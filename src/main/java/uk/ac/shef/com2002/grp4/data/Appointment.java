@@ -13,10 +13,11 @@ public class Appointment {
 	private LocalTime end;
 	private String practitioner;
 
-	public Appointment(LocalDate date, LocalTime start, LocalTime end, String practitioner) {
+	public Appointment(LocalDate date, LocalTime start, int duration, String practitioner) {
 		this.date = date;
 		this.start = start;
-		this.end = end;
+		System.out.println(duration);
+		this.end = start.plusMinutes(duration);
 		this.practitioner = practitioner;
 	}
 

@@ -1,15 +1,18 @@
 package uk.ac.shef.com2002.grp4.calendar;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.swing.JPanel;
+
+import uk.ac.shef.com2002.grp4.data.Appointment;
 
 public class CalendarComp extends JPanel {
 
@@ -19,6 +22,8 @@ public class CalendarComp extends JPanel {
 	
 	final static int DIV = 20;
 	final static int SLOT_SIZE = 30;
+	final static int START = 9;
+	final static int END = 17;
 	
 	ArrayList<AppointmentComp> appointments = new ArrayList<AppointmentComp>();
 	
@@ -102,7 +107,7 @@ public class CalendarComp extends JPanel {
 		this.date = date;
 		layout = new GridBagLayout();
 		layout.columnWidths = new int[] {1};
-		layout.rowHeights = new int[(24*60)/DIV];
+		layout.rowHeights = new int[((END-START)*60)/DIV];
 		//set all slot sizes to SLOT_SIZE, later we just choose how many of these slots to use with gridheight
 		Arrays.fill(layout.rowHeights,SLOT_SIZE);
 		setLayout(layout);
@@ -115,21 +120,23 @@ public class CalendarComp extends JPanel {
 		
 	public void showAll() {
 		removeAll();
-		int[] times = new int[(24*60)/DIV];
+		int[] times = new int[((END-START)*60)/DIV];
 		for (AppointmentComp a : appointments) {
-			a.addMouseListener(appointmentAdapter);
-			GridBagConstraints c = new GridBagConstraints();
-			c.gridx = 0;
-			int d = 0;
-			do {
-				times[(a.start+d)/DIV] = 1;
-				d += DIV;
-			} while (d < a.duration);
-			c.gridy = a.start/DIV;
-			c.gridheight = d/DIV;
-			c.weightx = 1.0;
-			c.fill = GridBagConstraints.BOTH;
-			add(a, c);
+			if (a.start >= START) {
+				a.addMouseListener(appointmentAdapter);
+				GridBagConstraints c = new GridBagConstraints();
+				int d = 0;
+				c.gridx = 0;
+				do {
+					times[(a.start+d)/DIV] = 1;
+					d += DIV;
+				} while (d < a.duration);
+				c.gridy = (a.start)/DIV;
+				c.gridheight = d/DIV;
+				c.weightx = 1.0;
+				c.fill = GridBagConstraints.BOTH;
+				add(a, c);
+			}
 		}
 		for (int i = 0; i < times.length; i++) {
 			if (times[i] == 0) {
@@ -139,15 +146,18 @@ public class CalendarComp extends JPanel {
 				c.gridy = i;
 				c.weightx = 1.0;
 				c.fill = GridBagConstraints.BOTH;
-				EmptyAppointment gap = new EmptyAppointment(i);
+				EmptyAppointment gap = new EmptyAppointment(i+START*(60/DIV));
 				gap.addMouseListener(slotAdapter);
 				add(gap, c);
 			}
 		}
 	}
 	
-	public void addAppointment(AppointmentComp a) {
-		appointments.add(a);
+	public void setAppointments(List<Appointment> newAppointments) {
+		appointments.clear();
+		for (Appointment a : newAppointments) {
+			appointments.add(new AppointmentComp(a));
+		}
 		showAll();
 	}
 	
