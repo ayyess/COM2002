@@ -3,6 +3,7 @@ package uk.ac.shef.com2002.grp4.databases;
 import uk.ac.shef.com2002.grp4.data.Address;
 
 import java.sql.ResultSet;
+import java.util.*;
 
 /**
  * Created by Dan-L on 02/11/2016.
@@ -15,6 +16,21 @@ public class AddressUtils {
             return new Address(res.getInt(2),res.getString(3),res.getString(4),res.getString(5),res.getString(6));
         });
     }
+
+	public static List<Address> findAddresses(String postcode) {
+		List<Address> addresses = new ArrayList<>();
+		ConnectionManager.withStatement("SELECT * FROM addresses WHERE postcode=?",(stmt)->{
+            stmt.setString(1,postcode);
+            ResultSet res = stmt.executeQuery();
+			while(res.next()){
+				int id = res.getInt(1);
+				addresses.add(new Address(res.getInt(2),res.getString(3),res.getString(4),res.getString(5),res.getString(6)));
+			}
+			return null;
+        });
+		return addresses;
+
+	}
 
     public static int getAddressID(int houseNumber, String postcode) {
         return ConnectionManager.withStatement("SELECT id FROM addresses WHERE house_number=?, postcode=?",(stmt)->{
