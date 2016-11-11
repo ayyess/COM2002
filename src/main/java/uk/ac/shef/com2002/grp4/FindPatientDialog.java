@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.awt.GridLayout;
 
 class PatientButton extends JButton {
 	public Patient patient;
@@ -43,6 +44,7 @@ public class FindPatientDialog extends JDialog {
             });
 		this.add(search_button);
 
+		patientList.setLayout(new GridLayout(0,1));
 		listScroller = new JScrollPane(patientList);
 		listScroller.setPreferredSize(new Dimension(500, 500));
 		this.add(listScroller);
