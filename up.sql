@@ -71,3 +71,17 @@ CREATE TABLE IF NOT EXISTS patient_plans (
     FOREIGN KEY(plan_name)
         REFERENCES treatment_plans(name)
 );
+
+INSERT INTO addresses (
+    house_number,
+    street,
+    district,
+    city,
+    postcode )
+VALUES (
+    1,
+    'street',
+    'district',
+    'city',
+    'postcode'
+);
