@@ -35,6 +35,7 @@ CREATE TABLE appointment(
 CREATE TABLE treatment(
     name VARCHAR(255) NOT NULL,
     cost BIGINT UNSIGNED NOT NULL,
+    treatment_type ENUM('CHECKUP','HYGIENE','REPAIR')
     PRIMARY KEY(name)
 );
 
