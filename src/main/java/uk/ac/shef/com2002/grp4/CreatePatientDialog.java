@@ -11,7 +11,7 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.time.*;
 
-public class CreatePatientDialog extends JDialog implements ActionListener {
+public class CreatePatientDialog extends BaseDialog implements ActionListener {
 	private int row = 0;
 	private JButton createButton;
 	private JTextField titleField;
@@ -20,28 +20,10 @@ public class CreatePatientDialog extends JDialog implements ActionListener {
 	private JDatePicker dobField;
 	private JTextField phoneField;
 
-	protected GridBagConstraints getBaseConstraints(){
-		GridBagConstraints c = new GridBagConstraints();
-		c.insets = new Insets(5,5,5,5);
-		c.gridy=row;
-		return c;
-	}
-	protected void addLabeledInput(String label,JComponent input){
-		Container contentPane = rootPane.getContentPane();
-		GridBagConstraints c = getBaseConstraints();
-
-		c.fill=GridBagConstraints.HORIZONTAL;
-		c.anchor=GridBagConstraints.EAST;
-		contentPane.add(new JLabel(label+":"),c);
-		c.anchor=GridBagConstraints.WEST;
-		contentPane.add(input,c);
-
-		row++;
-	}
 	public CreatePatientDialog(JFrame owner){
-		super(owner,"Create Patient",false);
+		super(owner,"Create Patient");
+
 		Container contentPane = rootPane.getContentPane();
-		contentPane.setLayout(new GridBagLayout());
 
 		titleField = new JTextField();
 		forenameField = new JTextField();
@@ -68,7 +50,7 @@ public class CreatePatientDialog extends JDialog implements ActionListener {
 		createButton.addActionListener(this);
 		contentPane.add(createButton,c);
 
-		row++;
+		nextRow();
 
 		pack();
 	}

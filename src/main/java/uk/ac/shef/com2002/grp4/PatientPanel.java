@@ -112,7 +112,7 @@ public class PatientPanel extends JPanel implements DocumentListener, ActionList
 	}
 
 	private void doSearch() {
-		List<Patient> found = PatientUtils.findPatientByFirstName(searchText);
+		List<Patient> found = PatientUtils.fuzzyFindPatientByFirstName(searchText);
 		while(searchResults.getRowCount() > 0){
 			searchResults.removeRow(0);
 		}
