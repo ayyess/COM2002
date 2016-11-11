@@ -17,7 +17,8 @@ public class AppointmentFrame extends JDialog {
 	
 	LocalDate date;
 	LocalTime time;
-	JComboBox<String> combo;
+	JComboBox<String> practionerCombo;
+	JComboBox<Integer> lengthCombo;
 	Patient patient;
 	JTextField patientName;
 
@@ -40,13 +41,13 @@ public class AppointmentFrame extends JDialog {
 	
 
 		String[] items = {"PractionerA", "PractionerB"};
-		combo = new JComboBox<>(items);
+		practionerCombo = new JComboBox<>(items);
 		patientName = new JTextField("");
 		patientName.setPreferredSize(new Dimension(100,100));
 		patientName.setEditable(false);
 		
 		this.add(new JLabel("Practioner"));
-		this.add(combo);
+		this.add(practionerCombo);
 		this.add(new JLabel("Patient"));
 		this.add(patientName);
 		JButton patient_button = new JButton("Find patient");
@@ -57,6 +58,9 @@ public class AppointmentFrame extends JDialog {
 					setPatient(dialog.patient);
 				}
 			});
+		Integer[] lengthItems = {20, 40, 60};
+		lengthCombo = new JComboBox<>(lengthItems);
+		this.add(lengthCombo);
 
 	JButton cancel_button = new JButton("Cancel");
 		this.add(cancel_button);
@@ -84,6 +88,6 @@ public class AppointmentFrame extends JDialog {
 	}
 
 	void saveDetails() {
-		AppointmentUtils.insertAppointment(date, (String)combo.getSelectedItem(), patient.getID(), time, Duration.ofMinutes(20));
+		AppointmentUtils.insertAppointment(date, (String)practionerCombo.getSelectedItem(), patient.getID(), time, Duration.ofMinutes(((Integer)lengthCombo.getSelectedItem())));
 	}
 }
