@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class Address {
+public class Address implements Saveable{
 
 	private Optional<Long> id;
 	private int houseNumber;
@@ -65,7 +65,13 @@ public class Address {
 		});
 	}
 
-	private void update() {
+	@Override
+	public boolean isInDb() {
+		return id.isPresent();
+	}
+
+	@Override
+	public void update() {
 		ConnectionManager.withStatement("UPDATE addresses SET house_number=?, street=?, district=?, city=?, postcode=? WHERE id=?",(stmt)->{
 			stmt.setInt(1, houseNumber);
 			stmt.setString(2, street);
@@ -78,8 +84,9 @@ public class Address {
 		});
 	}
 
-	private long insert() {
-		return ConnectionManager.withStatement("INSERT INTO addresses VALUES (DEFAULT,?,?,?,?,?)",(stmt)->{
+	@Override
+	public void insert() {
+		ConnectionManager.withStatement("INSERT INTO addresses VALUES (DEFAULT,?,?,?,?,?)",(stmt)->{
 			stmt.setInt(1,houseNumber);
 			stmt.setString(2, street);
 			stmt.setString(3, district);
@@ -88,16 +95,9 @@ public class Address {
 			stmt.executeUpdate();
 			ResultSet generatedKeys = stmt.getGeneratedKeys();
 			generatedKeys.next();
-			return generatedKeys.getLong(1);
+			id = Optional.of(generatedKeys.getLong(1));
+			return null;
 		});
-	}
-
-	public void save() {
-		if(id.isPresent()){
-			update();
-		}else{
-			id = Optional.of(insert());
-		}
 	}
 
 	public Optional<Long> getId() {

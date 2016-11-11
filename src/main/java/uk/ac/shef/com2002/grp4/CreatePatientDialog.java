@@ -2,7 +2,7 @@ package uk.ac.shef.com2002.grp4;
 
 import org.jdatepicker.JDatePicker;
 import uk.ac.shef.com2002.grp4.data.Address;
-import uk.ac.shef.com2002.grp4.databases.PatientUtils;
+import uk.ac.shef.com2002.grp4.data.Patient;
 
 import javax.swing.*;
 import java.awt.*;
@@ -73,10 +73,10 @@ public class CreatePatientDialog extends BaseDialog implements ActionListener {
 			System.out.println(cal);
 			LocalDate dob = LocalDate.of(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH));
 			String phoneNumber = phoneField.getText();
-			Optional<Long> optAddressId = addressField.getAddress().flatMap(Address::getId);
-			if(optAddressId.isPresent()) {
-				long addressId = optAddressId.get();
-				PatientUtils.insertPatient(title, forename, surname, dob, phoneNumber, addressId);
+			Optional<Address> optAddress = addressField.getAddress();
+			if(optAddress.isPresent()) {
+				Patient toCreate = new Patient(title,forename,surname,dob,phoneNumber,optAddress);
+				toCreate.save();
 				setVisible(false);
 			}
 		}

@@ -8,39 +8,54 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class Patient {
+public class Patient implements Saveable {
 
 	private Optional<Long> id;
+	private Optional<Address> address = Optional.empty();
 	private String title;
 	private String forename;
 	private String surname;
-	private String dob;
+	private LocalDate dob;
 	private String phoneNumber;
-	
-	private Address address;
-	
-	//TODO Add creation from db?
-	
-	public Patient(String title, String forename, String surname, String dob, String phoneNumber) {
-		this(Optional.<Long>empty(),title,forename,surname,dob,phoneNumber);
-		//TODO Fetch address
-	}
 
-	public Patient(long id, String title, String forename, String surname, String dob, String phoneNumber) {
-		this(Optional.of(id),title,forename,surname,dob,phoneNumber);
-		this.id = Optional.of(id);
-		//TODO Fetch address
-	}
-
-	public Patient(Optional<Long> id, String title, String forename, String surname, String dob, String phoneNumber) {
+	public Patient(Optional<Long> id,String title, String forename, String surname, LocalDate dob, String phoneNumber, Optional<Address> address) {
+		this.id = id;
 		this.title = title;
 		this.forename = forename;
 		this.surname = surname;
 		this.dob = dob;
 		this.phoneNumber = phoneNumber;
-		this.id = id;
+		this.address = address;
+	}
+
+	public Patient(String title, String forename, String surname, LocalDate dob, String phoneNumber, Optional<Address> address) {
+		this(Optional.empty(),title,forename,surname,dob,phoneNumber,address);
+	}
+
+	public Patient(String title, String forename, String surname, LocalDate dob, String phoneNumber) {
+		this(Optional.<Long>empty(),title,forename,surname,dob,phoneNumber);
 		//TODO Fetch address
 	}
+
+	public Patient(long id, String title, String forename, String surname, LocalDate dob, String phoneNumber) {
+		this(Optional.of(id),title,forename,surname,dob,phoneNumber);
+		//TODO Fetch address
+	}
+
+	public Patient(Optional<Long> id, String title, String forename, String surname, LocalDate dob, String phoneNumber) {
+		this(id,title,forename,surname,dob,phoneNumber,Optional.empty());
+		//TODO Fetch address
+	}
+
+	public Address getAddress() {
+		return address.orElse(null);
+	}
+
+	public void setAddress(Address address) {
+		this.address = Optional.ofNullable(address);
+	}
+//TODO Add creation from db?
+
 
 	public static List<Patient> findByFirstName(String firstName) {
 		return ConnectionManager.withStatement("SELECT * FROM patients WHERE first_name=?",(stmt)->{
@@ -48,7 +63,7 @@ public class Patient {
 			ResultSet res = stmt.executeQuery();
 			List<Patient> patients = new ArrayList<>();
 			while(res.next()){
-				patients.add(new Patient(res.getInt(1),res.getString(2),res.getString(3),res.getString(4), res.getString(5),res.getString(6)));
+				patients.add(new Patient(res.getLong(1),res.getString(2),res.getString(3),res.getString(4),res.getDate(5).toLocalDate(),res.getString(6)));
 			}
 			return patients;
 		});
@@ -60,7 +75,7 @@ public class Patient {
 			ResultSet res = stmt.executeQuery();
 			List<Patient> patients = new ArrayList<>();
 			while(res.next()){
-				patients.add(new Patient(res.getInt(1),res.getString(2),res.getString(3),res.getString(4), res.getString(5),res.getString(6)));
+				patients.add(new Patient(res.getInt(1),res.getString(2),res.getString(3),res.getString(4), res.getDate(5).toLocalDate(),res.getString(6)));
 			}
 			return patients;
 		});
@@ -70,32 +85,32 @@ public class Patient {
 		return ConnectionManager.withStatement("SELECT * FROM patients WHERE id=?",(stmt)-> {
 			stmt.setInt(1, id);
 			ResultSet res = stmt.executeQuery();
-			return new Patient(res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getString(6));
+			return new Patient(res.getString(2), res.getString(3), res.getString(4), res.getDate(5).toLocalDate(), res.getString(6));
 		});
 	}
 
-	public static void updateByID(int id, String title, String forename, String surname, int phone) {
+	@Override
+	public void update() {
 		ConnectionManager.withStatement("UPDATE patients SET title=?, first_name=?, surname=?, phone_number=? WHERE id=?",(stmt)-> {
 			stmt.setString(1, title);
 			stmt.setString(2, forename);
 			stmt.setString(3, surname);
-			stmt.setInt(4, phone);
-			stmt.setInt(5, id);
+			stmt.setString(4, phoneNumber);
+			stmt.setLong(5, id.get());
 			stmt.executeUpdate();
 			return null;
 		});
 	}
 
-
-	public static void insert(String title, String forename, String surname, LocalDate date, String phone, long addressId) {
+	@Override
+	public void insert() {
 		ConnectionManager.withStatement("INSERT INTO patients VALUES (DEFAULT,?,?,?,?,?,?)",(stmt)-> {
-			java.sql.Date dob = java.sql.Date.valueOf(date);
 			stmt.setString(1, title);
 			stmt.setString(2, forename);
 			stmt.setString(3, surname);
-			stmt.setDate(4, dob);
-			stmt.setString(5, phone);
-			stmt.setLong(6, addressId);
+			stmt.setDate(4, java.sql.Date.valueOf(dob));
+			stmt.setString(5, phoneNumber);
+			stmt.setLong(6, address.flatMap(Address::getId).get());
 			stmt.executeUpdate();
 			return null;
 		});
@@ -121,7 +136,7 @@ public class Patient {
 		return surname;
 	}
 
-	public String getDob() {
+	public LocalDate getDob() {
 		return dob;
 	}
 
@@ -131,5 +146,10 @@ public class Patient {
 
 	public long getID() {
 		return id.get();
+	}
+
+	@Override
+	public boolean isInDb() {
+		return id.isPresent();
 	}
 }
