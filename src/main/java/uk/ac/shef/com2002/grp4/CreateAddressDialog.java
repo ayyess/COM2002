@@ -49,7 +49,7 @@ public class CreateAddressDialog extends BaseDialog implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == cancelButton){
-			setVisible(false);
+			dispose();
 		}else if(e.getSource() == createButton){
 			Address address = new Address(Integer.parseInt(houseNumberField.getText()),
 			                              streetField.getText(),
@@ -58,7 +58,7 @@ public class CreateAddressDialog extends BaseDialog implements ActionListener {
 			                              postcodeField.getText());
 			address.save();
 			this.address = Optional.of(address);
-			setVisible(false);
+			dispose();
 		}
 	}
 

@@ -30,7 +30,11 @@ public class Address implements Saveable{
 		this.city = city;
 		this.postcode = postcode;
 	}
-	
+
+	public String formatted() {
+		return houseNumber + " " + street + "\n" + district + "\n" + city + "\n" + postcode;
+	}
+
 	public String toString() {
 		return houseNumber + " " + street + ", " + district + ", " + city + ", " + postcode;
 	}
@@ -100,7 +104,7 @@ public class Address implements Saveable{
 		});
 	}
 
-	public Optional<Long> getId() {
-		return id;
+	public long getId() {
+		return id.orElse(null);
 	}
 }

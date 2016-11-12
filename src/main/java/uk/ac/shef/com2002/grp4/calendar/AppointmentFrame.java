@@ -1,5 +1,6 @@
 package uk.ac.shef.com2002.grp4.calendar;
 
+import uk.ac.shef.com2002.grp4.BaseDialog;
 import uk.ac.shef.com2002.grp4.FindPatientDialog;
 
 import javax.swing.*;
@@ -11,55 +12,35 @@ import java.time.LocalTime;
 import java.time.Duration;
 
 import uk.ac.shef.com2002.grp4.data.Appointment;
+import uk.ac.shef.com2002.grp4.PatientSelector;
 import uk.ac.shef.com2002.grp4.data.Patient;
 
-public class AppointmentFrame extends JDialog {
-	
-	LocalDate date;
-	LocalTime time;
-	JComboBox<String> combo;
-	Patient patient;
-	JTextField patientName;
+public class AppointmentFrame extends BaseDialog {
 
-	public void setPatient(Patient patient) {
-		if (patient == null) {
-			return;
-		}
-		this.patient = patient;
-		patientName.setText(patient.getName());
-		
-	}
-	
-	public AppointmentFrame(JFrame parent, LocalDate date, LocalTime time) {
-		super(parent);
+	private final LocalDate date;
+	private final LocalTime time;
+	private final JComboBox<String> practionerCombo;
+	private final JComboBox<Integer> lengthCombo;
+	private final PatientSelector patientSelector;
+
+	public AppointmentFrame(Component owner, LocalDate date, LocalTime time) {
+		super(owner,"Create Appointment");
 		this.date = date;
 		this.time = time;
-		
-		setLayout(new FlowLayout());
-		setBackground(Color.WHITE);
-	
 
 		String[] items = {"PractionerA", "PractionerB"};
-		combo = new JComboBox<>(items);
-		patientName = new JTextField("");
-		patientName.setPreferredSize(new Dimension(100,100));
-		patientName.setEditable(false);
-		
-		this.add(new JLabel("Practioner"));
-		this.add(combo);
-		this.add(new JLabel("Patient"));
-		this.add(patientName);
-		JButton patient_button = new JButton("Find patient");
-		this.add(patient_button);
-		patient_button.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent ae){
-					FindPatientDialog dialog = new FindPatientDialog(null);
-					setPatient(dialog.patient);
-				}
-			});
+		practionerCombo = new JComboBox<>(items);
+
+		addLabeledInput("Practitioner",practionerCombo);
+
+		patientSelector = new PatientSelector();
+		addLabeledInput("Patient",patientSelector);
+
+		Integer[] lengthItems = {20, 40, 60};
+		lengthCombo = new JComboBox<>(lengthItems);
+		addLabeledInput("Duration",lengthCombo);
 
 	JButton cancel_button = new JButton("Cancel");
-		this.add(cancel_button);
 		cancel_button.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent ae){
                     close();
@@ -72,9 +53,8 @@ public class AppointmentFrame extends JDialog {
                     close();
                 }
             });
-		this.add(save_button);
+		addButtons(cancel_button,save_button);
 		pack();
-		setVisible(true);
 
 	}
 	void close(){
@@ -84,6 +64,6 @@ public class AppointmentFrame extends JDialog {
 	}
 
 	void saveDetails() {
-		new Appointment(date,(String)combo.getSelectedItem(),patient.getID(),time, Duration.ofMinutes(20));
+		AppointmentUtils.insertAppointment(date, (String)practionerCombo.getSelectedItem(), patientSelector.getPatient().map(Patient::getID).get(), time, Duration.ofMinutes(((Integer)lengthCombo.getSelectedItem())));
 	}
 }

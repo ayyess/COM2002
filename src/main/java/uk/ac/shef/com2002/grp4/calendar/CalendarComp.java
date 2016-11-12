@@ -13,6 +13,7 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import uk.ac.shef.com2002.grp4.data.Appointment;
+import uk.ac.shef.com2002.grp4.databases.AppointmentUtils;
 
 public class CalendarComp extends JPanel {
 
@@ -46,8 +47,9 @@ public class CalendarComp extends JPanel {
 			System.out.println("Slot pressed " + e.getSource().getClass() + time);
 			LocalTime localTime = LocalTime.of(0, 0).plusMinutes(time*20);
 			
-			AppointmentFrame f = new AppointmentFrame(null, date, localTime);
+			AppointmentFrame f = new AppointmentFrame(CalendarComp.this, date, localTime);
 			f.setVisible(true);
+			setDate(date); //refresh appointment list
 			System.out.println("here");
 		}
 		
@@ -104,7 +106,7 @@ public class CalendarComp extends JPanel {
 	
 	public CalendarComp(LocalDate date) {
 		super();
-		this.date = date;
+		setDate(date);
 		layout = new GridBagLayout();
 		layout.columnWidths = new int[] {1};
 		layout.rowHeights = new int[((END-START)*60)/DIV];
@@ -128,10 +130,10 @@ public class CalendarComp extends JPanel {
 				int d = 0;
 				c.gridx = 0;
 				do {
-					times[(a.start+d)/DIV] = 1;
+					times[((a.start+d)/DIV)-(START*(60/DIV))] = 1;
 					d += DIV;
 				} while (d < a.duration);
-				c.gridy = (a.start)/DIV;
+				c.gridy = (a.start-START*60)/DIV;
 				c.gridheight = d/DIV;
 				c.weightx = 1.0;
 				c.fill = GridBagConstraints.BOTH;
@@ -153,9 +155,11 @@ public class CalendarComp extends JPanel {
 		}
 	}
 	
-	public void setAppointments(List<Appointment> newAppointments) {
+	public void setDate(LocalDate date) {
+		this.date = date;
+		List<Appointment> appointmentsOnDate = AppointmentUtils.getAppointmentByDate(date);
 		appointments.clear();
-		for (Appointment a : newAppointments) {
+		for (Appointment a : appointmentsOnDate) {
 			appointments.add(new AppointmentComp(a));
 		}
 		showAll();

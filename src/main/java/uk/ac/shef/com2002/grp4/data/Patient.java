@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import uk.ac.shef.com2002.grp4.databases.PatientUtils;
+
+import java.time.LocalDate;
 import java.util.Optional;
 
 public class Patient implements Saveable {
@@ -17,9 +20,25 @@ public class Patient implements Saveable {
 	private String surname;
 	private LocalDate dob;
 	private String phoneNumber;
+	
+	private Address address;
+	
+	//TODO Add creation from db?
+	
+	public Patient(String title, String forename, String surname, LocalDate dob, String phoneNumber) {
+		this(Optional.empty(),title,forename,surname,dob,phoneNumber);
+		//TODO Fetch address
+	}
 
 	public Patient(Optional<Long> id,String title, String forename, String surname, LocalDate dob, String phoneNumber, Optional<Address> address) {
 		this.id = id;
+	public Patient(long id, String title, String forename, String surname, LocalDate dob, String phoneNumber) {
+		this(Optional.of(id),title,forename,surname,dob,phoneNumber);
+		this.id = Optional.of(id);
+		//TODO Fetch address
+	}
+
+	public Patient(Optional<Long> id, String title, String forename, String surname, LocalDate dob, String phoneNumber) {
 		this.title = title;
 		this.forename = forename;
 		this.surname = surname;
@@ -115,7 +134,7 @@ public class Patient implements Saveable {
 			return null;
 		});
 	}
-	
+
 	public String getName() {
 		return title + " " + forename + " " + surname;
 	}

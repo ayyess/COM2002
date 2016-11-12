@@ -36,7 +36,8 @@ public class AppointmentPanel extends JPanel {
 						UtilDateModel source = (UtilDateModel) e.getSource();
 						System.out.println("here");
 						System.out.println(source.getValue());
-						updateAppointmentList(calendar, LocalDate.of(source.getYear(), source.getMonth()+1, source.getDay()));
+						List<Appointment> appointments = AppointmentUtils.getAppointmentByDate(LocalDate.now());
+						calendar.setDate(LocalDate.of(source.getYear(), source.getMonth()+1, source.getDay()));
 					}
 				});
 			int dpiScaling = (int)DPIScaling.get();
@@ -52,7 +53,6 @@ public class AppointmentPanel extends JPanel {
 		{
 			//FIXME Probably not the correct way to connect but it works for now
 			//TODO add date lookup based on selected date in JDatePicker
-			updateAppointmentList(calendar, LocalDate.now());
 			scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 			scroll.getVerticalScrollBar().setUnitIncrement(5);
 			scroll.getViewport().add(calendar);
@@ -60,10 +60,5 @@ public class AppointmentPanel extends JPanel {
 			//p.setPreferredSize(new Dimension(200, 600));
 			this.add(scroll, BorderLayout.CENTER);
 		}
-	}
-	
-	public void updateAppointmentList(CalendarComp calendar, LocalDate date) {
-		List<Appointment> appointments = Appointment.getByDate(date);
-		calendar.setAppointments(appointments);
 	}
 }

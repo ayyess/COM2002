@@ -9,21 +9,16 @@ import javax.swing.*;
 import uk.ac.shef.com2002.grp4.data.Address;
 
 public class FindAddressDialog extends BaseDialog implements ActionListener{
+	private final JTextField postcodeField;
+	private final JList<Address> searchResults;
+	private Optional<Address> address = Optional.empty();
 	private final JButton cancelButton;
 	private final JButton selectButton;
-	private JTextField postcodeField;
-	private JList<Address> searchResults;
-	private Optional<Address> address = Optional.empty();
 
 	public FindAddressDialog(Component owner){
 		super(owner,"Find address");
 
 		Container contentPane = rootPane.getContentPane();
-
-		cancelButton = new JButton("Cancel");
-		cancelButton.addActionListener(this);
-		selectButton = new JButton("Select");
-		selectButton.addActionListener(this);
 
 		postcodeField = new JTextField();
 		postcodeField.addActionListener(this);
@@ -36,6 +31,11 @@ public class FindAddressDialog extends BaseDialog implements ActionListener{
 		contentPane.add(new JScrollPane(searchResults),c);
 
 		nextRow();
+
+		cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(this);
+		selectButton = new JButton("Select");
+		selectButton.addActionListener(this);
 
 		addButtons(cancelButton,selectButton);
 
@@ -52,10 +52,10 @@ public class FindAddressDialog extends BaseDialog implements ActionListener{
 				model.addElement(a);
 			}
 		}else if(e.getSource() == selectButton){
-			address = Optional.of(searchResults.getSelectedValue());
-			setVisible(false);
+			address = Optional.ofNullable(searchResults.getSelectedValue());
+			dispose();
 		}else if(e.getSource() == cancelButton){
-			setVisible(false);
+			dispose();
 		}
 	}
 

@@ -15,12 +15,15 @@ import java.util.Optional;
 public class CreatePatientDialog extends BaseDialog implements ActionListener {
 	private int row = 0;
 	private JButton createButton;
+	private JButton cancelButton;
 	private JTextField titleField;
 	private JTextField forenameField;
 	private JTextField surnameField;
 	private JDatePicker dobField;
 	private JTextField phoneField;
 	private AddressSelector addressField;
+
+	private Optional<Patient> patient = Optional.empty();
 
 	public CreatePatientDialog(Component owner){
 		super(owner,"Create Patient");
@@ -47,14 +50,11 @@ public class CreatePatientDialog extends BaseDialog implements ActionListener {
 		addLabeledInput("Phone number",phoneField);
 		addLabeledInput("Address",addressField);
 
-		GridBagConstraints c = getBaseConstraints();
-
-		c.gridwidth=2;
 		createButton = new JButton("Create");
 		createButton.addActionListener(this);
-		contentPane.add(createButton,c);
-
-		nextRow();
+		cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(this);
+		addButtons(cancelButton,createButton);
 
 		pack();
 	}
@@ -73,12 +73,25 @@ public class CreatePatientDialog extends BaseDialog implements ActionListener {
 			System.out.println(cal);
 			LocalDate dob = LocalDate.of(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH));
 			String phoneNumber = phoneField.getText();
-			Optional<Address> optAddress = addressField.getAddress();
-			if(optAddress.isPresent()) {
-				Patient toCreate = new Patient(title,forename,surname,dob,phoneNumber,optAddress);
-				toCreate.save();
-				setVisible(false);
+			Optional<Long> optAddress = addressField.getAddress();
+
+			if(!optAddress.isPresent()) {
+				JOptionPane.showMessageDialog(this, "You must select an address", "Validation error", JOptionPane.ERROR_MESSAGE);
+				return;
 			}
+
+			Patient patient = new Patient(title,forename,surname,dob,phoneNumber,optAddress);
+			patient.save();
+			this.patient = Optional.of(patient);
+
+			dispose();
+
+		}else if(e.getSource() == cancelButton){
+			dispose();
 		}
+	}
+
+	public Optional<Patient> getPatient() {
+		return patient;
 	}
 }
