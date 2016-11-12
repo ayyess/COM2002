@@ -49,6 +49,7 @@ public class CalendarComp extends JPanel {
 			
 			AppointmentFrame f = new AppointmentFrame(null, date, localTime);
 			f.setVisible(true);
+			setDate(date); //refresh appointment list
 			System.out.println("here");
 		}
 		
