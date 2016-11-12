@@ -44,7 +44,7 @@ public class Address {
 		}
 	}
 
-	public Optional<Long> getId() {
-		return id;
+	public long getId() {
+		return id.orElse(null);
 	}
 }

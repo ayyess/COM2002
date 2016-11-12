@@ -2,6 +2,7 @@ package uk.ac.shef.com2002.grp4;
 
 import org.jdatepicker.JDatePicker;
 import uk.ac.shef.com2002.grp4.data.Address;
+import uk.ac.shef.com2002.grp4.data.Patient;
 import uk.ac.shef.com2002.grp4.databases.PatientUtils;
 
 import javax.swing.*;
@@ -22,6 +23,8 @@ public class CreatePatientDialog extends BaseDialog implements ActionListener {
 	private JDatePicker dobField;
 	private JTextField phoneField;
 	private AddressSelector addressField;
+
+	private Optional<Patient> patient = Optional.empty();
 
 	public CreatePatientDialog(Component owner){
 		super(owner,"Create Patient");
@@ -71,19 +74,25 @@ public class CreatePatientDialog extends BaseDialog implements ActionListener {
 			System.out.println(cal);
 			LocalDate dob = LocalDate.of(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH));
 			String phoneNumber = phoneField.getText();
-			Optional<Long> optAddressId = addressField.getAddress().flatMap(Address::getId);
+			Optional<Long> optAddressId = addressField.getAddress().map(Address::getId);
 
 			if(!optAddressId.isPresent()) {
 				JOptionPane.showMessageDialog(this, "You must select an address", "Validation error", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 
-			long addressId = optAddressId.get();
-			PatientUtils.insertPatient(title, forename, surname, dob, phoneNumber, addressId);
+			Patient patient = new Patient(title,forename,surname,dob,phoneNumber);
+			patient.save();
+			this.patient = Optional.of(patient);
+
 			dispose();
 
 		}else if(e.getSource() == cancelButton){
 			dispose();
 		}
+	}
+
+	public Optional<Patient> getPatient() {
+		return patient;
 	}
 }

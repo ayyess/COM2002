@@ -1,32 +1,35 @@
 package uk.ac.shef.com2002.grp4.data;
 
+import uk.ac.shef.com2002.grp4.databases.PatientUtils;
+
+import java.time.LocalDate;
 import java.util.Optional;
 
 public class Patient {
 
-	private Optional<Integer> id;
+	private Optional<Long> id;
 	private String title;
 	private String forename;
 	private String surname;
-	private String dob;
+	private LocalDate dob;
 	private String phoneNumber;
 	
 	private Address address;
 	
 	//TODO Add creation from db?
 	
-	public Patient(String title, String forename, String surname, String dob, String phoneNumber) {
-		this(Optional.<Integer>empty(),title,forename,surname,dob,phoneNumber);
+	public Patient(String title, String forename, String surname, LocalDate dob, String phoneNumber) {
+		this(Optional.empty(),title,forename,surname,dob,phoneNumber);
 		//TODO Fetch address
 	}
 
-	public Patient(int id, String title, String forename, String surname, String dob, String phoneNumber) {
+	public Patient(long id, String title, String forename, String surname, LocalDate dob, String phoneNumber) {
 		this(Optional.of(id),title,forename,surname,dob,phoneNumber);
 		this.id = Optional.of(id);
 		//TODO Fetch address
 	}
 
-	public Patient(Optional<Integer> id, String title, String forename, String surname, String dob, String phoneNumber) {
+	public Patient(Optional<Long> id, String title, String forename, String surname, LocalDate dob, String phoneNumber) {
 		this.title = title;
 		this.forename = forename;
 		this.surname = surname;
@@ -56,7 +59,7 @@ public class Patient {
 		return surname;
 	}
 
-	public String getDob() {
+	public LocalDate getDob() {
 		return dob;
 	}
 
@@ -64,7 +67,15 @@ public class Patient {
 		return phoneNumber;
 	}
 
-	public int getID() {
+	public long getID() {
 		return id.get();
+	}
+
+	public void save() {
+		if(id.isPresent()){
+			PatientUtils.updatePatientByID(id.get(),title,forename,surname,phoneNumber);
+		}else{
+			id = Optional.of(PatientUtils.insertPatient(title,forename,surname,dob,phoneNumber,address.getId()));
+		}
 	}
 }

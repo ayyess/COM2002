@@ -46,7 +46,7 @@ public class CalendarComp extends JPanel {
 			System.out.println("Slot pressed " + e.getSource().getClass() + time);
 			LocalTime localTime = LocalTime.of(0, 0).plusMinutes(time*20);
 			
-			AppointmentFrame f = new AppointmentFrame(null, date, localTime);
+			AppointmentFrame f = new AppointmentFrame(CalendarComp.this, date, localTime);
 			f.setVisible(true);
 			System.out.println("here");
 		}

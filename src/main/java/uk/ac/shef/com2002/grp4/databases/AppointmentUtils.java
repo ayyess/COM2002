@@ -41,14 +41,14 @@ public class AppointmentUtils {
         });
     }
 
-	public static void insertAppointment(LocalDate date, String practioner, int patient_id, LocalTime start, Duration duration) {
+	public static void insertAppointment(LocalDate date, String practioner, long patient_id, LocalTime start, Duration duration) {
 		java.sql.Date sqlDate = java.sql.Date.valueOf(date);
 		java.sql.Time sqlStartTime = java.sql.Time.valueOf(start);
 
 		ConnectionManager.withStatement("INSERT INTO appointments VALUES (?,?,?,?,?)",(stmt)-> {
             stmt.setDate(1, sqlDate);
             stmt.setString(2, practioner);
-            stmt.setInt(3, patient_id);
+            stmt.setLong(3, patient_id);
             stmt.setTime(4, sqlStartTime);
             stmt.setInt(5, (int)duration.toMinutes());
             stmt.executeUpdate();

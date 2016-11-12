@@ -8,79 +8,66 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import java.awt.GridLayout;
+import java.util.Optional;
 
-class PatientButton extends JButton {
-	public Patient patient;
-	public PatientButton (Patient patient) {
-		super(patient.getName() + " - " + patient.getDob());
-		this.patient = patient;
-	};
-}
+public class FindPatientDialog extends BaseDialog implements ActionListener{
 
-public class FindPatientDialog extends JDialog {
+	private final JTextField nameField;
+	private final JList<Patient> searchResults;
+	private Optional<Patient> patient = Optional.empty();
+	private final JButton cancelButton;
+	private final JButton selectButton;
 
-	JTextField textField = new JTextField("");
+	public FindPatientDialog(Component owner) {
+		super(owner,"Find Patient");
 
-	JScrollPane listScroller;
-	JPanel patientList = new JPanel();
+		Container contentPane = rootPane.getContentPane();
 
-	public FindPatientDialog(JFrame parent) {
-		super(parent);
-		
-		setLayout(new FlowLayout());
-		setBackground(Color.WHITE);
-		
+		nameField = new JTextField();
+		nameField.addActionListener(this);
+		addLabeledInput("First name",nameField);
 
-		textField.setPreferredSize(new Dimension(100,100));
-		this.add(new JLabel("First name"));
-		this.add(textField);
+		searchResults = new JList<>(new DefaultListModel<>());
+		GridBagConstraints c = getBaseConstraints();
+		c.gridwidth = 2;
 
-		JButton search_button = new JButton("Search");
-		search_button.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent ae){
-                    search();
-                }
-            });
-		this.add(search_button);
+		contentPane.add(new JScrollPane(searchResults),c);
 
-		patientList.setLayout(new GridLayout(0,1));
-		listScroller = new JScrollPane(patientList);
-		listScroller.setPreferredSize(new Dimension(500, 500));
-		this.add(listScroller);
-		
+		nextRow();
+
+		cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(this);
+		selectButton = new JButton("Select");
+		selectButton.addActionListener(this);
+
+		addButtons(cancelButton,selectButton);
+
 		pack();
-		setModal(true);
-		setVisible(true);
 
 	}
-	void close(){
-		setModal(true);
-		//getOwner().setEnabled(true);
-		this.dispose();
-	}
-	public Patient patient;
 
 	public void setPatient(Patient p) {
-		patient = p;
+		patient = Optional.ofNullable(p);
 	}
-	
-	void search() {
-		String searchTerm = textField.getText();
-		List<Patient> patients = PatientUtils.fuzzyFindPatientByFirstName(searchTerm);
 
-		patientList.removeAll();
-		for (Patient patient : patients) {
-			JButton patient_button = new PatientButton(patient);
-			patient_button.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent ae){
-						PatientButton button = (PatientButton)ae.getSource();
-						setPatient(button.patient);
-						close();
-					}
-				});
-			patientList.add(patient_button);
-				}
-		pack();
+	@Override
+	public void actionPerformed(ActionEvent e){
+		if(e.getSource() == nameField){
+			List<Patient> patients = PatientUtils.fuzzyFindPatientByFirstName(nameField.getText());
+			DefaultListModel<Patient> model = (DefaultListModel<Patient>) searchResults.getModel();
+			model.clear();
+			for(Patient p : patients){
+				model.addElement(p);
+			}
+		}else if(e.getSource() == selectButton){
+			patient = Optional.ofNullable(searchResults.getSelectedValue());
+			dispose();
+		}else if(e.getSource() == cancelButton){
+			dispose();
+		}
+	}
+
+	public Patient getPatient() {
+		return patient.orElse(null);
 	}
 }
