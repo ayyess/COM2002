@@ -13,6 +13,7 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import uk.ac.shef.com2002.grp4.data.Appointment;
+import uk.ac.shef.com2002.grp4.databases.AppointmentUtils;
 
 public class CalendarComp extends JPanel {
 
@@ -104,7 +105,7 @@ public class CalendarComp extends JPanel {
 	
 	public CalendarComp(LocalDate date) {
 		super();
-		this.date = date;
+		setDate(date);
 		layout = new GridBagLayout();
 		layout.columnWidths = new int[] {1};
 		layout.rowHeights = new int[((END-START)*60)/DIV];
@@ -153,9 +154,11 @@ public class CalendarComp extends JPanel {
 		}
 	}
 	
-	public void setAppointments(List<Appointment> newAppointments) {
+	public void setDate(LocalDate date) {
+		this.date = date;
+		List<Appointment> appointmentsOnDate = AppointmentUtils.getAppointmentByDate(date);
 		appointments.clear();
-		for (Appointment a : newAppointments) {
+		for (Appointment a : appointmentsOnDate) {
 			appointments.add(new AppointmentComp(a));
 		}
 		showAll();
