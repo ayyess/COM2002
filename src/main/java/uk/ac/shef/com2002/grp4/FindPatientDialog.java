@@ -48,9 +48,10 @@ public class FindPatientDialog extends JDialog {
 		listScroller = new JScrollPane(patientList);
 		listScroller.setPreferredSize(new Dimension(500, 500));
 		this.add(listScroller);
-		
+
 		pack();
 		setModal(true);
+		setAlwaysOnTop(true);
 		setVisible(true);
 
 	}

@@ -78,11 +78,11 @@ public class AppointmentFrame extends JDialog {
             });
 		this.add(save_button);
 		pack();
+		setModal(true);
+		setAlwaysOnTop(true);
 		setVisible(true);
-
 	}
 	void close(){
-		setModal(true);
 		//getOwner().setEnabled(true);
 		AppointmentFrame.this.dispose();
 	}
