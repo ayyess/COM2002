@@ -1,19 +1,22 @@
 package uk.ac.shef.com2002.grp4;
 
-import org.jdatepicker.JDatePanel;
-import org.jdatepicker.UtilDateModel;
-import uk.ac.shef.com2002.grp4.calendar.AppointmentComp;
-import uk.ac.shef.com2002.grp4.calendar.CalendarComp;
-import uk.ac.shef.com2002.grp4.data.Appointment;
-import uk.ac.shef.com2002.grp4.databases.AppointmentUtils;
-import uk.ac.shef.com2002.grp4.util.DPIScaling;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.time.LocalDate;
 
-import javax.swing.*;
+import javax.swing.ButtonGroup;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.time.LocalDate;
-import java.util.List;
+
+import org.jdatepicker.JDatePanel;
+import org.jdatepicker.UtilDateModel;
+
+import uk.ac.shef.com2002.grp4.calendar.CalendarView;
+import uk.ac.shef.com2002.grp4.util.DPIScaling;
 
 /**
  * Panel for appointment interaction workflow
@@ -21,46 +24,57 @@ import java.util.List;
  * Created on 28/10/2016.
  */
 public class AppointmentPanel extends JPanel {
-	//TODO searching appointments
-	//TODO creating appointments
-	public AppointmentPanel () {
+
+	// TODO searching appointments
+	// TODO creating appointments
+	public AppointmentPanel() {
 		super(new BorderLayout());
-		UtilDateModel model = new UtilDateModel();
-		//model.setDate(20,04,2014);
-		// Need this...
+
+		JPanel leftPanel = new JPanel();
+		leftPanel.setLayout(new FlowLayout());
+		
 		JScrollPane scroll = new JScrollPane();
-		CalendarComp calendar = new CalendarComp(LocalDate.now());
-		{
+		CalendarView calendar = new CalendarView(LocalDate.now());
+		
+		UtilDateModel model = new UtilDateModel();
+		JDatePanel datePanel = new JDatePanel(model);
 
-			JDatePanel datePanel = new JDatePanel(model);
-			datePanel.getModel().addChangeListener(new ChangeListener() {
-					public void stateChanged(ChangeEvent e) {
-						UtilDateModel source = (UtilDateModel) e.getSource();
-						System.out.println("here");
-						System.out.println(source.getValue());
-						List<Appointment> appointments = AppointmentUtils.getAppointmentByDate(LocalDate.now());
-						calendar.setDate(LocalDate.of(source.getYear(), source.getMonth()+1, source.getDay()));
-					}
-				});
-			int dpiScaling = (int)DPIScaling.get();
-			datePanel.setPreferredSize(new Dimension(200*dpiScaling,180*dpiScaling));
-			datePanel.setSize(new Dimension(200*dpiScaling,180*dpiScaling));
+		ButtonGroup viewButtons = new ButtonGroup();
+		JRadioButton dayView = new JRadioButton("Day");
+		JRadioButton weekView = new JRadioButton("Week");
 
-			JPanel datePanelContainer = new JPanel(new BorderLayout());
-			datePanelContainer.add(datePanel, BorderLayout.NORTH);
-			this.add(datePanelContainer ,BorderLayout.LINE_START);
-		}
-		//this.add(new JLabel ("Hello") ,BorderLayout.LINE_END);
+		dayView.addActionListener((e) -> {
+			calendar.setView(dayView.isSelected());
+		});
+		weekView.setSelected(true);
+		weekView.addActionListener((e) -> {
+			calendar.setView(dayView.isSelected());
+		});
+		
+		viewButtons.add(dayView);
+		viewButtons.add(weekView);
 
-		{
-			//FIXME Probably not the correct way to connect but it works for now
-			//TODO add date lookup based on selected date in JDatePicker
-			scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-			scroll.getVerticalScrollBar().setUnitIncrement(5);
-			scroll.getViewport().add(calendar);
+		leftPanel.add(dayView, BorderLayout.LINE_START);
+		leftPanel.add(weekView, BorderLayout.LINE_START);
 
-			//p.setPreferredSize(new Dimension(200, 600));
-			this.add(scroll, BorderLayout.CENTER);
-		}
+		datePanel.getModel().addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				UtilDateModel source = (UtilDateModel) e.getSource();
+				calendar.setDate(LocalDate.of(source.getYear(), source.getMonth() + 1, source.getDay()));
+			}
+		});
+		int dpiScaling = (int) DPIScaling.get();
+		datePanel.setPreferredSize(new Dimension(200 * dpiScaling, 180 * dpiScaling));
+		datePanel.setSize(new Dimension(200 * dpiScaling, 180 * dpiScaling));
+
+		JPanel datePanelContainer = new JPanel(new BorderLayout());
+		datePanelContainer.add(datePanel, BorderLayout.NORTH);
+		leftPanel.add(datePanelContainer);
+		this.add(leftPanel, BorderLayout.LINE_START);
+
+		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scroll.getVerticalScrollBar().setUnitIncrement(5);
+		scroll.getViewport().add(calendar);
+		this.add(scroll, BorderLayout.CENTER);
 	}
 }

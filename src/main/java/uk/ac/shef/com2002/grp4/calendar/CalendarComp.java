@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import uk.ac.shef.com2002.grp4.data.Appointment;
 import uk.ac.shef.com2002.grp4.databases.AppointmentUtils;
