@@ -36,7 +36,7 @@ public class AppointmentPanel extends JPanel {
 						UtilDateModel source = (UtilDateModel) e.getSource();
 						System.out.println("here");
 						System.out.println(source.getValue());
-						List<Appointment> appointments = AppointmentUtils.getAppointmentByDate(LocalDate.now());
+						List<Appointment> appointments = Appointment.getByDate(LocalDate.now());
 						calendar.setDate(LocalDate.of(source.getYear(), source.getMonth()+1, source.getDay()));
 					}
 				});

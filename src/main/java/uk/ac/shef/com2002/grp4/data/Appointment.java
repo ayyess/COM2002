@@ -6,11 +6,10 @@ import java.sql.ResultSet;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Appointment {
+public class Appointment{
 
 	private long patientId;
 	private LocalDate date;
@@ -36,7 +35,8 @@ public class Appointment {
 			stmt.setInt(1,patientId);
 			ResultSet res = stmt.executeQuery();
 			while(res.next()){
-				appointments.add(new Appointment(res.getDate(1).toLocalDate(), res.getString(2), res.getLong(3), res.getTime(4).toLocalTime(),res.getInt(5)));
+				Appointment appointment = new Appointment(res.getDate(1).toLocalDate(), res.getString(2), res.getLong(3), res.getTime(4).toLocalTime(),res.getInt(5));
+				appointments.add(appointment);
 			}
 			return appointments;
 		});
@@ -49,11 +49,13 @@ public class Appointment {
 			stmt.setDate(1, sqlDate);
 			ResultSet res = stmt.executeQuery();
 			while (res.next()) {
-				appointments.add(new Appointment(res.getDate(1).toLocalDate(), res.getString(2), res.getLong(3), res.getTime(4).toLocalTime(),res.getInt(5)));
+				Appointment appointment = new Appointment(res.getDate(1).toLocalDate(), res.getString(2), res.getLong(3), res.getTime(4).toLocalTime(),res.getInt(5));
+				appointments.add(appointment);
 			}
 			return appointments;
 		});
 	}
+
 
 	public void insert() {
 		java.sql.Date sqlDate = java.sql.Date.valueOf(date);
@@ -89,4 +91,5 @@ public class Appointment {
 	public long getDuration() {
 		return duration;
 	}
+
 }
