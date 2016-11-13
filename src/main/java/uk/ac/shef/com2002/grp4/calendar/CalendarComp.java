@@ -1,5 +1,6 @@
 package uk.ac.shef.com2002.grp4.calendar;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
@@ -10,8 +11,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import uk.ac.shef.com2002.grp4.data.Appointment;
 import uk.ac.shef.com2002.grp4.databases.AppointmentUtils;
@@ -26,6 +27,9 @@ public class CalendarComp extends JPanel {
 	final static int SLOT_SIZE = 30;
 	final static int START = 9;
 	final static int END = 17;
+
+	private static final Color DENTIST_COLOUR = new Color(255, 0, 0);
+	private static final Color HYGIENIST_COLOUR = new Color(0, 0, 255);
 	
 	ArrayList<AppointmentComp> appointments = new ArrayList<AppointmentComp>();
 	
@@ -38,26 +42,22 @@ public class CalendarComp extends JPanel {
 		@Override
 		public void onRelease(MouseEvent e) {
 			int time = ((EmptyAppointment)e.getSource()).getTime();
-			System.out.println("Slot released " + e.getSource().getClass() + time);
 
 		}
 		
 		@Override
 		public void onPressed(MouseEvent e) {
 			int time = ((EmptyAppointment)e.getSource()).getTime();
-			System.out.println("Slot pressed " + e.getSource().getClass() + time);
 			LocalTime localTime = LocalTime.of(0, 0).plusMinutes(time*20);
 			
 			AppointmentFrame f = new AppointmentFrame(CalendarComp.this, date, localTime);
 			f.setVisible(true);
 			setDate(date); //refresh appointment list
-			System.out.println("here");
 		}
 		
 		@Override
 		public void onClick(MouseEvent e) {
 			int time = ((EmptyAppointment)e.getSource()).getTime();
-			System.out.println("Slot click " + e.getSource().getClass() + time);
 		}
 	}; 
 	
@@ -66,17 +66,15 @@ public class CalendarComp extends JPanel {
 		
 		@Override
 		public void onRelease(MouseEvent e) {
-			System.out.println("Appointment released " + e.getSource().getClass());
+			//Show details about the appointment maybe?
 		}
 		
 		@Override
 		public void onPressed(MouseEvent e) {
-			System.out.println("Appointment pressed " + e.getSource().getClass());
 		}
 		
 		@Override
 		public void onClick(MouseEvent e) {
-			System.out.println("Appointment click " + e.getSource().getClass());
 		}
 	}; 
 	
@@ -109,7 +107,7 @@ public class CalendarComp extends JPanel {
 		super();
 		setDate(date);
 		layout = new GridBagLayout();
-		layout.columnWidths = new int[] {1};
+		layout.columnWidths = new int[] {1, 1};
 		layout.rowHeights = new int[((END-START)*60)/DIV];
 		//set all slot sizes to SLOT_SIZE, later we just choose how many of these slots to use with gridheight
 		Arrays.fill(layout.rowHeights,SLOT_SIZE);
@@ -123,18 +121,25 @@ public class CalendarComp extends JPanel {
 		
 	public void showAll() {
 		removeAll();
-		int[] times = new int[((END-START)*60)/DIV];
+		addHeaders();
+		int[][] times = new int[2][((END-START)*60)/DIV];
 		for (AppointmentComp a : appointments) {
+			Practitioner p = Practitioner.valueOf(a.getAppointment().getPractitioner().toUpperCase());
 			if (a.start >= START) {
 				a.addMouseListener(appointmentAdapter);
+				if (p == Practitioner.DENTIST) {
+					a.setBackground(DENTIST_COLOUR);
+				} else {
+					a.setBackground(HYGIENIST_COLOUR);
+				}
 				GridBagConstraints c = new GridBagConstraints();
 				int d = 0;
-				c.gridx = 0;
+				c.gridx = p.ordinal();
 				do {
-					times[((a.start+d)/DIV)-(START*(60/DIV))] = 1;
+					times[p.ordinal()][((a.start+d)/DIV)-(START*(60/DIV))] = 1;
 					d += DIV;
 				} while (d < a.duration);
-				c.gridy = (a.start-START*60)/DIV;
+				c.gridy = 1+(a.start-START*60)/DIV;
 				c.gridheight = d/DIV;
 				c.weightx = 1.0;
 				c.fill = GridBagConstraints.BOTH;
@@ -142,18 +147,37 @@ public class CalendarComp extends JPanel {
 			}
 		}
 		for (int i = 0; i < times.length; i++) {
-			if (times[i] == 0) {
-				GridBagConstraints c = new GridBagConstraints();
-				c.gridx = 0;
-				times[i] = 1;
-				c.gridy = i;
-				c.weightx = 1.0;
-				c.fill = GridBagConstraints.BOTH;
-				EmptyAppointment gap = new EmptyAppointment(i+START*(60/DIV));
-				gap.addMouseListener(slotAdapter);
-				add(gap, c);
+			for (int t = 0; t < times[0].length; t++) {
+				if (times[i][t] == 0) {
+					GridBagConstraints c = new GridBagConstraints();
+					c.gridx = i;
+					times[i][t] = 1;
+					c.gridy = 1+t;
+					c.weightx = 1.0;
+					c.fill = GridBagConstraints.BOTH;
+					EmptyAppointment gap = new EmptyAppointment(t+START*(60/DIV));
+					gap.addMouseListener(slotAdapter);
+					add(gap, c);
+				}
 			}
 		}
+	}
+	
+	private void addHeaders() {
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = c.BOTH;
+		c.gridx = 0;
+		c.gridy = 0;
+		JLabel d = new JLabel("Dentist");
+		d.setOpaque(true);
+		d.setBackground(DENTIST_COLOUR);
+		add(d, c);
+		
+		c.gridx = 1;
+		JLabel h = new JLabel("Hygienist");
+		h.setOpaque(true);
+		h.setBackground(HYGIENIST_COLOUR);
+		add(h, c);
 	}
 	
 	public void setDate(LocalDate date) {
@@ -196,4 +220,8 @@ public class CalendarComp extends JPanel {
 		}
 	}
 	
+}
+
+enum Practitioner {
+	DENTIST, HYGIENIST;
 }

@@ -28,7 +28,7 @@ public class AppointmentFrame extends BaseDialog {
 		this.date = date;
 		this.time = time;
 
-		String[] items = {"PractionerA", "PractionerB"};
+		String[] items = {"Dentist", "Hygienist"};
 		practionerCombo = new JComboBox<>(items);
 
 		addLabeledInput("Practitioner",practionerCombo);

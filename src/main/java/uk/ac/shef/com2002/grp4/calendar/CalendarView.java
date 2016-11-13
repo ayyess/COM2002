@@ -42,6 +42,7 @@ public class CalendarView extends JPanel {
 			calendars[0] = new CalendarComp(startDate);
 			constraints.gridx = 0;
 			constraints.gridwidth = 7;
+			constraints.fill = GridBagConstraints.BOTH;
 			this.add(calendars[0], constraints);
 		} else {
 			for (int i = 0; i < calendars.length; i++) {
@@ -49,6 +50,7 @@ public class CalendarView extends JPanel {
 				CalendarComp c = new CalendarComp(startDate.plusDays(i));
 				calendars[i] = c;
 				constraints.gridx = i;
+				constraints.fill = GridBagConstraints.BOTH;
 				this.add(c, constraints);
 			}
 		}
