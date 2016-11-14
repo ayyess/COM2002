@@ -31,14 +31,14 @@ public class AppointmentCreationFrame extends BaseDialog {
 		String[] items = {"Dentist", "Hygienist"};
 		practionerCombo = new JComboBox<>(items);
 
-		addLabeledInput("Practitioner",practionerCombo);
+		addLabeledComponent("Practitioner",practionerCombo);
 
 		patientSelector = new PatientSelector();
-		addLabeledInput("Patient",patientSelector);
+		addLabeledComponent("Patient",patientSelector);
 
 		Integer[] lengthItems = {20, 40, 60};
 		lengthCombo = new JComboBox<>(lengthItems);
-		addLabeledInput("Duration",lengthCombo);
+		addLabeledComponent("Duration",lengthCombo);
 
 	JButton cancel_button = new JButton("Cancel");
 		cancel_button.addActionListener(new ActionListener() {

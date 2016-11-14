@@ -44,12 +44,12 @@ public class CreatePatientDialog extends BaseDialog implements ActionListener {
 			}
 		});
 		addressField = new AddressSelector();
-		addLabeledInput("Title",titleField);
-		addLabeledInput("Forename",forenameField);
-		addLabeledInput("Surname",surnameField);
-		addLabeledInput("DoB",dobField);
-		addLabeledInput("Phone number",phoneField);
-		addLabeledInput("Address",addressField);
+		addLabeledComponent("Title",titleField);
+		addLabeledComponent("Forename",forenameField);
+		addLabeledComponent("Surname",surnameField);
+		addLabeledComponent("DoB",dobField);
+		addLabeledComponent("Phone number",phoneField);
+		addLabeledComponent("Address",addressField);
 
 		createButton = new JButton("Create");
 		createButton.addActionListener(this);

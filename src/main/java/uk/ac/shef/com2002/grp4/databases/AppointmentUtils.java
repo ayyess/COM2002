@@ -22,7 +22,7 @@ public class AppointmentUtils {
             stmt.setInt(1,id);
             ResultSet res = stmt.executeQuery();
             while(res.next()){
-                appointments.add(new Appointment(res.getDate(1).toLocalDate(), res.getTime(4).toLocalTime(),res.getInt(5), res.getString(2)));
+                appointments.add(new Appointment(res.getDate(1).toLocalDate(), res.getTime(4).toLocalTime(),res.getInt(5), res.getString(2), res.getLong(3)));
             }
             return appointments;
         });
@@ -35,7 +35,7 @@ public class AppointmentUtils {
             stmt.setDate(1, sqlDate);
             ResultSet res = stmt.executeQuery();
             while (res.next()) {
-                appointments.add(new Appointment(res.getDate(1).toLocalDate(), res.getTime(4).toLocalTime(),res.getInt(5), res.getString(2)));
+                appointments.add(new Appointment(res.getDate(1).toLocalDate(), res.getTime(4).toLocalTime(),res.getInt(5), res.getString(2), res.getLong(3)));
             }
             return appointments;
         });
@@ -56,5 +56,16 @@ public class AppointmentUtils {
         });
     }
 
+	public static void deleteAppointment(Appointment appointment) {
+		java.sql.Date sqlDate = java.sql.Date.valueOf(appointment.getDate());
+		java.sql.Time sqlStartTime = java.sql.Time.valueOf(appointment.getStart());
+		ConnectionManager.withStatement("DELETE FROM appointments WHERE date=? AND practitioner=? AND start=?",(stmt)-> {
+				stmt.setDate(1, sqlDate);
+				stmt.setString(2, appointment.getPractitioner());
+				stmt.setTime(3, sqlStartTime);
+				stmt.executeUpdate();
+			return null;
+		});
+	}
     
 }

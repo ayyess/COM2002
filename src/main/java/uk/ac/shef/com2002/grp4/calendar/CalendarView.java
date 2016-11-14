@@ -28,6 +28,7 @@ public class CalendarView extends JPanel {
 	public void setView(boolean day) {
 		this.day = day;
 		createCalendars();
+		
 	}
 	
 	public void createCalendars() {

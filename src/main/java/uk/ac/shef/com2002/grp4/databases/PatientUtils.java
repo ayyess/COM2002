@@ -41,7 +41,11 @@ public class PatientUtils {
 		return ConnectionManager.withStatement("SELECT * FROM patients WHERE id=?",(stmt)-> {
 			stmt.setLong(1, id);
 			ResultSet res = stmt.executeQuery();
-			return new Patient(res.getString(2), res.getString(3), res.getString(4), res.getDate(5).toLocalDate(), res.getString(6));
+			if (res.next()) {
+				return new Patient(res.getString(2), res.getString(3), res.getString(4), res.getDate(5).toLocalDate(), res.getString(6));
+			} else {
+				return null;
+			}
 		});
 	}
 
