@@ -27,8 +27,8 @@ public class CalendarView extends JPanel {
 	
 	JTabbedPane tabbedPane = new JTabbedPane();
 	
-	JPanel dentistPanel = new JPanel();
-	JPanel hygienstPanel = new JPanel();
+	JPanel dentistPanel = new JPanel(new GridBagLayout());
+	JPanel hygienstPanel = new JPanel(new GridBagLayout());
 	
 	public CalendarView(LocalDate startDate) {
 		this.startDate = startDate;
@@ -70,6 +70,7 @@ public class CalendarView extends JPanel {
 				GridBagConstraints constraints = new GridBagConstraints();
 				CalendarComp c = new CalendarComp(date.plusDays(i), p);
 				calendars[i] = c;
+				constraints.gridheight = 1;
 				constraints.gridx = i;
 				constraints.fill = GridBagConstraints.BOTH;
 				panel.add(c, constraints);

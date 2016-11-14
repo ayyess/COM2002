@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 
 import uk.ac.shef.com2002.grp4.data.Appointment;
 import uk.ac.shef.com2002.grp4.databases.AppointmentUtils;
+import uk.ac.shef.com2002.grp4.util.DPIScaling;
 
 public class CalendarComp extends JPanel {
 
@@ -116,7 +117,7 @@ public class CalendarComp extends JPanel {
 		layout.columnWidths = new int[] {1, 1};
 		layout.rowHeights = new int[((END-START)*60)/DIV];
 		//set all slot sizes to SLOT_SIZE, later we just choose how many of these slots to use with gridheight
-		Arrays.fill(layout.rowHeights,SLOT_SIZE);
+		Arrays.fill(layout.rowHeights, (int) (SLOT_SIZE*DPIScaling.get()));
 		setLayout(layout);
 		
 		addAppointmentClickListener(calApointClick);
