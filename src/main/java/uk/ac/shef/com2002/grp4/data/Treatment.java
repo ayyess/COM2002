@@ -20,4 +20,8 @@ public class Treatment {
 		this.type = type;
 	}
 	
+	public int getCost() {
+		return cost;
+	}
+	
 }
