@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.time.LocalDate;
 
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -31,7 +32,7 @@ public class AppointmentPanel extends JPanel {
 		super(new BorderLayout());
 
 		JPanel leftPanel = new JPanel();
-		leftPanel.setLayout(new FlowLayout());
+		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 		
 		JScrollPane scroll = new JScrollPane();
 		CalendarView calendar = new CalendarView(LocalDate.now());
@@ -50,12 +51,8 @@ public class AppointmentPanel extends JPanel {
 		weekView.addActionListener((e) -> {
 			calendar.setView(dayView.isSelected());
 		});
-		
 		viewButtons.add(dayView);
 		viewButtons.add(weekView);
-
-		leftPanel.add(dayView, BorderLayout.LINE_START);
-		leftPanel.add(weekView, BorderLayout.LINE_START);
 
 		datePanel.getModel().addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
@@ -70,6 +67,8 @@ public class AppointmentPanel extends JPanel {
 		JPanel datePanelContainer = new JPanel(new BorderLayout());
 		datePanelContainer.add(datePanel, BorderLayout.NORTH);
 		leftPanel.add(datePanelContainer);
+		leftPanel.add(dayView, BorderLayout.LINE_START);
+		leftPanel.add(weekView, BorderLayout.LINE_START);
 		this.add(leftPanel, BorderLayout.LINE_START);
 
 		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);

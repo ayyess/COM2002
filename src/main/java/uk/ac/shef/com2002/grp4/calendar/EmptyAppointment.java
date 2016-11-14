@@ -18,7 +18,7 @@ public class EmptyAppointment extends JPanel {
 		setBackground(Color.WHITE);
 		
 		LocalTime t = LocalTime.of(0,0).plusMinutes(time * 20);
-		add(new JLabel(time + " " + t.toString()));
+		add(new JLabel(t.toString()));
 	}
 	
 	public int getTime() {

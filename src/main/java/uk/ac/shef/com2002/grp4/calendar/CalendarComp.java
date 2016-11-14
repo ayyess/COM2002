@@ -36,16 +36,11 @@ public class CalendarComp extends JPanel {
 	ArrayList<CalendarClickListener> appointmentListeners = new ArrayList<CalendarClickListener>();
 	ArrayList<CalendarClickListener> slotListeners = new ArrayList<CalendarClickListener>();
 	
-	/** TODO Remove... This is an example for a empty slot listener */
 	private CalendarClickListener calSlotClick = new CalendarClickListener() {
 		
-		@Override
-		public void onRelease(MouseEvent e) {
-			int time = ((EmptyAppointment)e.getSource()).getTime();
-
-		}
+		public void onRelease(MouseEvent e) {}
+		public void onClick(MouseEvent e) {}
 		
-		@Override
 		public void onPressed(MouseEvent e) {
 			int time = ((EmptyAppointment)e.getSource()).getTime();
 			LocalTime localTime = LocalTime.of(0, 0).plusMinutes(time*20);
@@ -55,50 +50,39 @@ public class CalendarComp extends JPanel {
 			setDate(date); //refresh appointment list
 		}
 		
-		@Override
-		public void onClick(MouseEvent e) {
-			int time = ((EmptyAppointment)e.getSource()).getTime();
-		}
 	}; 
 	
-	/** TODO Remove... This is an example for an appointment listener */
 	private CalendarClickListener calApointClick = new CalendarClickListener() {
-		
-		@Override
+
 		public void onRelease(MouseEvent e) {
 			//Show details about the appointment maybe?
 		}
 		
-		@Override
-		public void onPressed(MouseEvent e) {
-		}
-		
-		@Override
-		public void onClick(MouseEvent e) {
-		}
+		public void onPressed(MouseEvent e) {}
+		public void onClick(MouseEvent e) {}
 	}; 
 	
 	private MouseAdapter appointmentAdapter = new MouseAdapter() {
 		public void mouseClicked(MouseEvent e) {
-			notifyAppointmentListener(e);
+			notifyAppointmentListeners(e);
 		}
 		public void mousePressed(MouseEvent e) {
-			notifyAppointmentListener(e);
+			notifyAppointmentListeners(e);
 		}
 		public void mouseReleased(MouseEvent e) {
-			notifyAppointmentListener(e);
+			notifyAppointmentListeners(e);
 		}
 	};
 	
 	private MouseAdapter slotAdapter = new MouseAdapter() {
 		public void mouseClicked(MouseEvent e) {
-			notifySlotListener(e);
+			notifySlotListeners(e);
 		}
 		public void mousePressed(MouseEvent e) {
-			notifySlotListener(e);
+			notifySlotListeners(e);
 		}
 		public void mouseReleased(MouseEvent e) {
-			notifySlotListener(e);
+			notifySlotListeners(e);
 		}
 	};
 	
@@ -163,6 +147,10 @@ public class CalendarComp extends JPanel {
 		}
 	}
 	
+	/***
+	 * Adds creates two headers for this calendar.
+	 * Headers are Dentist | Hygienist
+	 */
 	private void addHeaders() {
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = c.BOTH;
@@ -180,6 +168,11 @@ public class CalendarComp extends JPanel {
 		add(h, c);
 	}
 	
+	/***
+	 * Changes the date for this calender and fetches the new appointment information
+	 * 
+	 * @param date
+	 */
 	public void setDate(LocalDate date) {
 		this.date = date;
 		List<Appointment> appointmentsOnDate = AppointmentUtils.getAppointmentByDate(date);
@@ -208,13 +201,13 @@ public class CalendarComp extends JPanel {
 		appointmentListeners.add(l);
 	}
 	
-	public void notifyAppointmentListener(MouseEvent e) {
+	public void notifyAppointmentListeners(MouseEvent e) {
 		for (CalendarClickListener l : appointmentListeners) {
 			l.notify(e);
 		}
 	}
 
-	public void notifySlotListener(MouseEvent e) {
+	public void notifySlotListeners(MouseEvent e) {
 		for (CalendarClickListener l : slotListeners) {
 			l.notify(e);
 		}

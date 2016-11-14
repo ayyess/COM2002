@@ -4,7 +4,6 @@ import uk.ac.shef.com2002.grp4.data.Appointment;
 
 import javax.swing.*;
 import java.awt.*;
-import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 
 public class AppointmentComp extends JComponent {
@@ -24,9 +23,8 @@ public class AppointmentComp extends JComponent {
 		setOpaque(true);
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		
-		add(new JLabel("S"+appointment.getStart().toString()));
-		add(new JLabel("D"+duration));
-		add(new JLabel("E"+appointment.getEnd().toString()));
+		add(new JLabel(appointment.getStart().toString()));
+		add(new JLabel(""+duration));
 	}
 	
 	public Appointment getAppointment() {
