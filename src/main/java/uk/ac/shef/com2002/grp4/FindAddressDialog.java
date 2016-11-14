@@ -32,7 +32,7 @@ public class FindAddressDialog extends BaseDialog implements ActionListener{
 
 		postcodeField = new JTextField();
 		postcodeField.addActionListener(this);
-		addLabeledInput("Postcode",postcodeField);
+		addLabeledComponent("Postcode",postcodeField);
 
 		searchResults = new JList<>(new DefaultListModel<>());
 		GridBagConstraints c = getBaseConstraints();

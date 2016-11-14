@@ -45,11 +45,11 @@ public class CreateAddressDialog extends BaseDialog implements ActionListener {
 		districtField = new JTextField(20);
 		cityField = new JTextField(20);
 		postcodeField = new JTextField(20);
-		addLabeledInput("House Number",houseNumberField);
-		addLabeledInput("Street",streetField);
-		addLabeledInput("District",districtField);
-		addLabeledInput("City",cityField);
-		addLabeledInput("Postcode",postcodeField);
+		addLabeledComponent("House Number",houseNumberField);
+		addLabeledComponent("Street",streetField);
+		addLabeledComponent("District",districtField);
+		addLabeledComponent("City",cityField);
+		addLabeledComponent("Postcode",postcodeField);
 
 		addButtons(cancelButton,createButton);
 

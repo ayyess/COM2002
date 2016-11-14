@@ -32,7 +32,7 @@ abstract public class BaseDialog extends JDialog {
 		c.gridy = row;
 		return c;
 	}
-	protected void addLabeledInput(String label,JComponent input){
+	protected void addLabeledComponent(String label,JComponent input){
 		Container contentPane = rootPane.getContentPane();
 		GridBagConstraints c = getBaseConstraints();
 
@@ -44,6 +44,7 @@ abstract public class BaseDialog extends JDialog {
 
 		nextRow();
 	}
+
 	protected void addButtons(JButton... buttons) {
 		Container contentPane = rootPane.getContentPane();
 		GridBagConstraints c = getBaseConstraints();

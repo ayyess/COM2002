@@ -21,47 +21,39 @@ import java.time.Duration;
 
 import uk.ac.shef.com2002.grp4.PatientSelector;
 import uk.ac.shef.com2002.grp4.databases.AppointmentUtils;
+import uk.ac.shef.com2002.grp4.databases.PatientUtils;;
 import uk.ac.shef.com2002.grp4.data.Patient;
+import uk.ac.shef.com2002.grp4.data.Appointment;
+
 
 public class AppointmentFrame extends BaseDialog {
 
-	private final LocalDate date;
-	private final LocalTime time;
-	private final JComboBox<String> practionerCombo;
-	private final JComboBox<Integer> lengthCombo;
-	private final PatientSelector patientSelector;
+	private final Appointment appointment;
 
-	public AppointmentFrame(Component owner, LocalDate date, LocalTime time) {
-		super(owner,"Create Appointment");
-		this.date = date;
-		this.time = time;
+	public AppointmentFrame(Component owner, Appointment appointment) {
+		super(owner,"View Appointment");
+		this.appointment = appointment;
 
-		String[] items = {"Dentist", "Hygienist"};
-		practionerCombo = new JComboBox<>(items);
+		Patient patient = PatientUtils.getPatientByID(appointment.getPatientId());
 
-		addLabeledInput("Practitioner",practionerCombo);
+		addLabeledComponent("Practitioner", new JLabel(appointment.getPractitioner()));
+		addLabeledComponent("Patient", new JLabel(patient.getName()));
+		addLabeledComponent("Duration", new JLabel(Integer.toString(appointment.getDuration()) + " minutes"));
 
-		patientSelector = new PatientSelector();
-		addLabeledInput("Patient",patientSelector);
-
-		Integer[] lengthItems = {20, 40, 60};
-		lengthCombo = new JComboBox<>(lengthItems);
-		addLabeledInput("Duration",lengthCombo);
-
-	JButton cancel_button = new JButton("Cancel");
-		cancel_button.addActionListener(new ActionListener() {
+		JButton delete_button = new JButton("Delete");
+		delete_button.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent ae){
+                    delete();
+					close();
+                }
+            });
+		JButton close_button = new JButton("Close");
+		close_button.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent ae){
                     close();
                 }
             });
-		JButton save_button = new JButton("Save");
-		save_button.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent ae){
-					saveDetails();
-                    close();
-                }
-            });
-		addButtons(cancel_button,save_button);
+		addButtons(delete_button, close_button);
 		pack();
 
 	}
@@ -71,7 +63,7 @@ public class AppointmentFrame extends BaseDialog {
 		AppointmentFrame.this.dispose();
 	}
 
-	void saveDetails() {
-		AppointmentUtils.insertAppointment(date, (String)practionerCombo.getSelectedItem(), patientSelector.getPatient().map(Patient::getID).get(), time, Duration.ofMinutes(((Integer)lengthCombo.getSelectedItem())));
+	void delete() {
+		AppointmentUtils.deleteAppointment(appointment);
 	}
 }
