@@ -47,20 +47,6 @@ public class AppointmentPanel extends JPanel {
 		UtilDateModel model = new UtilDateModel();
 		JDatePanel datePanel = new JDatePanel(model);
 
-		ButtonGroup viewButtons = new ButtonGroup();
-		JRadioButton dayView = new JRadioButton("Day");
-		JRadioButton weekView = new JRadioButton("Week");
-
-		dayView.addActionListener((e) -> {
-			calendar.setView(dayView.isSelected());
-		});
-		weekView.setSelected(true);
-		weekView.addActionListener((e) -> {
-			calendar.setView(dayView.isSelected());
-		});
-		viewButtons.add(dayView);
-		viewButtons.add(weekView);
-
 		datePanel.getModel().addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				UtilDateModel source = (UtilDateModel) e.getSource();
@@ -74,8 +60,6 @@ public class AppointmentPanel extends JPanel {
 		JPanel datePanelContainer = new JPanel(new BorderLayout());
 		datePanelContainer.add(datePanel, BorderLayout.NORTH);
 		leftPanel.add(datePanelContainer);
-		leftPanel.add(dayView, BorderLayout.LINE_START);
-		leftPanel.add(weekView, BorderLayout.LINE_START);
 		this.add(leftPanel, BorderLayout.LINE_START);
 
 		this.add(calendar, BorderLayout.CENTER);

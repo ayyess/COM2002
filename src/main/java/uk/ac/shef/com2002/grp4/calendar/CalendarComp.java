@@ -56,7 +56,7 @@ public class CalendarComp extends JPanel {
 			int time = ((EmptyAppointment)e.getSource()).getTime();
 			LocalTime localTime = LocalTime.of(0, 0).plusMinutes(time*20);
 			
-			AppointmentCreationFrame f = new AppointmentCreationFrame(CalendarComp.this, date, localTime);
+			AppointmentCreationFrame f = new AppointmentCreationFrame(CalendarComp.this, date, localTime, practitioner);
 			f.setVisible(true);
 			setDate(date); //refresh appointment list
 		}
@@ -201,8 +201,9 @@ public class CalendarComp extends JPanel {
 		List<Appointment> appointmentsOnDate = AppointmentUtils.getAppointmentByDate(date);
 		appointments.clear();
 		for (Appointment a : appointmentsOnDate) {
-			AppointmentComp appointment = new AppointmentComp(a);
-			appointments.add(appointment);
+			if (a.getPractitioner().toUpperCase().equals(practitioner.toString())) {
+				appointments.add(new AppointmentComp(a));
+			}
 		}
 		showAll();
 	}

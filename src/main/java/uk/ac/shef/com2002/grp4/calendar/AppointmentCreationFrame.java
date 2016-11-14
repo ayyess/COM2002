@@ -27,19 +27,20 @@ public class AppointmentCreationFrame extends BaseDialog {
 
 	private final LocalDate date;
 	private final LocalTime time;
-	private final JComboBox<String> practionerCombo;
+	private final JComboBox<String> practitionerCombo;
 	private final JComboBox<Integer> lengthCombo;
 	private final PatientSelector patientSelector;
 
-	public AppointmentCreationFrame(Component owner, LocalDate date, LocalTime time) {
+	public AppointmentCreationFrame(Component owner, LocalDate date, LocalTime time, Practitioner practitioner) {
 		super(owner,"Create Appointment");
 		this.date = date;
 		this.time = time;
 
 		String[] items = {"Dentist", "Hygienist"};
-		practionerCombo = new JComboBox<>(items);
-
-		addLabeledComponent("Practitioner",practionerCombo);
+		practitionerCombo = new JComboBox<>(items);
+		practitionerCombo.setSelectedIndex(practitioner.ordinal());
+		
+		addLabeledComponent("Practitioner",practitionerCombo);
 
 		patientSelector = new PatientSelector();
 		addLabeledComponent("Patient",patientSelector);
@@ -72,6 +73,6 @@ public class AppointmentCreationFrame extends BaseDialog {
 	}
 
 	void saveDetails() {
-		AppointmentUtils.insertAppointment(date, (String)practionerCombo.getSelectedItem(), patientSelector.getPatient().map(Patient::getID).get(), time, Duration.ofMinutes(((Integer)lengthCombo.getSelectedItem())));
+		AppointmentUtils.insertAppointment(date, (String)practitionerCombo.getSelectedItem(), patientSelector.getPatient().map(Patient::getID).get(), time, Duration.ofMinutes(((Integer)lengthCombo.getSelectedItem())));
 	}
 }

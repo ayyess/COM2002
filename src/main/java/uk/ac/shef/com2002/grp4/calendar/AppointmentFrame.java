@@ -21,7 +21,7 @@ import java.time.Duration;
 
 import uk.ac.shef.com2002.grp4.PatientSelector;
 import uk.ac.shef.com2002.grp4.databases.AppointmentUtils;
-import uk.ac.shef.com2002.grp4.databases.PatientUtils;;
+import uk.ac.shef.com2002.grp4.databases.PatientUtils;
 import uk.ac.shef.com2002.grp4.data.Patient;
 import uk.ac.shef.com2002.grp4.data.Appointment;
 
