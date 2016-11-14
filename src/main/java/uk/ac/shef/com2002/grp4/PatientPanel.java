@@ -1,15 +1,17 @@
 package uk.ac.shef.com2002.grp4;
 
+import uk.ac.shef.com2002.grp4.util.DPIScaling;
 import uk.ac.shef.com2002.grp4.data.Patient;
 import uk.ac.shef.com2002.grp4.databases.PatientUtils;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.event.*;
+import javax.swing.table.*;
+import java.time.format.DateTimeFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.*;
 import java.util.List;
 
 /**
@@ -20,7 +22,7 @@ import java.util.List;
 public class PatientPanel extends JPanel implements DocumentListener, ActionListener{
 	private JTextField firstNameField;
 	private String searchText;
-	private DefaultTableModel searchResults;
+	private PatientTableModel searchResults;
 	private JButton addPatientButton;
 
 	//TODO searching patients: should mostly work now, but untested
@@ -37,13 +39,16 @@ public class PatientPanel extends JPanel implements DocumentListener, ActionList
 		c.anchor = GridBagConstraints.EAST;
 		add(firstNameField,c);
 
-		String[] columnNames = {"Title","First Name","Last Name","DoB","Phone Number"};
-		searchResults = new DefaultTableModel();
-		for(String column : columnNames) {
-			searchResults.addColumn(column);
-		}
-		searchResults.setColumnIdentifiers(columnNames);
+		searchResults = new PatientTableModel();
 		JTable searchResultsDisplay = new JTable(searchResults);
+		int dpiScaling = (int)DPIScaling.get();
+		searchResultsDisplay.setRowHeight(searchResultsDisplay.getRowHeight()*dpiScaling);
+		searchResultsDisplay.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		searchResultsDisplay.getSelectionModel().addListSelectionListener((ev)->{
+			//the index values on the event change oddly, so just get the row t=from the table instead
+			int row = searchResultsDisplay.getSelectedRow();
+			Patient selected = searchResults.getValueAt(row);
+		});
 		c.anchor = GridBagConstraints.CENTER;
 		c.weightx = 1;
 		c.weighty = 1;
@@ -113,11 +118,64 @@ public class PatientPanel extends JPanel implements DocumentListener, ActionList
 
 	private void doSearch() {
 		List<Patient> found = PatientUtils.fuzzyFindPatientByFirstName(searchText);
-		while(searchResults.getRowCount() > 0){
-			searchResults.removeRow(0);
+		searchResults.clear();
+		searchResults.addAll(found);
+	}
+
+	private static final String[] columnNames = {"Title","First Name","Last Name","DoB","Phone Number"};
+	class PatientTableModel extends AbstractTableModel {
+		private final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		private List<Patient> data = new ArrayList<>();
+		@Override
+		public int getColumnCount(){
+			return columnNames.length;
 		}
-		for(Patient patient:found) {
-			searchResults.addRow(new Object[]{patient.getTitle(),patient.getForename(),patient.getSurname(),patient.getDob(),patient.getPhoneNumber()});
+		@Override
+		public String getColumnName(int columnIndex){
+			return columnNames[columnIndex];
+		}
+		@Override
+		public int getRowCount(){
+			return data.size();
+		}
+		@Override 
+		public Object getValueAt(int rowIndex, int columnIndex){
+			Patient p = data.get(rowIndex);
+			switch(columnIndex){
+				case 0:
+					return p.getTitle();
+				case 1:
+					return p.getForename();
+				case 2:
+					return p.getSurname();
+				case 3:
+					return p.getDob().format(DATE_FORMAT);
+				case 4:
+					return p.getPhoneNumber();
+				default:
+					throw new IllegalArgumentException();
+			}
+		}
+		@Override
+		public boolean isCellEditable(int rowIndex, int columnIndex){
+			return false;
+		}
+		public void removeRow(int index){
+			data.remove(index);
+			fireTableRowsDeleted(index,index);
+		}
+		public void clear(){
+			int length = data.size();
+			data.clear();
+			fireTableRowsDeleted(0,length);
+		}
+		public void addAll(List<Patient> patients){
+			data = patients;
+			fireTableRowsInserted(0,data.size());
+		}
+		public Patient getValueAt(int index){
+			return data.get(index);
 		}
 	}
+
 }
