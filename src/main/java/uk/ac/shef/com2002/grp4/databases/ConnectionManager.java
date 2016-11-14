@@ -1,7 +1,17 @@
+/* This file is part of Grp4 Dental Care System.
+ * To ensure compliance with the GNU General Public License. This System
+ * is for private, educational use. It will not be released publicly and will
+ * solely be viewed by those marking the COM2002 assignment.
+ *
+ * Visit <http://www.gnu.org/licenses/> to see the license.
+ */
+
 package uk.ac.shef.com2002.grp4.databases;
 
 import javax.swing.*;
 import java.sql.*;
+
+
 
 /**
  * <Doc here>
