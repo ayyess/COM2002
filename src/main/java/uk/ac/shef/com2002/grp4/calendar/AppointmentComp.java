@@ -6,12 +6,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.time.LocalTime;
 
-public class AppointmentComp extends JComponent {
+public class AppointmentComp extends JPanel {
 	
 	int start;
 	int end;
 	int duration;
 	Appointment appointment;
+	
+	JLabel startLabel;
+	JLabel durationLabel;
 	
 	public AppointmentComp(Appointment appointment) {
 		this.appointment = appointment;
@@ -23,8 +26,22 @@ public class AppointmentComp extends JComponent {
 		setOpaque(true);
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		
-		add(new JLabel(appointment.getStart().toString()));
-		add(new JLabel(""+duration));
+		startLabel = new JLabel(appointment.getStart().toString());
+		durationLabel = new JLabel(""+duration);
+		
+		startLabel.setOpaque(true);
+		startLabel.setHorizontalAlignment(JLabel.CENTER);
+		durationLabel.setOpaque(true);
+		durationLabel.setHorizontalAlignment(JLabel.CENTER);
+		
+		add(startLabel);
+		add(durationLabel);
+	}
+	
+	public void setColor(Color c) {
+		setBackground(c);
+		if (startLabel != null) startLabel.setBackground(c);
+		if (durationLabel != null) durationLabel.setBackground(c);
 	}
 	
 	public Appointment getAppointment() {

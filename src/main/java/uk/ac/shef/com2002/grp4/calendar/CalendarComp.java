@@ -30,20 +30,20 @@ public class CalendarComp extends JPanel {
 	final static int END = 17;
 	final static int HEADER_SIZE = 2;
 	
-	private static final Color DENTIST_COLOUR = new Color(255, 0, 0);
-	private static final Color HYGIENIST_COLOUR = new Color(0, 0, 255);
+	private static final Color DENTIST_COLOUR = Color.getHSBColor(0.0f,0.5f,1.0f);//Light red
+	private static final Color HYGIENIST_COLOUR = Color.getHSBColor(0.69f,0.5f,1.0f);//Light blue 
 	
 	ArrayList<AppointmentComp> appointments = new ArrayList<AppointmentComp>();
 	
 	ArrayList<CalendarClickListener> appointmentListeners = new ArrayList<CalendarClickListener>();
 	ArrayList<CalendarClickListener> slotListeners = new ArrayList<CalendarClickListener>();
 	
+	Color calendarColor;
+	Practitioner practitioner;
+	
 	private CalendarClickListener calSlotClick = new CalendarClickListener() {
 		
-		public void onRelease(MouseEvent e) {}
-		public void onClick(MouseEvent e) {}
-		
-		public void onPressed(MouseEvent e) {
+		public void onRelease(MouseEvent e) {
 			int time = ((EmptyAppointment)e.getSource()).getTime();
 			LocalTime localTime = LocalTime.of(0, 0).plusMinutes(time*20);
 			
@@ -51,6 +51,9 @@ public class CalendarComp extends JPanel {
 			f.setVisible(true);
 			setDate(date); //refresh appointment list
 		}
+		
+		public void onClick(MouseEvent e) {}
+		public void onPressed(MouseEvent e) {}
 		
 	}; 
 	
@@ -89,8 +92,11 @@ public class CalendarComp extends JPanel {
 	};
 	
 	
-	public CalendarComp(LocalDate date) {
+	public CalendarComp(LocalDate date, Practitioner practitioner) {
 		super();
+		this.practitioner = practitioner;
+		if (practitioner == Practitioner.DENTIST) calendarColor = DENTIST_COLOUR;
+		else if (practitioner == Practitioner.HYGIENIST) calendarColor = HYGIENIST_COLOUR;
 		setDate(date);
 		layout = new GridBagLayout();
 		layout.columnWidths = new int[] {1, 1};
@@ -108,21 +114,14 @@ public class CalendarComp extends JPanel {
 	public void showAll() {
 		removeAll();
 		addHeaders();
-		int[][] times = new int[2][((END-START)*60)/DIV];
+		int[] times = new int[((END-START)*60)/DIV];
 		for (AppointmentComp a : appointments) {
-			Practitioner p = Practitioner.valueOf(a.getAppointment().getPractitioner().toUpperCase());
 			if (a.start >= START) {
 				a.addMouseListener(appointmentAdapter);
-				if (p == Practitioner.DENTIST) {
-					a.setBackground(DENTIST_COLOUR);
-				} else {
-					a.setBackground(HYGIENIST_COLOUR);
-				}
 				GridBagConstraints c = new GridBagConstraints();
 				int d = 0;
-				c.gridx = p.ordinal();
 				do {
-					times[p.ordinal()][((a.start+d)/DIV)-(START*(60/DIV))] = 1;
+					times[((a.start+d)/DIV)-(START*(60/DIV))] = 1;
 					d += DIV;
 				} while (d < a.duration);
 				c.gridy = HEADER_SIZE+(a.start-START*60)/DIV;
@@ -132,19 +131,16 @@ public class CalendarComp extends JPanel {
 				add(a, c);
 			}
 		}
-		for (int i = 0; i < times.length; i++) {
-			for (int t = 0; t < times[0].length; t++) {
-				if (times[i][t] == 0) {
-					GridBagConstraints c = new GridBagConstraints();
-					c.gridx = i;
-					times[i][t] = 1;
-					c.gridy = HEADER_SIZE+t;
-					c.weightx = 1.0;
-					c.fill = GridBagConstraints.BOTH;
-					EmptyAppointment gap = new EmptyAppointment(t+START*(60/DIV));
-					gap.addMouseListener(slotAdapter);
-					add(gap, c);
-				}
+		for (int t = 0; t < times.length; t++) {
+			if (times[t] == 0) {
+				GridBagConstraints c = new GridBagConstraints();
+				times[t] = 1;
+				c.gridy = HEADER_SIZE+t;
+				c.weightx = 1.0;
+				c.fill = GridBagConstraints.BOTH;
+				EmptyAppointment gap = new EmptyAppointment(t+START*(60/DIV));
+				gap.addMouseListener(slotAdapter);
+				add(gap, c);
 			}
 		}
 	}
@@ -165,20 +161,19 @@ public class CalendarComp extends JPanel {
 		date.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		add(date, c);
 		
-		//Add dentist/hygienist labels
+		//Add dentist/hygienist label
+		String p = ""; 
+		if (practitioner == Practitioner.DENTIST) p = "Dentist";
+		else if (practitioner == Practitioner.HYGIENIST) p = "Hygienist";
+		
 		c.gridwidth = 1;
 		c.gridx = 0;
 		c.gridy = 1;
-		JLabel d = new JLabel("Dentist");
+		JLabel d = new JLabel(p);
 		d.setOpaque(true);
-		d.setBackground(DENTIST_COLOUR);
+		d.setHorizontalAlignment(JLabel.CENTER);
+		d.setBackground(calendarColor);
 		add(d, c);
-		
-		c.gridx = 1;
-		JLabel h = new JLabel("Hygienist");
-		h.setOpaque(true);
-		h.setBackground(HYGIENIST_COLOUR);
-		add(h, c);
 	}
 	
 	/***
