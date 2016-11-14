@@ -1,7 +1,6 @@
 package uk.ac.shef.com2002.grp4;
 
 import uk.ac.shef.com2002.grp4.data.Patient;
-import uk.ac.shef.com2002.grp4.databases.PatientUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -53,7 +52,7 @@ public class FindPatientDialog extends BaseDialog implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e){
 		if(e.getSource() == nameField){
-			List<Patient> patients = PatientUtils.fuzzyFindPatientByFirstName(nameField.getText());
+			List<Patient> patients = Patient.fuzzyFindByFirstName(nameField.getText());
 			DefaultListModel<Patient> model = (DefaultListModel<Patient>) searchResults.getModel();
 			model.clear();
 			for(Patient p : patients){

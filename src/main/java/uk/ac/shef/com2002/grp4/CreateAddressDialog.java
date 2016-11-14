@@ -1,10 +1,8 @@
 package uk.ac.shef.com2002.grp4;
 
 import uk.ac.shef.com2002.grp4.data.Address;
-import uk.ac.shef.com2002.grp4.databases.AddressUtils;
 
 import javax.swing.*;
-import javax.swing.text.html.Option;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

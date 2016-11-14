@@ -11,8 +11,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Duration;
 
+import uk.ac.shef.com2002.grp4.data.Appointment;
 import uk.ac.shef.com2002.grp4.PatientSelector;
-import uk.ac.shef.com2002.grp4.databases.AppointmentUtils;
 import uk.ac.shef.com2002.grp4.data.Patient;
 
 public class AppointmentFrame extends BaseDialog {
@@ -49,8 +49,9 @@ public class AppointmentFrame extends BaseDialog {
 		JButton save_button = new JButton("Save");
 		save_button.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent ae){
-					saveDetails();
-                    close();
+					if(saveDetails()){
+						close();
+					}
                 }
             });
 		addButtons(cancel_button,save_button);
@@ -63,7 +64,14 @@ public class AppointmentFrame extends BaseDialog {
 		AppointmentFrame.this.dispose();
 	}
 
-	void saveDetails() {
-		AppointmentUtils.insertAppointment(date, (String)practionerCombo.getSelectedItem(), patientSelector.getPatient().map(Patient::getID).get(), time, Duration.ofMinutes(((Integer)lengthCombo.getSelectedItem())));
+	boolean saveDetails() {
+		if(!patientSelector.getPatient().isPresent()){
+			//TODO: warn user that the  field is missing
+			return false;
+		}
+		Patient patient = patientSelector.getPatient().get();
+		Appointment appointment = new Appointment(date,(String)practionerCombo.getSelectedItem(),patient.getID(), time, Duration.ofMinutes(((Integer)lengthCombo.getSelectedItem())));
+		appointment.insert();
+		return true;
 	}
 }

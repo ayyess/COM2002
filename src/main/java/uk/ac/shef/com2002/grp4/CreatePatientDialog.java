@@ -3,7 +3,6 @@ package uk.ac.shef.com2002.grp4;
 import org.jdatepicker.JDatePicker;
 import uk.ac.shef.com2002.grp4.data.Address;
 import uk.ac.shef.com2002.grp4.data.Patient;
-import uk.ac.shef.com2002.grp4.databases.PatientUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -74,14 +73,14 @@ public class CreatePatientDialog extends BaseDialog implements ActionListener {
 			System.out.println(cal);
 			LocalDate dob = LocalDate.of(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH));
 			String phoneNumber = phoneField.getText();
-			Optional<Long> optAddressId = addressField.getAddress().map(Address::getId);
+			Optional<Address> optAddress = addressField.getAddress();
 
-			if(!optAddressId.isPresent()) {
+			if(!optAddress.isPresent()) {
 				JOptionPane.showMessageDialog(this, "You must select an address", "Validation error", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 
-			Patient patient = new Patient(title,forename,surname,dob,phoneNumber);
+			Patient patient = new Patient(title,forename,surname,dob,phoneNumber,optAddress);
 			patient.save();
 			this.patient = Optional.of(patient);
 
