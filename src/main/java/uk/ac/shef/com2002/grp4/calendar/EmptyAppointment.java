@@ -16,13 +16,9 @@ public class EmptyAppointment extends JPanel {
 		this.time = time;
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		setBackground(Color.WHITE);
-
-		//setLayout(new FlowLayout());
-		//setBackground(Color.WHITE);
-		//setBorder(BorderFactory.createLineBorder(Color.black));
 		
 		LocalTime t = LocalTime.of(0,0).plusMinutes(time * 20);
-		add(new JLabel(time + " " + t.toString()));
+		add(new JLabel(t.toString()));
 	}
 	
 	public int getTime() {

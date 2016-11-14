@@ -4,7 +4,6 @@ import uk.ac.shef.com2002.grp4.data.Appointment;
 
 import javax.swing.*;
 import java.awt.*;
-import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 
 public class AppointmentComp extends JComponent {
@@ -12,19 +11,24 @@ public class AppointmentComp extends JComponent {
 	int start;
 	int end;
 	int duration;
+	Appointment appointment;
 	
 	public AppointmentComp(Appointment appointment) {
+		this.appointment = appointment;
 		this.start = convertMins(appointment.getStart());
 		this.end = convertMins(appointment.getEnd());
 		this.duration = this.end - this.start;
 		
 		setLayout(new FlowLayout());
-		setBackground(Color.WHITE);
+		setOpaque(true);
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		
-		add(new JLabel("S"+appointment.getStart().toString()));
-		add(new JLabel("D"+duration));
-		add(new JLabel("E"+appointment.getEnd().toString()));
+		add(new JLabel(appointment.getStart().toString()));
+		add(new JLabel(""+duration));
+	}
+	
+	public Appointment getAppointment() {
+		return appointment;
 	}
 	
 	public static int convertMins(LocalTime time) {
