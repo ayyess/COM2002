@@ -27,7 +27,7 @@ import java.util.List;
  */
 public class PatientPanel extends JPanel implements DocumentListener, ActionListener{
 	private JTextField firstNameField;
-	private String searchText;
+	private String searchText = "";
 	private DefaultTableModel searchResults;
 	private JButton addPatientButton;
 
@@ -72,7 +72,7 @@ public class PatientPanel extends JPanel implements DocumentListener, ActionList
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.EAST;
 		add(addPatientButton,c);
-
+		doSearch();
 	}
 
 	private void setSearchText(String text){
