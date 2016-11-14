@@ -12,11 +12,17 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * HiDpi support methods
- * Created on 03/11/2016.
+ * Used to scale the outputs when the system is outputting to a high definition screen.
+ * <br>
+ * @author  Group 4
+ * @version 1.0
+ * @since   03/11/2016
  */
 public class DPIScaling {
+
+    /** This is a normal level DPI which an outputs DPI will be compared to. */
     public static final float NOMINAL_DPI = 86;
+
     /**
      * @return A scale factor relative to `NOMINAL_DPI`, ~1.0 on normal dpi screens
      */
@@ -30,6 +36,7 @@ public class DPIScaling {
      */
     public static void rescaleFonts(){
         float dpiScaling = get();
+        // Scale the font size of each object which is in the UI
         for(Object key: UIManager.getLookAndFeelDefaults().keySet()) {
             if(key != null && key.toString().toLowerCase().contains("font")) {
                 Font font = UIManager.getDefaults().getFont(key);
