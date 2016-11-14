@@ -33,7 +33,7 @@ public class FindPatientDialog extends BaseDialog implements ActionListener{
 
 		nameField = new JTextField();
 		nameField.addActionListener(this);
-		addLabeledInput("First name",nameField);
+		addLabeledComponent("First name",nameField);
 
 		searchResults = new JList<>(new DefaultListModel<>());
 		GridBagConstraints c = getBaseConstraints();

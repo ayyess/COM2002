@@ -55,7 +55,7 @@ public class CalendarComp extends JPanel {
 			int time = ((EmptyAppointment)e.getSource()).getTime();
 			LocalTime localTime = LocalTime.of(0, 0).plusMinutes(time*20);
 			
-			AppointmentFrame f = new AppointmentFrame(CalendarComp.this, date, localTime);
+			AppointmentCreationFrame f = new AppointmentCreationFrame(CalendarComp.this, date, localTime);
 			f.setVisible(true);
 			setDate(date); //refresh appointment list
 		}
@@ -71,7 +71,13 @@ public class CalendarComp extends JPanel {
 			//Show details about the appointment maybe?
 		}
 		
-		public void onPressed(MouseEvent e) {}
+		public void onPressed(MouseEvent e) {
+			AppointmentComp comp = (AppointmentComp)e.getSource();
+			AppointmentFrame f = new AppointmentFrame(CalendarComp.this, comp.appointment);
+			f.setVisible(true);
+			setDate(date); //refresh appointment list
+
+		}
 		public void onClick(MouseEvent e) {}
 	}; 
 	
@@ -194,7 +200,8 @@ public class CalendarComp extends JPanel {
 		List<Appointment> appointmentsOnDate = AppointmentUtils.getAppointmentByDate(date);
 		appointments.clear();
 		for (Appointment a : appointmentsOnDate) {
-			appointments.add(new AppointmentComp(a));
+			AppointmentComp appointment = new AppointmentComp(a);
+			appointments.add(appointment);
 		}
 		showAll();
 	}
