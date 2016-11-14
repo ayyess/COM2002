@@ -27,6 +27,7 @@ public class Patient implements Saveable {
 	}
 
 	public Patient(Optional<Long> id, String title, String forename, String surname, LocalDate dob, String phoneNumber, Optional<Address> address) {
+		this.id = id;
 		this.title = title;
 		this.forename = forename;
 		this.surname = surname;
@@ -77,7 +78,7 @@ public class Patient implements Saveable {
 			ResultSet res = stmt.executeQuery();
 			List<Patient> patients = new ArrayList<>();
 			while(res.next()){
-				patients.add(new Patient(res.getInt(1),res.getString(2),res.getString(3),res.getString(4), res.getDate(5).toLocalDate(),res.getString(6)));
+				patients.add(new Patient(res.getLong(1),res.getString(2),res.getString(3),res.getString(4), res.getDate(5).toLocalDate(),res.getString(6)));
 			}
 			return patients;
 		});
@@ -114,6 +115,9 @@ public class Patient implements Saveable {
 			stmt.setString(5, phoneNumber);
 			stmt.setLong(6, address.map(Address::getId).get());
 			stmt.executeUpdate();
+			ResultSet generatedKeys = stmt.getGeneratedKeys();
+			generatedKeys.next();
+			id = Optional.of(generatedKeys.getLong(1));
 			return null;
 		});
 	}
