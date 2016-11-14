@@ -1,14 +1,28 @@
+/* This file is part of Grp4 Dental Care System.
+ * To ensure compliance with the GNU General Public License. This System
+ * is for private, educational use. It will not be released publicly and will
+ * solely be viewed by those marking the COM2002 assignment.
+ *
+ * Visit <http://www.gnu.org/licenses/> to see the license.
+ */
+
 package uk.ac.shef.com2002.grp4.util;
 
 import javax.swing.*;
 import java.awt.*;
 
 /**
- * HiDpi support methods
- * Created on 03/11/2016.
+ * Used to scale the outputs when the system is outputting to a high definition screen.
+ * <br>
+ * @author  Group 4
+ * @version 1.0
+ * @since   03/11/2016
  */
 public class DPIScaling {
+
+    /** This is a normal level DPI which an outputs DPI will be compared to. */
     public static final float NOMINAL_DPI = 86;
+
     /**
      * @return A scale factor relative to `NOMINAL_DPI`, ~1.0 on normal dpi screens
      */
@@ -22,6 +36,7 @@ public class DPIScaling {
      */
     public static void rescaleFonts(){
         float dpiScaling = get();
+        // Scale the font size of each object which is in the UI
         for(Object key: UIManager.getLookAndFeelDefaults().keySet()) {
             if(key != null && key.toString().toLowerCase().contains("font")) {
                 Font font = UIManager.getDefaults().getFont(key);
