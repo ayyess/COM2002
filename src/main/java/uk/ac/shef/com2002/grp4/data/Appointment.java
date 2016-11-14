@@ -23,7 +23,6 @@ public class Appointment {
 	public Appointment(LocalDate date, LocalTime start, int duration, String practitioner, long patientId) {
 		this.date = date;
 		this.start = start;
-		System.out.println(duration);
 		this.end = start.plusMinutes(duration);
 		this.practitioner = practitioner;
 		this.patientId = patientId;
