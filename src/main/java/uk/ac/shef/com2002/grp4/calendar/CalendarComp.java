@@ -45,7 +45,7 @@ public class CalendarComp extends JPanel {
 			int time = ((EmptyAppointment)e.getSource()).getTime();
 			LocalTime localTime = LocalTime.of(0, 0).plusMinutes(time*20);
 			
-			AppointmentFrame f = new AppointmentFrame(CalendarComp.this, date, localTime);
+			AppointmentCreationFrame f = new AppointmentCreationFrame(CalendarComp.this, date, localTime);
 			f.setVisible(true);
 			setDate(date); //refresh appointment list
 		}

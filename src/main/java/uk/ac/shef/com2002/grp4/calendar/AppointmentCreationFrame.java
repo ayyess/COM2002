@@ -15,7 +15,7 @@ import uk.ac.shef.com2002.grp4.PatientSelector;
 import uk.ac.shef.com2002.grp4.databases.AppointmentUtils;
 import uk.ac.shef.com2002.grp4.data.Patient;
 
-public class AppointmentFrame extends BaseDialog {
+public class AppointmentCreationFrame extends BaseDialog {
 
 	private final LocalDate date;
 	private final LocalTime time;
@@ -23,7 +23,7 @@ public class AppointmentFrame extends BaseDialog {
 	private final JComboBox<Integer> lengthCombo;
 	private final PatientSelector patientSelector;
 
-	public AppointmentFrame(Component owner, LocalDate date, LocalTime time) {
+	public AppointmentCreationFrame(Component owner, LocalDate date, LocalTime time) {
 		super(owner,"Create Appointment");
 		this.date = date;
 		this.time = time;
@@ -60,7 +60,7 @@ public class AppointmentFrame extends BaseDialog {
 	void close(){
 		setModal(true);
 		//getOwner().setEnabled(true);
-		AppointmentFrame.this.dispose();
+		AppointmentCreationFrame.this.dispose();
 	}
 
 	void saveDetails() {
