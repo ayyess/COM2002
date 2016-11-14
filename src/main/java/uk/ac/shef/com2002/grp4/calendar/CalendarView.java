@@ -54,6 +54,7 @@ public class CalendarView extends JPanel {
 				this.add(c, constraints);
 			}
 		}
+		revalidate();
 	}
 	
 }

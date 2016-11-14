@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -27,7 +28,8 @@ public class CalendarComp extends JPanel {
 	final static int SLOT_SIZE = 30;
 	final static int START = 9;
 	final static int END = 17;
-
+	final static int HEADER_SIZE = 2;
+	
 	private static final Color DENTIST_COLOUR = new Color(255, 0, 0);
 	private static final Color HYGIENIST_COLOUR = new Color(0, 0, 255);
 	
@@ -123,7 +125,7 @@ public class CalendarComp extends JPanel {
 					times[p.ordinal()][((a.start+d)/DIV)-(START*(60/DIV))] = 1;
 					d += DIV;
 				} while (d < a.duration);
-				c.gridy = 1+(a.start-START*60)/DIV;
+				c.gridy = HEADER_SIZE+(a.start-START*60)/DIV;
 				c.gridheight = d/DIV;
 				c.weightx = 1.0;
 				c.fill = GridBagConstraints.BOTH;
@@ -136,7 +138,7 @@ public class CalendarComp extends JPanel {
 					GridBagConstraints c = new GridBagConstraints();
 					c.gridx = i;
 					times[i][t] = 1;
-					c.gridy = 1+t;
+					c.gridy = HEADER_SIZE+t;
 					c.weightx = 1.0;
 					c.fill = GridBagConstraints.BOTH;
 					EmptyAppointment gap = new EmptyAppointment(t+START*(60/DIV));
@@ -152,10 +154,21 @@ public class CalendarComp extends JPanel {
 	 * Headers are Dentist | Hygienist
 	 */
 	private void addHeaders() {
+		//Add date
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = c.BOTH;
 		c.gridx = 0;
 		c.gridy = 0;
+		c.gridwidth = 2;
+		JLabel date = new JLabel(this.date.toString());
+		date.setHorizontalAlignment(JLabel.CENTER);
+		date.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		add(date, c);
+		
+		//Add dentist/hygienist labels
+		c.gridwidth = 1;
+		c.gridx = 0;
+		c.gridy = 1;
 		JLabel d = new JLabel("Dentist");
 		d.setOpaque(true);
 		d.setBackground(DENTIST_COLOUR);
