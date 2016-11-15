@@ -55,4 +55,24 @@ public class Address {
 	public long getId() {
 		return id.orElse(null);
 	}
+
+	public int getHouseNumber(){
+		return houseNumber;
+	}
+
+	public String getStreet(){
+		return street;
+	}
+
+	public String getDistrict(){
+		return district;
+	}
+
+	public String getCity(){
+		return city;
+	}
+
+	public String getPostcode(){
+		return postcode;
+	}
 }

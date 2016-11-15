@@ -27,7 +27,7 @@ public class PatientUtils {
 			ResultSet res = stmt.executeQuery();
 			List<Patient> patients = new ArrayList<>();
 			while(res.next()){
-				patients.add(new Patient(res.getInt(1),res.getString(2),res.getString(3),res.getString(4), res.getDate(5).toLocalDate(),res.getString(6)));
+				patients.add(new Patient(res.getLong(1),res.getString(2),res.getString(3),res.getString(4), res.getDate(5).toLocalDate(),res.getString(6),res.getLong(7)));
 			}
 			return patients;
 		});
@@ -39,7 +39,7 @@ public class PatientUtils {
 			ResultSet res = stmt.executeQuery();
 			List<Patient> patients = new ArrayList<>();
 			while(res.next()){
-				patients.add(new Patient(res.getInt(1),res.getString(2),res.getString(3),res.getString(4), res.getDate(5).toLocalDate(),res.getString(6)));
+				patients.add(new Patient(res.getLong(1),res.getString(2),res.getString(3),res.getString(4), res.getDate(5).toLocalDate(),res.getString(6),res.getLong(7)));
 			}
 			return patients;
 		});
@@ -50,7 +50,7 @@ public class PatientUtils {
 			stmt.setLong(1, id);
 			ResultSet res = stmt.executeQuery();
 			if (res.next()) {
-				return new Patient(res.getString(2), res.getString(3), res.getString(4), res.getDate(5).toLocalDate(), res.getString(6));
+				return new Patient(res.getLong(1),res.getString(2), res.getString(3), res.getString(4), res.getDate(5).toLocalDate(), res.getString(6),res.getLong(7));
 			} else {
 				return null;
 			}

@@ -22,7 +22,7 @@ import java.util.Optional;
  * Created on 11/11/2016.
  */
 public class PatientSelector extends JPanel implements ActionListener {
-	private JTextArea displayField;
+	private PatientComponent displayField;
 	private JButton findPatientButton;
 	private JButton createPatientButton;
 
@@ -37,8 +37,7 @@ public class PatientSelector extends JPanel implements ActionListener {
 		c.gridx = 0;
 		c.weightx = 1;
 		c.fill = GridBagConstraints.BOTH;
-		displayField = new JTextArea("");
-		displayField.setEnabled(false);
+		displayField = new PatientComponent(Optional.empty());
 		add(displayField,c);
 
 		c.weightx = 0;
@@ -59,11 +58,7 @@ public class PatientSelector extends JPanel implements ActionListener {
 
 	public void setPatient(Optional<Patient> patient){
 		this.patient = patient;
-		if(patient.isPresent()) {
-			displayField.setText(patient.get().toString());
-		}else{
-			displayField.setText("");
-		}
+		displayField.setPatient(patient);
 		//FIXME there has to be a better way to get the dialog to resize if needed
 		SwingUtilities.getWindowAncestor(this).pack();
 	}

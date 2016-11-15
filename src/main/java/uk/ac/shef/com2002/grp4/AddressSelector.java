@@ -27,7 +27,7 @@ import java.util.Optional;
 public class AddressSelector extends JPanel implements ActionListener {
 
 	/** This stores the area where the output will be displayed. */
-	private JTextArea displayField;
+	private AddressComponent displayField;
 
 	/** This stores the find address button. */
 	private JButton findAddressButton;
@@ -50,7 +50,7 @@ public class AddressSelector extends JPanel implements ActionListener {
 		c.gridx = 0;
 		c.weightx = 1;
 		c.fill = GridBagConstraints.BOTH;
-		displayField = new JTextArea("");
+		displayField = new AddressComponent(Optional.empty());
 		displayField.setEnabled(false);
 		add(displayField,c);
 
@@ -73,11 +73,7 @@ public class AddressSelector extends JPanel implements ActionListener {
 	 */
 	public void setAddress(Optional<Address> address){
 		this.address = address;
-		if(address.isPresent()) {
-			displayField.setText(address.get().formatted());
-		} else{
-			displayField.setText("");
-		}
+		displayField.setAddress(address);
 		//FIXME there has to be a better way to get the dialog to resize if needed
 		SwingUtilities.getWindowAncestor(this).pack();
 	}

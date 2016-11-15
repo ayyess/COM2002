@@ -18,10 +18,11 @@ import java.util.*;
  * Created by Dan-L on 02/11/2016.
  */
 public class AddressUtils {
-    public static Address getAddressByID(int id) {
+    public static Address getAddressByID(long id) {
         return ConnectionManager.withStatement("SELECT * FROM addresses WHERE id=?",(stmt)->{
-            stmt.setInt(1,id);
+            stmt.setLong(1,id);
             ResultSet res = stmt.executeQuery();
+			res.next();
             return new Address(Optional.of(res.getLong(1)),res.getInt(2),res.getString(3),res.getString(4),res.getString(5),res.getString(6));
         });
     }

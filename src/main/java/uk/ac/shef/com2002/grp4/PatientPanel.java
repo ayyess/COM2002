@@ -56,6 +56,8 @@ public class PatientPanel extends JPanel implements DocumentListener, ActionList
 			//the index values on the event change oddly, so just get the row t=from the table instead
 			int row = searchResultsDisplay.getSelectedRow();
 			Patient selected = searchResults.getValueAt(row);
+			PatientDetailsDialog details = new PatientDetailsDialog(selected,this);
+			details.setVisible(true);
 		});
 		c.anchor = GridBagConstraints.CENTER;
 		c.weightx = 1;
