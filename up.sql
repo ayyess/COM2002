@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS patients (
     PRIMARY KEY ( id ),
     FOREIGN KEY (address_id)
         REFERENCES addresses(id)
+	ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS appointments (
@@ -30,6 +31,7 @@ CREATE TABLE IF NOT EXISTS appointments (
     PRIMARY KEY(date,practitioner,start),
     FOREIGN KEY(patient_id)
         REFERENCES patients(id)
+	ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS treatments (
@@ -45,9 +47,11 @@ CREATE TABLE IF NOT EXISTS treatment_applications(
     practitioner VARCHAR(255) NOT NULL,
     PRIMARY KEY(treatment_name,appointment_date,practitioner),
     FOREIGN KEY(treatment_name)
-        REFERENCES treatments(name),
+        REFERENCES treatments(name)
+	ON DELETE CASCADE,
     FOREIGN KEY(appointment_date,practitioner)
         REFERENCES appointments(date,practitioner)
+	ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS treatment_plans (
@@ -67,21 +71,9 @@ CREATE TABLE IF NOT EXISTS patient_plans (
     used_repairs INT UNSIGNED NOT NULL,
     PRIMARY KEY(patient_id,plan_name),
     FOREIGN KEY(patient_id)
-        REFERENCES patients(id),
+        REFERENCES patients(id)
+	ON DELETE CASCADE,
     FOREIGN KEY(plan_name)
         REFERENCES treatment_plans(name)
-);
-
-INSERT INTO addresses (
-    house_number,
-    street,
-    district,
-    city,
-    postcode )
-VALUES (
-    1,
-    'street',
-    'district',
-    'city',
-    'postcode'
+	ON DELETE CASCADE
 );

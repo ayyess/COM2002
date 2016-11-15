@@ -10,6 +10,7 @@ import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.util.ArrayList;
+import java.util.List;
 
 import uk.ac.shef.com2002.grp4.data.Patient;
 import uk.ac.shef.com2002.grp4.data.Treatment;
@@ -18,9 +19,9 @@ public class Receipt implements Printable {
 
 	private Patient patient;
 	private int cost;
-	private ArrayList<Treatment> treatments;
+	private List<Treatment> treatments;
 	
-	public Receipt(Patient patient, ArrayList<Treatment> treatments, int cost) {
+	public Receipt(Patient patient, List<Treatment> treatments, int cost) {
 		this.patient = patient;
 		this.treatments = treatments;
 		this.cost = cost;
