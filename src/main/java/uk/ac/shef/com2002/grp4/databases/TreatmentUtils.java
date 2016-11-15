@@ -8,10 +8,13 @@
 
 package uk.ac.shef.com2002.grp4.databases;
 
-import uk.ac.shef.com2002.grp4.data.Treatment;
-
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+
+import uk.ac.shef.com2002.grp4.data.Patient;
+import uk.ac.shef.com2002.grp4.data.Treatment;
 
 /**
  * Created by Dan-L on 09/11/2016.
@@ -37,4 +40,24 @@ public class TreatmentUtils {
             return tp;
         });
     }
+    
+    public static  Treatment[] getPatientTreatments(Patient p) {
+        ArrayList<Treatment> treatments = new ArrayList<Treatment>();
+        return ConnectionManager.withStatement(
+        		"SELECT t.* FROM treatment_applications t " + 
+        		"INNER JOIN appointments a ON STR_TO_DATE(CONCAT(a.date, ' ', a.start), '%Y-%m-%d %H:%i:%s')=t.appointment_date " + 
+        		"INNER JOIN patients p ON p.id=a.patient_id " + 
+        		"WHERE p.id=?;",
+        		(stmt)-> {
+            stmt.setLong(1, p.getID());
+        	ResultSet res = stmt.executeQuery();
+            while (res.next()) {
+                treatments.add(new Treatment(res.getString(1), res.getInt(2), res.getString(3)));
+            }
+            Treatment[] tp = new Treatment[treatments.size()];
+            treatments.toArray(tp);
+            return tp;
+        });
+    }
+    
 }
