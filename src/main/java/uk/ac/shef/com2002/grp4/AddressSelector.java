@@ -45,22 +45,21 @@ public class AddressSelector extends JPanel implements ActionListener {
 		super(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(0,0,0,0);
-		c.gridheight = 2;
-		c.gridy = 0;
+		c.gridwidth = 2;
 		c.gridx = 0;
-		c.weightx = 1;
+		c.weighty = 1;
 		c.fill = GridBagConstraints.BOTH;
 		displayField = new AddressComponent(Optional.empty());
 		displayField.setEnabled(false);
 		add(displayField,c);
 
-		c.weightx = 0;
-		c.gridheight = 1;
-		c.gridx = 1;
+		c.weighty = 0;
+		c.gridwidth = 1;
+		c.gridx = 0;
 		findAddressButton = new JButton("Find");
 		findAddressButton.addActionListener(this);
 		add(findAddressButton,c);
-		c.gridy = 1;
+		c.gridx = 1;
 		createAddressButton = new JButton("Create");
 		createAddressButton.addActionListener(this);
 		add(createAddressButton,c);

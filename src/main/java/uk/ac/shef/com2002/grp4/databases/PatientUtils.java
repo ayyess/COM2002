@@ -87,4 +87,11 @@ public class PatientUtils {
 	}
 
 
+	public static void deleteByID(long id) {
+		ConnectionManager.withStatement("DELETE FROM patients WHERE id=?",(stmt)-> {
+			stmt.setLong(1, id);
+			stmt.executeUpdate();
+			return null;
+		});
+	}
 }

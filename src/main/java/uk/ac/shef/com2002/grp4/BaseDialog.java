@@ -20,6 +20,7 @@ import java.util.Calendar;
 import java.time.*;
 
 abstract public class BaseDialog extends JDialog {
+	private boolean canceled = false;
 	private int row = 0;
 
 	protected int nextRow(){
@@ -68,4 +69,12 @@ abstract public class BaseDialog extends JDialog {
 		contentPane.setLayout(new GridBagLayout());
 	}
 
+	public boolean wasCanceled() {
+		return canceled;
+	}
+
+	public void cancel(){
+		canceled = true;
+		dispose();
+	}
 }

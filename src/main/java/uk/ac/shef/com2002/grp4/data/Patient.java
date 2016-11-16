@@ -108,4 +108,11 @@ public class Patient {
 			id = Optional.of(PatientUtils.insertPatient(title,forename,surname,dob,phoneNumber,getAddress().getId()));
 		}
 	}
+
+	public void delete() {
+		if(id.isPresent()) {
+			PatientUtils.deleteByID(getID());
+		}
+		//else not in db
+	}
 }

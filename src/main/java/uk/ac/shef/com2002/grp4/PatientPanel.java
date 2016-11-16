@@ -55,9 +55,19 @@ public class PatientPanel extends JPanel implements DocumentListener, ActionList
 		searchResultsDisplay.getSelectionModel().addListSelectionListener((ev)->{
 			//the index values on the event change oddly, so just get the row t=from the table instead
 			int row = searchResultsDisplay.getSelectedRow();
+			if(row<0){
+				//this can apparently happen
+				//so just refresh the search results and return
+				doSearch();
+				return;
+			}
 			Patient selected = searchResults.getValueAt(row);
 			PatientDetailsDialog details = new PatientDetailsDialog(selected,this);
 			details.setVisible(true);
+			if(details.getModified()){
+				doSearch();
+			}
+			//TODO: check if we need to refresh here
 		});
 		c.anchor = GridBagConstraints.CENTER;
 		c.weightx = 1;
@@ -123,6 +133,10 @@ public class PatientPanel extends JPanel implements DocumentListener, ActionList
 		}else if(e.getSource() == addPatientButton){
 			CreatePatientDialog createDialog = new CreatePatientDialog(this);
 			createDialog.setVisible(true);
+			if(!createDialog.wasCanceled()){
+				//we think a patient was created, so refresh search results
+				doSearch();
+			}
 		}
 	}
 

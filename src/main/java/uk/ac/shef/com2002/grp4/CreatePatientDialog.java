@@ -95,11 +95,12 @@ public class CreatePatientDialog extends BaseDialog implements ActionListener {
 			dispose();
 
 		}else if(e.getSource() == cancelButton){
-			dispose();
+			cancel();
 		}
 	}
 
 	public Optional<Patient> getPatient() {
 		return patient;
 	}
+
 }
