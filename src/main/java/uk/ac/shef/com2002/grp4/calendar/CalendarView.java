@@ -69,10 +69,12 @@ public class CalendarView extends JPanel {
 			constraints.fill = GridBagConstraints.BOTH;
 			panel.add(calendars[0], constraints);
 		} else {
+			//get *all* required appointments once to reduce waiting on network (up to 7x speedup)
 			List<Appointment> appointments = AppointmentUtils.getAppointmentByDateRange(date,date.plusDays(calendars.length-1));
 			for (int i = 0; i < calendars.length; i++) {
 				LocalDate dayDate = date.plusDays(i);
 				GridBagConstraints constraints = new GridBagConstraints();
+				//filter the appointments as required in java
 				CalendarComp c = new CalendarComp(appointments.stream().filter((appt)->
 					appt.getPractitioner().toUpperCase().equals(p.toString())
 							&& appt.getDate().equals(dayDate)
