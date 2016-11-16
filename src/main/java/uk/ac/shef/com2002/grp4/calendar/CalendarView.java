@@ -8,11 +8,13 @@
 
 package uk.ac.shef.com2002.grp4.calendar;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import uk.ac.shef.com2002.grp4.data.Appointment;
+import uk.ac.shef.com2002.grp4.databases.AppointmentUtils;
+
+import java.awt.*;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -58,17 +60,24 @@ public class CalendarView extends JPanel {
 		layout.columnWidths = new int[] {1,1,1,1,1,1,1};
 		layout.columnWeights = new double[] {1,1,1,1,1,1,1};
 		panel.setLayout(layout);
-		if (day) { 
+		if (day) {
+			List<Appointment> appointments = AppointmentUtils.getAppointmentByDate(date);
 			GridBagConstraints constraints = new GridBagConstraints();
-			calendars[0] = new CalendarComp(date, p);
+			calendars[0] = new CalendarComp(appointments.stream().filter((appt)->appt.getPractitioner().toUpperCase().equals(p.toString())).collect(Collectors.toList()), date, p);
 			constraints.gridx = 0;
 			constraints.gridwidth = 7;
 			constraints.fill = GridBagConstraints.BOTH;
 			panel.add(calendars[0], constraints);
 		} else {
+			List<Appointment> appointments = AppointmentUtils.getAppointmentByDateRange(date,date.plusDays(calendars.length-1));
+			System.out.println();
 			for (int i = 0; i < calendars.length; i++) {
+				LocalDate dayDate = date.plusDays(i);
 				GridBagConstraints constraints = new GridBagConstraints();
-				CalendarComp c = new CalendarComp(date.plusDays(i), p);
+				CalendarComp c = new CalendarComp(appointments.stream().filter((appt)->
+					appt.getPractitioner().toUpperCase().equals(p.toString())
+							&& appt.getDate().equals(dayDate)
+				).collect(Collectors.toList()),dayDate, p);
 				calendars[i] = c;
 				constraints.gridheight = 1;
 				constraints.gridx = i;

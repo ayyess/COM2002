@@ -49,6 +49,21 @@ public class AppointmentUtils {
         });
     }
 
+	public static List<Appointment> getAppointmentByDateRange(LocalDate start, LocalDate end) {
+		java.sql.Date sqlStart = java.sql.Date.valueOf(start);
+		java.sql.Date sqlEnd = java.sql.Date.valueOf(end);
+		List<Appointment> appointments = new ArrayList<>();
+		return ConnectionManager.withStatement("SELECT * FROM appointments WHERE date BETWEEN ? AND ?",(stmt)-> {
+			stmt.setDate(1, sqlStart);
+			stmt.setDate(2, sqlEnd);
+			ResultSet res = stmt.executeQuery();
+			while (res.next()) {
+				appointments.add(new Appointment(res.getDate(1).toLocalDate(), res.getTime(4).toLocalTime(),res.getInt(5), res.getString(2), res.getLong(3)));
+			}
+			return appointments;
+		});
+	}
+
 	public static void insertAppointment(LocalDate date, String practioner, long patient_id, LocalTime start, Duration duration) {
 		java.sql.Date sqlDate = java.sql.Date.valueOf(date);
 		java.sql.Time sqlStartTime = java.sql.Time.valueOf(start);

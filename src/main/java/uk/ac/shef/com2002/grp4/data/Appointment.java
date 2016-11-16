@@ -51,4 +51,15 @@ public class Appointment {
 	public int getDuration() {
 		return (int) Duration.between(start, end).getSeconds()/60;
 	}
+
+	@Override
+	public String toString() {
+		return "Appointment{" +
+				"date=" + date +
+				", start=" + start +
+				", end=" + end +
+				", practitioner='" + practitioner + '\'' +
+				", patientId=" + patientId +
+				'}';
+	}
 }

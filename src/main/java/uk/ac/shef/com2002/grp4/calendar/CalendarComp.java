@@ -58,7 +58,8 @@ public class CalendarComp extends JPanel {
 			
 			AppointmentCreationFrame f = new AppointmentCreationFrame(CalendarComp.this, date, localTime, practitioner);
 			f.setVisible(true);
-			setDate(date); //refresh appointment list
+			//TODO: move this listener up the hierarchy to a point where the model can be refreshed
+			//TODO: refresh the model
 		}
 		
 		public void onClick(MouseEvent e) {}
@@ -76,7 +77,8 @@ public class CalendarComp extends JPanel {
 			AppointmentComp comp = (AppointmentComp)e.getSource();
 			AppointmentFrame f = new AppointmentFrame(CalendarComp.this, comp.appointment);
 			f.setVisible(true);
-			setDate(date); //refresh appointment list
+			//TODO: move this listener up the hierarchy to a point where the model can be refreshed
+			//TODO: refresh the model
 
 		}
 		public void onClick(MouseEvent e) {}
@@ -107,12 +109,12 @@ public class CalendarComp extends JPanel {
 	};
 	
 	
-	public CalendarComp(LocalDate date, Practitioner practitioner) {
+	public CalendarComp(List<Appointment> appointmentsOnDate,LocalDate date, Practitioner practitioner) {
 		super();
 		this.practitioner = practitioner;
 		if (practitioner == Practitioner.DENTIST) calendarColor = DENTIST_COLOUR;
 		else if (practitioner == Practitioner.HYGIENIST) calendarColor = HYGIENIST_COLOUR;
-		setDate(date);
+		setAppointmentsAndDate(appointmentsOnDate,date);
 		layout = new GridBagLayout();
 		layout.columnWidths = new int[] {1, 1};
 		layout.rowHeights = new int[((END-START)*60)/DIV];
@@ -167,7 +169,7 @@ public class CalendarComp extends JPanel {
 	private void addHeaders() {
 		//Add date
 		GridBagConstraints c = new GridBagConstraints();
-		c.fill = c.BOTH;
+		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 2;
@@ -192,13 +194,12 @@ public class CalendarComp extends JPanel {
 	}
 	
 	/***
-	 * Changes the date for this calender and fetches the new appointment information
+	 * Changes the set of appointments and the date for this calender
 	 * 
 	 * @param date
 	 */
-	public void setDate(LocalDate date) {
+	public void setAppointmentsAndDate(List<Appointment> appointmentsOnDate,LocalDate date){
 		this.date = date;
-		List<Appointment> appointmentsOnDate = AppointmentUtils.getAppointmentByDate(date);
 		appointments.clear();
 		for (Appointment a : appointmentsOnDate) {
 			if (a.getPractitioner().toUpperCase().equals(practitioner.toString())) {

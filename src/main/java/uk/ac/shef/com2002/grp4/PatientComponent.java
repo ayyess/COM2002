@@ -1,6 +1,8 @@
 package uk.ac.shef.com2002.grp4;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
 import java.util.Optional;
 import uk.ac.shef.com2002.grp4.data.Patient;
 
@@ -18,24 +20,27 @@ public class PatientComponent extends BaseInfoComponent{
 	public PatientComponent(Optional<Patient> patient){
 		super();
 
-		titleField = new JTextField();
+		titleField = new JTextField(5);
 		titleField.setEditable(false);
 		addLabeledComponent("Title",titleField);
 
-		firstNameField = new JTextField();
+		firstNameField = new JTextField(5);
 		firstNameField.setEditable(false);
 		addLabeledComponent("First Name",firstNameField);
 
-		lastNameField = new JTextField();
+		lastNameField = new JTextField(5);
 		lastNameField.setEditable(false);
 		addLabeledComponent("Last Name",lastNameField);
 
-		dobField = new JTextField();
+		dobField = new JTextField(5);
 		dobField.setEditable(false);
 		addLabeledComponent("Date of Birth",dobField);
 
 		addressField = new AddressComponent(Optional.empty());
-		addLabeledComponent("Address",addressField);
+		addressField.setBorder(BorderFactory.createTitledBorder("Address"));
+		GridBagConstraints c = getBaseConstraints();
+		c.gridwidth = 2;
+		add(addressField,c);
 
 		setPatient(patient);
 	}

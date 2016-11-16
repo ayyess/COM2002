@@ -24,23 +24,23 @@ public class AddressComponent extends BaseInfoComponent{
 	public AddressComponent(Optional<Address> address){
 		super();
 
-		houseNumberField = new JTextField("");
+		houseNumberField = new JTextField(5);
 		houseNumberField.setEditable(false);
 		addLabeledComponent("House Number",houseNumberField);
 
-		streetField = new JTextField("");
+		streetField = new JTextField(5);
 		streetField.setEditable(false);
 		addLabeledComponent("Street",streetField);
 
-		districtField = new JTextField("");
+		districtField = new JTextField(5);
 		districtField.setEditable(false);
 		addLabeledComponent("District",districtField);
 
-		cityField = new JTextField("");
+		cityField = new JTextField(5);
 		cityField.setEditable(false);
 		addLabeledComponent("City",cityField);
 
-		postcodeField = new JTextField("");
+		postcodeField = new JTextField(5);
 		postcodeField .setEditable(false);
 		addLabeledComponent("Postcode",postcodeField );
 
