@@ -70,7 +70,6 @@ public class CalendarView extends JPanel {
 			panel.add(calendars[0], constraints);
 		} else {
 			List<Appointment> appointments = AppointmentUtils.getAppointmentByDateRange(date,date.plusDays(calendars.length-1));
-			System.out.println();
 			for (int i = 0; i < calendars.length; i++) {
 				LocalDate dayDate = date.plusDays(i);
 				GridBagConstraints constraints = new GridBagConstraints();
