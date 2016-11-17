@@ -8,10 +8,9 @@
 
 package uk.ac.shef.com2002.grp4.calendar;
 
-import uk.ac.shef.com2002.grp4.data.Appointment;
-import uk.ac.shef.com2002.grp4.databases.AppointmentUtils;
-
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +18,10 @@ import java.util.stream.Collectors;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+
+import uk.ac.shef.com2002.grp4.Partner;
+import uk.ac.shef.com2002.grp4.data.Appointment;
+import uk.ac.shef.com2002.grp4.databases.AppointmentUtils;
 
 public class CalendarView extends JPanel {
 
@@ -49,11 +52,11 @@ public class CalendarView extends JPanel {
 	
 	public void setView(boolean day) {
 		this.day = day;
-		createCalendars(day, startDate, Practitioner.DENTIST, dentistPanel);
-		createCalendars(day, startDate, Practitioner.HYGIENIST, hygienstPanel);
+		createCalendars(day, startDate, Partner.DENTIST, dentistPanel);
+		createCalendars(day, startDate, Partner.HYGIENIST, hygienstPanel);
 	}
 	
-	public static void createCalendars(boolean day, LocalDate date, Practitioner p, JPanel panel) {
+	public static void createCalendars(boolean day, LocalDate date, Partner p, JPanel panel) {
 		CalendarComp[] calendars = new CalendarComp[7];
 		panel.removeAll();
 		GridBagLayout layout = new GridBagLayout();

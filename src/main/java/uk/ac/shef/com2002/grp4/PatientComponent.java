@@ -5,6 +5,8 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.util.Optional;
 import uk.ac.shef.com2002.grp4.data.Patient;
+import uk.ac.shef.com2002.grp4.data.Treatment;
+import uk.ac.shef.com2002.grp4.databases.TreatmentUtils;
 
 public class PatientComponent extends BaseInfoComponent{
 	private Optional<Patient> patient;
@@ -13,7 +15,7 @@ public class PatientComponent extends BaseInfoComponent{
 	private final JTextField lastNameField;
 	private final JTextField dobField;
 	private final AddressComponent addressField;
-
+	
 	public PatientComponent(Patient patient){
 		this(Optional.ofNullable(patient));
 	}
@@ -41,7 +43,7 @@ public class PatientComponent extends BaseInfoComponent{
 		GridBagConstraints c = getBaseConstraints();
 		c.gridwidth = 2;
 		add(addressField,c);
-
+		
 		setPatient(patient);
 	}
 
@@ -63,7 +65,6 @@ public class PatientComponent extends BaseInfoComponent{
 			lastNameField.setText("");
 			dobField.setText("");
 			addressField.setAddress(Optional.empty());
-
 		}
 	}
 }

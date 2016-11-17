@@ -23,6 +23,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import uk.ac.shef.com2002.grp4.Partner;
 import uk.ac.shef.com2002.grp4.data.Appointment;
 import uk.ac.shef.com2002.grp4.databases.AppointmentUtils;
 import uk.ac.shef.com2002.grp4.util.DPIScaling;
@@ -48,7 +49,7 @@ public class CalendarComp extends JPanel {
 	ArrayList<CalendarClickListener> slotListeners = new ArrayList<CalendarClickListener>();
 	
 	Color calendarColor;
-	Practitioner practitioner;
+	Partner practitioner;
 	
 	private CalendarClickListener calSlotClick = new CalendarClickListener() {
 		
@@ -109,11 +110,11 @@ public class CalendarComp extends JPanel {
 	};
 	
 	
-	public CalendarComp(List<Appointment> appointmentsOnDate,LocalDate date, Practitioner practitioner) {
+	public CalendarComp(List<Appointment> appointmentsOnDate,LocalDate date, Partner practitioner) {
 		super();
 		this.practitioner = practitioner;
-		if (practitioner == Practitioner.DENTIST) calendarColor = DENTIST_COLOUR;
-		else if (practitioner == Practitioner.HYGIENIST) calendarColor = HYGIENIST_COLOUR;
+		if (practitioner == Partner.DENTIST) calendarColor = DENTIST_COLOUR;
+		else if (practitioner == Partner.HYGIENIST) calendarColor = HYGIENIST_COLOUR;
 		setAppointmentsAndDate(appointmentsOnDate,date);
 		layout = new GridBagLayout();
 		layout.columnWidths = new int[] {1, 1};
@@ -181,8 +182,8 @@ public class CalendarComp extends JPanel {
 		
 		//Add dentist/hygienist label
 		String p = ""; 
-		if (practitioner == Practitioner.DENTIST) p = "Dentist";
-		else if (practitioner == Practitioner.HYGIENIST) p = "Hygienist";
+		if (practitioner == Partner.DENTIST) p = "Dentist";
+		else if (practitioner == Partner.HYGIENIST) p = "Hygienist";
 		
 		c.gridwidth = 1;
 		c.gridx = 0;
@@ -240,8 +241,4 @@ public class CalendarComp extends JPanel {
 		}
 	}
 	
-}
-
-enum Practitioner {
-	DENTIST, HYGIENIST;
 }

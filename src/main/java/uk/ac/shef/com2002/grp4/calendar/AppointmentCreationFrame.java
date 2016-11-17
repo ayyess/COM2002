@@ -8,16 +8,13 @@
 
 package uk.ac.shef.com2002.grp4.calendar;
 
-import uk.ac.shef.com2002.grp4.BaseDialog;
-import uk.ac.shef.com2002.grp4.FindPatientDialog;
+import uk.ac.shef.com2002.grp4.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Duration;
+import java.time.*;
 
 import uk.ac.shef.com2002.grp4.PatientSelector;
 import uk.ac.shef.com2002.grp4.databases.AppointmentUtils;
@@ -31,7 +28,7 @@ public class AppointmentCreationFrame extends BaseDialog {
 	private final JComboBox<Integer> lengthCombo;
 	private final PatientSelector patientSelector;
 
-	public AppointmentCreationFrame(Component owner, LocalDate date, LocalTime time, Practitioner practitioner) {
+	public AppointmentCreationFrame(Component owner, LocalDate date, LocalTime time, Partner practitioner) {
 		super(owner,"Create Appointment");
 		this.date = date;
 		this.time = time;

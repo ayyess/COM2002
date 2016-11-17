@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS treatments (
 
 CREATE TABLE IF NOT EXISTS treatment_applications(
     treatment_name VARCHAR(255) NOT NULL,
-    appointment_date DATE NOT NULL,
+    appointment_date DATETIME NOT NULL,
     practitioner VARCHAR(255) NOT NULL,
     PRIMARY KEY(treatment_name,appointment_date,practitioner),
     FOREIGN KEY(treatment_name)

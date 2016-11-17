@@ -8,21 +8,14 @@
 
 package uk.ac.shef.com2002.grp4;
 
-import org.jdatepicker.JDatePicker;
-import uk.ac.shef.com2002.grp4.databases.PatientUtils;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.util.Calendar;
 import java.time.*;
 
 abstract public class BaseDialog extends JDialog {
 	private boolean canceled = false;
 	private int row = 0;
-
+	
 	protected int nextRow(){
 		return row++;
 	}
@@ -49,11 +42,16 @@ abstract public class BaseDialog extends JDialog {
 	protected void addButtons(JButton... buttons) {
 		Container contentPane = rootPane.getContentPane();
 		GridBagConstraints c = getBaseConstraints();
-
+		c.gridx = -1;
+		c.gridwidth = 2;
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new FlowLayout());
 		c.fill=GridBagConstraints.HORIZONTAL;
 		for(JButton button: buttons) {
-			contentPane.add(button,c);
+			buttonPanel.add(button);
 		}
+		
+		contentPane.add(buttonPanel, c);
 
 		nextRow();
 	}
