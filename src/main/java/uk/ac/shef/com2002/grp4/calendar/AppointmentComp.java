@@ -37,9 +37,7 @@ public class AppointmentComp extends JPanel {
 		startLabel = new JLabel(appointment.getStart().toString());
 		durationLabel = new JLabel(""+duration);
 		
-		startLabel.setOpaque(true);
 		startLabel.setHorizontalAlignment(JLabel.CENTER);
-		durationLabel.setOpaque(true);
 		durationLabel.setHorizontalAlignment(JLabel.CENTER);
 		
 		add(startLabel);
@@ -48,8 +46,6 @@ public class AppointmentComp extends JPanel {
 	
 	public void setColor(Color c) {
 		setBackground(c);
-		if (startLabel != null) startLabel.setBackground(c);
-		if (durationLabel != null) durationLabel.setBackground(c);
 	}
 	
 	public Appointment getAppointment() {

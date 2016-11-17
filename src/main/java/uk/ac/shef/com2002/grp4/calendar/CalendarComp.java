@@ -134,6 +134,7 @@ public class CalendarComp extends JPanel {
 		addHeaders();
 		int[] times = new int[((END-START)*60)/DIV];
 		for (AppointmentComp a : appointments) {
+			a.setColor(a.appointment.getPractitioner().toUpperCase().equals(Practitioner.DENTIST.toString())?DENTIST_COLOUR:HYGIENIST_COLOUR);
 			a.removeMouseListener(appointmentAdapter);
 			if (a.start >= START) {
 				a.addMouseListener(appointmentAdapter);
