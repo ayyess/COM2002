@@ -133,6 +133,7 @@ public class CalendarComp extends JPanel {
 		addHeaders();
 		int[] times = new int[((END-START)*60)/DIV];
 		for (AppointmentComp a : appointments) {
+			a.removeMouseListener(appointmentAdapter);
 			if (a.start >= START) {
 				a.addMouseListener(appointmentAdapter);
 				GridBagConstraints c = new GridBagConstraints();
