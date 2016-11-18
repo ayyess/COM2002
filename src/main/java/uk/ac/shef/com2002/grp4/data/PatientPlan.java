@@ -15,15 +15,17 @@ import uk.ac.shef.com2002.grp4.databases.PatientPlanUtils;
  * Created by Dan-L on 09/11/2016.
  */
 public class PatientPlan {
-    private int patientID;
+    private long patientID;
     private String name;
-    private int cost;
+	private int cost;
     private LocalDate startDate;
     private int remCheckUps;
     private int remHygiene;
     private int remRepairs;
 
-    public PatientPlan(int id, String name, int cost, LocalDate startDate, int checks, int hygienes, int repairs) {
+	private static final String DEFAULT_PLAN_NAME = "NHS";
+
+    public PatientPlan(long id, String name, int cost, LocalDate startDate, int checks, int hygienes, int repairs) {
         this.patientID = id;
         this.name = name;
         this.cost = cost;
@@ -33,11 +35,23 @@ public class PatientPlan {
         this.remRepairs = repairs;
     }
 
+	public static PatientPlan defaultFor(Patient p){
+		return new PatientPlan(
+			p.getID(),
+			DEFAULT_PLAN_NAME,
+			0,
+			LocalDate.now(),
+			0,
+			0,
+			0
+		);
+	}
+
 	public void setPlan(Plan plan){
 		this.name = plan.getName();
 	}
 
 	public void update(){
-		PatientPlanUtils.updateById(patientID,name,cost,startDate,remCheckUps,remHygiene,remRepairs);
+		PatientPlanUtils.updateById(patientID,name,startDate,remCheckUps,remHygiene,remRepairs);
 	}
 }
