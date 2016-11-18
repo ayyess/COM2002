@@ -209,4 +209,8 @@ public class CalendarComp extends JPanel {
 		}
 	}
 	
+	public LocalDate getDate() {
+		return date;
+	}
+	
 }
