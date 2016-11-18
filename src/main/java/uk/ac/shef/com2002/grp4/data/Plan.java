@@ -10,15 +10,34 @@
 package uk.ac.shef.com2002.grp4.data;
 
 /**
- * Created by Dan-L on 09/11/2016.
+ * Used to store the Treatment Plan details temporarily
+ * <br>
+ * @author  Group 4
+ * @version 1.0
+ * @since   1/11/2016
  */
 public class Plan {
+
+    /** This stores the name of the plan. */
     private String name;
+    /** This stores the cost of the plan. */
     private int cost;
+    /** This stores the maximum number of checkups the plan contains. */
     private int checkups;
+    /** This stores the maximum number of hygiene visits the plan contains. */
     private int hygiene_visits;
+    /** This stores the maximum number of repairs the plan contains. */
     private int repairs;
 
+    /**
+     * This constructors creates a (treatment) Plan object.
+     *
+     * @param name - the name of the treatment
+     * @param cost - the cost of the treatment
+     * @param checkups - the number of checkups it covers
+     * @param hygiene - the number of hygiene visits it covers
+     * @param repairs - the number of repairs it covers
+     */
     public Plan(String name, int cost, int checkups, int hygiene, int repairs) {
         this.name = name;
         this.cost = cost;
@@ -27,6 +46,10 @@ public class Plan {
         this.repairs = repairs;
     }
 
+    /**
+     * This gets the name of the Plan
+     * @return name
+     */
 	public String getName(){
 		return name;
 	}

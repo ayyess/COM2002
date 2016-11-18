@@ -25,14 +25,31 @@ public class PatientPlan {
     private long patientID;
 	/** This stores the name of the Treatment Plan. */
     private String name;
+	/** This stores the cost of the Treatment Plan. */
 	private int cost;
+	/* This stores the date that the plan was initiliased. */
     private LocalDate startDate;
+	/** This stores the remaining Check Ups. */
     private int remCheckUps;
+	/** This stores the remaining Hygiene Visits. */
     private int remHygiene;
+	/** This stores the remaining Repairs. */
     private int remRepairs;
 
+	/** This stores the default plan that everyone receives. */
 	private static final String DEFAULT_PLAN_NAME = "NHS";
 
+	/**
+	 * This constructor creates a Patient Plan object.
+	 *
+	 * @param id - the id of the patient
+	 * @param name - the name of the treatment plan
+	 * @param cost - the cost of the treatment plan
+	 * @param startDate - the startDate of this plan
+	 * @param checks - the remaining check ups of this plan
+	 * @param hygienes - the remaining hygiene visits of this plan
+	 * @param repairs - the remaining repairs of this plan
+	 */
     public PatientPlan(long id, String name, int cost, LocalDate startDate, int checks, int hygienes, int repairs) {
         this.patientID = id;
         this.name = name;
@@ -43,6 +60,12 @@ public class PatientPlan {
         this.remRepairs = repairs;
     }
 
+	/**
+	 * This creates a default patient plan.
+	 *
+	 * @param p - a patient id
+	 * @return a new empty Patient Plan
+	 */
 	public static PatientPlan defaultFor(Patient p){
 		return new PatientPlan(
 			p.getID(),
@@ -55,14 +78,28 @@ public class PatientPlan {
 		);
 	}
 
+	/**
+	 * This sets a patient to have a particular plan.
+	 *
+	 * @param plan - a Treatment Plan
+	 */
 	public void setPlan(Plan plan){
 		this.name = plan.getName();
 	}
 
+	/**
+	 * This updates the details of the Patient Plan permanently in the database.
+	 */
 	public void update(){
 		PatientPlanUtils.updateById(patientID,name,startDate,remCheckUps,remHygiene,remRepairs);
 	}
 
+	/**
+	 * This tests if two patient plans are equal to each other.
+	 *
+	 * @param obj - an Object
+	 * @return - a Boolean which is true if the two objects are equal
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if(!(obj instanceof Address)){

@@ -11,22 +11,49 @@ package uk.ac.shef.com2002.grp4.data;
 
 import java.util.Objects;
 
+/**
+ * Used to store the Treatment details temporarily
+ * <br>
+ * @author  Group 4
+ * @version 1.0
+ * @since   1/11/2016
+ */
 public class Treatment {
 
+	/** This stores the name of the treatment. */
 	private String name;
+	/** This stores the cost of the treatment. */
 	private int cost;
+	/** This stores the type of treatment it is. */
 	private String type;
 
+	/**
+	 * This constructor creates a Treatment object.
+	 *
+	 * @param name - the name of the treatment
+	 * @param cost - the cost of the treatment
+	 * @param type - the type of treatment it is
+	 */
 	public Treatment(String name, int cost, String type) {
 		this.name = name;
 		this.cost = cost;
 		this.type = type;
 	}
-	
+
+	/**
+	 * This gets the cost of the Treatment
+	 * @return cost
+	 */
 	public int getCost() {
 		return cost;
 	}
-	
+
+	/**
+	 * This tests if two treatments are equal to each other.
+	 *
+	 * @param obj - an Object
+	 * @return - a Boolean which is true if the two objects are equal
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if(!(obj instanceof Address)){
