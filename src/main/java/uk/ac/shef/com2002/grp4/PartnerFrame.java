@@ -1,11 +1,19 @@
 package uk.ac.shef.com2002.grp4;
 
-import java.awt.*;
-import java.time.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.MouseEvent;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
-import javax.swing.*;
-import java.util.*;
+import javax.swing.ButtonGroup;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 
+import uk.ac.shef.com2002.grp4.calendar.AppointmentComp;
+import uk.ac.shef.com2002.grp4.calendar.AppointmentFrame;
 import uk.ac.shef.com2002.grp4.calendar.CalendarClickListener;
 import uk.ac.shef.com2002.grp4.calendar.CalendarView;
 
@@ -15,9 +23,9 @@ public class PartnerFrame extends JFrame {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setPreferredSize(new Dimension(800,600));
         
-        JPanel calendar = new JPanel();
+        CalendarView calendar = new CalendarView(p);
         JScrollPane scroll = new JScrollPane(calendar);
-
+        calendar.setDate(LocalDate.now());
         ButtonGroup view = new ButtonGroup();
         JRadioButton day = new JRadioButton("Day");
         JRadioButton week = new JRadioButton("Week");
@@ -25,29 +33,39 @@ public class PartnerFrame extends JFrame {
         view.add(week);
         day.setSelected(true);
         day.addActionListener((e) -> {
-    		setCalendarMode(day.isSelected(), p, calendar);
+        	calendar.setView(day.isSelected());
         });
         week.addActionListener((e) -> {
-    		setCalendarMode(day.isSelected(), p, calendar);
+        	calendar.setView(day.isSelected());
         });
         
         JPanel radioButtons = new JPanel();
         radioButtons.add(day);
         radioButtons.add(week);
         
-        scroll.getVerticalScrollBar().setUnitIncrement(5);        
+        scroll.getVerticalScrollBar().setUnitIncrement(5);
+        scroll.getVerticalScrollBar().setPreferredSize(new Dimension(25, 0));
         add(radioButtons, BorderLayout.NORTH);
         add(scroll);
         
-        setCalendarMode(true, p, calendar);
+        calendar.addAppointmentClickListener(new CalendarClickListener() {
+
+			public void onRelease(MouseEvent e) {
+				//Show details about the appointment maybe?
+			}
+			
+			public void onPressed(MouseEvent e) {
+				AppointmentComp comp = (AppointmentComp)e.getSource();
+				AppointmentFrame f = new AppointmentFrame(calendar, comp.getAppointment());
+				f.setVisible(true);
+				calendar.setDate(LocalDate.now());
+			}
+			public void onClick(MouseEvent e) {}
+		}); 
         
-        pack();
+        calendar.setView(day.isSelected());
+        
         setVisible(true);
-	}
-	
-	public void setCalendarMode(boolean day, Partner p, JPanel panel) {
-		panel.removeAll();
-		CalendarView.createCalendars(day, LocalDate.now(), p, panel, new ArrayList<CalendarClickListener>(), new ArrayList<CalendarClickListener>());
 	}
 	
 	public static void main(String[] args) {

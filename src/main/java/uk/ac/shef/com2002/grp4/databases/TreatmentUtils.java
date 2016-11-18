@@ -45,7 +45,7 @@ public class TreatmentUtils {
         ArrayList<Treatment> treatments = new ArrayList<Treatment>();
         return ConnectionManager.withStatement(
         		"SELECT t.* FROM treatment_applications t " + 
-        		"INNER JOIN appointments a ON STR_TO_DATE(CONCAT(a.date, ' ', a.start), '%Y-%m-%d %H:%i:%s')=t.appointment_date " + 
+        		"INNER JOIN appointments a ON a.date=t.appointment_date " + 
         		"INNER JOIN patients p ON p.id=a.patient_id " + 
         		"WHERE p.id=?;",
         		(stmt)-> {

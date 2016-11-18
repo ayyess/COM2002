@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.border.Border;
 
 import uk.ac.shef.com2002.grp4.Partner;
 import uk.ac.shef.com2002.grp4.data.Appointment;
@@ -44,16 +45,26 @@ public class CalendarView extends JPanel {
 	
 	
 	public CalendarView(LocalDate startDate) {
-		this();
 		this.startDate = startDate;
-		setView(day);
-	}
-	
-	public CalendarView() {
 		this.setLayout(new BorderLayout());
 		tabbedPane.addTab("Dentist", createScrollPane(dentistPanel));
 		tabbedPane.addTab("Hygienist", createScrollPane(hygienstPanel));
 		this.add(tabbedPane, BorderLayout.CENTER);
+		setView(day);
+	}
+	
+	public CalendarView(Partner p) {
+		this.setLayout(new BorderLayout());
+		switch (p) {
+		case DENTIST:
+			add(dentistPanel, BorderLayout.CENTER);
+			break;
+		case HYGIENIST:
+			add(hygienstPanel, BorderLayout.CENTER);
+			break;
+		default:
+			break;
+		}
 	}
 	
 	public void setDate(LocalDate date) {
