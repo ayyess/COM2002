@@ -57,7 +57,7 @@ public class PatientPlanUtils {
     }
 
 
-	public static void updateById(long id,String name, int cost LocalDate startDate, int remCheckups, int remHygiene, int remRepairs){
+	public static void updateById(long id,String name, int cost, LocalDate startDate, int remCheckups, int remHygiene, int remRepairs){
 		ConnectionManager.withStatement("UPDATE patient_plans SET plan_name=?, used_checkups=?, used_hygiene_visits=?, used_repairs=?, renew_date =? WHERE patient_id = ?",(stmt)-> {
 			stmt.setString(1,name);
 			stmt.setInt(2,cost);

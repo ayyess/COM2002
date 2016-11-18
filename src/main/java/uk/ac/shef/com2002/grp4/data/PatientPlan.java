@@ -22,7 +22,7 @@ public class PatientPlan {
     private int remHygiene;
     private int remRepairs;
 
-    public PatientPlan(int id, String name, int cost, LocalDate startDate, int checks, int hygienes, int repairs) {:
+    public PatientPlan(int id, String name, int cost, LocalDate startDate, int checks, int hygienes, int repairs) {
         this.patientID = id;
         this.name = name;
         this.cost = cost;
