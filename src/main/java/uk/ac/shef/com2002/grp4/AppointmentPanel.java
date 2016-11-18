@@ -79,6 +79,8 @@ public class AppointmentPanel extends JPanel {
 				
 				AppointmentCreationFrame f = new AppointmentCreationFrame(calendar, calendar.getDate(), localTime, slot.getPartner());
 				f.setVisible(true);
+				//Update
+				calendar.setDate(calendar.getDate());
 			}
 			
 			public void onClick(MouseEvent e) {}
@@ -96,6 +98,7 @@ public class AppointmentPanel extends JPanel {
 				AppointmentComp comp = (AppointmentComp)e.getSource();
 				AppointmentFrame f = new AppointmentFrame(calendar, comp.getAppointment());
 				f.setVisible(true);
+				//Update
 				calendar.setDate(calendar.getDate());
 			}
 			public void onClick(MouseEvent e) {}

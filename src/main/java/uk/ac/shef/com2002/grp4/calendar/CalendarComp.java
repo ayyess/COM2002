@@ -13,8 +13,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -130,7 +134,6 @@ public class CalendarComp extends JPanel {
 	
 	/***
 	 * Adds creates two headers for this calendar.
-	 * Headers are Dentist | Hygienist
 	 */
 	private void addHeaders() {
 		//Add date
@@ -139,7 +142,8 @@ public class CalendarComp extends JPanel {
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridwidth = 2;
-		JLabel date = new JLabel(this.date.toString());
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("'<html>'eee'<br/>'dd-MM-yyyy'<html>'");
+		JLabel date = new JLabel(this.date.format(formatter));
 		date.setHorizontalAlignment(JLabel.CENTER);
 		date.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		add(date, c);
