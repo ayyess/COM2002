@@ -102,7 +102,7 @@ public class PatientPlan {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if(!(obj instanceof Address)){
+		if(!(obj instanceof PatientPlan)){
 			return false;
 		}
 		PatientPlan rhs = (PatientPlan) obj;
