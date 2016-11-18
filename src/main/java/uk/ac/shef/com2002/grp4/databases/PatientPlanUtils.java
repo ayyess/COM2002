@@ -1,8 +1,9 @@
 /* This file is part of Grp4 Dental Care System.
- * To ensure compliance with the GNU General Public License. This System
- * is for private, educational use. It will not be released publicly and will
- * solely be viewed by those marking the COM2002 assignment.
+ * This system is for private, educational use. It should solely be viewed by those
+ * marking the COM2002 assignment.
+ * Unauthorised copying or editing of this file is strictly prohibited.
  *
+ * This system uses GPL-licensed software.
  * Visit <http://www.gnu.org/licenses/> to see the license.
  */
 
@@ -14,10 +15,21 @@ import java.sql.ResultSet;
 import java.time.LocalDate;
 
 /**
- * Created by Dan-L on 02/11/2016.
+ * Used to control database interaction.
+ * Specifically the patient_plans table
+ * <br>
+ * @author  Group 4
+ * @version 1.0
+ * @since   1/11/2016
  */
 public class PatientPlanUtils {
 
+    /**
+     * This retrieves a particular patient's plan from the database.
+     *
+     * @param id - a patient_id
+     * @return a new PatientPlan object
+     */
     public static PatientPlan getPlanByPatientID(long id) {
         return ConnectionManager.withStatement("SELECT * FROM patient_plans JOIN treatment_plans ON patient_plans.plan_name = treatment_plans.name WHERE patient_id=?",(stmt)-> {
             stmt.setLong(1, id);
@@ -26,6 +38,11 @@ public class PatientPlanUtils {
         });
     }
 
+    /**
+     * This increases the amount of used checkups on a Patient Plan.
+     *
+     * @param id - a patient_id
+     */
     public static void completeCheckUp(long id) {
         ConnectionManager.withStatement("UPDATE patient_plans SET used_checkups=used_checkups + 1 WHERE patient_id=?",(stmt)-> {
             stmt.setLong(1, id);
@@ -34,6 +51,11 @@ public class PatientPlanUtils {
         });
     }
 
+    /**
+     * This increases the amount of used hygiene visits on a Patient Plan.
+     *
+     * @param id - a patient_id
+     */
     public static void completeHygieneVisit(long id) {
         ConnectionManager.withStatement("UPDATE patient_plans SET used_hygiene_visits=used_hygiene_visits + 1 WHERE patient_id=?",(stmt)-> {
             stmt.setLong(1, id);
@@ -42,6 +64,11 @@ public class PatientPlanUtils {
         });
     }
 
+    /**
+     * This increases the amount of used repairs on a Patient Plan.
+     *
+     * @param id - a patient_id
+     */
     public static void completeRepair(long id) {
         ConnectionManager.withStatement("UPDATE patient_plans SET used_repairs=used_repairs + 1 WHERE patient_id=?",(stmt)-> {
             stmt.setLong(1, id);
@@ -50,6 +77,9 @@ public class PatientPlanUtils {
         });
     }
 
+    /**
+     * This resets the plan if a year has passed since it was last reset.
+     */
     public static void resetPlans() {
         ConnectionManager.withStatement("UPDATE patient_plans SET reset_date=NOW(), used_checkups=0, used_hygiene_visits=0, used_repairs=0 WHERE reset_date < DATE_SUB(NOW(),INTERVAL 1 YEAR)",(stmt)-> {
             stmt.executeUpdate();
@@ -57,14 +87,17 @@ public class PatientPlanUtils {
         });
     }
 
-
-	public static void updateById(long id,String name, LocalDate startDate, int remCheckups, int remHygiene, int remRepairs){
+    /**
+     * This updates a Patient Plan by the Patient's ID.
+     *
+     * @param id - a patient_id
+     * @param name - new Treatment Plan name
+     * @param startDate - new start date
+     */
+	public static void updateById(long id,String name, LocalDate startDate){
 		ConnectionManager.withStatement("UPDATE patient_plans SET plan_name=?, reset_date=?, used_checkups=?, used_hygiene_visits=?, used_repairs=?, renew_date =? WHERE patient_id = ?",(stmt)-> {
 			stmt.setString(1,name);
 			stmt.setDate(2,java.sql.Date.valueOf(startDate));
-			stmt.setInt(3,remCheckups);
-			stmt.setInt(4,remHygiene);
-			stmt.setInt(5,remRepairs);
 			stmt.setLong(6,id);
             stmt.executeUpdate();
             return  null;

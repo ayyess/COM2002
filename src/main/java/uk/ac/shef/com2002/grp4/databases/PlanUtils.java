@@ -1,8 +1,9 @@
 /* This file is part of Grp4 Dental Care System.
- * To ensure compliance with the GNU General Public License. This System
- * is for private, educational use. It will not be released publicly and will
- * solely be viewed by those marking the COM2002 assignment.
+ * This system is for private, educational use. It should solely be viewed by those
+ * marking the COM2002 assignment.
+ * Unauthorised copying or editing of this file is strictly prohibited.
  *
+ * This system uses GPL-licensed software.
  * Visit <http://www.gnu.org/licenses/> to see the license.
  */
 
@@ -14,10 +15,21 @@ import java.sql.ResultSet;
 import java.util.*;
 
 /**
- * Created by Dan-L on 09/11/2016.
+ * Used to control database interaction.
+ * Specifically the treatment_plans table
+ * <br>
+ * @author  Group 4
+ * @version 1.0
+ * @since   1/11/2016
  */
 public class PlanUtils {
 
+    /**
+     * This will get the details of a TreatmentPlan by the plan name.
+     *
+     * @param s - the plan name
+     * @return a new Plan object
+     */
     public static Plan getDetailsByName(String s) {
         return ConnectionManager.withStatement("SELECT * FROM treatment_plans WHERE name=?",(stmt)-> {
             stmt.setString(1, s);
@@ -26,6 +38,11 @@ public class PlanUtils {
         });
     }
 
+    /**
+     * This will get a list of available TreatmentPlans.
+     *
+     * @return an ArrayList containing all TreatmentPlans
+     */
     public static List<Plan> getTreatmentPlans() {
         ArrayList<Plan> plans = new ArrayList<Plan>();
 

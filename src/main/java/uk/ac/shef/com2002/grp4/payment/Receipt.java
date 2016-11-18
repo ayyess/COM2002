@@ -1,3 +1,12 @@
+/* This file is part of Grp4 Dental Care System.
+ * This system is for private, educational use. It should solely be viewed by those
+ * marking the COM2002 assignment.
+ * Unauthorised copying or editing of this file is strictly prohibited.
+ *
+ * This system uses GPL-licensed software.
+ * Visit <http://www.gnu.org/licenses/> to see the license.
+ */
+
 package uk.ac.shef.com2002.grp4.payment;
 
 import java.awt.Color;
@@ -14,24 +23,51 @@ import java.util.List;
 
 import uk.ac.shef.com2002.grp4.data.Patient;
 import uk.ac.shef.com2002.grp4.data.Treatment;
-
+/**
+ * Used to print patient a receipt.
+ * <br>
+ * @author  Group 4
+ * @version 1.0
+ * @since   1/11/2016
+ */
 public class Receipt implements Printable {
 
+	/** This stores the Patient object. */
 	private Patient patient;
+	/** This stores the cost of the treatments. */
 	private int cost;
+	/** This stores the treatments being invoiced for. */
 	private List<Treatment> treatments;
-	
+
+	/**
+	 * This constructor creates a new receipt object which can be used to invoice a
+	 * customer for their treatments.
+	 *
+	 * @param patient - a Patient
+	 * @param treatments - an ArrayList of Treatment
+	 * @param cost - amount owed to the practice
+	 */
 	public Receipt(Patient patient, List<Treatment> treatments, int cost) {
 		this.patient = patient;
 		this.treatments = treatments;
 		this.cost = cost;
 	}
-	
+
+	/** Prints the receipt. */
 	public void print() {
 		PrinterJob job = PrinterJob.getPrinterJob();
 		job.setPrintable(this);
 	}
 
+	/**
+	 * Prints the receipt in a particular format.
+	 *
+	 * @param g - the Graphics Class
+	 * @param pageFormat - a pageFormat
+	 * @param pageIndex - an index for the page
+	 * @return PAGE_EXISTS
+	 * @throws PrinterException
+	 */
 	@Override
 	public int print(Graphics g, PageFormat pageFormat, int pageIndex) throws PrinterException {
 		if (pageIndex != 0) {
@@ -106,7 +142,12 @@ public class Receipt implements Printable {
 		//return PAGE_EXISTS; //Success
 		return PAGE_EXISTS; //Success
 	}
-	
+
+	/**
+	 * This converts the cost of a treatment to a string.
+	 * @param cost - the cost as an integer
+	 * @return a String representation of the cost
+	 */
 	private String costToDecimalString(int cost) {
 		return String.valueOf(cost / 100.0);
 	}

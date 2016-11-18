@@ -1,8 +1,9 @@
 /* This file is part of Grp4 Dental Care System.
- * To ensure compliance with the GNU General Public License. This System
- * is for private, educational use. It will not be released publicly and will
- * solely be viewed by those marking the COM2002 assignment.
+ * This system is for private, educational use. It should solely be viewed by those
+ * marking the COM2002 assignment.
+ * Unauthorised copying or editing of this file is strictly prohibited.
  *
+ * This system uses GPL-licensed software.
  * Visit <http://www.gnu.org/licenses/> to see the license.
  */
 
@@ -15,9 +16,20 @@ import java.sql.Statement;
 import java.util.*;
 
 /**
- * Created by Dan-L on 02/11/2016.
+ * Used to control database interaction.
+ * Specifically the addresses table
+ * <br>
+ * @author  Group 4
+ * @version 1.0
+ * @since   1/11/2016
  */
 public class AddressUtils {
+    /**
+     * This gets an Address from the Database by its ID.
+     *
+     * @param id - an address_id
+     * @return an Address object
+     */
     public static Address getAddressByID(long id) {
         return ConnectionManager.withStatement("SELECT * FROM addresses WHERE id=?",(stmt)->{
             stmt.setLong(1,id);
@@ -27,6 +39,12 @@ public class AddressUtils {
         });
     }
 
+    /**
+     * This gets all Addresses with a particular postcode.
+     *
+     * @param postcode - a postcode
+     * @return - an ArrayList of Address(es)
+     */
 	public static List<Address> findAddresses(String postcode) {
 		List<Address> addresses = new ArrayList<>();
 		ConnectionManager.withStatement("SELECT * FROM addresses WHERE postcode=?",(stmt)->{
@@ -41,6 +59,13 @@ public class AddressUtils {
 
 	}
 
+    /**
+     * This gets the id of an address by its house_number and postcode.
+     *
+     * @param houseNumber - a houseNumber
+     * @param postcode - a postcode
+     * @return an ID
+     */
     public static int getAddressID(int houseNumber, String postcode) {
         return ConnectionManager.withStatement("SELECT id FROM addresses WHERE house_number=?, postcode=?",(stmt)->{
             stmt.setInt(1,houseNumber);
@@ -49,6 +74,16 @@ public class AddressUtils {
         });
     }
 
+    /**
+     * This updates the address in the database by its ID.
+     *
+     * @param id - the id of the address to be updated
+     * @param houseNumber - the new house number
+     * @param street - the new street
+     * @param district - the new district
+     * @param city - the new city
+     * @param postcode - the new postcode
+     */
     public static void updateAddressByID(long id, int houseNumber, String street, String district, String city, String postcode) {
         ConnectionManager.withStatement("UPDATE addresses SET house_number=?, street=?, district=?, city=?, postcode=? WHERE id=?",(stmt)->{
             stmt.setInt(1, houseNumber);
@@ -62,6 +97,16 @@ public class AddressUtils {
         });
     }
 
+    /**
+     * This inserts a new address into the database.
+     *
+     * @param houseNumber - the house number
+     * @param street - the street
+     * @param district - the district
+     * @param city - the city
+     * @param postcode - the postcode
+     * @return the id of the new address
+     */
     public static long insertAddress(int houseNumber, String street, String district, String city, String postcode) {
         return ConnectionManager.withStatement("INSERT INTO addresses VALUES (DEFAULT,?,?,?,?,?)",(stmt)->{
             stmt.setInt(1,houseNumber);

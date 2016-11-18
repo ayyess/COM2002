@@ -1,8 +1,9 @@
 /* This file is part of Grp4 Dental Care System.
- * To ensure compliance with the GNU General Public License. This System
- * is for private, educational use. It will not be released publicly and will
- * solely be viewed by those marking the COM2002 assignment.
+ * This system is for private, educational use. It should solely be viewed by those
+ * marking the COM2002 assignment.
+ * Unauthorised copying or editing of this file is strictly prohibited.
  *
+ * This system uses GPL-licensed software.
  * Visit <http://www.gnu.org/licenses/> to see the license.
  */
 
@@ -14,9 +15,11 @@ import java.sql.*;
 
 
 /**
- * <Doc here>
- * <p>
- * Created on 04/11/2016.
+ * Manages the connection between the Utility Classes and the Database server.
+ * <br>
+ * @author  Group 4
+ * @version 1.0
+ * @since   1/11/2016
  */
 public class ConnectionManager {
 	private static <RETURN> RETURN withConnection(With<Connection, RETURN, SQLException> with) {

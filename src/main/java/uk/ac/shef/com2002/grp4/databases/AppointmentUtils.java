@@ -1,8 +1,9 @@
 /* This file is part of Grp4 Dental Care System.
- * To ensure compliance with the GNU General Public License. This System
- * is for private, educational use. It will not be released publicly and will
- * solely be viewed by those marking the COM2002 assignment.
+ * This system is for private, educational use. It should solely be viewed by those
+ * marking the COM2002 assignment.
+ * Unauthorised copying or editing of this file is strictly prohibited.
  *
+ * This system uses GPL-licensed software.
  * Visit <http://www.gnu.org/licenses/> to see the license.
  */
 
@@ -22,10 +23,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Created by Dan-L on 02/11/2016.
+ * Used to control database interaction.
+ * Specifically the appointments table
+ * <br>
+ * @author  Group 4
+ * @version 1.0
+ * @since   1/11/2016
  */
 public class AppointmentUtils {
 
+	/**
+	 * This gets the appointments that a particular patient has booked.
+	 *
+	 * @param id - the id of the patient
+	 * @return an ArrayList of Appointment(s)
+	 */
     public static List<Appointment> getAppointmentByPatientID(int id) {
         List<Appointment> appointments = new ArrayList<>();
         return ConnectionManager.withStatement("SELECT * FROM appointments WHERE id=?",(stmt)->{
@@ -37,8 +49,14 @@ public class AppointmentUtils {
             return appointments;
         });
     }
-    
-    public static List<Appointment> getAppointmentByDate(LocalDate date) {
+
+	/**
+	 * This gets the appointments on a particular day.
+	 *
+	 * @param date - the date that appointments are needed for
+	 * @return an ArrayList of Appointment(s)
+	 */
+	public static List<Appointment> getAppointmentByDate(LocalDate date) {
 		java.sql.Date sqlDate = java.sql.Date.valueOf(date);
         List<Appointment> appointments = new ArrayList<>();
         return ConnectionManager.withStatement("SELECT * FROM appointments WHERE date=?",(stmt)-> {
@@ -51,6 +69,13 @@ public class AppointmentUtils {
         });
     }
 
+	/**
+	 * This gets all appointments that fall within a certain date range.
+	 *
+	 * @param start - the startDate
+	 * @param end - the endDate
+	 * @return an ArrayList of Appointment(s)
+	 */
 	public static List<Appointment> getAppointmentByDateRange(LocalDate start, LocalDate end) {
 		java.sql.Date sqlStart = java.sql.Date.valueOf(start);
 		java.sql.Date sqlEnd = java.sql.Date.valueOf(end);
@@ -66,6 +91,15 @@ public class AppointmentUtils {
 		});
 	}
 
+	/**
+	 * This finds whether two appointments overlap.
+	 *
+	 * @param start1 - startTime of Appointment 1
+	 * @param end1 - endTime of Appointment 1
+	 * @param start2 - startTime of Appointment 2
+	 * @param end2 - endTime of Appointment 2
+	 * @return a Boolean, True if they overlap
+	 */
 	public static boolean isOverlapping(LocalTime start1, LocalTime end1, LocalTime start2, LocalTime end2) {
 		/*
 		  -----        ------    -----     -----
@@ -79,6 +113,15 @@ public class AppointmentUtils {
 			end1.equals(end2);
 	}
 
+	/**
+	 * /**
+	 * This gets all appointments that fall within a certain time range on a particular day.
+	 *
+	 * @param day - the date
+	 * @param start - the startTime
+	 * @param end - the endTime
+	 * @return an ArrayList of Appointment(s)
+	 */
 	public static List<Appointment> getAppointmentByTimeRange(LocalDate day, LocalTime start, LocalTime end) {
 		java.sql.Date sqlDate = java.sql.Date.valueOf(day);
 		List<Appointment> appointments = new ArrayList<>();
@@ -94,7 +137,16 @@ public class AppointmentUtils {
 			});
 	}
 
-	public static void insertAppointment(LocalDate date, String practioner, long patient_id, LocalTime start, Duration duration) {
+	/**
+	 * This inserts a new Appointment into the database.
+	 *
+	 * @param date - date of the appointment
+	 * @param practitioner - the practitioner
+	 * @param patient_id - the id of the patient
+	 * @param start - the startTime of the appointment
+	 * @param duration - the duration of the appointment
+	 */
+	public static void insertAppointment(LocalDate date, String practitioner, long patient_id, LocalTime start, Duration duration) {
 		java.sql.Date sqlDate = java.sql.Date.valueOf(date);
 		java.sql.Time sqlStartTime = java.sql.Time.valueOf(start);
 
@@ -103,14 +155,14 @@ public class AppointmentUtils {
 			throw new UserFacingException("Appointment outside of appointment hours.");
 		}
 		if (getAppointmentByTimeRange(date, start, end).stream()
-			.filter(p -> p.getPractitioner().equals(practioner))
+			.filter(p -> p.getPractitioner().equals(practitioner))
 			.count() > 0) {
 			throw new UserFacingException("Appointment overlap.");
 		}
 
 		ConnectionManager.withStatement("INSERT INTO appointments VALUES (?,?,?,?,?)",(stmt)-> {
             stmt.setDate(1, sqlDate);
-            stmt.setString(2, practioner);
+            stmt.setString(2, practitioner);
             stmt.setLong(3, patient_id);
             stmt.setTime(4, sqlStartTime);
             stmt.setInt(5, (int)duration.toMinutes());
@@ -119,6 +171,11 @@ public class AppointmentUtils {
         });
     }
 
+	/**
+	 * This deletes a particular Appointment from the database.
+	 *
+	 * @param appointment - an Appointment object
+	 */
 	public static void deleteAppointment(Appointment appointment) {
 		java.sql.Date sqlDate = java.sql.Date.valueOf(appointment.getDate());
 		java.sql.Time sqlStartTime = java.sql.Time.valueOf(appointment.getStart());
