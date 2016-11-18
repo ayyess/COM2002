@@ -2,7 +2,9 @@ package uk.ac.shef.com2002.grp4;
 
 import java.util.*;
 import javax.swing.*;
+import javax.swing.event.*;
 import java.awt.Component;
+import java.awt.event.*;
 import uk.ac.shef.com2002.grp4.databases.PlanUtils;
 import uk.ac.shef.com2002.grp4.data.Plan;
 
@@ -24,7 +26,7 @@ public class PlanSelector extends JPanel{
 		});
 		planSelector.addItemListener((ItemEvent ev)->{
 			if(ev.getStateChange() == ItemEvent.SELECTED){
-				for(ChangeListener listener:ChangeListeners){
+				for(ChangeListener listener:changeListeners){
 					listener.stateChanged(new ChangeEvent(this));
 				}
 			}
@@ -38,6 +40,6 @@ public class PlanSelector extends JPanel{
 	}
 
 	public Plan getSelectedItem(){
-		return planSelector.getSelectedItem();
+		return (Plan)planSelector.getSelectedItem();
 	}
 }

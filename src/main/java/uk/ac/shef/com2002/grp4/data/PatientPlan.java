@@ -9,6 +9,7 @@
 package uk.ac.shef.com2002.grp4.data;
 
 import java.time.LocalDate;
+import uk.ac.shef.com2002.grp4.databases.PatientPlanUtils;
 
 /**
  * Created by Dan-L on 09/11/2016.
@@ -33,10 +34,10 @@ public class PatientPlan {
     }
 
 	public void setPlan(Plan plan){
-		this.name = plan.name;
+		this.name = plan.getName();
 	}
 
 	public void update(){
-		PatientPlanUtils.updateById(patientID,name,cost,startDate,remCheckups,remHygiene,remRepairs);
+		PatientPlanUtils.updateById(patientID,name,cost,startDate,remCheckUps,remHygiene,remRepairs);
 	}
 }

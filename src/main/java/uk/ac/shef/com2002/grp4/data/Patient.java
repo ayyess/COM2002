@@ -9,6 +9,7 @@
 package uk.ac.shef.com2002.grp4.data;
 
 import uk.ac.shef.com2002.grp4.databases.PatientUtils;
+import uk.ac.shef.com2002.grp4.databases.PatientPlanUtils;
 import uk.ac.shef.com2002.grp4.databases.AddressUtils;
 
 import java.time.LocalDate;
@@ -91,10 +92,10 @@ public class Patient {
 		return id.get();
 	}
 
-	public PatientPlan getPatientPlan(){
-		return id.map((id)->
-			PatientPlanUtils.getPlanByPatientID(id)
-		);
+	public Optional<PatientPlan> getPatientPlan(){
+		return id.map((id)->{
+			return PatientPlanUtils.getPlanByPatientID(id);
+		});
 	}
 
 	public Address getAddress(){

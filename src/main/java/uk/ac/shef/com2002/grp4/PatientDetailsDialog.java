@@ -4,9 +4,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import javax.swing.event.*;
 import javax.swing.border.Border;
+import java.util.Optional;
 
 import uk.ac.shef.com2002.grp4.data.Patient;
+import uk.ac.shef.com2002.grp4.data.PatientPlan;
 import uk.ac.shef.com2002.grp4.data.Treatment;
 import uk.ac.shef.com2002.grp4.databases.PatientUtils;
 import uk.ac.shef.com2002.grp4.databases.TreatmentUtils;
@@ -34,9 +37,13 @@ public class PatientDetailsDialog extends BaseDialog implements ActionListener {
 		planSelector = new PlanSelector();
 		addLabeledComponent("Plan",planSelector);
 		planSelector.addChangeListener((ChangeEvent ev)->{
-			PatientPln plan = patient.getPatientPlan();
-			plan.setPlan(planSelector.getSelectedValue());
-			plan.update();
+			Optional<PatientPlan> plan = patient.getPatientPlan();
+			if(plan.isPresent()){
+				plan.get().setPlan(planSelector.getSelectedItem());
+				plan.get().update();
+			}else{
+				//TODO: handle the other case
+			}
 		});
 		nextRow();
 		add(new JLabel("Treatments:"),getBaseConstraints());
