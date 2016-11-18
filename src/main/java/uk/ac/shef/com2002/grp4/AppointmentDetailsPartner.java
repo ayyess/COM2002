@@ -15,6 +15,7 @@ import uk.ac.shef.com2002.grp4.data.Patient;
 import uk.ac.shef.com2002.grp4.data.Treatment;
 import uk.ac.shef.com2002.grp4.databases.AppointmentUtils;
 import uk.ac.shef.com2002.grp4.databases.PatientUtils;
+import uk.ac.shef.com2002.grp4.databases.TreatmentUtils;
 
 public class AppointmentDetailsPartner extends BaseDialog {
 	
@@ -35,21 +36,28 @@ public class AppointmentDetailsPartner extends BaseDialog {
 		addLabeledComponent("Treatments", treatmentList);
 		addLabeledComponent("Completed", completedCheck);
 		
-		JButton addTreatment = new JButton("Add Treatment");
-		addTreatment.addActionListener(new ActionListener() {
+		JButton addTreatmentButton = new JButton("Add Treatment");
+		addTreatmentButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				addTreatments();
 			}
 		});
 	
-		JButton closeButton = new JButton("Close");
-		closeButton.addActionListener(new ActionListener() {
+		JButton saveButton = new JButton("Save");
+		saveButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				save();
+			}
+		});
+		
+		JButton cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				cancel();
 			}
 		});
-		addButtons(addTreatment, closeButton);
+		addButtons(addTreatmentButton, saveButton, cancelButton);
 		pack();
 	}
 	
@@ -68,6 +76,10 @@ public class AppointmentDetailsPartner extends BaseDialog {
 				model.add(i, treatments[i]);
 			}
 		}
+		
+	}
+
+	void save() {
 		
 	}
 	

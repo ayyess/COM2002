@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS appointments (
     patient_id BIGINT UNSIGNED, -- this is allowed to be null so that blank appointments can be booked, as specified now done as user 0
     start TIME NOT NULL,
     duration INT NOT NULL,
+    complete BOOL NOT NULL,
     PRIMARY KEY(date,practitioner,start),
     FOREIGN KEY(patient_id)
         REFERENCES patients(id)

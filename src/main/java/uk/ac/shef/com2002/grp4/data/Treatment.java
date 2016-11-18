@@ -65,4 +65,8 @@ public class Treatment {
 			cost == rhs.cost &&
 			Objects.equals(type, rhs.type);
 	}
+	
+	public String toString() {
+		return name + " " + cost;
+	}
 }
