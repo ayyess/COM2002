@@ -30,11 +30,11 @@ public class PatientPlan {
 	/* This stores the date that the plan was initiliased. */
     private LocalDate startDate;
 	/** This stores the remaining Check Ups. */
-    private int remCheckUps;
+    private int usedCheckUps;
 	/** This stores the remaining Hygiene Visits. */
-    private int remHygiene;
+    private int usedHygiene;
 	/** This stores the remaining Repairs. */
-    private int remRepairs;
+    private int usedRepairs;
 
 	/** This stores the default plan that everyone receives. */
 	private static final String DEFAULT_PLAN_NAME = "NHS";
@@ -55,9 +55,9 @@ public class PatientPlan {
         this.name = name;
         this.cost = cost;
         this.startDate = startDate;
-        this.remCheckUps = checks;
-        this.remHygiene = hygienes;
-        this.remRepairs = repairs;
+        this.usedCheckUps = checks;
+        this.usedHygiene = hygienes;
+        this.usedRepairs = repairs;
     }
 
 	/**
@@ -91,7 +91,7 @@ public class PatientPlan {
 	 * This updates the details of the Patient Plan permanently in the database.
 	 */
 	public void update(){
-		PatientPlanUtils.updateById(patientID,name,startDate,remCheckUps,remHygiene,remRepairs);
+		PatientPlanUtils.updateById(patientID,name,startDate);
 	}
 
 	/**
@@ -111,8 +111,8 @@ public class PatientPlan {
 			Objects.equals(name, rhs.name) &&
 			cost == rhs.cost &&
 			Objects.equals(startDate, rhs.startDate) &&
-			remCheckUps == rhs.remCheckUps &&
-			remHygiene == rhs.remHygiene &&
-			remRepairs == rhs.remRepairs;
+			usedCheckUps == rhs.usedCheckUps &&
+			usedHygiene == rhs.usedHygiene &&
+			usedRepairs == rhs.usedRepairs;
 	}
 }
