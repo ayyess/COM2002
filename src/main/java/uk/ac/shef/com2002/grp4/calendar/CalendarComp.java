@@ -1,8 +1,9 @@
 /* This file is part of Grp4 Dental Care System.
- * To ensure compliance with the GNU General Public License. This System
- * is for private, educational use. It will not be released publicly and will
- * solely be viewed by those marking the COM2002 assignment.
+ * This system is for private, educational use. It should solely be viewed by those
+ * marking the COM2002 assignment.
+ * Unauthorised copying or editing of this file is strictly prohibited.
  *
+ * This system uses GPL-licensed software.
  * Visit <http://www.gnu.org/licenses/> to see the license.
  */
 
@@ -32,30 +33,56 @@ import uk.ac.shef.com2002.grp4.data.Appointment;
 import uk.ac.shef.com2002.grp4.databases.AppointmentUtils;
 import uk.ac.shef.com2002.grp4.util.DPIScaling;
 
+/**
+ * Used to create a panel showing all appointments in a day.
+ * <br>
+ * @author  Group 4
+ * @version 1.0
+ * @since   03/11/2016
+ */
 public class CalendarComp extends JPanel {
 
+	/** The date that the Calendar will return the appointments of. */
 	LocalDate date;
-	
+
+	/** The layout used for the Calendar. */
 	GridBagLayout layout;
-	
+
+	/** The divide of each appointment in minutes. */
 	final static int DIV = 20;
+	/** The vertical height in pixels of each slot. */
 	final static int SLOT_SIZE = 30;
+	/** The start time of the calendar. */
 	final static int START = 9;
+	/** The end time of the calendar. */
 	final static int END = 17;
+	/** This acts as padding above each appointment. */
 	final static int HEADER_SIZE = 2;
-	
+
+	/** This is the color that a dentists appointment will show in. */
 	private static final Color DENTIST_COLOUR = Color.getHSBColor(0.0f,0.5f,1.0f);//Light red
-	private static final Color HYGIENIST_COLOUR = Color.getHSBColor(0.69f,0.5f,1.0f);//Light blue 
+	/** This is the color that a hygienists appointment will show in. */
+	private static final Color HYGIENIST_COLOUR = Color.getHSBColor(0.69f,0.5f,1.0f);//Light blue
+	/** This is the color that a reserved appointment will show in. */
 	private static final Color RESERVED_COLOUR = Color.GRAY;
-	
+
+	/** An ArrayList of AppointmentComp. */
 	ArrayList<AppointmentComp> appointments = new ArrayList<AppointmentComp>();
-	
+
+	/** An ArrayList of filled Appointment listeners. */
 	ArrayList<CalendarClickListener> appointmentListeners = new ArrayList<CalendarClickListener>();
+	/** An ArrayList of empty slot listeners. */
 	ArrayList<CalendarClickListener> slotListeners = new ArrayList<CalendarClickListener>();
-	
+
+	/** The color of the calendar. */
 	Color calendarColor;
+
+	/** The partner whose calendar is being viewed. */
 	Partner partner;
-	
+
+	/**
+	 * This listens for MouseEvents on booked appointments.
+	 */
 	private MouseAdapter appointmentAdapter = new MouseAdapter() {
 		public void mouseClicked(MouseEvent e) {
 			notifyAppointmentListeners(e);
@@ -67,7 +94,10 @@ public class CalendarComp extends JPanel {
 			notifyAppointmentListeners(e);
 		}
 	};
-	
+
+	/**
+	 * This listens for MouseEvents on empty slots.
+	 */
 	private MouseAdapter slotAdapter = new MouseAdapter() {
 		public void mouseClicked(MouseEvent e) {
 			notifySlotListeners(e);
@@ -79,8 +109,15 @@ public class CalendarComp extends JPanel {
 			notifySlotListeners(e);
 		}
 	};
-	
-	
+
+	/**
+	 * This constructor creates a panel containing all slots between a start time
+	 * (constant START) and end time (constant END) for a particular partner.
+	 *
+	 * @param appointmentsOnDate - List of Appointments on a particular date
+	 * @param date - The date for which the calendar should be generated
+	 * @param partner - The partner for which the calendar should be generated
+	 */
 	public CalendarComp(List<Appointment> appointmentsOnDate,LocalDate date, Partner partner) {
 		super();
 		this.partner = partner;
@@ -96,7 +133,11 @@ public class CalendarComp extends JPanel {
 		
 		showAll();
 	}
-		
+
+	/**
+	 * This function shows all the slots in a vertical list with the
+	 * booked slots appearing in a different colour.
+	 */
 	public void showAll() {
 		removeAll();
 		addHeaders();
@@ -137,8 +178,9 @@ public class CalendarComp extends JPanel {
 		}
 	}
 	
-	/***
-	 * Adds creates two headers for this calendar.
+	/**
+	 * This adds headers above the calendar to show exactly who's
+	 * appointments are below.
 	 */
 	private void addHeaders() {
 		//Add date
@@ -169,7 +211,8 @@ public class CalendarComp extends JPanel {
 	}
 	
 	/***
-	 * Changes the set of appointments and the date for this calender
+	 * This changes the appointments and the date that are being shown on
+	 * this calendar object.
 	 * 
 	 * @param date
 	 */
@@ -185,7 +228,7 @@ public class CalendarComp extends JPanel {
 	}
 	
 	/**
-	 * Adds the given listener. When a empty slot is clicked the onClick/onPressed/onReleased 
+	 * This adds the given listener. When a empty slot is clicked the onClick/onPressed/onReleased
 	 * method of the listener will be called. 
 	 * @param l - Listener to add
 	 */
@@ -194,26 +237,37 @@ public class CalendarComp extends JPanel {
 	}
 	
 	/**
-	 * Adds the given listener. When an appointment is clicked the onClick/onPressed/onReleased 
+	 * This adds the given listener. When an appointment is clicked the onClick/onPressed/onReleased
 	 * method of the listener will be called. 
 	 * @param l - Listener to add
 	 */
 	public void addAppointmentClickListener(CalendarClickListener l) {
 		appointmentListeners.add(l);
 	}
-	
+
+	/**
+	 * This listens for a MouseEvent on a booked Appointment listener.
+	 *
+	 * @param e - a MouseEvent
+	 */
 	public void notifyAppointmentListeners(MouseEvent e) {
 		for (CalendarClickListener l : appointmentListeners) {
 			l.notify(e);
 		}
 	}
 
+	/**
+	 * This listens for a MouseEvent on an empty slot.
+	 *
+	 * @param e - a MouseEvent
+	 */
 	public void notifySlotListeners(MouseEvent e) {
 		for (CalendarClickListener l : slotListeners) {
 			l.notify(e);
 		}
 	}
-	
+
+	/** This gets the date for which the calendar is showing. */
 	public LocalDate getDate() {
 		return date;
 	}
