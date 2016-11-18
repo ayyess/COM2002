@@ -49,7 +49,7 @@ public class Patient {
 	private String phoneNumber;
 
 	/** This stores the id of the address of the patient. */
-	private Long addressId;
+	private long addressId;
 	/**
 	 * This stores the patients Address object
 	 * --Optional
