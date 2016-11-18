@@ -49,41 +49,7 @@ public class CalendarComp extends JPanel {
 	ArrayList<CalendarClickListener> slotListeners = new ArrayList<CalendarClickListener>();
 	
 	Color calendarColor;
-	Partner practitioner;
-	
-	private CalendarClickListener calSlotClick = new CalendarClickListener() {
-		
-		public void onRelease(MouseEvent e) {
-			int time = ((EmptyAppointment)e.getSource()).getTime();
-			LocalTime localTime = LocalTime.of(0, 0).plusMinutes(time*20);
-			
-			AppointmentCreationFrame f = new AppointmentCreationFrame(CalendarComp.this, date, localTime, practitioner);
-			f.setVisible(true);
-			//TODO: move this listener up the hierarchy to a point where the model can be refreshed
-			//TODO: refresh the model
-		}
-		
-		public void onClick(MouseEvent e) {}
-		public void onPressed(MouseEvent e) {}
-		
-	}; 
-	
-	private CalendarClickListener calApointClick = new CalendarClickListener() {
-
-		public void onRelease(MouseEvent e) {
-			//Show details about the appointment maybe?
-		}
-		
-		public void onPressed(MouseEvent e) {
-			AppointmentComp comp = (AppointmentComp)e.getSource();
-			AppointmentFrame f = new AppointmentFrame(CalendarComp.this, comp.appointment);
-			f.setVisible(true);
-			//TODO: move this listener up the hierarchy to a point where the model can be refreshed
-			//TODO: refresh the model
-
-		}
-		public void onClick(MouseEvent e) {}
-	}; 
+	Partner partner;
 	
 	private MouseAdapter appointmentAdapter = new MouseAdapter() {
 		public void mouseClicked(MouseEvent e) {
@@ -110,11 +76,11 @@ public class CalendarComp extends JPanel {
 	};
 	
 	
-	public CalendarComp(List<Appointment> appointmentsOnDate,LocalDate date, Partner practitioner) {
+	public CalendarComp(List<Appointment> appointmentsOnDate,LocalDate date, Partner partner) {
 		super();
-		this.practitioner = practitioner;
-		if (practitioner == Partner.DENTIST) calendarColor = DENTIST_COLOUR;
-		else if (practitioner == Partner.HYGIENIST) calendarColor = HYGIENIST_COLOUR;
+		this.partner = partner;
+		if (partner == Partner.DENTIST) calendarColor = DENTIST_COLOUR;
+		else if (partner == Partner.HYGIENIST) calendarColor = HYGIENIST_COLOUR;
 		setAppointmentsAndDate(appointmentsOnDate,date);
 		layout = new GridBagLayout();
 		layout.columnWidths = new int[] {1, 1};
@@ -122,9 +88,6 @@ public class CalendarComp extends JPanel {
 		//set all slot sizes to SLOT_SIZE, later we just choose how many of these slots to use with gridheight
 		Arrays.fill(layout.rowHeights, (int) (SLOT_SIZE*DPIScaling.get()));
 		setLayout(layout);
-		
-		addAppointmentClickListener(calApointClick);
-		addSlotClickListener(calSlotClick);
 		
 		showAll();
 	}
@@ -158,7 +121,7 @@ public class CalendarComp extends JPanel {
 				c.gridy = HEADER_SIZE+t;
 				c.weightx = 1.0;
 				c.fill = GridBagConstraints.BOTH;
-				EmptyAppointment gap = new EmptyAppointment(t+START*(60/DIV));
+				EmptyAppointment gap = new EmptyAppointment(t+START*(60/DIV), partner);
 				gap.addMouseListener(slotAdapter);
 				add(gap, c);
 			}
@@ -183,8 +146,8 @@ public class CalendarComp extends JPanel {
 		
 		//Add dentist/hygienist label
 		String p = ""; 
-		if (practitioner == Partner.DENTIST) p = "Dentist";
-		else if (practitioner == Partner.HYGIENIST) p = "Hygienist";
+		if (partner == Partner.DENTIST) p = "Dentist";
+		else if (partner == Partner.HYGIENIST) p = "Hygienist";
 		
 		c.gridwidth = 1;
 		c.gridx = 0;
@@ -205,7 +168,7 @@ public class CalendarComp extends JPanel {
 		this.date = date;
 		appointments.clear();
 		for (Appointment a : appointmentsOnDate) {
-			if (a.getPractitioner().toUpperCase().equals(practitioner.toString())) {
+			if (a.getPractitioner().toUpperCase().equals(partner.toString())) {
 				appointments.add(new AppointmentComp(a));
 			}
 		}

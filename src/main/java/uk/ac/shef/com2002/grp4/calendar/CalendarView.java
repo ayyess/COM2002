@@ -35,6 +35,10 @@ public class CalendarView extends JPanel {
 	JPanel dentistPanel = new JPanel(new GridBagLayout());
 	JPanel hygienstPanel = new JPanel(new GridBagLayout());
 	
+	CalendarComp[] dentist;
+	CalendarComp[] hygienist;
+	
+	
 	public CalendarView(LocalDate startDate) {
 		this.startDate = startDate;
 		this.setLayout(new BorderLayout());
@@ -52,11 +56,45 @@ public class CalendarView extends JPanel {
 	
 	public void setView(boolean day) {
 		this.day = day;
-		createCalendars(day, startDate, Partner.DENTIST, dentistPanel);
-		createCalendars(day, startDate, Partner.HYGIENIST, hygienstPanel);
+		dentist = createCalendars(day, startDate, Partner.DENTIST, dentistPanel);
+		hygienist = createCalendars(day, startDate, Partner.HYGIENIST, hygienstPanel);
 	}
 	
-	public static void createCalendars(boolean day, LocalDate date, Partner p, JPanel panel) {
+	/**
+	 * Adds the given listener to all of the empty slots for all the calendars. 
+	 * When a empty slot is clicked the onClick/onPressed/onReleased 
+	 * method of the listener will be called. 
+	 * @param l - Listener to add
+	 */
+	public void addSlotClickListener(CalendarClickListener l) {
+		for (CalendarComp c : dentist) {
+			c.addSlotClickListener(l);
+		}
+		for (CalendarComp c : hygienist) {
+			c.addSlotClickListener(l);
+		}
+	}
+	
+	/**
+	 * Adds the given listener to all appointments within the calendars. 
+	 * When an appointment is clicked the onClick/onPressed/onReleased 
+	 * method of the listener will be called. 
+	 * @param l - Listener to add
+	 */
+	public void addAppointmentClickListener(CalendarClickListener l) {
+		for (CalendarComp c : dentist) {
+			c.addAppointmentClickListener(l);
+		}
+		for (CalendarComp c : hygienist) {
+			c.addAppointmentClickListener(l);
+		}
+	}
+	
+	public LocalDate getDate() {
+		return startDate;
+	}
+	
+	public static CalendarComp[] createCalendars(boolean day, LocalDate date, Partner p, JPanel panel) {
 		CalendarComp[] calendars = new CalendarComp[7];
 		panel.removeAll();
 		GridBagLayout layout = new GridBagLayout();
@@ -90,6 +128,7 @@ public class CalendarView extends JPanel {
 			}
 		}
 		panel.revalidate();
+		return calendars;
 	}
 	
 	private static JScrollPane createScrollPane(JPanel child) {

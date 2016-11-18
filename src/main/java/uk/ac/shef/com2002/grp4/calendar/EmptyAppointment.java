@@ -9,6 +9,9 @@
 package uk.ac.shef.com2002.grp4.calendar;
 
 import javax.swing.*;
+
+import uk.ac.shef.com2002.grp4.Partner;
+
 import java.awt.*;
 import java.time.LocalTime;
 
@@ -19,9 +22,11 @@ public class EmptyAppointment extends JPanel {
 	 * using (24*60)/20 means this slot is at time*20 min slot
 	 */
 	private int time;
+	private Partner partner;
 	
-	public EmptyAppointment(int time) {
+	public EmptyAppointment(int time, Partner partner) {
 		this.time = time;
+		this.partner = partner;
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		setBackground(Color.WHITE);
 		
@@ -31,6 +36,10 @@ public class EmptyAppointment extends JPanel {
 	
 	public int getTime() {
 		return time;
+	}
+
+	public Partner getPartner() {
+		return partner;
 	}
 	
 }

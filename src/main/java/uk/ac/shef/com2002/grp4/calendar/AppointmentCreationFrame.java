@@ -28,14 +28,14 @@ public class AppointmentCreationFrame extends BaseDialog {
 	private final JComboBox<Integer> lengthCombo;
 	private final PatientSelector patientSelector;
 
-	public AppointmentCreationFrame(Component owner, LocalDate date, LocalTime time, Partner practitioner) {
+	public AppointmentCreationFrame(Component owner, LocalDate date, LocalTime time, Partner partner) {
 		super(owner,"Create Appointment");
 		this.date = date;
 		this.time = time;
 
 		String[] items = {"Dentist", "Hygienist"};
 		practitionerCombo = new JComboBox<>(items);
-		practitionerCombo.setSelectedIndex(practitioner.ordinal());
+		practitionerCombo.setSelectedIndex(partner.ordinal());
 		
 		addLabeledComponent("Practitioner",practitionerCombo);
 
