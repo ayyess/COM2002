@@ -66,6 +66,19 @@ public class AppointmentUtils {
 		});
 	}
 
+	public static boolean isOverlapping(LocalTime start1, LocalTime end1, LocalTime start2, LocalTime end2) {
+		/*
+		  -----        ------    -----     -----
+            ----     ---------    --         ------
+		 */
+		return
+			end1.isAfter(start2) && end1.isBefore(end2) ||
+			start1.isAfter(start2) && end1.isBefore(end2) ||
+			start1.isBefore(start2) && end1.isAfter(end2) ||
+			start1.isAfter(start2) && start1.isBefore(end2) ||
+			end1.equals(end2);
+	}
+
 	public static List<Appointment> getAppointmentByTimeRange(LocalDate day, LocalTime start, LocalTime end) {
 		java.sql.Date sqlDate = java.sql.Date.valueOf(day);
 		List<Appointment> appointments = new ArrayList<>();
@@ -76,7 +89,7 @@ public class AppointmentUtils {
 				appointments.add(new Appointment(res.getDate(1).toLocalDate(), res.getTime(4).toLocalTime(),res.getInt(5), res.getString(2), res.getLong(3)));
 			}
 			return appointments.stream()
-				.filter(a -> (a.getStart().isAfter(start) && a.getStart().isBefore(end)) || (a.getEnd().isAfter(start) && a.getEnd().isBefore(end)))
+				.filter(a -> isOverlapping(start, end, a.getStart(), a.getEnd()))
 				.collect(Collectors.toList());
 			});
 	}
