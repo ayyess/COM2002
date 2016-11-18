@@ -1,8 +1,9 @@
 /* This file is part of Grp4 Dental Care System.
- * To ensure compliance with the GNU General Public License. This System
- * is for private, educational use. It will not be released publicly and will
- * solely be viewed by those marking the COM2002 assignment.
+ * This system is for private, educational use. It should solely be viewed by those
+ * marking the COM2002 assignment.
+ * Unauthorised copying or editing of this file is strictly prohibited.
  *
+ * This system uses GPL-licensed software.
  * Visit <http://www.gnu.org/licenses/> to see the license.
  */
 
@@ -14,16 +15,42 @@ import javax.swing.*;
 import java.awt.*;
 import java.time.LocalTime;
 
+/**
+ * Used to manage an appointment slot on the calendar.
+ * <br>
+ * @author  Group 4
+ * @version 1.0
+ * @since   03/11/2016
+ */
 public class AppointmentComp extends JPanel {
-	
+
+    /** The start of an appointment. */
 	int start;
+
+    /** The end of an appointment. */
 	int end;
+
+    /** The duration of an appointment. */
 	int duration;
-	Appointment appointment;
-	
+
+    /** A single Appointment.
+     * <p>
+     * uk.ac.shef.com2002.grp4.data.Appointment
+     */
+    Appointment appointment;
+
+    /** A JLabel to manage when the slot starts. */
 	JLabel startLabel;
+
+    /** A JLabel to manage the duration of the slot. */
 	JLabel durationLabel;
-	
+
+    /**
+     * This constructor takes an appointment and creates the box that
+     * will appear on the calendar output.
+     *
+     * @param appointment - an Appointment slot
+     */
 	public AppointmentComp(Appointment appointment) {
 		this.appointment = appointment;
 		this.start = convertMins(appointment.getStart());
@@ -43,15 +70,31 @@ public class AppointmentComp extends JPanel {
 		add(startLabel);
 		add(durationLabel);
 	}
-	
+
+    /**
+     * This function sets the background color of the appointment slot.
+     *
+     * @param c - a Color
+     */
 	public void setColor(Color c) {
 		setBackground(c);
 	}
-	
+
+    /**
+     * This function gets the appointment the slot is representing.
+     *
+     * @return an Appointment
+     */
 	public Appointment getAppointment() {
 		return appointment;
 	}
-	
+
+    /**
+     * This function converts a time into a number of minutes.
+     *
+     * @param time - a LocalTime
+     * @return a number of minutes as an integer
+     */
 	public static int convertMins(LocalTime time) {
 		return time.getHour()*60+time.getMinute();
 	}
