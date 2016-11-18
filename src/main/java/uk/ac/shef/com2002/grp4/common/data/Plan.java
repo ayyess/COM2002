@@ -9,6 +9,8 @@
 
 package uk.ac.shef.com2002.grp4.common.data;
 
+import java.util.Objects;
+
 /**
  * Used to store the Treatment Plan details temporarily
  * <br>
@@ -52,5 +54,25 @@ public class Plan {
      */
 	public String getName(){
 		return name;
+	}
+
+	/**
+	 * This tests if two treatments are equal to each other.
+	 *
+	 * @param obj - an Object
+	 * @return - a Boolean which is true if the two objects are equal
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if(!(obj instanceof Plan)){
+			return false;
+		}
+		Plan rhs = (Plan) obj;
+		return
+			Objects.equals(name, rhs.name) &&
+			cost == rhs.cost &&
+			checkups == rhs.checkups &&
+			hygiene_visits == rhs.hygiene_visits &&
+			repairs == rhs.repairs;
 	}
 }
