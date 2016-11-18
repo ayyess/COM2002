@@ -1,8 +1,9 @@
 /* This file is part of Grp4 Dental Care System.
- * To ensure compliance with the GNU General Public License. This System
- * is for private, educational use. It will not be released publicly and will
- * solely be viewed by those marking the COM2002 assignment.
+ * This system is for private, educational use. It should solely be viewed by those
+ * marking the COM2002 assignment.
+ * Unauthorised copying or editing of this file is strictly prohibited.
  *
+ * This system uses GPL-licensed software.
  * Visit <http://www.gnu.org/licenses/> to see the license.
  */
 
@@ -25,11 +26,27 @@ import uk.ac.shef.com2002.grp4.databases.PatientUtils;
 import uk.ac.shef.com2002.grp4.data.Patient;
 import uk.ac.shef.com2002.grp4.data.Appointment;
 
-
+/**
+ * This is used to view the details of a booked
+ * appointment slot
+ * <br>
+ * @author  Group 4
+ * @version 1.0
+ * @since   03/11/2016
+ */
 public class AppointmentFrame extends BaseDialog {
 
+	/** A single booked Appointment. */
 	private final Appointment appointment;
 
+	/**
+	 * This constructor creates a frame which contains the booked appointment
+	 * details and allows the user to delete this appointment if they wish to.
+	 *
+	 * @param owner - This sets what the dialog is created relative to. If set to
+	 *              null, it is created relative to the centre of the screen.
+	 * @param appointment
+	 */
 	public AppointmentFrame(Component owner, Appointment appointment) {
 		super(owner,"View Appointment");
 		this.appointment = appointment;
@@ -57,12 +74,15 @@ public class AppointmentFrame extends BaseDialog {
 		pack();
 
 	}
+
+	/** This disposes of the frame. */
 	void close(){
 		setModal(true);
 		//getOwner().setEnabled(true);
 		AppointmentFrame.this.dispose();
 	}
 
+	/** This deletes an appointment in the database. */
 	void delete() {
 		AppointmentUtils.deleteAppointment(appointment);
 	}

@@ -33,10 +33,7 @@ public class AppointmentComp extends JPanel {
     /** The duration of an appointment. */
 	int duration;
 
-    /** A single Appointment.
-     * <p>
-     * uk.ac.shef.com2002.grp4.data.Appointment
-     */
+    /** A single Appointment. */
     Appointment appointment;
 
     /** A JLabel to manage when the slot starts. */
