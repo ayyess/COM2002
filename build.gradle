@@ -35,18 +35,18 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 apply plugin:'application'
-mainClassName = "uk.ac.shef.com2002.grp4.Main"
+mainClassName = "uk.ac.shef.com2002.grp4.secretaryview.SecretaryApp"
 
 run{
     standardInput = System.in
 }
 
 task (init_tables, type: JavaExec, dependsOn: classes){
-    main= "uk.ac.shef.com2002.grp4.databases.InitialiseTables"
+    main= "uk.ac.shef.com2002.grp4.common.databases.InitialiseTables"
     classpath( sourceSets.main.runtimeClasspath, sourceSets.main.compileClasspath )
 }
 
 task (partner_view, type: JavaExec, dependsOn: classes) {
-    main= "uk.ac.shef.com2002.grp4.PartnerFrame"
+    main= "uk.ac.shef.com2002.grp4.partnerview.PartnerApp"
     classpath( sourceSets.main.runtimeClasspath, sourceSets.main.compileClasspath )
 }
