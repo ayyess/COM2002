@@ -154,10 +154,7 @@ public class CalendarComp extends JPanel {
 		add(date, c);
 		
 		//Add dentist/hygienist label
-		String p = ""; 
-		if (partner == Partner.DENTIST) p = "Dentist";
-		else if (partner == Partner.HYGIENIST) p = "Hygienist";
-		
+		String p = partner.toString();
 		c.gridwidth = 1;
 		c.gridx = 0;
 		c.gridy = 1;

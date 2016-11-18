@@ -47,8 +47,8 @@ public class CalendarView extends JPanel {
 	public CalendarView(LocalDate startDate) {
 		this.startDate = startDate;
 		this.setLayout(new BorderLayout());
-		tabbedPane.addTab("Dentist", createScrollPane(dentistPanel));
-		tabbedPane.addTab("Hygienist", createScrollPane(hygienstPanel));
+		tabbedPane.addTab(Partner.DENTIST.toString(), createScrollPane(dentistPanel));
+		tabbedPane.addTab(Partner.HYGIENIST.toString(), createScrollPane(hygienstPanel));
 		this.add(tabbedPane, BorderLayout.CENTER);
 		setView(day);
 	}
