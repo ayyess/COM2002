@@ -3,6 +3,7 @@ package uk.ac.shef.com2002.grp4;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
+import java.lang.reflect.Method;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -50,13 +51,11 @@ public class PartnerFrame extends JFrame {
         
         calendar.addAppointmentClickListener(new CalendarClickListener() {
 
-			public void onRelease(MouseEvent e) {
-				//Show details about the appointment maybe?
-			}
+			public void onRelease(MouseEvent e) {}
 			
 			public void onPressed(MouseEvent e) {
 				AppointmentComp comp = (AppointmentComp)e.getSource();
-				AppointmentFrame f = new AppointmentFrame(calendar, comp.getAppointment());
+				AppointmentDetailsPartner f = new AppointmentDetailsPartner(PartnerFrame.this, comp.getAppointment());
 				f.setVisible(true);
 				calendar.setDate(LocalDate.now());
 			}
@@ -65,6 +64,7 @@ public class PartnerFrame extends JFrame {
         
         calendar.setView(day.isSelected());
         
+        pack();
         setVisible(true);
 	}
 	

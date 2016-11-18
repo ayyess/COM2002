@@ -46,3 +46,7 @@ task (init_tables, type: JavaExec, dependsOn: classes){
     classpath( sourceSets.main.runtimeClasspath, sourceSets.main.compileClasspath )
 }
 
+task (partner_view, type: JavaExec, dependsOn: classes) {
+    main= "uk.ac.shef.com2002.grp4.PartnerFrame"
+    classpath( sourceSets.main.runtimeClasspath, sourceSets.main.compileClasspath )
+}

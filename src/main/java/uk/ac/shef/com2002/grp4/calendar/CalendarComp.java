@@ -46,6 +46,7 @@ public class CalendarComp extends JPanel {
 	
 	private static final Color DENTIST_COLOUR = Color.getHSBColor(0.0f,0.5f,1.0f);//Light red
 	private static final Color HYGIENIST_COLOUR = Color.getHSBColor(0.69f,0.5f,1.0f);//Light blue 
+	private static final Color RESERVED_COLOUR = Color.GRAY;
 	
 	ArrayList<AppointmentComp> appointments = new ArrayList<AppointmentComp>();
 	
@@ -101,7 +102,11 @@ public class CalendarComp extends JPanel {
 		addHeaders();
 		int[] times = new int[((END-START)*60)/DIV];
 		for (AppointmentComp a : appointments) {
-			a.setColor(a.appointment.getPractitioner().toUpperCase().equals(Partner.DENTIST.toString())?DENTIST_COLOUR:HYGIENIST_COLOUR);
+			if (a.appointment.getPatientId() == 0) {
+				a.setColor(RESERVED_COLOUR);
+			} else {
+				a.setColor(a.appointment.getPractitioner().toUpperCase().equals(Partner.DENTIST.toString())?DENTIST_COLOUR:HYGIENIST_COLOUR);
+			}
 			a.removeMouseListener(appointmentAdapter);
 			if (a.start >= START) {
 				GridBagConstraints c = new GridBagConstraints();
@@ -207,6 +212,10 @@ public class CalendarComp extends JPanel {
 		for (CalendarClickListener l : slotListeners) {
 			l.notify(e);
 		}
+	}
+	
+	public LocalDate getDate() {
+		return date;
 	}
 	
 }

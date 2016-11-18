@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS patients (
 CREATE TABLE IF NOT EXISTS appointments (
     date DATE NOT NULL,
     practitioner VARCHAR(255) NOT NULL,
-    patient_id BIGINT UNSIGNED, -- this is allowed to be null so that balnk appointments can be booked, as specified
+    patient_id BIGINT UNSIGNED, -- this is allowed to be null so that blank appointments can be booked, as specified now done as user 0
     start TIME NOT NULL,
     duration INT NOT NULL,
     PRIMARY KEY(date,practitioner,start),
@@ -49,8 +49,8 @@ CREATE TABLE IF NOT EXISTS treatment_applications(
     FOREIGN KEY(treatment_name)
         REFERENCES treatments(name)
 	ON DELETE CASCADE,
-    FOREIGN KEY(appointment_date,practitioner)
-        REFERENCES appointments(date,practitioner)
+    FOREIGN KEY(appointment_date,appointment_time,practitioner)
+        REFERENCES appointments(date,start,practitioner)
 	ON DELETE CASCADE
 );
 
@@ -69,6 +69,7 @@ CREATE TABLE IF NOT EXISTS patient_plans (
     used_checkups INT UNSIGNED NOT NULL,
     used_hygiene_visits INT UNSIGNED NOT NULL,
     used_repairs INT UNSIGNED NOT NULL,
+    renew_Date DATE NOT NULL,
     PRIMARY KEY(patient_id,plan_name),
     FOREIGN KEY(patient_id)
         REFERENCES patients(id)
@@ -77,3 +78,6 @@ CREATE TABLE IF NOT EXISTS patient_plans (
         REFERENCES treatment_plans(name)
 	ON DELETE CASCADE
 );
+
+INSERT INTO addresses (id,house_number,street,district,city,postcode) VALUES (0,0,'','','','');
+INSERT INTO patients (id,title,first_name,last_name,dob,phone_number,address_id) VALUES (0,'','RESERVED','',CURDATE(),'',0);

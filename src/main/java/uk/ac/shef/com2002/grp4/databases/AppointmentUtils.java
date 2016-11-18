@@ -9,6 +9,7 @@
 package uk.ac.shef.com2002.grp4.databases;
 
 import uk.ac.shef.com2002.grp4.data.Appointment;
+import uk.ac.shef.com2002.grp4.UserFacingException;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -18,6 +19,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Dan-L on 02/11/2016.
@@ -64,9 +66,34 @@ public class AppointmentUtils {
 		});
 	}
 
+	public static List<Appointment> getAppointmentByTimeRange(LocalDate day, LocalTime start, LocalTime end) {
+		java.sql.Date sqlDate = java.sql.Date.valueOf(day);
+		List<Appointment> appointments = new ArrayList<>();
+		return ConnectionManager.withStatement("SELECT * FROM appointments WHERE date = ?",(stmt)-> {
+			stmt.setDate(1, sqlDate);
+			ResultSet res = stmt.executeQuery();
+			while (res.next()) {
+				appointments.add(new Appointment(res.getDate(1).toLocalDate(), res.getTime(4).toLocalTime(),res.getInt(5), res.getString(2), res.getLong(3)));
+			}
+			return appointments.stream()
+				.filter(a -> (a.getStart().isAfter(start) && a.getStart().isBefore(end)) || (a.getEnd().isAfter(start) && a.getEnd().isBefore(end)))
+				.collect(Collectors.toList());
+			});
+	}
+
 	public static void insertAppointment(LocalDate date, String practioner, long patient_id, LocalTime start, Duration duration) {
 		java.sql.Date sqlDate = java.sql.Date.valueOf(date);
 		java.sql.Time sqlStartTime = java.sql.Time.valueOf(start);
+
+		LocalTime end = start.plus(duration);
+		if (start.isBefore(LocalTime.of(9, 0)) || end.isAfter(LocalTime.of(17,0))) {
+			throw new UserFacingException("Appointment outside of appointment hours.");
+		}
+		if (getAppointmentByTimeRange(date, start, end).stream()
+			.filter(p -> p.getPractitioner().equals(practioner))
+			.count() > 0) {
+			throw new UserFacingException("Appointment overlap.");
+		}
 
 		ConnectionManager.withStatement("INSERT INTO appointments VALUES (?,?,?,?,?)",(stmt)-> {
             stmt.setDate(1, sqlDate);

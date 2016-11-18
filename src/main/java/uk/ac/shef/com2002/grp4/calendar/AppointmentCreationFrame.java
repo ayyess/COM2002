@@ -24,7 +24,7 @@ public class AppointmentCreationFrame extends BaseDialog {
 
 	private final LocalDate date;
 	private final LocalTime time;
-	private final JComboBox<String> practitionerCombo;
+	private final Partner partner;
 	private final JComboBox<Integer> lengthCombo;
 	private final PatientSelector patientSelector;
 
@@ -32,13 +32,8 @@ public class AppointmentCreationFrame extends BaseDialog {
 		super(owner,"Create Appointment");
 		this.date = date;
 		this.time = time;
-
-		String[] items = {"Dentist", "Hygienist"};
-		practitionerCombo = new JComboBox<>(items);
-		practitionerCombo.setSelectedIndex(partner.ordinal());
+		this.partner = partner;
 		
-		addLabeledComponent("Practitioner",practitionerCombo);
-
 		patientSelector = new PatientSelector();
 		addLabeledComponent("Patient",patientSelector);
 
@@ -55,8 +50,12 @@ public class AppointmentCreationFrame extends BaseDialog {
 		JButton save_button = new JButton("Save");
 		save_button.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent ae){
-					saveDetails();
-                    close();
+					try {
+						saveDetails();
+						close();
+					} catch (UserFacingException e) {
+						JOptionPane.showMessageDialog(null, e.getMessage());
+					}
                 }
             });
 		addButtons(cancel_button,save_button);
@@ -70,6 +69,6 @@ public class AppointmentCreationFrame extends BaseDialog {
 	}
 
 	void saveDetails() {
-		AppointmentUtils.insertAppointment(date, (String)practitionerCombo.getSelectedItem(), patientSelector.getPatient().map(Patient::getID).get(), time, Duration.ofMinutes(((Integer)lengthCombo.getSelectedItem())));
+		AppointmentUtils.insertAppointment(date, partner.name(), patientSelector.getPatient().map(Patient::getID).get(), time, Duration.ofMinutes(((Integer)lengthCombo.getSelectedItem())));
 	}
 }

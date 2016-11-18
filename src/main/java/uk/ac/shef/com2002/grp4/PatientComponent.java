@@ -14,6 +14,7 @@ public class PatientComponent extends BaseInfoComponent{
 	private final JTextField firstNameField;
 	private final JTextField lastNameField;
 	private final JTextField dobField;
+	private final JTextField phoneNumberField;
 	private final AddressComponent addressField;
 	
 	public PatientComponent(Patient patient){
@@ -22,15 +23,15 @@ public class PatientComponent extends BaseInfoComponent{
 	public PatientComponent(Optional<Patient> patient){
 		super();
 
-		titleField = new JTextField(5);
+		titleField = new JTextField(10);
 		titleField.setEditable(false);
 		addLabeledComponent("Title",titleField);
 
-		firstNameField = new JTextField(5);
+		firstNameField = new JTextField(10);
 		firstNameField.setEditable(false);
 		addLabeledComponent("First Name",firstNameField);
 
-		lastNameField = new JTextField(5);
+		lastNameField = new JTextField(10);
 		lastNameField.setEditable(false);
 		addLabeledComponent("Last Name",lastNameField);
 
@@ -38,6 +39,10 @@ public class PatientComponent extends BaseInfoComponent{
 		dobField.setEditable(false);
 		addLabeledComponent("Date of Birth",dobField);
 
+		phoneNumberField = new JTextField(5);
+		phoneNumberField.setEditable(false);
+		addLabeledComponent("Phone Number",phoneNumberField);
+		
 		addressField = new AddressComponent(Optional.empty());
 		addressField.setBorder(BorderFactory.createTitledBorder("Address"));
 		GridBagConstraints c = getBaseConstraints();
@@ -58,6 +63,7 @@ public class PatientComponent extends BaseInfoComponent{
 			firstNameField.setText(patient.get().getForename());
 			lastNameField.setText(patient.get().getSurname());
 			dobField.setText(patient.get().getFormattedDob());
+			phoneNumberField.setText(patient.get().getPhoneNumber());
 			addressField.setAddress(patient.map(Patient::getAddress));
 		}else{
 			titleField.setText("");
