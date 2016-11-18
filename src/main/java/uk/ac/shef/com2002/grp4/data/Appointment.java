@@ -8,6 +8,7 @@
 
 package uk.ac.shef.com2002.grp4.data;
 
+import java.util.Objects;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -61,5 +62,19 @@ public class Appointment {
 				", practitioner='" + practitioner + '\'' +
 				", patientId=" + patientId +
 				'}';
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(!(obj instanceof Appointment)){
+			return false;
+		}
+		Appointment rhs = (Appointment) obj;
+		return
+			Objects.equals(date, rhs.date) &&
+			Objects.equals(start, rhs.start) &&
+			Objects.equals(end, rhs.end) &&
+			Objects.equals(practitioner, rhs.practitioner) &&
+			Objects.equals(patientId, rhs.patientId);
 	}
 }

@@ -146,7 +146,7 @@ public class CalendarComp extends JPanel {
 			if (a.appointment.getPatientId() == 0) {
 				a.setColor(RESERVED_COLOUR);
 			} else {
-				a.setColor(a.appointment.getPractitioner().toUpperCase().equals(Partner.DENTIST.toString())?DENTIST_COLOUR:HYGIENIST_COLOUR);
+				a.setColor(a.appointment.getPractitioner().equals(Partner.DENTIST.toString())?DENTIST_COLOUR:HYGIENIST_COLOUR);
 			}
 			a.removeMouseListener(appointmentAdapter);
 			if (a.start >= START) {
@@ -196,10 +196,7 @@ public class CalendarComp extends JPanel {
 		add(date, c);
 		
 		//Add dentist/hygienist label
-		String p = ""; 
-		if (partner == Partner.DENTIST) p = "Dentist";
-		else if (partner == Partner.HYGIENIST) p = "Hygienist";
-		
+		String p = partner.toString();
 		c.gridwidth = 1;
 		c.gridx = 0;
 		c.gridy = 1;
@@ -220,7 +217,7 @@ public class CalendarComp extends JPanel {
 		this.date = date;
 		appointments.clear();
 		for (Appointment a : appointmentsOnDate) {
-			if (a.getPractitioner().toUpperCase().equals(partner.toString())) {
+			if (a.getPractitioner().equals(partner.toString())) {
 				appointments.add(new AppointmentComp(a));
 			}
 		}

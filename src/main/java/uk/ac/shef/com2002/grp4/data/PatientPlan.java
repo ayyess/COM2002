@@ -10,6 +10,7 @@ package uk.ac.shef.com2002.grp4.data;
 
 import java.time.LocalDate;
 import uk.ac.shef.com2002.grp4.databases.PatientPlanUtils;
+import java.util.Objects;
 
 /**
  * Created by Dan-L on 09/11/2016.
@@ -53,5 +54,21 @@ public class PatientPlan {
 
 	public void update(){
 		PatientPlanUtils.updateById(patientID,name,startDate,remCheckUps,remHygiene,remRepairs);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(!(obj instanceof Address)){
+			return false;
+		}
+		PatientPlan rhs = (PatientPlan) obj;
+		return
+			patientID == rhs.patientID &&
+			Objects.equals(name, rhs.name) &&
+			cost == rhs.cost &&
+			Objects.equals(startDate, rhs.startDate) &&
+			remCheckUps == rhs.remCheckUps &&
+			remHygiene == rhs.remHygiene &&
+			remRepairs == rhs.remRepairs;
 	}
 }
