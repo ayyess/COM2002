@@ -101,6 +101,8 @@ public class AppointmentPanel extends JPanel {
 			public void onClick(MouseEvent e) {}
 		}); 
 		
+		calendar.setDate(LocalDate.now());
+		
 	}
 	
 }

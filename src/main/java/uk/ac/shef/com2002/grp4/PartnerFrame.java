@@ -1,15 +1,12 @@
 package uk.ac.shef.com2002.grp4;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.time.LocalDate;
+import java.awt.*;
+import java.time.*;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
+import javax.swing.*;
+import java.util.*;
 
+import uk.ac.shef.com2002.grp4.calendar.CalendarClickListener;
 import uk.ac.shef.com2002.grp4.calendar.CalendarView;
 
 public class PartnerFrame extends JFrame {
@@ -50,7 +47,7 @@ public class PartnerFrame extends JFrame {
 	
 	public void setCalendarMode(boolean day, Partner p, JPanel panel) {
 		panel.removeAll();
-		CalendarView.createCalendars(day, LocalDate.now(), p, panel);
+		CalendarView.createCalendars(day, LocalDate.now(), p, panel, new ArrayList<CalendarClickListener>(), new ArrayList<CalendarClickListener>());
 	}
 	
 	public static void main(String[] args) {

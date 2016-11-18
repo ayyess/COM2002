@@ -100,8 +100,8 @@ public class CalendarComp extends JPanel {
 			a.setColor(a.appointment.getPractitioner().toUpperCase().equals(Partner.DENTIST.toString())?DENTIST_COLOUR:HYGIENIST_COLOUR);
 			a.removeMouseListener(appointmentAdapter);
 			if (a.start >= START) {
-				a.addMouseListener(appointmentAdapter);
 				GridBagConstraints c = new GridBagConstraints();
+				a.addMouseListener(appointmentAdapter);
 				int d = 0;
 				do {
 					times[((a.start+d)/DIV)-(START*(60/DIV))] = 1;

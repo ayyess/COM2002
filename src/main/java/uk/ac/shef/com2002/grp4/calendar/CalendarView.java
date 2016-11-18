@@ -12,6 +12,7 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,15 +39,21 @@ public class CalendarView extends JPanel {
 	CalendarComp[] dentist;
 	CalendarComp[] hygienist;
 	
+	List<CalendarClickListener> appointmentListeners = new ArrayList<CalendarClickListener>();
+	List<CalendarClickListener> slotListeners = new ArrayList<CalendarClickListener>();
+	
 	
 	public CalendarView(LocalDate startDate) {
+		this();
 		this.startDate = startDate;
+		setView(day);
+	}
+	
+	public CalendarView() {
 		this.setLayout(new BorderLayout());
-		
 		tabbedPane.addTab("Dentist", createScrollPane(dentistPanel));
 		tabbedPane.addTab("Hygienist", createScrollPane(hygienstPanel));
 		this.add(tabbedPane, BorderLayout.CENTER);
-		setView(day);
 	}
 	
 	public void setDate(LocalDate date) {
@@ -56,23 +63,18 @@ public class CalendarView extends JPanel {
 	
 	public void setView(boolean day) {
 		this.day = day;
-		dentist = createCalendars(day, startDate, Partner.DENTIST, dentistPanel);
-		hygienist = createCalendars(day, startDate, Partner.HYGIENIST, hygienstPanel);
+		dentist = createCalendars(day, startDate, Partner.DENTIST, dentistPanel, slotListeners, appointmentListeners);
+		hygienist = createCalendars(day, startDate, Partner.HYGIENIST, hygienstPanel, slotListeners, appointmentListeners);
 	}
 	
 	/**
-	 * Adds the given listener to all of the empty slots for all the calendars. 
-	 * When a empty slot is clicked the onClick/onPressed/onReleased 
+	 * Adds the given listener to all empty slots within the calendars. 
+	 * When an empty slot is clicked the onClick/onPressed/onReleased 
 	 * method of the listener will be called. 
 	 * @param l - Listener to add
 	 */
 	public void addSlotClickListener(CalendarClickListener l) {
-		for (CalendarComp c : dentist) {
-			c.addSlotClickListener(l);
-		}
-		for (CalendarComp c : hygienist) {
-			c.addSlotClickListener(l);
-		}
+		slotListeners.add(l);
 	}
 	
 	/**
@@ -82,19 +84,14 @@ public class CalendarView extends JPanel {
 	 * @param l - Listener to add
 	 */
 	public void addAppointmentClickListener(CalendarClickListener l) {
-		for (CalendarComp c : dentist) {
-			c.addAppointmentClickListener(l);
-		}
-		for (CalendarComp c : hygienist) {
-			c.addAppointmentClickListener(l);
-		}
+		appointmentListeners.add(l);
 	}
 	
 	public LocalDate getDate() {
 		return startDate;
 	}
 	
-	public static CalendarComp[] createCalendars(boolean day, LocalDate date, Partner p, JPanel panel) {
+	public static CalendarComp[] createCalendars(boolean day, LocalDate date, Partner p, JPanel panel, List<CalendarClickListener> slotListeners, List<CalendarClickListener> appointmentListeners) {
 		CalendarComp[] calendars = new CalendarComp[7];
 		panel.removeAll();
 		GridBagLayout layout = new GridBagLayout();
@@ -105,6 +102,12 @@ public class CalendarView extends JPanel {
 			List<Appointment> appointments = AppointmentUtils.getAppointmentByDate(date);
 			GridBagConstraints constraints = new GridBagConstraints();
 			calendars[0] = new CalendarComp(appointments.stream().filter((appt)->appt.getPractitioner().toUpperCase().equals(p.toString())).collect(Collectors.toList()), date, p);
+			for (CalendarClickListener slotL : slotListeners) {
+				calendars[0].addSlotClickListener(slotL);
+			}
+			for (CalendarClickListener appointL : appointmentListeners) {
+				calendars[0].addAppointmentClickListener(appointL);
+			}
 			constraints.gridx = 0;
 			constraints.gridwidth = 7;
 			constraints.fill = GridBagConstraints.BOTH;
@@ -121,6 +124,12 @@ public class CalendarView extends JPanel {
 							&& appt.getDate().equals(dayDate)
 				).collect(Collectors.toList()),dayDate, p);
 				calendars[i] = c;
+				for (CalendarClickListener slotL : slotListeners) {
+					calendars[i].addSlotClickListener(slotL);
+				}
+				for (CalendarClickListener appointL : appointmentListeners) {
+					calendars[i].addAppointmentClickListener(appointL);
+				}
 				constraints.gridheight = 1;
 				constraints.gridx = i;
 				constraints.fill = GridBagConstraints.BOTH;
