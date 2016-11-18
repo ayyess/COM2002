@@ -55,8 +55,12 @@ public class AppointmentCreationFrame extends BaseDialog {
 		JButton save_button = new JButton("Save");
 		save_button.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent ae){
-					saveDetails();
-                    close();
+					try {
+						saveDetails();
+						close();
+					} catch (UserFacingException e) {
+						JOptionPane.showMessageDialog(null, e.getMessage());
+					}
                 }
             });
 		addButtons(cancel_button,save_button);
