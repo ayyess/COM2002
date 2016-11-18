@@ -8,6 +8,8 @@
 
 package uk.ac.shef.com2002.grp4.data;
 
+import java.util.Objects;
+
 public class Treatment {
 
 	private String name;
@@ -24,4 +26,15 @@ public class Treatment {
 		return cost;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if(!(obj instanceof Address)){
+			return false;
+		}
+		Treatment rhs = (Treatment) obj;
+		return
+			Objects.equals(name, rhs.name) &&
+			cost == rhs.cost &&
+			Objects.equals(type, rhs.type);
+	}
 }

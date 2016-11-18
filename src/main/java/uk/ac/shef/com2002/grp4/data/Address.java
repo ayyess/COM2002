@@ -9,6 +9,7 @@
 package uk.ac.shef.com2002.grp4.data;
 
 import uk.ac.shef.com2002.grp4.databases.AddressUtils;
+import java.util.Objects;
 
 import java.util.Optional;
 
@@ -74,5 +75,20 @@ public class Address {
 
 	public String getPostcode(){
 		return postcode;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(!(obj instanceof Address)){
+			return false;
+		}
+		Address rhs = (Address) obj;
+		return
+			//private Optional<Long> id;
+			Objects.equals(houseNumber, rhs.houseNumber) &&
+			Objects.equals(street, rhs.street) &&
+			Objects.equals(district, rhs.district) &&
+			Objects.equals(city, rhs.city) &&
+			Objects.equals(postcode, rhs.postcode);
 	}
 }
