@@ -17,33 +17,33 @@ import java.sql.ResultSet;
  */
 public class PatientPlanUtils {
 
-    public static PatientPlan getPlanByPatientID(int id) {
-        return ConnectionManager.withStatement("SELECT * FROM patient_plans JOIN treatment_plans ON patient_plans.plan_name = treatment_plans.name WHERE id=?",(stmt)-> {
-            stmt.setInt(1, id);
+    public static PatientPlan getPlanByPatientID(long id) {
+        return ConnectionManager.withStatement("SELECT * FROM patient_plans JOIN treatment_plans ON patient_plans.plan_name = treatment_plans.name WHERE patient_id=?",(stmt)-> {
+            stmt.setLong(1, id);
             ResultSet res = stmt.executeQuery();
             return new PatientPlan(res.getInt(1),res.getString(2), res.getInt(7), res.getDate(3).toLocalDate(), res.getInt(4), res.getInt(5), res.getInt(6));
         });
     }
 
-    public static void completeCheckUp(int id) {
-        ConnectionManager.withStatement("UPDATE patient_plans SET used_checkups=used_checkups + 1 WHERE id=?",(stmt)-> {
-            stmt.setInt(1, id);
+    public static void completeCheckUp(long id) {
+        ConnectionManager.withStatement("UPDATE patient_plans SET used_checkups=used_checkups + 1 WHERE patient_id=?",(stmt)-> {
+            stmt.setLong(1, id);
             stmt.executeUpdate();
             return  null;
         });
     }
 
-    public static void completeHygieneVisit(int id) {
-        ConnectionManager.withStatement("UPDATE patient_plans SET used_hygiene_visits=used_hygiene_visits + 1 WHERE id=?",(stmt)-> {
-            stmt.setInt(1, id);
+    public static void completeHygieneVisit(long id) {
+        ConnectionManager.withStatement("UPDATE patient_plans SET used_hygiene_visits=used_hygiene_visits + 1 WHERE patient_id=?",(stmt)-> {
+            stmt.setLong(1, id);
             stmt.executeUpdate();
             return  null;
         });
     }
 
-    public static void completeRepair(int id) {
-        ConnectionManager.withStatement("UPDATE patient_plans SET used_repairs=used_repairs + 1 WHERE id=?",(stmt)-> {
-            stmt.setInt(1, id);
+    public static void completeRepair(long id) {
+        ConnectionManager.withStatement("UPDATE patient_plans SET used_repairs=used_repairs + 1 WHERE patient_id=?",(stmt)-> {
+            stmt.setLong(1, id);
             stmt.executeUpdate();
             return  null;
         });
@@ -55,4 +55,19 @@ public class PatientPlanUtils {
             return  null;
         });
     }
+
+
+	public static void updateById(long id,String name, int cost LocalDate startDate, int remCheckups, int remHygiene, int remRepairs){
+		ConnectionManager.withStatement("UPDATE patient_plans SET plan_name=?, used_checkups=?, used_hygiene_visits=?, used_repairs=?, renew_date =? WHERE patient_id = ?",(stmt)-> {
+			stmt.setString(1,name);
+			stmt.setInt(2,cost);
+			stmt.setDate(3,java.sql.Date.valueOf(startDate));
+			stmt.setInt(4,remCheckups);
+			stmt.setInt(5,remHygiene);
+			stmt.setInt(6,remRepairs);
+			stmt.setLong(7,id);
+            stmt.executeUpdate();
+            return  null;
+        });
+	}
 }

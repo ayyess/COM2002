@@ -25,4 +25,8 @@ public class Plan {
         this.hygiene_visits = hygiene;
         this.repairs = repairs;
     }
+
+	public String getName(){
+		return name;
+	}
 }

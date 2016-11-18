@@ -16,7 +16,8 @@ public class PatientDetailsDialog extends BaseDialog implements ActionListener {
 	private final JButton closeButton;
 	private Patient patient;
 	private boolean modified;
-	
+	private final PlanSelector planSelector;
+
 	private final JScrollPane listScroll;
 	private final JList<Treatment> pastTreatmentList;
 	private final DefaultListModel<Treatment> treatmentListModel;
@@ -30,6 +31,13 @@ public class PatientDetailsDialog extends BaseDialog implements ActionListener {
 		c.gridwidth = 2;
 		add(detailsPanel,c);
 		
+		planSelector = new PlanSelector();
+		addLabeledComponent("Plan",planSelector);
+		planSelector.addChangeListener((ChangeEvent ev)->{
+			PatientPln plan = patient.getPatientPlan();
+			plan.setPlan(planSelector.getSelectedValue());
+			plan.update();
+		});
 		nextRow();
 		add(new JLabel("Treatments:"),getBaseConstraints());
 		nextRow();

@@ -91,6 +91,12 @@ public class Patient {
 		return id.get();
 	}
 
+	public PatientPlan getPatientPlan(){
+		return id.map((id)->
+			PatientPlanUtils.getPlanByPatientID(id)
+		);
+	}
+
 	public Address getAddress(){
 		if(address.isPresent()){
 			return address.get();
