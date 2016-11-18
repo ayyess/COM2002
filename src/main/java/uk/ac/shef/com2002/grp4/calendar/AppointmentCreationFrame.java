@@ -69,6 +69,7 @@ public class AppointmentCreationFrame extends BaseDialog {
 	}
 
 	void saveDetails() {
-		AppointmentUtils.insertAppointment(date, partner.name(), patientSelector.getPatient().map(Patient::getID).get(), time, Duration.ofMinutes(((Integer)lengthCombo.getSelectedItem())));
+		String practioner = partner.name().substring(0, 1) + partner.name().substring(1).toLowerCase(); // DENTIST -> Dentist
+		AppointmentUtils.insertAppointment(date, practioner, patientSelector.getPatient().map(Patient::getID).get(), time, Duration.ofMinutes(((Integer)lengthCombo.getSelectedItem())));
 	}
 }
