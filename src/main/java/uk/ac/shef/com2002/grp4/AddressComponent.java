@@ -24,7 +24,7 @@ public class AddressComponent extends BaseInfoComponent{
 	public AddressComponent(Optional<Address> address){
 		super();
 
-		houseNumberField = new JTextField(5);
+		houseNumberField = new JTextField(20);
 		houseNumberField.setEditable(false);
 		addLabeledComponent("House Number",houseNumberField);
 
