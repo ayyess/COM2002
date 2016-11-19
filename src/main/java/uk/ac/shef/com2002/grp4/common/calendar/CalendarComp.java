@@ -142,12 +142,11 @@ public class CalendarComp extends JPanel {
 	 * booked slots appearing in a different colour.
 	 */
 	public void showAll() {
-		Patient reserved = PatientUtils.getReservedPatient();
 		removeAll();
 		addHeaders();
 		int[] times = new int[((END-START)*60)/DIV];
 		for (AppointmentComp a : appointments) {
-			if (a.appointment.getPatientId() == reserved.getID()) {
+			if (a.appointment.getPatientId() == 1) {
 				a.setColor(RESERVED_COLOUR);
 			} else {
 				Color color = Color.CYAN;

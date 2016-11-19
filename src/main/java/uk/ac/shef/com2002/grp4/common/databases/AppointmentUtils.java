@@ -154,10 +154,17 @@ public class AppointmentUtils {
 		if (start.isBefore(LocalTime.of(9, 0)) || end.isAfter(LocalTime.of(17,0))) {
 			throw new UserFacingException("Appointment outside of appointment hours.");
 		}
-		if (getAppointmentByTimeRange(date, start, end).stream()
+		
+		List<Appointment> appointmentsAtTime = getAppointmentByTimeRange(date, start, end);
+		if (appointmentsAtTime.stream()
 			.filter(p -> p.getPartner().equals(partner))
 			.count() > 0) {
-			throw new UserFacingException("Appointment overlap.");
+			throw new UserFacingException("The partner already has an appointment at this time.");
+		}
+		if (appointmentsAtTime.stream()
+			.filter(p -> p.getPatientId() == patient_id)
+			.count() > 0) {
+			throw new UserFacingException("The patient already has an appointment at this time.");
 		}
 
 		ConnectionManager.withStatement("INSERT INTO appointments VALUES (?,?,?,?,?,?)",(stmt)-> {
