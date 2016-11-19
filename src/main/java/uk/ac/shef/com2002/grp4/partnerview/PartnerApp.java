@@ -27,7 +27,8 @@ import uk.ac.shef.com2002.grp4.common.calendar.CalendarView;
 public class PartnerApp extends JFrame {
 
 	public PartnerApp(Partner p) {
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(EXIT_ON_CLOSE); // TODO remove and replace with below once merged
+		//setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setPreferredSize(new Dimension(800,600));
         
         CalendarView calendar = new CalendarView(p);

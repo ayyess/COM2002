@@ -15,7 +15,9 @@ import uk.ac.shef.com2002.grp4.common.UserFacingException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.sql.Date;
 import java.sql.ResultSet;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,7 +44,7 @@ public class AppointmentUtils {
             stmt.setInt(1,id);
             ResultSet res = stmt.executeQuery();
             while(res.next()){
-                appointments.add(new Appointment(res.getDate(1).toLocalDate(), res.getTime(4).toLocalTime(),res.getInt(5), res.getString(2), res.getLong(3)));
+                appointments.add(new Appointment(res.getDate(1).toLocalDate(), res.getTime(4).toLocalTime(),res.getInt(5), res.getString(2), res.getLong(3), res.getBoolean(6)));
             }
             return appointments;
         });
@@ -61,7 +63,7 @@ public class AppointmentUtils {
             stmt.setDate(1, sqlDate);
             ResultSet res = stmt.executeQuery();
             while (res.next()) {
-                appointments.add(new Appointment(res.getDate(1).toLocalDate(), res.getTime(4).toLocalTime(),res.getInt(5), res.getString(2), res.getLong(3)));
+                appointments.add(new Appointment(res.getDate(1).toLocalDate(), res.getTime(4).toLocalTime(),res.getInt(5), res.getString(2), res.getLong(3), res.getBoolean(6)));
             }
             return appointments;
         });
@@ -83,7 +85,7 @@ public class AppointmentUtils {
 			stmt.setDate(2, sqlEnd);
 			ResultSet res = stmt.executeQuery();
 			while (res.next()) {
-				appointments.add(new Appointment(res.getDate(1).toLocalDate(), res.getTime(4).toLocalTime(),res.getInt(5), res.getString(2), res.getLong(3)));
+				appointments.add(new Appointment(res.getDate(1).toLocalDate(), res.getTime(4).toLocalTime(),res.getInt(5), res.getString(2), res.getLong(3), res.getBoolean(6)));
 			}
 			return appointments;
 		});
@@ -127,7 +129,7 @@ public class AppointmentUtils {
 			stmt.setDate(1, sqlDate);
 			ResultSet res = stmt.executeQuery();
 			while (res.next()) {
-				appointments.add(new Appointment(res.getDate(1).toLocalDate(), res.getTime(4).toLocalTime(), res.getInt(5), res.getString(2), res.getLong(3)));
+				appointments.add(new Appointment(res.getDate(1).toLocalDate(), res.getTime(4).toLocalTime(), res.getInt(5), res.getString(2), res.getLong(3), res.getBoolean(6)));
 			}
 			return appointments.stream()
 				.filter(a -> isOverlapping(start, end, a.getStart(), a.getEnd()))
@@ -187,4 +189,16 @@ public class AppointmentUtils {
 		});
 	}
     
+	public static void updateCompleteAppointment(Appointment appointment, boolean complete) {
+		appointment.setComplete(complete);
+		ConnectionManager.withStatement("UPDATE appointments SET complete=? WHERE date=? AND partner=? AND start=?",(stmt)-> {
+			stmt.setBoolean(1, complete);
+			stmt.setDate(2, Date.valueOf(appointment.getDate()));
+			stmt.setString(3, appointment.getPartner());
+			stmt.setTime(4, Time.valueOf(appointment.getStart()));
+			stmt.executeUpdate();
+		return null;
+	});
+	}
+	
 }

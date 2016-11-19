@@ -33,9 +33,13 @@ public class Appointment {
 	private String partner;
 	/** Stores the id of the patient. */
 	private long patientId;
+	/** Stores whether the appointment was attended and finished */
+	private boolean complete;
 
 	/**
 	 * This constructor creates an Appointment object.
+	 *
+	 * This sets the appointment to be incomplete by default.
 	 *
 	 * @param date - the date of the appointment
 	 * @param start - the start time of the appointment
@@ -50,7 +54,30 @@ public class Appointment {
 		this.partner = partner;
 		this.patientId = patientId;
 	}
+	
+	/**
+	 * This constructor creates an Appointment object.
+	 *
+	 * @param date - the date of the appointment
+	 * @param start - the start time of the appointment
+	 * @param duration - the duration of the appointment
+	 * @param partner - the partner who is being seen
+	 * @param patientId - the patient of the appointment
+	 * @param complete - the status of the appointment
+	 */
+	public Appointment(LocalDate date, LocalTime start, int duration, String partner, long patientId, boolean complete) {
+		this(date, start, duration, partner, patientId);
+		this.complete = complete;	
+	}
 
+	/**
+	 * Sets this appointment to complete
+	 * @param complete
+	 */
+	public void setComplete(boolean complete) {
+		this.complete = complete;
+	}
+	
 	/**
 	 * This gets the date of the appointment.
 	 * @return date
@@ -98,6 +125,13 @@ public class Appointment {
 	public int getDuration() {
 		return (int) Duration.between(start, end).getSeconds()/60;
 	}
+	
+	/**
+	 * @return if the appointment is complete 
+	 */
+	public boolean isComplete() {
+		return complete;
+	}
 
 	/**
 	 * This returns the object as a single string.
@@ -134,4 +168,5 @@ public class Appointment {
 			Objects.equals(partner, rhs.partner) &&
 			Objects.equals(patientId, rhs.patientId);
 	}
+
 }

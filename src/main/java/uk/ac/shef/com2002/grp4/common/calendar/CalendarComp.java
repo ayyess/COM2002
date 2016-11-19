@@ -56,8 +56,14 @@ public class CalendarComp extends JPanel {
 
 	/** This is the color that a dentists appointment will show in. */
 	private static final Color DENTIST_COLOUR = Color.getHSBColor(0.0f,0.5f,1.0f);//Light red
+	/** This is the color that a dentists appointment will show in when marked as complete. */
+	private static final Color DENTIST_COMPLETE_COLOUR = Color.getHSBColor(0.0f,0.5f,0.8f); //Darker red
+	
 	/** This is the color that a hygienists appointment will show in. */
-	private static final Color HYGIENIST_COLOUR = Color.getHSBColor(0.69f,0.5f,1.0f);//Light blue
+	private static final Color HYGIENIST_COLOUR = Color.getHSBColor(0.69f,0.5f,1.0f); //Light blue
+	/** This is the color that a hygienists appointment will show in when marked as complete. */
+	private static final Color HYGIENIST_COMPLETE_COLOUR = Color.getHSBColor(0.69f,0.5f,0.8f); //Darker blue
+	
 	/** This is the color that a reserved appointment will show in. */
 	private static final Color RESERVED_COLOUR = Color.GRAY;
 
@@ -141,7 +147,13 @@ public class CalendarComp extends JPanel {
 			if (a.appointment.getPatientId() == 0) {
 				a.setColor(RESERVED_COLOUR);
 			} else {
-				a.setColor(a.appointment.getPartner().equals(Partner.DENTIST.toString())?DENTIST_COLOUR:HYGIENIST_COLOUR);
+				Color color = Color.CYAN;
+				if (a.appointment.getPartner().endsWith(Partner.DENTIST.toString())) {
+					color = a.appointment.isComplete() ? DENTIST_COMPLETE_COLOUR : DENTIST_COLOUR;  
+				} else if (a.appointment.getPartner().endsWith(Partner.HYGIENIST.toString())) {
+					color = a.appointment.isComplete() ? HYGIENIST_COMPLETE_COLOUR : HYGIENIST_COLOUR;
+				}
+				a.setColor(color);
 			}
 			a.removeMouseListener(appointmentAdapter);
 			if (a.start >= START) {

@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JScrollPane;
 
 import uk.ac.shef.com2002.grp4.common.BaseDialog;
 import uk.ac.shef.com2002.grp4.common.Partner;
@@ -29,17 +30,34 @@ import uk.ac.shef.com2002.grp4.common.databases.TreatmentApplicationUtils;
 
 public class AppointmentDetailsPartner extends BaseDialog {
 	
+	/** The appointment this dialog will show/modify the details of */
 	private final Appointment appointment;
+	/** Check box for setting/seeing the completion status of the appointment */
 	JCheckBox completedCheck = new JCheckBox("Completed");
+	/** Scroll pane for the list treatments this appointment has */
+	JScrollPane treatmentScroll;
+	/** The List of treatments that this appointment has */
 	JList<Treatment> treatmentList = new JList<Treatment>();
+	/** Model for the list of appointments */
 	DefaultListModel<Treatment> model = new DefaultListModel<Treatment>();
-	Treatment[] treatments = null;
+	/** Treatments this appointment had when the dialog was opened */
+	Treatment[] oldTreatments = null;
+	/** The new set of treatments this appointment will have */
+	Treatment[] newTreatments = null;
+	/** The partner of this appointment */
 	Partner partner;
 	
+	/**
+	 * Constructs a new dialog to modify the appointment and assign new treatments to the appointment.
+	 * 
+	 * @param owner - The parent frame for this dialog
+	 * @param appointment - The appointment to show details on
+	 */
 	public AppointmentDetailsPartner(Frame owner, Appointment appointment) {
 		super(owner, "Appointment");
 		this.appointment = appointment;
 		
+		//Fetch the patient for the appointment from the database
 		Patient patient = PatientUtils.getPatientByID(appointment.getPatientId());
 		this.partner = Partner.valueOfIngnoreCase(appointment.getPartner());
 		
@@ -47,21 +65,25 @@ public class AppointmentDetailsPartner extends BaseDialog {
 		addLabeledComponent("Patient", new JLabel(patient.getName()));
 		addLabeledComponent("Duration", new JLabel(Integer.toString(appointment.getDuration()) + " minutes"));
 		
+		//Fetch and add all of the treatments this appointment has if any
 		treatmentList.setModel(model);
-		treatments = TreatmentApplicationUtils.getAppointmentTreatments(appointment);
-		for (int i = 0; i < treatments.length; i++) {
-			model.add(i, treatments[i]);
+		oldTreatments = TreatmentApplicationUtils.getAppointmentTreatments(appointment);
+		for (int i = 0; i < oldTreatments.length; i++) {
+			model.add(i, oldTreatments[i]);
 		}
 		
+		treatmentScroll = new JScrollPane(treatmentList);
+		addLabeledComponent("Treatments", treatmentScroll);
 		
-		addLabeledComponent("Treatments", treatmentList);
+		//Show the completion field
+		completedCheck.setSelected(appointment.isComplete());
 		addLabeledComponent("Completed", completedCheck);
 		
-		JButton addTreatmentButton = new JButton("Add Treatment");
-		addTreatmentButton.addActionListener(new ActionListener() {
+		JButton setTreatmentButton = new JButton("Set Treatments");
+		setTreatmentButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				addTreatments();
+				setTreatments();
 			}
 		});
 	
@@ -69,6 +91,7 @@ public class AppointmentDetailsPartner extends BaseDialog {
 		saveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				save();
+				dispose();
 			}
 		});
 		
@@ -76,38 +99,58 @@ public class AppointmentDetailsPartner extends BaseDialog {
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				cancel();
+				dispose();
 			}
 		});
-		addButtons(addTreatmentButton, saveButton, cancelButton);
+		addButtons(setTreatmentButton, saveButton, cancelButton);
 		pack();
 	}
 	
+	/**
+	 * Deletes the appointment from the database
+	 * This is not used so that only the secretary can modify the calendar
+	 */
 	void delete() {
 		AppointmentUtils.deleteAppointment(appointment);
 	}
 
-	void addTreatments() {
-		FindTreatment treatmentDialog = new FindTreatment(this);
+	/**
+	 * Sets the treatments for this appointment by opening the treatment finding dialog
+	 * <p>
+	 * This does not save the changes it only changes the list for this dialog.
+	 * Call {@code save()} to save the changes and close the dialog
+	 */
+	void setTreatments() {
+		FindTreatment treatmentDialog = new FindTreatment(this, oldTreatments);
 		treatmentDialog.setVisible(true);
-		treatments = treatmentDialog.selectedTreatments;
+		if (treatmentDialog.wasCanceled()) {
+			//If the user decided to cancel don't make any changes
+			return;
+		}
+		newTreatments = treatmentDialog.selectedTreatments;
 		model.removeAllElements();
-		if (treatments != null) {
-			for (int i = 0; i < treatments.length; i++) {
-				model.add(i, treatments[i]);
+		if (newTreatments != null) {
+			int start = model.getSize();
+			for (int i = 0; i < newTreatments.length; i++) {
+				
+				model.add(start+i, newTreatments[i]);
 			}
 		}
-		
+		oldTreatments = newTreatments.clone();
 	}
 
+	/**
+	 * Save the changes if any and close the dialog
+	 */
 	void save() {
-		if (treatments == null) {
+		//Update appointment to be complete
+		AppointmentUtils.updateCompleteAppointment(appointment, completedCheck.isSelected());
+		if (newTreatments == null) {
 			//Message to say no changes
 			return;
 		}
-		for (Treatment t : treatments) {
-			TreatmentApplicationUtils.insertTreatmentApplication(t, appointment, partner);
-		}
-		
+		//Save the treatments to the database
+		TreatmentApplicationUtils.replace(oldTreatments, newTreatments, appointment.getDate(), appointment.getStart(), partner);
 	}
 	
 }
