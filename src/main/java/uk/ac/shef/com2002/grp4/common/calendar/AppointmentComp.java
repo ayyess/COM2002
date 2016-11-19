@@ -13,6 +13,7 @@ import uk.ac.shef.com2002.grp4.common.data.Appointment;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.Duration;
 import java.time.LocalTime;
 
 /**
@@ -25,13 +26,13 @@ import java.time.LocalTime;
 public class AppointmentComp extends JPanel {
 
     /** The start of an appointment. */
-	int start;
+	LocalTime start;
 
     /** The end of an appointment. */
-	int end;
+	LocalTime end;
 
     /** The duration of an appointment. */
-	int duration;
+	Duration duration;
 
     /** A single Appointment. */
     Appointment appointment;
@@ -50,9 +51,9 @@ public class AppointmentComp extends JPanel {
      */
 	public AppointmentComp(Appointment appointment) {
 		this.appointment = appointment;
-		this.start = convertMins(appointment.getStart());
-		this.end = convertMins(appointment.getEnd());
-		this.duration = this.end - this.start;
+		this.start = appointment.getStart();
+		this.end = appointment.getEnd();
+		this.duration = Duration.between(this.start,this.end);
 		
 		setLayout(new FlowLayout());
 		setOpaque(true);
@@ -84,15 +85,5 @@ public class AppointmentComp extends JPanel {
      */
 	public Appointment getAppointment() {
 		return appointment;
-	}
-
-    /**
-     * This function converts a time into a number of minutes.
-     *
-     * @param time - a LocalTime
-     * @return a number of minutes as an integer
-     */
-	public static int convertMins(LocalTime time) {
-		return time.getHour()*60+time.getMinute();
 	}
 }

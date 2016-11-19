@@ -14,7 +14,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,16 +45,16 @@ public class CalendarComp extends JPanel {
 	LocalDate date;
 
 	/** The layout used for the Calendar. */
-	GridBagLayout layout;
+	private final GridBagLayout layout;
 
 	/** The divide of each appointment in minutes. */
 	final static int DIV = 20;
 	/** The vertical height in pixels of each slot. */
 	final static int SLOT_SIZE = 30;
 	/** The start time of the calendar. */
-	final static int START = 9;
+	final static LocalTime START = LocalTime.of(9,0);
 	/** The end time of the calendar. */
-	final static int END = 17;
+	final static LocalTime END = LocalTime.of(17,0);
 	/** This acts as padding above each appointment. */
 	final static int HEADER_SIZE = 2;
 
@@ -126,15 +128,14 @@ public class CalendarComp extends JPanel {
 		this.partner = partner;
 		if (partner == Partner.DENTIST) calendarColor = DENTIST_COLOUR;
 		else if (partner == Partner.HYGIENIST) calendarColor = HYGIENIST_COLOUR;
-		setAppointmentsAndDate(appointmentsOnDate,date);
 		layout = new GridBagLayout();
 		layout.columnWidths = new int[] {1, 1};
-		layout.rowHeights = new int[((END-START)*60)/DIV];
+		layout.rowHeights = new int[(int)(HEADER_SIZE+(Duration.between(START,END).toMinutes()/DIV))];
 		//set all slot sizes to SLOT_SIZE, later we just choose how many of these slots to use with gridheight
 		Arrays.fill(layout.rowHeights, (int) (SLOT_SIZE*DPIScaling.get()));
 		setLayout(layout);
-		
-		showAll();
+
+		setAppointmentsAndDate(appointmentsOnDate,date);
 	}
 
 	/**
@@ -145,7 +146,8 @@ public class CalendarComp extends JPanel {
 		Patient reserved = PatientUtils.getReservedPatient();
 		removeAll();
 		addHeaders();
-		int[] times = new int[((END-START)*60)/DIV];
+		boolean[] times = new boolean[(int)(Duration.between(START,END).toMinutes()/DIV)];
+		Arrays.fill(times,false);
 		for (AppointmentComp a : appointments) {
 			if (a.appointment.getPatientId() == reserved.getID()) {
 				a.setColor(RESERVED_COLOUR);
@@ -159,29 +161,26 @@ public class CalendarComp extends JPanel {
 				a.setColor(color);
 			}
 			a.removeMouseListener(appointmentAdapter);
-			if (a.start >= START) {
+			if (!a.start.isBefore(START)) {
+				Duration gap = Duration.between(START,a.start);
 				GridBagConstraints c = new GridBagConstraints();
 				a.addMouseListener(appointmentAdapter);
-				int d = 0;
-				do {
-					times[((a.start+d)/DIV)-(START*(60/DIV))] = 1;
-					d += DIV;
-				} while (d < a.duration);
-				c.gridy = HEADER_SIZE+(a.start-START*60)/DIV;
-				c.gridheight = d/DIV;
+				Arrays.fill(times,(int)gap.toMinutes()/DIV,(int)gap.plus(a.duration).toMinutes()/DIV,true);
+				c.gridy = (int)(HEADER_SIZE+(gap.toMinutes()/DIV));
+				c.gridheight = (int)a.duration.toMinutes()/DIV;
 				c.weightx = 1.0;
 				c.fill = GridBagConstraints.BOTH;
 				add(a, c);
 			}
 		}
 		for (int t = 0; t < times.length; t++) {
-			if (times[t] == 0) {
+			if (!times[t]) {
 				GridBagConstraints c = new GridBagConstraints();
-				times[t] = 1;
+				times[t] = true;
 				c.gridy = HEADER_SIZE+t;
 				c.weightx = 1.0;
 				c.fill = GridBagConstraints.BOTH;
-				EmptyAppointment gap = new EmptyAppointment(t+START*(60/DIV), partner);
+				EmptyAppointment gap = new EmptyAppointment(START.plusMinutes(t), partner);
 				gap.addMouseListener(slotAdapter);
 				add(gap, c);
 			}

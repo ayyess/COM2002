@@ -72,10 +72,8 @@ public class AppointmentPanel extends JPanel {
 			public void onRelease(MouseEvent e) {
 				EmptyAppointment slot = (EmptyAppointment)e.getSource();
 				CalendarComp c = ((CalendarComp) slot.getParent());
-				int time = slot.getTime();
-				LocalTime localTime = LocalTime.of(0, 0).plusMinutes(time*20);
-				
-				AppointmentCreationFrame f = new AppointmentCreationFrame(calendar, c.getDate(), localTime, slot.getPartner());
+				LocalTime time = slot.getTime();
+				AppointmentCreationFrame f = new AppointmentCreationFrame(calendar, c.getDate(), time, slot.getPartner());
 				f.setVisible(true);
 				//Update
 				calendar.setDate(calendar.getDate());

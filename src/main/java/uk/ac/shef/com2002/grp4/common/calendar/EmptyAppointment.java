@@ -31,7 +31,7 @@ public class EmptyAppointment extends JPanel {
 	 */
 
 	/** Stores a time for which the empty appointment will be made. */
-	private int time;
+	private LocalTime time;
 	/** Stores a Partner for which the empty appointment will be made. */
 	private Partner partner;
 
@@ -41,18 +41,17 @@ public class EmptyAppointment extends JPanel {
 	 * @param time - time as an integer
 	 * @param partner - a Partner
 	 */
-	public EmptyAppointment(int time, Partner partner) {
+	public EmptyAppointment(LocalTime time, Partner partner) {
 		this.time = time;
 		this.partner = partner;
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		setBackground(Color.WHITE);
 		
-		LocalTime t = LocalTime.of(0,0).plusMinutes(time * 20);
-		add(new JLabel(t.toString()));
+		add(new JLabel(time.toString()));
 	}
 
 	/** Gets the time of the empty appointment. */
-	public int getTime() {
+	public LocalTime getTime() {
 		return time;
 	}
 
