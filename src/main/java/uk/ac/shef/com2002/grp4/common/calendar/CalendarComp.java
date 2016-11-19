@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 
 import uk.ac.shef.com2002.grp4.common.Partner;
 import uk.ac.shef.com2002.grp4.common.data.Appointment;
+import uk.ac.shef.com2002.grp4.common.databases.PatientUtils;
 import uk.ac.shef.com2002.grp4.common.util.DPIScaling;
 
 /**
@@ -144,7 +145,7 @@ public class CalendarComp extends JPanel {
 		addHeaders();
 		int[] times = new int[((END-START)*60)/DIV];
 		for (AppointmentComp a : appointments) {
-			if (a.appointment.getPatientId() == 0) {
+			if (PatientUtils.getPatientByID(a.appointment.getPatientId()).getName().equals("RESERVED")) {
 				a.setColor(RESERVED_COLOUR);
 			} else {
 				Color color = Color.CYAN;
