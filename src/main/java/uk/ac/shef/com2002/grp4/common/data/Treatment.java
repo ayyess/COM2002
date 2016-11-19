@@ -64,7 +64,7 @@ public class Treatment {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if(!(obj instanceof Address)){
+		if(!(obj instanceof Treatment)){
 			return false;
 		}
 		Treatment rhs = (Treatment) obj;

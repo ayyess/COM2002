@@ -16,6 +16,7 @@ import uk.ac.shef.com2002.grp4.common.databases.AddressUtils;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+import java.util.Objects;
 
 /**
  * Used to store the patient details temporarily
@@ -48,7 +49,7 @@ public class Patient {
 	private String phoneNumber;
 
 	/** This stores the id of the address of the patient. */
-	private Long addressId;
+	private long addressId;
 	/**
 	 * This stores the patients Address object
 	 * --Optional
@@ -246,5 +247,20 @@ public class Patient {
 			PatientUtils.deleteByID(getID());
 		}
 		//else not in db
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(!(obj instanceof Patient)){
+			return false;
+		}
+		Patient rhs = (Patient) obj;
+		return Objects.equals(id, rhs.id) &&
+			Objects.equals(title, rhs.title) &&
+			Objects.equals(forename, rhs.forename) &&
+			Objects.equals(surname, rhs.surname) &&
+			Objects.equals(dob, rhs.dob) &&
+			Objects.equals(phoneNumber, rhs.phoneNumber) &&
+			addressId == rhs.addressId;
 	}
 }
