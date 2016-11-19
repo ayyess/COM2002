@@ -29,8 +29,8 @@ public class Appointment {
 	private LocalTime start;
 	/** Stores the end time of the appointment. */
 	private LocalTime end;
-	/** Stores the practitioner of the appointment. */
-	private String practitioner;
+	/** Stores the partner of the appointment. */
+	private String partner;
 	/** Stores the id of the patient. */
 	private long patientId;
 
@@ -40,14 +40,14 @@ public class Appointment {
 	 * @param date - the date of the appointment
 	 * @param start - the start time of the appointment
 	 * @param duration - the duration of the appointment
-	 * @param practitioner - the practitioner who is being seen
+	 * @param partner - the partner who is being seen
 	 * @param patientId - the patient of the appointment
 	 */
-	public Appointment(LocalDate date, LocalTime start, int duration, String practitioner, long patientId) {
+	public Appointment(LocalDate date, LocalTime start, int duration, String partner, long patientId) {
 		this.date = date;
 		this.start = start;
 		this.end = start.plusMinutes(duration);
-		this.practitioner = practitioner;
+		this.partner = partner;
 		this.patientId = patientId;
 	}
 
@@ -76,11 +76,11 @@ public class Appointment {
 	}
 
 	/**
-	 * This gets the practitioner who is being seen.
-	 * @return practitioner
+	 * This gets the partner who is being seen.
+	 * @return partner
 	 */
-	public String getPractitioner() {
-		return practitioner;
+	public String getPartner() {
+		return partner;
 	}
 
 	/**
@@ -110,7 +110,7 @@ public class Appointment {
 				"date=" + date +
 				", start=" + start +
 				", end=" + end +
-				", practitioner='" + practitioner + '\'' +
+				", partner='" + partner + '\'' +
 				", patientId=" + patientId +
 				'}';
 	}
@@ -131,7 +131,7 @@ public class Appointment {
 			Objects.equals(date, rhs.date) &&
 			Objects.equals(start, rhs.start) &&
 			Objects.equals(end, rhs.end) &&
-			Objects.equals(practitioner, rhs.practitioner) &&
+			Objects.equals(partner, rhs.partner) &&
 			Objects.equals(patientId, rhs.patientId);
 	}
 }

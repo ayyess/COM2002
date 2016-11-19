@@ -171,7 +171,7 @@ public class CalendarView extends JPanel {
 			List<Appointment> appointments = AppointmentUtils.getAppointmentByDate(date);
 			GridBagConstraints constraints = new GridBagConstraints();
 			calendars[0] = new CalendarComp(appointments.stream()
-											.filter((appt)->appt.getPractitioner().equals(p.toString()))
+											.filter((appt)->appt.getPartner().equals(p.toString()))
 											.collect(Collectors.toList())
 											,date, p);
 			for (CalendarClickListener slotL : slotListeners) {
@@ -192,7 +192,7 @@ public class CalendarView extends JPanel {
 				GridBagConstraints constraints = new GridBagConstraints();
 				//filter the appointments as required in java
 				CalendarComp c = new CalendarComp(appointments.stream().filter((appt)->
-					appt.getPractitioner().equals(p.toString())
+					appt.getPartner().equals(p.toString())
 							&& appt.getDate().equals(dayDate)
 				).collect(Collectors.toList()),dayDate, p);
 				calendars[i] = c;

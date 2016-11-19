@@ -139,12 +139,12 @@ public class AppointmentUtils {
 	 * This inserts a new Appointment into the database.
 	 *
 	 * @param date - date of the appointment
-	 * @param practitioner - the practitioner
+	 * @param partner - the partner
 	 * @param patient_id - the id of the patient
 	 * @param start - the startTime of the appointment
 	 * @param duration - the duration of the appointment
 	 */
-	public static void insertAppointment(LocalDate date, String practitioner, long patient_id, LocalTime start, Duration duration, boolean complete) {
+	public static void insertAppointment(LocalDate date, String partner, long patient_id, LocalTime start, Duration duration, boolean complete) {
 		java.sql.Date sqlDate = java.sql.Date.valueOf(date);
 		java.sql.Time sqlStartTime = java.sql.Time.valueOf(start);
 
@@ -153,14 +153,14 @@ public class AppointmentUtils {
 			throw new UserFacingException("Appointment outside of appointment hours.");
 		}
 		if (getAppointmentByTimeRange(date, start, end).stream()
-			.filter(p -> p.getPractitioner().equals(practitioner))
+			.filter(p -> p.getPartner().equals(partner))
 			.count() > 0) {
 			throw new UserFacingException("Appointment overlap.");
 		}
 
 		ConnectionManager.withStatement("INSERT INTO appointments VALUES (?,?,?,?,?,?)",(stmt)-> {
             stmt.setDate(1, sqlDate);
-            stmt.setString(2, practitioner);
+            stmt.setString(2, partner);
             stmt.setLong(3, patient_id);
             stmt.setTime(4, sqlStartTime);
             stmt.setInt(5, (int)duration.toMinutes());
@@ -178,9 +178,9 @@ public class AppointmentUtils {
 	public static void deleteAppointment(Appointment appointment) {
 		java.sql.Date sqlDate = java.sql.Date.valueOf(appointment.getDate());
 		java.sql.Time sqlStartTime = java.sql.Time.valueOf(appointment.getStart());
-		ConnectionManager.withStatement("DELETE FROM appointments WHERE date=? AND practitioner=? AND start=?",(stmt)-> {
+		ConnectionManager.withStatement("DELETE FROM appointments WHERE date=? AND partner=? AND start=?",(stmt)-> {
 				stmt.setDate(1, sqlDate);
-				stmt.setString(2, appointment.getPractitioner());
+				stmt.setString(2, appointment.getPartner());
 				stmt.setTime(3, sqlStartTime);
 				stmt.executeUpdate();
 			return null;
