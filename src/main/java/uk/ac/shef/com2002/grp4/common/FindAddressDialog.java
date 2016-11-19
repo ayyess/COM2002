@@ -19,13 +19,30 @@ import javax.swing.*;
 import uk.ac.shef.com2002.grp4.common.data.Address;
 import uk.ac.shef.com2002.grp4.common.databases.AddressUtils;
 
+/**
+ * This class is creates a dialog where the user can find a patient in the database.
+ * <br>
+ * @author  Group 4
+ * @version 1.0
+ * @since   11/11/2016
+ */
 public class FindAddressDialog extends BaseDialog implements ActionListener{
+	/** A text field where the postcode can be entered. */
 	private final JTextField postcodeField;
+	/** A list of addresses. */
 	private final JList<Address> searchResults;
+	/** This stores the Address object of the selected address. */
 	private Optional<Address> address = Optional.empty();
+	/** A button to cancel the process. */
 	private final JButton cancelButton;
+	/** A button to select an address. */
 	private final JButton selectButton;
 
+	/**
+	 * A constructor that creates the dialog box.
+	 *
+	 * @param owner - Takes a component that will parent the dialog
+	 */
 	public FindAddressDialog(Component owner){
 		super(owner,"Find address");
 
@@ -53,6 +70,11 @@ public class FindAddressDialog extends BaseDialog implements ActionListener{
 		pack();
 	}
 
+	/**
+	 * Listens for an action to be performed and completes a certain action.
+	 *
+	 * @param e - an ActionEvent
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e){
 		if(e.getSource() == postcodeField){
@@ -70,6 +92,12 @@ public class FindAddressDialog extends BaseDialog implements ActionListener{
 		}
 	}
 
+	/**
+	 * This gets the Address object.
+	 * --Optional
+	 *
+	 * @return the Address object
+	 */
 	public Optional<Address> getAddress() {
 		return address;
 	}

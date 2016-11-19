@@ -19,14 +19,31 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * This class is creates a dialog where the user can find a patient in the database.
+ * <br>
+ * @author  Group 4
+ * @version 1.0
+ * @since   11/11/2016
+ */
 public class FindPatientDialog extends BaseDialog implements ActionListener{
 
+	/** A text field where a name can be entered. */
 	private final JTextField nameField;
+	/** A list of possible patients. */
 	private final JList<Patient> searchResults;
+	/** This stores the Patient object of the selected patient. */
 	private Optional<Patient> patient = Optional.empty();
+	/** A button to cancel the process. */
 	private final JButton cancelButton;
+	/** A button to select an address. */
 	private final JButton selectButton;
 
+	/**
+	 * A constructor that creates the dialog box.
+	 *
+	 * @param owner - Takes a component that will parent the dialog
+	 */
 	public FindPatientDialog(Component owner) {
 		super(owner,"Find Patient");
 
@@ -55,10 +72,20 @@ public class FindPatientDialog extends BaseDialog implements ActionListener{
 
 	}
 
+	/**
+	 * This sets the patient to be the one that is passed to the method.
+	 *
+	 * @param p - a Patient
+	 */
 	public void setPatient(Patient p) {
 		patient = Optional.ofNullable(p);
 	}
 
+	/**
+	 * Listens for an action to be performed and completes a certain action.
+	 *
+	 * @param e - an ActionEvent
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e){
 		if(e.getSource() == nameField){
@@ -76,6 +103,12 @@ public class FindPatientDialog extends BaseDialog implements ActionListener{
 		}
 	}
 
+	/**
+	 * This gets the Patient object.
+	 * --Optional
+	 *
+	 * @return the Patient object
+	 */
 	public Patient getPatient() {
 		return patient.orElse(null);
 	}

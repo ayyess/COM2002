@@ -58,7 +58,7 @@ public class CreatePatientDialog extends BaseDialog implements ActionListener {
 	/**
 	 * A constructor that creates the dialog box.
 	 *
-	 * @param c - Takes a component that will parent the dialog
+	 * @param owner - Takes a component that will parent the dialog
 	 */
 	public CreatePatientDialog(Component owner){
 		super(owner,"Create Patient");
