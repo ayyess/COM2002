@@ -43,7 +43,7 @@ public class CalendarComp extends JPanel {
 	LocalDate date;
 
 	/** The layout used for the Calendar. */
-	GridBagLayout layout;
+	private GridBagLayout layout;
 
 	/** The divide of each appointment in minutes. */
 	final static int DIV = 20;
@@ -128,8 +128,8 @@ public class CalendarComp extends JPanel {
 		else if (partner == Partner.HYGIENIST) calendarColor = HYGIENIST_COLOUR;
 		setAppointmentsAndDate(appointmentsOnDate,date);
 		layout = new GridBagLayout();
-		layout.columnWidths = new int[] {1, 1};
-		layout.rowHeights = new int[((END-START)*60)/DIV];
+		layout.columnWidths = new int[] {1};
+		layout.rowHeights = new int[HEADER_SIZE+(((END-START)*60)/DIV)];
 		//set all slot sizes to SLOT_SIZE, later we just choose how many of these slots to use with gridheight
 		Arrays.fill(layout.rowHeights, (int) (SLOT_SIZE*DPIScaling.get()));
 		setLayout(layout);
@@ -197,7 +197,7 @@ public class CalendarComp extends JPanel {
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 0;
-		c.gridwidth = 2;
+		c.gridwidth = 1;
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("'<html>'eee'<br/>'dd-MM-yyyy'<html>'");
 		JLabel date = new JLabel(this.date.format(formatter));
 		date.setHorizontalAlignment(JLabel.CENTER);
@@ -212,6 +212,7 @@ public class CalendarComp extends JPanel {
 		JLabel d = new JLabel(p);
 		d.setOpaque(true);
 		d.setHorizontalAlignment(JLabel.CENTER);
+		d.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		d.setBackground(calendarColor);
 		add(d, c);
 	}
