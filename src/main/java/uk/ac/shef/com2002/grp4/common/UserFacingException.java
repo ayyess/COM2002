@@ -8,8 +8,14 @@
  */
 package uk.ac.shef.com2002.grp4.common;
 
+/**
+ * UserFacingException is a class of exceptions that should be shown to the user when thrown.
+ */
 public class UserFacingException extends java.lang.RuntimeException {
 
+	/*
+	 * Constructs a new user facing runtime exception with the specified detail message.
+	 */
 	public UserFacingException(String message){
 		super(message);
 	}
