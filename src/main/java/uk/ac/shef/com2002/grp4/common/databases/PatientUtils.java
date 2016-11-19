@@ -51,7 +51,7 @@ public class PatientUtils {
 	 * @return an ArrayList of patients with the similar first names
 	 */
 	public static List<Patient> fuzzyFindPatientByFirstName(String firstName) {
-		return ConnectionManager.withStatement("SELECT * FROM patients WHERE first_name LIKE ?",(stmt)->{
+		return ConnectionManager.withStatement("SELECT * FROM patients WHERE first_name LIKE ? AND first_name <> 'RESERVED'",(stmt)->{
 			stmt.setString(1,"%"+firstName+"%");
 			ResultSet res = stmt.executeQuery();
 			List<Patient> patients = new ArrayList<>();
