@@ -13,6 +13,7 @@ import uk.ac.shef.com2002.grp4.common.PlanSelector;
 import uk.ac.shef.com2002.grp4.common.data.Patient;
 import uk.ac.shef.com2002.grp4.common.data.PatientPlan;
 import uk.ac.shef.com2002.grp4.common.data.Treatment;
+import uk.ac.shef.com2002.grp4.common.databases.TreatmentApplicationUtils;
 import uk.ac.shef.com2002.grp4.common.databases.TreatmentUtils;
 
 public class PatientDetailsDialog extends BaseDialog implements ActionListener {
@@ -56,7 +57,7 @@ public class PatientDetailsDialog extends BaseDialog implements ActionListener {
 		listScroll = new JScrollPane(pastTreatmentList);
 		treatmentListModel = new DefaultListModel<Treatment>();
 		
-		Treatment[] treatments = TreatmentUtils.getPatientTreatments(patient); 
+		Treatment[] treatments = TreatmentApplicationUtils.getPatientTreatments(patient); 
 		for (int i = 0; i < treatments.length; i++) {
 			treatmentListModel.add(i, treatments[i]);
 		}

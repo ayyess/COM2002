@@ -127,7 +127,7 @@ public class AppointmentUtils {
 			stmt.setDate(1, sqlDate);
 			ResultSet res = stmt.executeQuery();
 			while (res.next()) {
-				appointments.add(new Appointment(res.getDate(1).toLocalDate(), res.getTime(4).toLocalTime(),res.getInt(5), res.getString(2), res.getLong(3)));
+				appointments.add(new Appointment(res.getDate(1).toLocalDate(), res.getTime(4).toLocalTime(), res.getInt(5), res.getString(2), res.getLong(3)));
 			}
 			return appointments.stream()
 				.filter(a -> isOverlapping(start, end, a.getStart(), a.getEnd()))
@@ -144,7 +144,7 @@ public class AppointmentUtils {
 	 * @param start - the startTime of the appointment
 	 * @param duration - the duration of the appointment
 	 */
-	public static void insertAppointment(LocalDate date, String practitioner, long patient_id, LocalTime start, Duration duration) {
+	public static void insertAppointment(LocalDate date, String practitioner, long patient_id, LocalTime start, Duration duration, boolean complete) {
 		java.sql.Date sqlDate = java.sql.Date.valueOf(date);
 		java.sql.Time sqlStartTime = java.sql.Time.valueOf(start);
 
@@ -158,12 +158,13 @@ public class AppointmentUtils {
 			throw new UserFacingException("Appointment overlap.");
 		}
 
-		ConnectionManager.withStatement("INSERT INTO appointments VALUES (?,?,?,?,?)",(stmt)-> {
+		ConnectionManager.withStatement("INSERT INTO appointments VALUES (?,?,?,?,?,?)",(stmt)-> {
             stmt.setDate(1, sqlDate);
             stmt.setString(2, practitioner);
             stmt.setLong(3, patient_id);
             stmt.setTime(4, sqlStartTime);
             stmt.setInt(5, (int)duration.toMinutes());
+            stmt.setBoolean(6, complete);
             stmt.executeUpdate();
             return null;
         });

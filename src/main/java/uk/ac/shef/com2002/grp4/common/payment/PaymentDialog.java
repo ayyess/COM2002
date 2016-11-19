@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 import uk.ac.shef.com2002.grp4.common.BaseDialog;
 import uk.ac.shef.com2002.grp4.common.data.Patient;
 import uk.ac.shef.com2002.grp4.common.data.Treatment;
+import uk.ac.shef.com2002.grp4.common.databases.TreatmentApplicationUtils;
 import uk.ac.shef.com2002.grp4.common.databases.TreatmentUtils;
 
 /**
@@ -43,7 +44,7 @@ public class PaymentDialog extends BaseDialog {
 		
 		addLabeledComponent("Patient", new JLabel(p.getName()));
 
-		Treatment[] treatments = TreatmentUtils.getPatientTreatments(p);
+		Treatment[] treatments = TreatmentApplicationUtils.getPatientTreatments(p);
 		DefaultListModel<Treatment> model = new DefaultListModel<Treatment>();
 		for (int i = 0; i < treatments.length; i++) {
 			model.add(i, treatments[i]);

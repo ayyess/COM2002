@@ -56,29 +56,4 @@ public class TreatmentUtils {
         });
     }
 
-    /**
-     * This gets a treatment that a patient is undergoing.
-     *
-     * @param p - a patient_id
-     * @return an Array of Treatment
-     */
-    public static  Treatment[] getPatientTreatments(Patient p) {
-        ArrayList<Treatment> treatments = new ArrayList<Treatment>();
-        return ConnectionManager.withStatement(
-        		"SELECT t.* FROM treatment_applications t " + 
-        		"INNER JOIN appointments a ON a.date=t.appointment_date " + 
-        		"INNER JOIN patients p ON p.id=a.patient_id " + 
-        		"WHERE p.id=?;",
-        		(stmt)-> {
-            stmt.setLong(1, p.getID());
-        	ResultSet res = stmt.executeQuery();
-            while (res.next()) {
-                treatments.add(new Treatment(res.getString(1), res.getInt(2), res.getString(3)));
-            }
-            Treatment[] tp = new Treatment[treatments.size()];
-            treatments.toArray(tp);
-            return tp;
-        });
-    }
-    
 }

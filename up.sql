@@ -45,13 +45,14 @@ CREATE TABLE IF NOT EXISTS treatments (
 CREATE TABLE IF NOT EXISTS treatment_applications(
     treatment_name VARCHAR(255) NOT NULL,
     appointment_date DATE NOT NULL,
+    appointment_time TIME NOT NULL,
     practitioner VARCHAR(255) NOT NULL,
-    PRIMARY KEY(treatment_name,appointment_date,practitioner),
+    PRIMARY KEY(treatment_name,appointment_date,appointment_time,practitioner),
     FOREIGN KEY(treatment_name)
         REFERENCES treatments(name)
 	ON DELETE CASCADE,
-    FOREIGN KEY(appointment_date,appointment_time,practitioner)
-        REFERENCES appointments(date,start,practitioner)
+    FOREIGN KEY(appointment_date,practitioner,appointment_time)
+        REFERENCES appointments(date,practitioner,start)
 	ON DELETE CASCADE
 );
 

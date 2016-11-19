@@ -17,4 +17,9 @@ public enum Partner {
 	public String toString() {
 		return name;
 	}
+	
+	public static Partner valueOfIngnoreCase(String p) {
+		return valueOf(p.toUpperCase());
+	}
+	
 }
