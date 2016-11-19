@@ -16,7 +16,7 @@ import uk.ac.shef.com2002.grp4.common.databases.AddressUtils;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
-import java.util.Objects;
+import org.apache.commons.lang3.builder.EqualsBuilder;
 
 /**
  * Used to store the patient details temporarily
@@ -249,18 +249,27 @@ public class Patient {
 		//else not in db
 	}
 
+	/**
+	 * Test if two patients are equal to each other.
+	 *
+	 * @param obj - an Object
+	 * @return - a Boolean which is true if the two objects are equal
+	 */
 	@Override
-	public boolean equals(Object obj) {
-		if(!(obj instanceof Patient)){
+	public boolean equals(final Object obj){
+		if(obj instanceof Patient){
+			final Patient other = (Patient) obj;
+			return new EqualsBuilder()
+				.append(id, other.id)
+				.append(title, other.title)
+				.append(forename, other.forename)
+				.append(surname, other.surname)
+				.append(dob, other.dob)
+				.append(phoneNumber, other.phoneNumber)
+				.append(addressId, other.addressId)
+				.isEquals();
+		} else{
 			return false;
 		}
-		Patient rhs = (Patient) obj;
-		return Objects.equals(id, rhs.id) &&
-			Objects.equals(title, rhs.title) &&
-			Objects.equals(forename, rhs.forename) &&
-			Objects.equals(surname, rhs.surname) &&
-			Objects.equals(dob, rhs.dob) &&
-			Objects.equals(phoneNumber, rhs.phoneNumber) &&
-			addressId == rhs.addressId;
 	}
 }

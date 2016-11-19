@@ -9,10 +9,10 @@
 
 package uk.ac.shef.com2002.grp4.common.data;
 
-import java.util.Objects;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import org.apache.commons.lang3.builder.EqualsBuilder;
 
 /**
  * Used to store the appointment details temporarily.
@@ -157,16 +157,18 @@ public class Appointment {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if(!(obj instanceof Appointment)){
+		if(obj instanceof Appointment){
+			final Appointment other = (Appointment) obj;
+			return new EqualsBuilder()
+				.append(date, other.date)
+				.append(start, other.start)
+				.append(end, other.end)
+				.append(partner, other.partner)
+				.append(patientId, other.patientId)
+				.isEquals();
+		} else{
 			return false;
 		}
-		Appointment rhs = (Appointment) obj;
-		return
-			Objects.equals(date, rhs.date) &&
-			Objects.equals(start, rhs.start) &&
-			Objects.equals(end, rhs.end) &&
-			Objects.equals(partner, rhs.partner) &&
-			Objects.equals(patientId, rhs.patientId);
 	}
 
 }

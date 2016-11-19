@@ -9,7 +9,7 @@
 
 package uk.ac.shef.com2002.grp4.common.data;
 
-import java.util.Objects;
+import org.apache.commons.lang3.builder.EqualsBuilder;
 
 /**
  * Used to store the Treatment details temporarily
@@ -64,14 +64,16 @@ public class Treatment {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if(!(obj instanceof Treatment)){
+		if(obj instanceof Treatment){
+			final Treatment other = (Treatment) obj;
+			return new EqualsBuilder()
+				.append(name, other.name)
+				.append(cost, other.cost)
+				.append(type, other.type)
+				.isEquals();
+		} else{
 			return false;
 		}
-		Treatment rhs = (Treatment) obj;
-		return
-			Objects.equals(name, rhs.name) &&
-			cost == rhs.cost &&
-			Objects.equals(type, rhs.type);
 	}
 	
 	public String toString() {

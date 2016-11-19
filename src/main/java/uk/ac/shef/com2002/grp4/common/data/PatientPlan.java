@@ -11,7 +11,7 @@ package uk.ac.shef.com2002.grp4.common.data;
 
 import java.time.LocalDate;
 import uk.ac.shef.com2002.grp4.common.databases.PatientPlanUtils;
-import java.util.Objects;
+import org.apache.commons.lang3.builder.EqualsBuilder;
 
 /**
  * Used to store the details of a Patient Plan temporarily
@@ -101,18 +101,20 @@ public class PatientPlan {
 	 * @return - a Boolean which is true if the two objects are equal
 	 */
 	@Override
-	public boolean equals(Object obj) {
-		if(!(obj instanceof PatientPlan)){
+	public boolean equals(final Object obj){
+		if(obj instanceof PatientPlan){
+			final PatientPlan other = (PatientPlan) obj;
+			return new EqualsBuilder()
+				.append(patientID, other.patientID)
+				.append(name, other.name)
+				.append(cost, other.cost)
+				.append(startDate, other.startDate)
+				.append(usedCheckUps, other.usedCheckUps)
+				.append(usedHygiene, other.usedHygiene)
+				.append(usedRepairs, other.usedRepairs)
+				.isEquals();
+		} else{
 			return false;
 		}
-		PatientPlan rhs = (PatientPlan) obj;
-		return
-			patientID == rhs.patientID &&
-			Objects.equals(name, rhs.name) &&
-			cost == rhs.cost &&
-			Objects.equals(startDate, rhs.startDate) &&
-			usedCheckUps == rhs.usedCheckUps &&
-			usedHygiene == rhs.usedHygiene &&
-			usedRepairs == rhs.usedRepairs;
 	}
 }

@@ -9,7 +9,7 @@
 
 package uk.ac.shef.com2002.grp4.common.data;
 
-import java.util.Objects;
+import org.apache.commons.lang3.builder.EqualsBuilder;
 
 /**
  * Used to store the Treatment Plan details temporarily
@@ -63,16 +63,18 @@ public class Plan {
 	 * @return - a Boolean which is true if the two objects are equal
 	 */
 	@Override
-	public boolean equals(Object obj) {
-		if(!(obj instanceof Plan)){
+	public boolean equals(final Object obj){
+		if(obj instanceof Plan){
+			final Plan other = (Plan) obj;
+			return new EqualsBuilder()
+				.append(name, other.name)
+				.append(cost, other.cost)
+				.append(checkups, other.checkups)
+				.append(hygiene_visits, other.hygiene_visits)
+				.append(repairs, other.repairs)
+				.isEquals();
+		} else{
 			return false;
 		}
-		Plan rhs = (Plan) obj;
-		return
-			Objects.equals(name, rhs.name) &&
-			cost == rhs.cost &&
-			checkups == rhs.checkups &&
-			hygiene_visits == rhs.hygiene_visits &&
-			repairs == rhs.repairs;
 	}
 }
