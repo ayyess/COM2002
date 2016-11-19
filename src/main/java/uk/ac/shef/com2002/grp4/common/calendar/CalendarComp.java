@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 
 import uk.ac.shef.com2002.grp4.common.Partner;
 import uk.ac.shef.com2002.grp4.common.data.Appointment;
+import uk.ac.shef.com2002.grp4.common.data.Patient;
 import uk.ac.shef.com2002.grp4.common.databases.PatientUtils;
 import uk.ac.shef.com2002.grp4.common.util.DPIScaling;
 
@@ -141,11 +142,12 @@ public class CalendarComp extends JPanel {
 	 * booked slots appearing in a different colour.
 	 */
 	public void showAll() {
+		Patient reserved = PatientUtils.getReservedPatient();
 		removeAll();
 		addHeaders();
 		int[] times = new int[((END-START)*60)/DIV];
 		for (AppointmentComp a : appointments) {
-			if (PatientUtils.getPatientByID(a.appointment.getPatientId()).getName().equals("RESERVED")) {
+			if (a.appointment.getPatientId() == reserved.getID()) {
 				a.setColor(RESERVED_COLOUR);
 			} else {
 				Color color = Color.CYAN;

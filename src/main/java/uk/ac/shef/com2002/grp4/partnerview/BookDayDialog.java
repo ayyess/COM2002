@@ -17,6 +17,7 @@ import org.jdatepicker.JDatePicker;
 import uk.ac.shef.com2002.grp4.common.BaseDialog;
 import uk.ac.shef.com2002.grp4.common.Partner;
 import uk.ac.shef.com2002.grp4.common.databases.AppointmentUtils;
+import uk.ac.shef.com2002.grp4.common.databases.PatientUtils;
 
 public class BookDayDialog extends BaseDialog {
 
@@ -65,7 +66,7 @@ public class BookDayDialog extends BaseDialog {
 	void book() {
 		LocalDate date = LocalDate.of(datePicker.getModel().getYear(), datePicker.getModel().getMonth()+1, datePicker.getModel().getDay());
 		for (int i = 0; i < dayModel.getNumber().intValue(); i++) {
-			AppointmentUtils.insertAppointment(date.plusDays(i), partner.toString(), 0l, LocalTime.of(9, 0), Duration.ofHours(8), false);
+			AppointmentUtils.insertAppointment(date.plusDays(i), partner.toString(), PatientUtils.getReservedPatient().getID(), LocalTime.of(9, 0), Duration.ofHours(8), false);
 		}
 	}
 	
