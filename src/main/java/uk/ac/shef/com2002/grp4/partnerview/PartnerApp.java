@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -26,33 +27,52 @@ import uk.ac.shef.com2002.grp4.common.calendar.CalendarView;
 
 public class PartnerApp extends JFrame {
 
-	public PartnerApp(Partner p) {
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+	JRadioButton day, week;
+	CalendarView calendar;
+	JScrollPane scroll;
+	ButtonGroup view;
+	
+	JPanel buttonPanel;
+	JButton bookDayButton;
+	
+	Partner partner;
+	
+	public PartnerApp(Partner partner) {
+		setDefaultCloseOperation(EXIT_ON_CLOSE); // TODO remove and replace with below once merged
+		//setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setPreferredSize(new Dimension(800,600));
+        this.partner = partner;
         
-        CalendarView calendar = new CalendarView(p);
-        JScrollPane scroll = new JScrollPane(calendar);
+        calendar = new CalendarView(partner);
+        
+        scroll = new JScrollPane(calendar);
         calendar.setDate(LocalDate.now());
-        ButtonGroup view = new ButtonGroup();
-        JRadioButton day = new JRadioButton("Day");
-        JRadioButton week = new JRadioButton("Week");
-        view.add(day);
-        view.add(week);
+        
+        day = new JRadioButton("Day");
         day.setSelected(true);
         day.addActionListener((e) -> {
         	calendar.setView(day.isSelected());
         });
+        week = new JRadioButton("Week");
         week.addActionListener((e) -> {
         	calendar.setView(day.isSelected());
         });
+
+        view = new ButtonGroup();
+        view.add(day);
+        view.add(week);
         
-        JPanel radioButtons = new JPanel();
-        radioButtons.add(day);
-        radioButtons.add(week);
+        
+        buttonPanel = new JPanel();
+        buttonPanel.add(day);
+        buttonPanel.add(week);
+        bookDayButton = new JButton("Book reserved day");
+        bookDayButton.addActionListener((e) -> { bookDay(); });
+        buttonPanel.add(bookDayButton);
         
         scroll.getVerticalScrollBar().setUnitIncrement(5);
         scroll.getVerticalScrollBar().setPreferredSize(new Dimension(25, 0));
-        add(radioButtons, BorderLayout.NORTH);
+        add(buttonPanel, BorderLayout.NORTH);
         add(scroll);
         
         calendar.addAppointmentClickListener(new CalendarClickListener() {
@@ -76,6 +96,11 @@ public class PartnerApp extends JFrame {
 		setLocationRelativeTo(null);
 
         setVisible(true);
+	}
+	
+	public void bookDay() {
+		BookDayDialog bookDayDialog = new BookDayDialog(this, partner);
+		bookDayDialog.setVisible(true);
 	}
 	
 	public static void main(String[] args) {

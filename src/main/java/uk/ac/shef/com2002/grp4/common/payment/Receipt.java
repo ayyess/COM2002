@@ -61,10 +61,10 @@ public class Receipt implements Printable {
 	/**
 	 * Prints the receipt in a particular format.
 	 *
-	 * @param g - the Graphics Class
-	 * @param pageFormat - a pageFormat
-	 * @param pageIndex - an index for the page
-	 * @return PAGE_EXISTS
+	 * @param g - the Graphics to draw the receipt on to
+	 * @param pageFormat - The format of the page to print on to
+	 * @param pageIndex - The index of which page to draw
+	 * @return PAGE_EXISTS or NO_SUCH_PAGE  
 	 * @throws PrinterException
 	 */
 	@Override
@@ -137,8 +137,6 @@ public class Receipt implements Printable {
 		g2.drawString(remainingCostString, width-fm.stringWidth(remainingCostString), linePos);
 		linePos += lineHeight;
 		
-		//return NO_SUCH_PAGE; // Fail
-		//return PAGE_EXISTS; //Success
 		return PAGE_EXISTS; //Success
 	}
 
@@ -148,7 +146,7 @@ public class Receipt implements Printable {
 	 * @return a String representation of the cost
 	 */
 	private String costToDecimalString(int cost) {
-		return String.valueOf(cost / 100.0);
+		return '\u00A3' + String.valueOf(cost / 100.0);
 	}
 	
 }

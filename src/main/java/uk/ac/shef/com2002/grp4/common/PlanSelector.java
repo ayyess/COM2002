@@ -29,7 +29,7 @@ public class PlanSelector extends JPanel{
 		planSelector.setRenderer(new ListCellRenderer<Plan>(){
 			@Override
 			public Component getListCellRendererComponent(JList<? extends Plan> list,Plan value, int index, boolean isSelected, boolean cellHasFocus){
-			return new JLabel(value.getName());
+				return new JLabel(value.getName());
 			}
 		});
 		planSelector.addItemListener((ItemEvent ev)->{

@@ -75,14 +75,14 @@ public class AppointmentCreationFrame extends BaseDialog {
 		lengthCombo = new JComboBox<>(lengthItems);
 		addLabeledComponent("Duration",lengthCombo);
 
-	JButton cancel_button = new JButton("Cancel");
-		cancel_button.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent ae){
-                    close();
-                }
-            });
-		JButton save_button = new JButton("Save");
-		save_button.addActionListener(new ActionListener() {
+		JButton cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae){
+                close();
+            }
+        });
+		JButton saveButton = new JButton("Save");
+		saveButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent ae){
 					try {
 						saveDetails();
@@ -92,7 +92,7 @@ public class AppointmentCreationFrame extends BaseDialog {
 					}
                 }
             });
-		addButtons(cancel_button,save_button);
+		addButtons(cancelButton,saveButton);
 		pack();
 
 	}

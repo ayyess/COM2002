@@ -19,7 +19,7 @@ public enum Partner {
 	Partner(String name) {
 		this.name = name;
 	}
-
+	
 	// the toString just returns the given name
 	@Override
 	public String toString() {
