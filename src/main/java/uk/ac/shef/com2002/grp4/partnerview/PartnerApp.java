@@ -103,8 +103,4 @@ public class PartnerApp extends JFrame {
 		bookDayDialog.setVisible(true);
 	}
 	
-	public static void main(String[] args) {
-		new PartnerApp(Partner.DENTIST);
-	}
-	
 }

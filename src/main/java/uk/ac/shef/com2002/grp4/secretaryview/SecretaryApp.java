@@ -17,35 +17,18 @@ import java.awt.*;
 public class SecretaryApp extends JFrame {
 
     public SecretaryApp() {
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setPreferredSize(new Dimension(800,600));
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setPreferredSize(new Dimension(800, 600));
 
-        JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.addTab("Appointments", null, new AppointmentPanel(), null);
-        tabbedPane.addTab("Patients", null, new PatientPanel(), null);
-        getContentPane().add(tabbedPane);
-        pack();
+		JTabbedPane tabbedPane = new JTabbedPane();
+		tabbedPane.addTab("Appointments", null, new AppointmentPanel(), null);
+		tabbedPane.addTab("Patients", null, new PatientPanel(), null);
+		getContentPane().add(tabbedPane);
+		pack();
 
 		//this makes it open centered
 		setLocationRelativeTo(null);
 
-        setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    UIManager.setLookAndFeel(
-                        UIManager.getSystemLookAndFeelClassName());
-
-                    DPIScaling.rescaleFonts();
-                } catch (Exception e) {
-                    //we can ignore any exceptions here as they won't change the functionality of the program, it just won't look native
-                }
-
-                new SecretaryApp();
-            }
-        });
-    }
+		setVisible(true);
+	}
 }
