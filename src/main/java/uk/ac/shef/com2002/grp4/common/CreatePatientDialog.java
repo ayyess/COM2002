@@ -21,19 +21,45 @@ import java.util.Calendar;
 import java.time.*;
 import java.util.Optional;
 
+/**
+ * This class is creates a dialog where the user can input a new patient.
+ * <br>
+ * @author  Group 4
+ * @version 1.0
+ * @since   11/11/2016
+ */
 public class CreatePatientDialog extends BaseDialog implements ActionListener {
+
+	/** This stores the number of rows in the dialog. */
 	private int row = 0;
+	/** A button to create the patient. */
 	private JButton createButton;
+	/** A button to cancel the process. */
 	private JButton cancelButton;
+	/** A field to store the title of the patient. */
 	private JTextField titleField;
+	/** A field to store the forename of the patient. */
 	private JTextField forenameField;
+	/** A field to store the surname of the patient. */
 	private JTextField surnameField;
+	/** A field to store the date of birth of the patient. */
 	private JDatePicker dobField;
+	/** A field to store the contact number of the patient. */
 	private JTextField phoneField;
+	/** A selector to choose the address of the patient. */
 	private AddressSelector addressField;
 
+	/**
+	 * This stores the Patient object.
+	 * --Optional
+	 */
 	private Optional<Patient> patient = Optional.empty();
 
+	/**
+	 * A constructor that creates the dialog box.
+	 *
+	 * @param c - Takes a component that will parent the dialog
+	 */
 	public CreatePatientDialog(Component owner){
 		super(owner,"Create Patient");
 
@@ -68,6 +94,11 @@ public class CreatePatientDialog extends BaseDialog implements ActionListener {
 		pack();
 	}
 
+	/**
+	 * Listens for an action to be performed and completes a certain action.
+	 *
+	 * @param e - an ActionEvent
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == createButton){
@@ -99,6 +130,12 @@ public class CreatePatientDialog extends BaseDialog implements ActionListener {
 		}
 	}
 
+	/**
+	 * This gets the Patient object.
+	 * --Optional
+	 *
+	 * @return the Patient object
+	 */
 	public Optional<Patient> getPatient() {
 		return patient;
 	}

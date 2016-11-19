@@ -18,21 +18,38 @@ import java.awt.event.ActionListener;
 import java.util.Optional;
 
 /**
- * <Doc here>
- * <p>
- * Created on 11/11/2016.
+ * This class is creates a dialog where the user can input a new address.
+ * <br>
+ * @author  Group 4
+ * @version 1.0
+ * @since   11/11/2016
  */
 public class CreateAddressDialog extends BaseDialog implements ActionListener {
 
+	/** A button to cancel the process. */
 	private JButton cancelButton;
+	/** A buttom to create the address. */
 	private JButton createButton;
+	/** A field to store the house number. */
 	private JTextField houseNumberField;
+	/** A field to store the street. */
 	private JTextField streetField;
+	/** A field to store the district. */
 	private JTextField districtField;
+	/** A field to store the city. */
 	private JTextField cityField;
+	/** A field to store the postcode. */
 	private JTextField postcodeField;
+	/** A field to store the Address object.
+	 * --Optional
+	 */
 	private Optional<Address> address = Optional.empty();
 
+	/**
+	 * A constructor that creates the dialog box.
+	 *
+	 * @param c - Takes a component that will parent the dialog
+	 */
 	public CreateAddressDialog(Component c){
 		super(c,"Create Address");
 		cancelButton = new JButton("Cancel");
@@ -55,6 +72,11 @@ public class CreateAddressDialog extends BaseDialog implements ActionListener {
 		pack();
 	}
 
+	/**
+	 * Listens for an action to be performed and completes a certain action.
+	 *
+	 * @param e - an ActionEvent
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == cancelButton){
@@ -71,6 +93,12 @@ public class CreateAddressDialog extends BaseDialog implements ActionListener {
 		}
 	}
 
+	/**
+	 * This gets the Address object.
+	 * --Optional
+	 *
+	 * @return the Address object/
+	 */
 	public Optional<Address> getAddress() {
 		return address;
 	}
