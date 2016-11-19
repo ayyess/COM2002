@@ -35,7 +35,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 apply plugin:'application'
-mainClassName = "uk.ac.shef.com2002.grp4.secretaryview.SecretaryApp"
+mainClassName = "uk.ac.shef.com2002.grp4.common.Launcher"
 
 run{
     standardInput = System.in

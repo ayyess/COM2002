@@ -71,6 +71,10 @@ public class PartnerApp extends JFrame {
         calendar.setView(day.isSelected());
         
         pack();
+
+		//this makes it open centered
+		setLocationRelativeTo(null);
+
         setVisible(true);
 	}
 	

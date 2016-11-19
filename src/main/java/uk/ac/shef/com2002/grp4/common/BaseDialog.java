@@ -114,6 +114,13 @@ abstract public class BaseDialog extends JDialog {
 		contentPane.setLayout(new GridBagLayout());
 	}
 
+	@Override
+	public void setVisible(boolean visible){
+		//this makes it open centered
+		setLocationRelativeTo(null);
+		super.setVisible(visible);
+	}
+
 	/**
 	 * This gets whether the dialog has been cancelled or not.
 	 *

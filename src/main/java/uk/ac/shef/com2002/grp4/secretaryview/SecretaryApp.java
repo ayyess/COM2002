@@ -17,14 +17,18 @@ import java.awt.*;
 public class SecretaryApp extends JFrame {
 
     public SecretaryApp() {
-        //TODO add a partner ui that can be switched out for use in the treatment rooms
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setPreferredSize(new Dimension(800,600));
+
         JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Appointments", null, new AppointmentPanel(), null);
         tabbedPane.addTab("Patients", null, new PatientPanel(), null);
         getContentPane().add(tabbedPane);
         pack();
+
+		//this makes it open centered
+		setLocationRelativeTo(null);
+
         setVisible(true);
     }
 
