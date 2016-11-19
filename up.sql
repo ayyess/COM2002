@@ -24,12 +24,12 @@ CREATE TABLE IF NOT EXISTS patients (
 
 CREATE TABLE IF NOT EXISTS appointments (
     date DATE NOT NULL,
-    practitioner VARCHAR(255) NOT NULL,
+    partner VARCHAR(255) NOT NULL,
     patient_id BIGINT UNSIGNED, -- this is allowed to be null so that blank appointments can be booked, as specified now done as user 0
     start TIME NOT NULL,
     duration INT NOT NULL,
     complete BOOL NOT NULL,
-    PRIMARY KEY(date,practitioner,start),
+    PRIMARY KEY(date,partner,start),
     FOREIGN KEY(patient_id)
         REFERENCES patients(id)
 	ON DELETE CASCADE
@@ -46,13 +46,13 @@ CREATE TABLE IF NOT EXISTS treatment_applications(
     treatment_name VARCHAR(255) NOT NULL,
     appointment_date DATE NOT NULL,
     appointment_time TIME NOT NULL,
-    practitioner VARCHAR(255) NOT NULL,
-    PRIMARY KEY(treatment_name,appointment_date,appointment_time,practitioner),
+    partner VARCHAR(255) NOT NULL,
+    PRIMARY KEY(treatment_name,appointment_date,appointment_time,partner),
     FOREIGN KEY(treatment_name)
         REFERENCES treatments(name)
 	ON DELETE CASCADE,
-    FOREIGN KEY(appointment_date,practitioner,appointment_time)
-        REFERENCES appointments(date,practitioner,start)
+    FOREIGN KEY(appointment_date,partner,appointment_time)
+        REFERENCES appointments(date,partner,start)
 	ON DELETE CASCADE
 );
 
