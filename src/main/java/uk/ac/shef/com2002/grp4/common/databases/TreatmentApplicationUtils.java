@@ -45,9 +45,9 @@ public class TreatmentApplicationUtils {
         return ConnectionManager.withStatement(
         		"SELECT t.* FROM treatment_applications t " + 
         		"INNER JOIN appointments a ON a.date=t.appointment_date " +
-        		"WHERE a.practitioner=? AND a.start=? AND a.patient_id=?;",
+        		"WHERE a.partner=? AND a.start=? AND a.patient_id=?;",
         		(stmt)-> {
-            stmt.setString(1, a.getPractitioner());
+            stmt.setString(1, a.getPartner());
             stmt.setTime(2, Time.valueOf(a.getStart()));
             stmt.setLong(3, a.getPatientId());
         	ResultSet res = stmt.executeQuery();

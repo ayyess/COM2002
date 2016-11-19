@@ -16,7 +16,7 @@ import java.awt.*;
 public class SecretaryApp extends JFrame {
 
     public SecretaryApp() {
-        //TODO add a practitioner ui that can be switched out for use in the treatment rooms
+        //TODO add a partner ui that can be switched out for use in the treatment rooms
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setPreferredSize(new Dimension(800,600));
         JTabbedPane tabbedPane = new JTabbedPane();

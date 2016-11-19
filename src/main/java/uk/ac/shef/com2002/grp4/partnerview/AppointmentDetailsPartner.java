@@ -33,9 +33,9 @@ public class AppointmentDetailsPartner extends BaseDialog {
 		this.appointment = appointment;
 		
 		Patient patient = PatientUtils.getPatientByID(appointment.getPatientId());
-		this.partner = Partner.valueOfIngnoreCase(appointment.getPractitioner());
+		this.partner = Partner.valueOfIngnoreCase(appointment.getPartner());
 		
-		addLabeledComponent("Practitioner", new JLabel(appointment.getPractitioner()));
+		addLabeledComponent("Partner", new JLabel(appointment.getPartner()));
 		addLabeledComponent("Patient", new JLabel(patient.getName()));
 		addLabeledComponent("Duration", new JLabel(Integer.toString(appointment.getDuration()) + " minutes"));
 		
