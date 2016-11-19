@@ -129,7 +129,7 @@ public class CalendarComp extends JPanel {
 		if (partner == Partner.DENTIST) calendarColor = DENTIST_COLOUR;
 		else if (partner == Partner.HYGIENIST) calendarColor = HYGIENIST_COLOUR;
 		layout = new GridBagLayout();
-		layout.columnWidths = new int[] {1, 1};
+		layout.columnWidths = new int[] {1};
 		layout.rowHeights = new int[(int)(HEADER_SIZE+(Duration.between(START,END).toMinutes()/DIV))];
 		//set all slot sizes to SLOT_SIZE, later we just choose how many of these slots to use with gridheight
 		Arrays.fill(layout.rowHeights, (int) (SLOT_SIZE*DPIScaling.get()));
@@ -143,13 +143,12 @@ public class CalendarComp extends JPanel {
 	 * booked slots appearing in a different colour.
 	 */
 	public void showAll() {
-		Patient reserved = PatientUtils.getReservedPatient();
 		removeAll();
 		addHeaders();
 		boolean[] times = new boolean[(int)(Duration.between(START,END).toMinutes()/DIV)];
 		Arrays.fill(times,false);
 		for (AppointmentComp a : appointments) {
-			if (a.appointment.getPatientId() == reserved.getID()) {
+			if (a.appointment.getPatientId() == 1) {
 				a.setColor(RESERVED_COLOUR);
 			} else {
 				Color color = Color.CYAN;
@@ -197,7 +196,7 @@ public class CalendarComp extends JPanel {
 		c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 0;
-		c.gridwidth = 2;
+		c.gridwidth = 1;
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("'<html>'eee'<br/>'dd-MM-yyyy'<html>'");
 		JLabel date = new JLabel(this.date.format(formatter));
 		date.setHorizontalAlignment(JLabel.CENTER);
@@ -212,6 +211,7 @@ public class CalendarComp extends JPanel {
 		JLabel d = new JLabel(p);
 		d.setOpaque(true);
 		d.setHorizontalAlignment(JLabel.CENTER);
+		d.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		d.setBackground(calendarColor);
 		add(d, c);
 	}

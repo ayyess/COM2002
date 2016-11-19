@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.JOptionPane;
 
 import org.jdatepicker.JDatePicker;
 
@@ -18,6 +19,7 @@ import uk.ac.shef.com2002.grp4.common.BaseDialog;
 import uk.ac.shef.com2002.grp4.common.Partner;
 import uk.ac.shef.com2002.grp4.common.databases.AppointmentUtils;
 import uk.ac.shef.com2002.grp4.common.databases.PatientUtils;
+import uk.ac.shef.com2002.grp4.common.UserFacingException;
 
 public class BookDayDialog extends BaseDialog {
 
@@ -54,8 +56,12 @@ public class BookDayDialog extends BaseDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				book();
-				dispose();
+				try {
+					book();
+					dispose();
+				} catch (UserFacingException exception) {
+					JOptionPane.showMessageDialog(null, exception.getMessage());
+				}
 			}
 		});
 		

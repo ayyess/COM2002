@@ -81,5 +81,5 @@ CREATE TABLE IF NOT EXISTS patient_plans (
 	ON DELETE CASCADE
 );
 
-INSERT INTO addresses (house_number,street,district,city,postcode) VALUES (0,'','','','');
-INSERT INTO patients (title,first_name,last_name,dob,phone_number,address_id) VALUES ('','RESERVED','',CURDATE(),'',LAST_INSERT_ID() );
+INSERT INTO addresses (id,house_number,street,district,city,postcode) VALUES (1,0,'','','','');
+INSERT INTO patients (id,title,first_name,last_name,dob,phone_number,address_id) VALUES (1,'','RESERVED','',CURDATE(),'', LAST_INSERT_ID() );
