@@ -145,8 +145,8 @@ public class CalendarComp extends JPanel {
 	public void showAll() {
 		removeAll();
 		addHeaders();
+		//default value is false, so no need to fill
 		boolean[] times = new boolean[(int)(Duration.between(START,END).toMinutes()/DIV)];
-		Arrays.fill(times,false);
 		for (AppointmentComp a : appointments) {
 			if (a.appointment.getPatientId() == 1) {
 				a.setColor(RESERVED_COLOUR);
