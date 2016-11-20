@@ -8,6 +8,8 @@
  */
 package uk.ac.shef.com2002.grp4.common;
 
+import javax.swing.*;
+
 /**
  * UserFacingException is a class of exceptions that should be shown to the user when thrown.
  */
@@ -18,5 +20,9 @@ public class UserFacingException extends java.lang.RuntimeException {
 	 */
 	public UserFacingException(String message){
 		super(message);
+	}
+
+	public void showError() {
+		JOptionPane.showMessageDialog(null, getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 	}
 }

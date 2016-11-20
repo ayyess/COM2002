@@ -60,7 +60,7 @@ public class BookDayDialog extends BaseDialog {
 					book();
 					dispose();
 				} catch (UserFacingException exception) {
-					JOptionPane.showMessageDialog(null, exception.getMessage());
+					exception.showError();
 				}
 			}
 		});
