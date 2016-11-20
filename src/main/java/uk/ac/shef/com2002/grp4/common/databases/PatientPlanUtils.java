@@ -10,6 +10,7 @@
 package uk.ac.shef.com2002.grp4.common.databases;
 
 import uk.ac.shef.com2002.grp4.common.data.PatientPlan;
+import uk.ac.shef.com2002.grp4.common.data.Plan;
 
 import java.sql.ResultSet;
 import java.time.LocalDate;
@@ -31,10 +32,16 @@ public class PatientPlanUtils {
      * @return a new PatientPlan object
      */
     public static PatientPlan getPlanByPatientID(long id) {
-        return ConnectionManager.withStatement("SELECT * FROM patient_plans JOIN treatment_plans ON patient_plans.plan_name = treatment_plans.name WHERE patient_id=?",(stmt)-> {
+        return ConnectionManager.withStatement(
+        		"SELECT pp.* FROM patient_plans pp " +
+        		"INNER JOIN treatment_plans tp ON pp.plan_name=tp.name " +
+        		"WHERE pp.patient_id=?",(stmt)-> {
             stmt.setLong(1, id);
             ResultSet res = stmt.executeQuery();
-            return new PatientPlan(res.getInt(1),res.getString(2), res.getInt(7), res.getDate(3).toLocalDate(), res.getInt(4), res.getInt(5), res.getInt(6));
+            if (res.next()) {
+            	return new PatientPlan(res.getLong(1), res.getString(2), res.getDate(6).toLocalDate(), res.getInt(3), res.getInt(4), res.getInt(5));
+            } 
+            return null;
         });
     }
 
@@ -94,10 +101,13 @@ public class PatientPlanUtils {
      * @param name - new Treatment Plan name
      * @param startDate - new start date
      */
-	public static void updateById(long id,String name, LocalDate startDate){
-		ConnectionManager.withStatement("UPDATE patient_plans SET plan_name=?, reset_date=?, used_checkups=?, used_hygiene_visits=?, used_repairs=?, renew_date =? WHERE patient_id = ?",(stmt)-> {
-			stmt.setString(1,name);
-			stmt.setDate(2,java.sql.Date.valueOf(startDate));
+	public static void updateById(long id, String name, PatientPlan patientPlan){
+		ConnectionManager.withStatement("UPDATE patient_plans SET plan_name=?, start_date=?, used_checkups=?, used_hygiene_visits=?, used_repairs=? WHERE patient_id=?",(stmt)-> {
+			stmt.setString(1, name);
+			stmt.setDate(2,java.sql.Date.valueOf(patientPlan.getStartDate()));
+			stmt.setInt(3, patientPlan.getUsedCheckUps());
+			stmt.setInt(4, patientPlan.getUsedHygieneVisits());
+			stmt.setInt(5, patientPlan.getUsedRepairs());
 			stmt.setLong(6,id);
             stmt.executeUpdate();
             return  null;

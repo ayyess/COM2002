@@ -10,9 +10,14 @@
 package uk.ac.shef.com2002.grp4.common.calendar;
 
 import uk.ac.shef.com2002.grp4.common.data.Appointment;
+import uk.ac.shef.com2002.grp4.common.data.Patient;
+import uk.ac.shef.com2002.grp4.common.databases.PatientUtils;
+import uk.ac.shef.com2002.grp4.common.payment.PaymentDialog;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.Duration;
 import java.time.LocalTime;
 
@@ -86,4 +91,5 @@ public class AppointmentComp extends JPanel {
 	public Appointment getAppointment() {
 		return appointment;
 	}
+	
 }

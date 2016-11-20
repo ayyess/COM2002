@@ -27,7 +27,7 @@ public class Plan {
     /** This stores the maximum number of checkups the plan contains. */
     private int checkups;
     /** This stores the maximum number of hygiene visits the plan contains. */
-    private int hygiene_visits;
+    private int hygieneVisits;
     /** This stores the maximum number of repairs the plan contains. */
     private int repairs;
 
@@ -44,7 +44,7 @@ public class Plan {
         this.name = name;
         this.cost = cost;
         this.checkups = checkups;
-        this.hygiene_visits = hygiene;
+        this.hygieneVisits = hygiene;
         this.repairs = repairs;
     }
 
@@ -72,7 +72,24 @@ public class Plan {
 			Objects.equals(name, rhs.name) &&
 			cost == rhs.cost &&
 			checkups == rhs.checkups &&
-			hygiene_visits == rhs.hygiene_visits &&
+			hygieneVisits == rhs.hygieneVisits &&
 			repairs == rhs.repairs;
 	}
+
+	public int getCost() {
+		return cost;
+	}
+
+	public int getCheckups() {
+		return checkups;
+	}
+
+	public int getHygieneVisits() {
+		return hygieneVisits;
+	}
+
+	public int getRepairs() {
+		return repairs;
+	}
+	
 }

@@ -34,7 +34,10 @@ public class PlanUtils {
         return ConnectionManager.withStatement("SELECT * FROM treatment_plans WHERE name=?",(stmt)-> {
             stmt.setString(1, s);
             ResultSet res = stmt.executeQuery();
-            return new Plan(s, res.getInt(2), res.getInt(3), res.getInt(4), res.getInt(5));
+            if (res.next()) {
+            	return new Plan(res.getString(1), res.getInt(2), res.getInt(3), res.getInt(4), res.getInt(5));
+            }
+            return null;
         });
     }
 

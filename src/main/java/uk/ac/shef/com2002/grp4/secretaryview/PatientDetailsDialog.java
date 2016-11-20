@@ -23,8 +23,10 @@ import uk.ac.shef.com2002.grp4.common.data.PatientPlan;
 import uk.ac.shef.com2002.grp4.common.data.Treatment;
 import uk.ac.shef.com2002.grp4.common.databases.TreatmentApplicationUtils;
 import uk.ac.shef.com2002.grp4.common.databases.TreatmentUtils;
+import uk.ac.shef.com2002.grp4.common.payment.PaymentDialog;
 
 public class PatientDetailsDialog extends BaseDialog implements ActionListener {
+	
 	private final JButton deleteButton;
 	private final JButton closeButton;
 	private Patient patient;
@@ -76,7 +78,7 @@ public class PatientDetailsDialog extends BaseDialog implements ActionListener {
 		add(listScroll,c);
 		
 		nextRow();
-
+		
 		deleteButton = new JButton("Delete");
 		deleteButton.addActionListener(this);
 		closeButton = new JButton("Close");
@@ -88,11 +90,11 @@ public class PatientDetailsDialog extends BaseDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == deleteButton){
+		if (e.getSource() == deleteButton) {
 			patient.delete();
 			modified = true;
 			dispose();
-		}else if(e.getSource() == closeButton){
+		} else if (e.getSource() == closeButton) {
 			dispose();
 		}
 	}

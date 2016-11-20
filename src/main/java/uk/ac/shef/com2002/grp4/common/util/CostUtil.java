@@ -20,7 +20,9 @@ public class CostUtil {
 		} else {
 			s = val;
 		}
-		if (s.indexOf(".") == s.length()-2) s = s + "0";
+		if (!s.equals("0")) {
+			if (s.indexOf(".") == s.length()-2) s = s + "0";
+		}
 		return '\u00A3' + s;
 	}
 	

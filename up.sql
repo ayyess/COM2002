@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS patient_plans (
     used_checkups INT UNSIGNED NOT NULL,
     used_hygiene_visits INT UNSIGNED NOT NULL,
     used_repairs INT UNSIGNED NOT NULL,
-    renew_Date DATE NOT NULL,
+    start_date DATE NOT NULL,
     PRIMARY KEY(patient_id,plan_name),
     FOREIGN KEY(patient_id)
         REFERENCES patients(id)

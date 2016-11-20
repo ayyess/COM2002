@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import uk.ac.shef.com2002.grp4.common.Partner;
+import uk.ac.shef.com2002.grp4.common.databases.TreatmentUtils;
 
 public class TreatmentApplication {
 
@@ -13,6 +14,7 @@ public class TreatmentApplication {
 	LocalTime time;
 	Partner partner;
 	int count;
+	boolean paid = false;
 	
 	public TreatmentApplication(Treatment treatment, Appointment appointment, int count) {
 		this.treatment = treatment;
@@ -28,6 +30,15 @@ public class TreatmentApplication {
 		this.time = time;
 		this.partner = Partner.valueOfIngnoreCase(partner);
 		this.count = count;
+	}
+	
+	public TreatmentApplication(String treatmentName, LocalDate date, LocalTime time, String partner, int count, boolean paid) {
+		this.treatment = new Treatment(treatmentName, -1, null);
+		this.date = date;
+		this.time = time;
+		this.partner = Partner.valueOfIngnoreCase(partner);
+		this.count = count;
+		this.paid = paid;
 	}
 	
 	public TreatmentApplication(Treatment treatment, LocalDate date, LocalTime time, Partner partner, int count) {
@@ -69,6 +80,18 @@ public class TreatmentApplication {
 	@Override
 	public TreatmentApplication clone() {
 		return new TreatmentApplication(getTreatmentName(), getDate(), getTime(), getPartner().toString(), getCount());
+	}
+
+	public void setTreatment(Treatment t) {
+		this.treatment = t;
+	}
+	
+	public int getCost() {
+		if (treatment != null) {
+			return treatment.getCost();
+		}
+		treatment = TreatmentUtils.getDetailsByName(getTreatmentName());
+		return treatment.getCost();
 	}
 
 }

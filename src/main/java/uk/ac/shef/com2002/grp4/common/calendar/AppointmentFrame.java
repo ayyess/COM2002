@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 
 import uk.ac.shef.com2002.grp4.common.databases.AppointmentUtils;
 import uk.ac.shef.com2002.grp4.common.databases.PatientUtils;
+import uk.ac.shef.com2002.grp4.common.payment.PaymentDialog;
 import uk.ac.shef.com2002.grp4.common.data.Patient;
 import uk.ac.shef.com2002.grp4.common.data.Appointment;
 
@@ -34,6 +35,8 @@ public class AppointmentFrame extends BaseDialog {
 	/** A single booked Appointment. */
 	private final Appointment appointment;
 
+	private Patient patient;
+	
 	/**
 	 * This constructor creates a frame which contains the booked appointment
 	 * details and allows the user to delete this appointment if they wish to.
@@ -46,26 +49,34 @@ public class AppointmentFrame extends BaseDialog {
 		super(owner,"View Appointment");
 		this.appointment = appointment;
 
-		Patient patient = PatientUtils.getPatientByID(appointment.getPatientId());
+		patient = PatientUtils.getPatientByID(appointment.getPatientId());
 
 		addLabeledComponent("Partner", new JLabel(appointment.getPartner()));
 		addLabeledComponent("Patient", new JLabel(patient.getName()));
 		addLabeledComponent("Duration", new JLabel(Integer.toString(appointment.getDuration()) + " minutes"));
 
-		JButton delete_button = new JButton("Delete");
-		delete_button.addActionListener(new ActionListener() {
+		JButton deleteButton = new JButton("Delete");
+		deleteButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent ae){
                     delete();
 					close();
                 }
             });
-		JButton close_button = new JButton("Close");
-		close_button.addActionListener(new ActionListener() {
+		JButton closeButton = new JButton("Close");
+		closeButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent ae){
                     close();
                 }
             });
-		addButtons(delete_button, close_button);
+		JButton payButton = new JButton("Pay");
+		payButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				pay();
+			}
+		});
+		addButtons(payButton, deleteButton, closeButton);
 		pack();
 
 	}
@@ -81,4 +92,9 @@ public class AppointmentFrame extends BaseDialog {
 	void delete() {
 		AppointmentUtils.deleteAppointment(appointment);
 	}
+	
+	public void pay() {
+		new PaymentDialog(this, patient).setVisible(true);
+	}
+	
 }

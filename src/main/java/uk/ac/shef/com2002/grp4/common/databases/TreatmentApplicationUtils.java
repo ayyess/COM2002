@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import uk.ac.shef.com2002.grp4.common.Partner;
 import uk.ac.shef.com2002.grp4.common.data.Appointment;
 import uk.ac.shef.com2002.grp4.common.data.Patient;
-import uk.ac.shef.com2002.grp4.common.data.PatientPlan;
 import uk.ac.shef.com2002.grp4.common.data.Treatment;
 import uk.ac.shef.com2002.grp4.common.data.TreatmentApplication;
 
@@ -67,6 +66,30 @@ public class TreatmentApplicationUtils {
         });
     }
 	
+    /**
+     * Fetch all treatments that have not been paid for 
+     * @param p Patient - The patient's treatments to get
+     * @return Array of treatment applications, that have not been paid for
+     */
+    public static TreatmentApplication[] getRemainingTreatments(Patient p) {
+		ArrayList<TreatmentApplication> treatments = new ArrayList<TreatmentApplication>();
+        return ConnectionManager.withStatement(
+        		"SELECT ta.* FROM treatment_applications ta " + 
+        		"INNER JOIN appointments a ON a.date=ta.appointment_date AND a.start=ta.appointment_time " + 
+        		"INNER JOIN patients p ON p.id=a.patient_id " + 
+        		"WHERE p.id=? AND ta.paid=FALSE;",
+        		(stmt)-> {
+            stmt.setLong(1, p.getID());
+        	ResultSet res = stmt.executeQuery();
+            while (res.next()) {
+                treatments.add(new TreatmentApplication(res.getString(1), res.getDate(2).toLocalDate(), res.getTime(3).toLocalTime(), res.getString(4), res.getInt(5), res.getBoolean(6)));
+            }
+            TreatmentApplication[] tp = new TreatmentApplication[treatments.size()];
+            treatments.toArray(tp);
+            return tp;
+        });
+	}
+    
     /**
      * Creates a new entry in the database for a treatment application.
      * @param treatment - Treatment to link with the appointment

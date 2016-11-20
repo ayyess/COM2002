@@ -18,10 +18,14 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
+import java.util.HashMap;
 import java.util.List;
 
 import uk.ac.shef.com2002.grp4.common.data.Patient;
+import uk.ac.shef.com2002.grp4.common.data.PatientPlan;
 import uk.ac.shef.com2002.grp4.common.data.Treatment;
+import uk.ac.shef.com2002.grp4.common.data.TreatmentApplication;
+import uk.ac.shef.com2002.grp4.common.databases.PatientPlanUtils;
 import uk.ac.shef.com2002.grp4.common.util.CostUtil;
 /**
  * Used to print patient a receipt.
@@ -32,25 +36,36 @@ import uk.ac.shef.com2002.grp4.common.util.CostUtil;
  */
 public class Receipt implements Printable {
 
+	private final static String REPAIR = "REPAIR";
+	private final static String HYGIENE = "HYGIENE";
+	private final static String CHECKUP = "CHECKUP";
+	
 	/** This stores the Patient object. */
 	private Patient patient;
-	/** This stores the cost of the treatments. */
-	private int cost;
+	/** The amount to be paid. */
+	private int paidToday;
 	/** This stores the treatments being invoiced for. */
-	private List<Treatment> treatments;
+	private List<TreatmentPrice> payingTreatments;
+	
+	/** This stores the treatments to pay after today. */
+	private List<TreatmentPrice> treatmentsLeft;
+	
+	private PatientPlan plan;
 
 	/**
 	 * This constructor creates a new receipt object which can be used to invoice a
 	 * customer for their treatments.
 	 *
 	 * @param patient - a Patient
-	 * @param treatments - an ArrayList of Treatment
-	 * @param cost - amount owed to the practice
+	 * @param treatmentApplications - an ArrayList of Treatment
+	 * @param paidToday - amount to be paid today
 	 */
-	public Receipt(Patient patient, List<Treatment> treatments, int cost) {
+	public Receipt(Patient patient, PatientPlan plan, List<TreatmentPrice> payingTreatments, List<TreatmentPrice> treatmentsLeft, int paidToday) {
 		this.patient = patient;
-		this.treatments = treatments;
-		this.cost = cost;
+		this.plan = plan;
+		this.payingTreatments = payingTreatments;
+		this.treatmentsLeft = treatmentsLeft;
+		this.paidToday = paidToday;
 	}
 
 	/** Prints the receipt. */
@@ -70,6 +85,7 @@ public class Receipt implements Printable {
 	 */
 	@Override
 	public int print(Graphics g, PageFormat pageFormat, int pageIndex) throws PrinterException {
+		boolean validPlan = plan.checkPlanValid();
 		if (pageIndex != 0) {
 			return NO_SUCH_PAGE; // Fail
 		}
@@ -96,24 +112,56 @@ public class Receipt implements Printable {
 		g2.drawString(patient.getName(), 0, linePos);
 		linePos += lineHeight;
 		
-		int total = 0;
+		int savings = 0; 
+		int subTotal = 0;
 		
-		for (Treatment t : treatments) {
-			g2.drawString(t.toString(), 0, linePos);
-			total += t.getCost();
-			String costString = CostUtil.costToDecimalString(t.getCost());
+		int i = 0;
+		
+		HashMap<Integer, TreatmentApplication> modelMap = new HashMap<Integer, TreatmentApplication>(); 
+		
+		for (TreatmentPrice tp : payingTreatments) {
+			// Deduct savings
+			TreatmentApplication ta = tp.treatmentApplication;
+			Treatment t = tp.treatment;
+			ta.setTreatment(t);
+			if (t.getType().equals("REPAIR")) {
+				int repairs = plan.getRemainingRepairs();
+				if (validPlan && repairs>0) {
+					plan.useRepair();
+					savings += ta.getCount()*t.getCost();
+				}
+				subTotal += ta.getCount()*t.getCost();
+			} else if (t.getType().equals("HYGIENE")) {
+				int hygiene = plan.getRemainingHygieneVisits();
+				if (validPlan && hygiene>0) {
+					plan.useHygiene();
+					savings += ta.getCount()*t.getCost();
+				}
+				subTotal += ta.getCount()*t.getCost();
+			} else if (t.getType().equals("CHECKUP")) {
+				int checkups = plan.getRemainingCheckups();
+				if (validPlan && checkups>0) {
+					plan.useCheckup();
+					savings += ta.getCount()*t.getCost();
+				}
+				subTotal += ta.getCount()*t.getCost();
+			} else {
+				subTotal += ta.getCount()*t.getCost();
+			}
+			modelMap.put(i, ta);
+			
+			g2.drawString(tp.toStringWithoutPrice(), 0, linePos);
+			String costString = CostUtil.costToDecimalString(t.getCost()*ta.getCount());
 			g2.drawString(costString, width-fm.stringWidth(costString), linePos);
 			linePos += lineHeight;
 		}
 		
 		g2.drawString("Sub-Total:", 0, linePos);
-		String preSavingCostString = CostUtil.costToDecimalString(total); 
+		String preSavingCostString = CostUtil.costToDecimalString(subTotal); 
 		g2.drawString(preSavingCostString, width-fm.stringWidth(preSavingCostString), linePos);
 		linePos += lineHeight;
 		
-		int savings = 100; //TODO change to savings calculation for treatment plan
 		
-		//TODO calculate savings
 		if (savings > 0) {
 			g2.drawString("Savings:", 0, linePos);
 			String savingsString = CostUtil.costToDecimalString(savings); 
@@ -121,24 +169,35 @@ public class Receipt implements Printable {
 			linePos += lineHeight;
 		}
 		
-		//g2.drawString("Total:", 0, linePos);
-		//String totalString = costToDecimalString(total*savings);
-		//g2.drawString(totalString, width-fm.stringWidth(totalString), linePos);
-		//inePos += lineHeight;
+		g2.drawString("Total:", 0, linePos);
+		String totalString = CostUtil.costToDecimalString(subTotal-savings);
+		g2.drawString(totalString, width-fm.stringWidth(totalString), linePos);
+		linePos += lineHeight;
 		
 		g2.drawString("Paid today:", 0, linePos);
-		String costString = CostUtil.costToDecimalString(cost);
+		String costString = CostUtil.costToDecimalString(paidToday);
 		g2.drawString(costString, width-fm.stringWidth(costString), linePos);
 		linePos += lineHeight;
 		
-		int remaining = (total - savings) - cost;
-		
 		g2.drawString("Remaining:", 0, linePos);
-		String remainingCostString = CostUtil.costToDecimalString(remaining);
-		g2.drawString(remainingCostString, width-fm.stringWidth(remainingCostString), linePos);
 		linePos += lineHeight;
+		for (TreatmentPrice tp : treatmentsLeft) {
+			g2.drawString(tp.toStringWithoutPrice(), fm.stringWidth("Remaining:")+1 , linePos);
+			linePos += lineHeight;
+		}
+		
+		plan.update();
 		
 		return PAGE_EXISTS; //Success
+	}
+	
+	Treatment getByName(List<Treatment> treatments, String name) {
+		for (Treatment t : treatments) {
+			if (t.getName().equalsIgnoreCase(name)) {
+				return t;
+			}
+		}
+		return null;
 	}
 
 }
