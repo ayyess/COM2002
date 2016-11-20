@@ -88,7 +88,7 @@ public class AppointmentCreationFrame extends BaseDialog {
 						saveDetails();
 						close();
 					} catch (UserFacingException e) {
-						JOptionPane.showMessageDialog(null, e.getMessage());
+						e.showError();
 					}
                 }
             });
