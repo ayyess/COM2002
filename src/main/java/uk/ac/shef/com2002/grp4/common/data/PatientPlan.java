@@ -12,6 +12,7 @@ package uk.ac.shef.com2002.grp4.common.data;
 import java.time.LocalDate;
 import uk.ac.shef.com2002.grp4.common.databases.PatientPlanUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * Used to store the details of a Patient Plan temporarily
@@ -116,5 +117,23 @@ public class PatientPlan {
 		} else{
 			return false;
 		}
+	}
+
+	/**
+	 * Returns a hash code for this object.
+	 *
+	 * @return - a hash code value for this object.
+	 */
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder()
+			.append(patientID)
+			.append(name)
+			.append(cost)
+			.append(startDate)
+			.append(usedCheckUps)
+			.append(usedHygiene)
+			.append(usedRepairs)
+			.toHashCode();
 	}
 }

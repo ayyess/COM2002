@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * Used to store the patient details temporarily
@@ -271,5 +272,23 @@ public class Patient {
 		} else{
 			return false;
 		}
+	}
+
+	/**
+	 * Returns a hash code for this object.
+	 *
+	 * @return - a hash code value for this object.
+	 */
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder()
+			.append(id)
+			.append(title)
+			.append(forename)
+			.append(surname)
+			.append(dob)
+			.append(phoneNumber)
+			.append(addressId)
+			.toHashCode();
 	}
 }

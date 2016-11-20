@@ -13,6 +13,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * Used to store the appointment details temporarily.
@@ -169,6 +170,22 @@ public class Appointment {
 		} else{
 			return false;
 		}
+	}
+
+	/**
+	 * Returns a hash code for this object.
+	 *
+	 * @return - a hash code value for this object.
+	 */
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder()
+			.append(date)
+			.append(start)
+			.append(end)
+			.append(partner)
+			.append(patientId)
+			.toHashCode();
 	}
 
 }

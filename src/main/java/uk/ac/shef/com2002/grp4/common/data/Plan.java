@@ -10,6 +10,7 @@
 package uk.ac.shef.com2002.grp4.common.data;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * Used to store the Treatment Plan details temporarily
@@ -24,9 +25,7 @@ public class Plan {
     private String name;
     /** This stores the cost of the plan. */
     private int cost;
-    /** This stores the maximum number of checkups the plan contains. */
-    private int checkups;
-    /** This stores the maximum number of hygiene visits the plan contains. */
+    /** This stores the maximum number of checkups e maximum number of hygiene visits the plan contains. */
     private int hygiene_visits;
     /** This stores the maximum number of repairs the plan contains. */
     private int repairs;
@@ -43,7 +42,6 @@ public class Plan {
     public Plan(String name, int cost, int checkups, int hygiene, int repairs) {
         this.name = name;
         this.cost = cost;
-        this.checkups = checkups;
         this.hygiene_visits = hygiene;
         this.repairs = repairs;
     }
@@ -69,12 +67,26 @@ public class Plan {
 			return new EqualsBuilder()
 				.append(name, other.name)
 				.append(cost, other.cost)
-				.append(checkups, other.checkups)
 				.append(hygiene_visits, other.hygiene_visits)
 				.append(repairs, other.repairs)
 				.isEquals();
 		} else{
 			return false;
 		}
+	}
+
+	/**
+	 * Returns a hash code for this object.
+	 *
+	 * @return - a hash code value for this object.
+	 */
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder()
+			.append(name)
+			.append(cost)
+			.append(hygiene_visits)
+			.append(repairs)
+			.toHashCode();
 	}
 }

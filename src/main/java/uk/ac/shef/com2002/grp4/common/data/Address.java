@@ -11,6 +11,7 @@ package uk.ac.shef.com2002.grp4.common.data;
 
 import uk.ac.shef.com2002.grp4.common.databases.AddressUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.util.Optional;
 
@@ -164,5 +165,21 @@ public class Address {
 		} else{
 			return false;
 		}
+	}
+
+	/**
+	 * Returns a hash code for this object.
+	 *
+	 * @return - a hash code value for this object.
+	 */
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder()
+			.append(houseNumber)
+			.append(street)
+			.append(district)
+			.append(city)
+			.append(postcode)
+			.toHashCode();
 	}
 }

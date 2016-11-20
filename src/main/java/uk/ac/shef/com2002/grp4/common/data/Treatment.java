@@ -10,6 +10,7 @@
 package uk.ac.shef.com2002.grp4.common.data;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * Used to store the Treatment details temporarily
@@ -75,7 +76,21 @@ public class Treatment {
 			return false;
 		}
 	}
-	
+
+	/**
+	 * Returns a hash code for this object.
+	 *
+	 * @return - a hash code value for this object.
+	 */
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder()
+			.append(name)
+			.append(cost)
+			.append(type)
+			.toHashCode();
+	}
+
 	public String toString() {
 		return name + " " + cost;
 	}
