@@ -42,7 +42,7 @@ public class AddressSelector extends JPanel implements ActionListener {
 	/**
 	 * This constructor initialises the address selector output.
 	 */
-	public AddressSelector(){
+	public AddressSelector() {
 		super(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(0,0,0,0);
@@ -71,7 +71,7 @@ public class AddressSelector extends JPanel implements ActionListener {
 	 * <br>
 	 * @param address - This is (optionally) an Address object. It may or may not exist.
 	 */
-	public void setAddress(Optional<Address> address){
+	public void setAddress(Optional<Address> address) {
 		this.address = address;
 		displayField.setAddress(address);
 		//FIXME there has to be a better way to get the dialog to resize if needed
@@ -83,7 +83,7 @@ public class AddressSelector extends JPanel implements ActionListener {
 	 * <br>
 	 * @return an Address object if it exists.
 	 */
-	public Optional<Address> getAddress(){
+	public Optional<Address> getAddress() {
 		return address;
 	}
 
@@ -99,11 +99,11 @@ public class AddressSelector extends JPanel implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == findAddressButton){
+		if (e.getSource() == findAddressButton) {
 			FindAddressDialog finder = new FindAddressDialog(this);
 			finder.setVisible(true);
 			setAddress(finder.getAddress());
-		} else if(e.getSource() == createAddressButton){
+		} else if (e.getSource() == createAddressButton) {
 			CreateAddressDialog creator = new CreateAddressDialog(this);
 			creator.setVisible(true);
 			setAddress(creator.getAddress());

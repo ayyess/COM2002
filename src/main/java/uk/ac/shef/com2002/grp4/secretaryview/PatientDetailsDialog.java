@@ -24,7 +24,7 @@ import java.awt.event.ActionListener;
 import java.util.Optional;
 
 public class PatientDetailsDialog extends BaseDialog implements ActionListener {
-	
+
 	private final JButton deleteButton;
 	private final JButton closeButton;
 	private Patient patient;
@@ -35,7 +35,7 @@ public class PatientDetailsDialog extends BaseDialog implements ActionListener {
 	private final JList<Treatment> pastTreatmentList;
 	private final DefaultListModel<Treatment> treatmentListModel;
 
-	public PatientDetailsDialog(Patient patient, Component owner){
+	public PatientDetailsDialog(Patient patient, Component owner) {
 		super(owner,"Patient Details");
 		this.patient = patient;
 		JPanel detailsPanel = new PatientComponent(patient);
@@ -43,13 +43,13 @@ public class PatientDetailsDialog extends BaseDialog implements ActionListener {
 		GridBagConstraints c = getBaseConstraints();
 		c.gridwidth = 2;
 		add(detailsPanel,c);
-		
+
 		planSelector = new PlanSelector();
 		addLabeledComponent("Plan",planSelector);
 		//TODO: set selector to initial value
-		planSelector.addChangeListener((ChangeEvent ev)->{
+		planSelector.addChangeListener((ChangeEvent ev)-> {
 			Optional<PatientPlan> plan = patient.getPatientPlan();
-			if(!plan.isPresent()){
+			if (!plan.isPresent()) {
 				plan = Optional.of(PatientPlan.defaultFor(patient));
 			}
 			plan.get().setPlan(planSelector.getSelectedItem());
@@ -64,25 +64,25 @@ public class PatientDetailsDialog extends BaseDialog implements ActionListener {
 		pastTreatmentList = new JList<Treatment>();
 		listScroll = new JScrollPane(pastTreatmentList);
 		treatmentListModel = new DefaultListModel<Treatment>();
-		
-		Treatment[] treatments = TreatmentApplicationUtils.getPatientTreatments(patient); 
+
+		Treatment[] treatments = TreatmentApplicationUtils.getPatientTreatments(patient);
 		for (int i = 0; i < treatments.length; i++) {
 			treatmentListModel.add(i, treatments[i]);
 		}
-		
+
 		pastTreatmentList.setVisibleRowCount(3);
 		pastTreatmentList.setLayoutOrientation(JList.VERTICAL);
 		pastTreatmentList.setModel(treatmentListModel);
 		add(listScroll,c);
-		
+
 		nextRow();
-		
+
 		deleteButton = new JButton("Delete");
 		deleteButton.addActionListener(this);
 		closeButton = new JButton("Close");
 		closeButton.addActionListener(this);
 		addButtons(deleteButton,closeButton);
-		
+
 		pack();
 	}
 

@@ -60,7 +60,7 @@ public class CreatePatientDialog extends BaseDialog implements ActionListener {
 	 *
 	 * @param owner - Takes a component that will parent the dialog
 	 */
-	public CreatePatientDialog(Component owner){
+	public CreatePatientDialog(Component owner) {
 		super(owner,"Create Patient");
 
 		Container contentPane = rootPane.getContentPane();
@@ -101,12 +101,12 @@ public class CreatePatientDialog extends BaseDialog implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == createButton){
+		if (e.getSource() == createButton) {
 			String title = titleField.getText();
 			String forename = forenameField.getText();
 			String surname = surnameField.getText();
 			Calendar cal = (Calendar) dobField.getModel().getValue();
-			if(cal == null){
+			if (cal == null) {
 				JOptionPane.showMessageDialog(this,"You must select a date","Validation error",JOptionPane.ERROR_MESSAGE);
 				return;
 			}
@@ -114,7 +114,7 @@ public class CreatePatientDialog extends BaseDialog implements ActionListener {
 			String phoneNumber = phoneField.getText();
 			Optional<Address> optAddress = addressField.getAddress();
 
-			if(!optAddress.isPresent()) {
+			if (!optAddress.isPresent()) {
 				JOptionPane.showMessageDialog(this, "You must select an address", "Validation error", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
@@ -125,7 +125,7 @@ public class CreatePatientDialog extends BaseDialog implements ActionListener {
 
 			dispose();
 
-		}else if(e.getSource() == cancelButton){
+		} else if (e.getSource() == cancelButton) {
 			cancel();
 		}
 	}

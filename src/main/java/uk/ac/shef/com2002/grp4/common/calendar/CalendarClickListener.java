@@ -57,5 +57,5 @@ public abstract class CalendarClickListener {
 			break;
 		}
 	}
-	
+
 }

@@ -55,12 +55,12 @@ public class CalendarComp extends JPanel {
 	private static final Color DENTIST_COLOUR = Color.getHSBColor(0.0f,0.5f,1.0f);//Light red
 	/** This is the color that a dentists appointment will show in when marked as complete. */
 	private static final Color DENTIST_COMPLETE_COLOUR = Color.getHSBColor(0.0f,0.5f,0.8f); //Darker red
-	
+
 	/** This is the color that a hygienists appointment will show in. */
 	private static final Color HYGIENIST_COLOUR = Color.getHSBColor(0.69f,0.5f,1.0f); //Light blue
 	/** This is the color that a hygienists appointment will show in when marked as complete. */
 	private static final Color HYGIENIST_COMPLETE_COLOUR = Color.getHSBColor(0.69f,0.5f,0.8f); //Darker blue
-	
+
 	/** This is the color that a reserved appointment will show in. */
 	private static final Color RESERVED_COLOUR = Color.GRAY;
 
@@ -146,7 +146,7 @@ public class CalendarComp extends JPanel {
 			} else {
 				Color color = Color.CYAN;
 				if (a.appointment.getPartner().endsWith(Partner.DENTIST.toString())) {
-					color = a.appointment.isComplete() ? DENTIST_COMPLETE_COLOUR : DENTIST_COLOUR;  
+					color = a.appointment.isComplete() ? DENTIST_COMPLETE_COLOUR : DENTIST_COLOUR;
 				} else if (a.appointment.getPartner().endsWith(Partner.HYGIENIST.toString())) {
 					color = a.appointment.isComplete() ? HYGIENIST_COMPLETE_COLOUR : HYGIENIST_COLOUR;
 				}
@@ -178,7 +178,7 @@ public class CalendarComp extends JPanel {
 			}
 		}
 	}
-	
+
 	/**
 	 * This adds headers above the calendar to show exactly who's
 	 * appointments are below.
@@ -195,7 +195,7 @@ public class CalendarComp extends JPanel {
 		date.setHorizontalAlignment(JLabel.CENTER);
 		date.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		add(date, c);
-		
+
 		//Add dentist/hygienist label
 		String p = partner.toString();
 		c.gridwidth = 1;
@@ -208,14 +208,14 @@ public class CalendarComp extends JPanel {
 		d.setBackground(calendarColor);
 		add(d, c);
 	}
-	
+
 	/***
 	 * This changes the appointments and the date that are being shown on
 	 * this calendar object.
-	 * 
+	 *
 	 * @param date
 	 */
-	public void setAppointmentsAndDate(List<Appointment> appointmentsOnDate,LocalDate date){
+	public void setAppointmentsAndDate(List<Appointment> appointmentsOnDate,LocalDate date) {
 		this.date = date;
 		appointments.clear();
 		for (Appointment a : appointmentsOnDate) {
@@ -225,19 +225,19 @@ public class CalendarComp extends JPanel {
 		}
 		showAll();
 	}
-	
+
 	/**
 	 * This adds the given listener. When a empty slot is clicked the onClick/onPressed/onReleased
-	 * method of the listener will be called. 
+	 * method of the listener will be called.
 	 * @param l - Listener to add
 	 */
 	public void addSlotClickListener(CalendarClickListener l) {
 		slotListeners.add(l);
 	}
-	
+
 	/**
 	 * This adds the given listener. When an appointment is clicked the onClick/onPressed/onReleased
-	 * method of the listener will be called. 
+	 * method of the listener will be called.
 	 * @param l - Listener to add
 	 */
 	public void addAppointmentClickListener(CalendarClickListener l) {
@@ -270,5 +270,5 @@ public class CalendarComp extends JPanel {
 	public LocalDate getDate() {
 		return date;
 	}
-	
+
 }

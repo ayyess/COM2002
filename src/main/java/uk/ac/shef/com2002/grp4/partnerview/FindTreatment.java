@@ -21,20 +21,20 @@ public class FindTreatment extends BaseDialog {
 
 	/** The list of selected treatments, used when dialog has closed */
 	Treatment selected;
-	
+
 	/** List showing all possible treatments to select from */
 	final JList<Treatment> treatmentList;
 	/** The model for the list of treatments */
 	final DefaultListModel<Treatment> treatmentModel;
 	/** Scroll pane for the list of treatments */
 	final JScrollPane scroll;
-	
+
 	final SpinnerNumberModel spinnerModel;
 	final JSpinner countSpinner;
-	
+
 	int count;
-	
-	
+
+
 	/**
 	 * Constructs a new dialog to select a list of possible treatments
 	 * @param owner - The parent component that owns this dialog
@@ -45,50 +45,50 @@ public class FindTreatment extends BaseDialog {
 		treatmentModel = new DefaultListModel<Treatment>();
 		treatmentList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		treatmentList.setModel(treatmentModel);
-		
+
 		// Fetch all of the possible treatments and add them to the list
 		Treatment[] treatments = TreatmentUtils.getTreatments();
 		for (int i = 0; i < treatments.length; i++) {
 			treatmentModel.add(i, treatments[i]);
 		}
-		
+
 		// Make it so that when a item is single clicked it toggles the selection of it
 		treatmentList.setSelectionModel(new DefaultListSelectionModel() {
-		    @Override
-		    public void setSelectionInterval(int first, int second) {
-		        if (super.isSelectedIndex(first)) {
-		            super.removeSelectionInterval(first, second);
-		        } else {
-		            super.addSelectionInterval(first, second);
-		        }
-		        fireValueChanged(first, second);
-		    }
+			@Override
+			public void setSelectionInterval(int first, int second) {
+				if (super.isSelectedIndex(first)) {
+					super.removeSelectionInterval(first, second);
+				} else {
+					super.addSelectionInterval(first, second);
+				}
+				fireValueChanged(first, second);
+			}
 		});
-		
+
 		scroll = new JScrollPane(treatmentList);
-		
+
 		addLabeledComponent("Treatments", scroll);
-		
+
 		JButton cancelButton = new JButton("Close");
 		cancelButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae){
+			public void actionPerformed(ActionEvent ae) {
 				cancel();
 			}
 		});
 		JButton doneButton = new JButton("Done");
 		doneButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae){
+			public void actionPerformed(ActionEvent ae) {
 				done();
 			}
 		});
-		
+
 		spinnerModel = new SpinnerNumberModel(1, 1, 100, 1);
 		countSpinner = new JSpinner();
-		
+
 		addButtons(cancelButton,doneButton);
 		pack();
 	}
-	
+
 	/**
 	 * Constructs a dialog to select a list of treatments.
 	 * <p>
@@ -105,8 +105,8 @@ public class FindTreatment extends BaseDialog {
 			}
 		}
 	}
-	
-	void done(){
+
+	void done() {
 		setModal(true);
 		count = spinnerModel.getNumber().intValue();
 		selected = treatmentList.getSelectedValue();

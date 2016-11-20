@@ -25,5 +25,5 @@ public class CostUtil {
 		}
 		return '\u00A3' + s;
 	}
-	
+
 }

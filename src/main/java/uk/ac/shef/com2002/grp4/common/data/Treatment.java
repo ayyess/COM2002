@@ -50,11 +50,11 @@ public class Treatment {
 	public int getCost() {
 		return cost;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public String getType() {
 		return type;
 	}
@@ -67,14 +67,14 @@ public class Treatment {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof Treatment){
+		if (obj instanceof Treatment) {
 			final Treatment other = (Treatment) obj;
 			return new EqualsBuilder()
-				.append(name, other.name)
-				.append(cost, other.cost)
-				.append(type, other.type)
-				.isEquals();
-		} else{
+			       .append(name, other.name)
+			       .append(cost, other.cost)
+			       .append(type, other.type)
+			       .isEquals();
+		} else {
 			return false;
 		}
 	}
@@ -87,10 +87,10 @@ public class Treatment {
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder()
-			.append(name)
-			.append(cost)
-			.append(type)
-			.toHashCode();
+		       .append(name)
+		       .append(cost)
+		       .append(type)
+		       .toHashCode();
 	}
 
 	public String toString() {

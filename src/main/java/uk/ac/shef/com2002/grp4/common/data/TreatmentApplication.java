@@ -9,13 +9,13 @@ import java.time.LocalTime;
 public class TreatmentApplication {
 
 	Treatment treatment;
-	
+
 	LocalDate date;
 	LocalTime time;
 	Partner partner;
 	int count;
 	boolean paid = false;
-	
+
 	public TreatmentApplication(Treatment treatment, Appointment appointment, int count) {
 		this.treatment = treatment;
 		this.date = appointment.getDate();
@@ -23,7 +23,7 @@ public class TreatmentApplication {
 		this.partner = Partner.valueOfIngnoreCase(appointment.getPartner());
 		this.count = count;
 	}
-	
+
 	public TreatmentApplication(String treatmentName, LocalDate date, LocalTime time, String partner, int count) {
 		this.treatment = new Treatment(treatmentName, -1, null);
 		this.date = date;
@@ -31,7 +31,7 @@ public class TreatmentApplication {
 		this.partner = Partner.valueOfIngnoreCase(partner);
 		this.count = count;
 	}
-	
+
 	public TreatmentApplication(String treatmentName, LocalDate date, LocalTime time, String partner, int count, boolean paid) {
 		this.treatment = new Treatment(treatmentName, -1, null);
 		this.date = date;
@@ -40,7 +40,7 @@ public class TreatmentApplication {
 		this.count = count;
 		this.paid = paid;
 	}
-	
+
 	public TreatmentApplication(Treatment treatment, LocalDate date, LocalTime time, Partner partner, int count) {
 		this.treatment = treatment;
 		this.date = date;
@@ -68,7 +68,7 @@ public class TreatmentApplication {
 	public int getCount() {
 		return count;
 	}
-	
+
 	public String toString() {
 		return count + "x" + getTreatmentName();
 	}
@@ -76,7 +76,7 @@ public class TreatmentApplication {
 	public void setCount(int count) {
 		this.count = count;
 	}
-	
+
 	@Override
 	public TreatmentApplication clone() {
 		return new TreatmentApplication(getTreatmentName(), getDate(), getTime(), getPartner().toString(), getCount());
@@ -85,7 +85,7 @@ public class TreatmentApplication {
 	public void setTreatment(Treatment t) {
 		this.treatment = t;
 	}
-	
+
 	public int getCost() {
 		if (treatment != null) {
 			return treatment.getCost();

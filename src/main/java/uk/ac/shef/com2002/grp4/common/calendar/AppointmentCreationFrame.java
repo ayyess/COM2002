@@ -69,7 +69,7 @@ public class AppointmentCreationFrame extends BaseDialog {
 		this.date = date;
 		this.time = time;
 		this.partner = partner;
-		
+
 		patientSelector = new PatientSelector();
 		addLabeledComponent("Patient",patientSelector);
 
@@ -79,28 +79,28 @@ public class AppointmentCreationFrame extends BaseDialog {
 
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent ae){
-                close();
-            }
-        });
+			public void actionPerformed(ActionEvent ae) {
+				close();
+			}
+		});
 		JButton saveButton = new JButton("Save");
 		saveButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent ae){
-					try {
-						saveDetails();
-						close();
-					} catch (UserFacingException e) {
-						e.showError();
-					}
-                }
-            });
+			public void actionPerformed(ActionEvent ae) {
+				try {
+					saveDetails();
+					close();
+				} catch (UserFacingException e) {
+					e.showError();
+				}
+			}
+		});
 		addButtons(cancelButton,saveButton);
 		pack();
 
 	}
 
 	/** This disposes of the frame. */
-	void close(){
+	void close() {
 		setModal(true);
 		//getOwner().setEnabled(true);
 		AppointmentCreationFrame.this.dispose();

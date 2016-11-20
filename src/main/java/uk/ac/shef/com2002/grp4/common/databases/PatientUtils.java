@@ -33,11 +33,11 @@ public class PatientUtils {
 	 * @return an ArrayList of patients with the exact first name
 	 */
 	public static List<Patient> findPatientByFirstName(String firstName) {
-		return ConnectionManager.withStatement("SELECT * FROM patients WHERE first_name=?",(stmt)->{
+		return ConnectionManager.withStatement("SELECT * FROM patients WHERE first_name=?",(stmt)-> {
 			stmt.setString(1,firstName);
 			ResultSet res = stmt.executeQuery();
 			List<Patient> patients = new ArrayList<>();
-			while(res.next()){
+			while (res.next()) {
 				patients.add(new Patient(res.getLong(1),res.getString(2),res.getString(3),res.getString(4), res.getDate(5).toLocalDate(),res.getString(6),res.getLong(7)));
 			}
 			return patients;
@@ -51,11 +51,11 @@ public class PatientUtils {
 	 * @return an ArrayList of patients with the similar first names
 	 */
 	public static List<Patient> fuzzyFindPatientByFirstName(String firstName) {
-		return ConnectionManager.withStatement("SELECT * FROM patients WHERE first_name LIKE ? AND first_name <> 'RESERVED'",(stmt)->{
+		return ConnectionManager.withStatement("SELECT * FROM patients WHERE first_name LIKE ? AND first_name <> 'RESERVED'",(stmt)-> {
 			stmt.setString(1,"%"+firstName+"%");
 			ResultSet res = stmt.executeQuery();
 			List<Patient> patients = new ArrayList<>();
-			while(res.next()){
+			while (res.next()) {
 				patients.add(new Patient(res.getLong(1),res.getString(2),res.getString(3),res.getString(4), res.getDate(5).toLocalDate(),res.getString(6),res.getLong(7)));
 			}
 			return patients;

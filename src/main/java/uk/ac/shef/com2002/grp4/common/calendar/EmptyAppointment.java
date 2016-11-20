@@ -45,7 +45,7 @@ public class EmptyAppointment extends JPanel {
 		this.partner = partner;
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		setBackground(Color.WHITE);
-		
+
 		add(new JLabel(time.toString()));
 	}
 

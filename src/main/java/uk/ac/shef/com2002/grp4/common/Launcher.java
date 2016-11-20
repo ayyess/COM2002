@@ -54,7 +54,7 @@ public class Launcher extends JFrame implements ActionListener {
 			public void run() {
 				try {
 					UIManager.setLookAndFeel(
-					UIManager.getSystemLookAndFeelClassName());
+					    UIManager.getSystemLookAndFeelClassName());
 
 					DPIScaling.rescaleFonts();
 				} catch (Exception e) {
@@ -68,13 +68,13 @@ public class Launcher extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == secretaryViewButton){
+		if (e.getSource() == secretaryViewButton) {
 			dispose();
 			new SecretaryApp();
-		}else if(e.getSource() == dentistViewButton){
+		} else if (e.getSource() == dentistViewButton) {
 			dispose();
 			new PartnerApp(Partner.DENTIST);
-		}else if(e.getSource() == hygenistViewButton){
+		} else if (e.getSource() == hygenistViewButton) {
 			dispose();
 			new PartnerApp(Partner.HYGIENIST);
 		}

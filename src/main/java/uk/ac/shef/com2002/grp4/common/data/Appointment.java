@@ -56,7 +56,7 @@ public class Appointment {
 		this.partner = partner;
 		this.patientId = patientId;
 	}
-	
+
 	/**
 	 * This constructor creates an Appointment object.
 	 *
@@ -69,7 +69,7 @@ public class Appointment {
 	 */
 	public Appointment(LocalDate date, LocalTime start, int duration, String partner, long patientId, boolean complete) {
 		this(date, start, duration, partner, patientId);
-		this.complete = complete;	
+		this.complete = complete;
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class Appointment {
 	public void setComplete(boolean complete) {
 		this.complete = complete;
 	}
-	
+
 	/**
 	 * This gets the date of the appointment.
 	 * @return date
@@ -127,9 +127,9 @@ public class Appointment {
 	public int getDuration() {
 		return (int) Duration.between(start, end).getSeconds()/60;
 	}
-	
+
 	/**
-	 * @return if the appointment is complete 
+	 * @return if the appointment is complete
 	 */
 	public boolean isComplete() {
 		return complete;
@@ -143,12 +143,12 @@ public class Appointment {
 	@Override
 	public String toString() {
 		return "Appointment{" +
-				"date=" + date +
-				", start=" + start +
-				", end=" + end +
-				", partner='" + partner + '\'' +
-				", patientId=" + patientId +
-				'}';
+		       "date=" + date +
+		       ", start=" + start +
+		       ", end=" + end +
+		       ", partner='" + partner + '\'' +
+		       ", patientId=" + patientId +
+		       '}';
 	}
 
 	/**
@@ -159,16 +159,16 @@ public class Appointment {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof Appointment){
+		if (obj instanceof Appointment) {
 			final Appointment other = (Appointment) obj;
 			return new EqualsBuilder()
-				.append(date, other.date)
-				.append(start, other.start)
-				.append(end, other.end)
-				.append(partner, other.partner)
-				.append(patientId, other.patientId)
-				.isEquals();
-		} else{
+			       .append(date, other.date)
+			       .append(start, other.start)
+			       .append(end, other.end)
+			       .append(partner, other.partner)
+			       .append(patientId, other.patientId)
+			       .isEquals();
+		} else {
 			return false;
 		}
 	}
@@ -181,12 +181,12 @@ public class Appointment {
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder()
-			.append(date)
-			.append(start)
-			.append(end)
-			.append(partner)
-			.append(patientId)
-			.toHashCode();
+		       .append(date)
+		       .append(start)
+		       .append(end)
+		       .append(partner)
+		       .append(patientId)
+		       .toHashCode();
 	}
 
 }

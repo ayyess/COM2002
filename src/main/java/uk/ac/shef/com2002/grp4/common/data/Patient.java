@@ -56,7 +56,7 @@ public class Patient {
 	 * --Optional
 	 */
 	private Optional<Address> address;
-	
+
 	//TODO Add creation from db?
 
 	/**
@@ -209,8 +209,8 @@ public class Patient {
 	 * This gets the Patient Plan if the patient has one.
 	 * @return the Patient Plan
 	 */
-	public Optional<PatientPlan> getPatientPlan(){
-		return id.map((id)->{
+	public Optional<PatientPlan> getPatientPlan() {
+		return id.map((id)-> {
 			return PatientPlanUtils.getPlanByPatientID(id);
 		});
 	}
@@ -219,10 +219,10 @@ public class Patient {
 	 * This gets the Address object that relates to the patient.
 	 * @return an Address object
 	 */
-	public Address getAddress(){
-		if(address.isPresent()){
+	public Address getAddress() {
+		if (address.isPresent()) {
 			return address.get();
-		}else{
+		} else {
 			Address addr = AddressUtils.getAddressByID(addressId);
 			address = Optional.of(addr);
 			return addr;
@@ -233,9 +233,9 @@ public class Patient {
 	 * This saves the details of the Patient permanently in the database.
 	 */
 	public void save() {
-		if(id.isPresent()){
+		if (id.isPresent()) {
 			PatientUtils.updatePatientByID(id.get(),title,forename,surname,phoneNumber);
-		}else{
+		} else {
 			id = Optional.of(PatientUtils.insertPatient(title,forename,surname,dob,phoneNumber,getAddress().getId()));
 		}
 	}
@@ -244,7 +244,7 @@ public class Patient {
 	 * This deletes a patient from the database.
 	 */
 	public void delete() {
-		if(id.isPresent()) {
+		if (id.isPresent()) {
 			PatientUtils.deleteByID(getID());
 		}
 		//else not in db
@@ -257,19 +257,19 @@ public class Patient {
 	 * @return - a Boolean which is true if the two objects are equal
 	 */
 	@Override
-	public boolean equals(final Object obj){
-		if(obj instanceof Patient){
+	public boolean equals(final Object obj) {
+		if (obj instanceof Patient) {
 			final Patient other = (Patient) obj;
 			return new EqualsBuilder()
-				.append(id, other.id)
-				.append(title, other.title)
-				.append(forename, other.forename)
-				.append(surname, other.surname)
-				.append(dob, other.dob)
-				.append(phoneNumber, other.phoneNumber)
-				.append(addressId, other.addressId)
-				.isEquals();
-		} else{
+			       .append(id, other.id)
+			       .append(title, other.title)
+			       .append(forename, other.forename)
+			       .append(surname, other.surname)
+			       .append(dob, other.dob)
+			       .append(phoneNumber, other.phoneNumber)
+			       .append(addressId, other.addressId)
+			       .isEquals();
+		} else {
 			return false;
 		}
 	}
@@ -282,13 +282,13 @@ public class Patient {
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder()
-			.append(id)
-			.append(title)
-			.append(forename)
-			.append(surname)
-			.append(dob)
-			.append(phoneNumber)
-			.append(addressId)
-			.toHashCode();
+		       .append(id)
+		       .append(title)
+		       .append(forename)
+		       .append(surname)
+		       .append(dob)
+		       .append(phoneNumber)
+		       .append(addressId)
+		       .toHashCode();
 	}
 }

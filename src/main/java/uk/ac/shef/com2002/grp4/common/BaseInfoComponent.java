@@ -29,7 +29,7 @@ abstract public class BaseInfoComponent extends JPanel {
 	 *
 	 * @return the value of the next row
 	 */
-	protected int nextRow(){
+	protected int nextRow() {
 		return row++;
 	}
 
@@ -38,7 +38,7 @@ abstract public class BaseInfoComponent extends JPanel {
 	 *
 	 * @return the GridBagConstraints
 	 */
-	protected GridBagConstraints getBaseConstraints(){
+	protected GridBagConstraints getBaseConstraints() {
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(5,5,5,5);
 		c.gridy = row;
@@ -51,7 +51,7 @@ abstract public class BaseInfoComponent extends JPanel {
 	 * @param label - a label for the component
 	 * @param input - a new component
 	 */
-	protected void addLabeledComponent(String label,JComponent input){
+	protected void addLabeledComponent(String label,JComponent input) {
 		GridBagConstraints c = getBaseConstraints();
 
 		c.fill=GridBagConstraints.HORIZONTAL;
@@ -66,7 +66,7 @@ abstract public class BaseInfoComponent extends JPanel {
 	/**
 	 * This constructor creates a new BaseInfoComponent.
 	 */
-	public BaseInfoComponent(){
+	public BaseInfoComponent() {
 		super(new GridBagLayout());
 	}
 

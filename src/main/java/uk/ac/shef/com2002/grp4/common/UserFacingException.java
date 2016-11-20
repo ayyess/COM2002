@@ -18,7 +18,7 @@ public class UserFacingException extends java.lang.RuntimeException {
 	/*
 	 * Constructs a new user facing runtime exception with the specified detail message.
 	 */
-	public UserFacingException(String message){
+	public UserFacingException(String message) {
 		super(message);
 	}
 
