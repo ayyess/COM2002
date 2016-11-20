@@ -14,13 +14,29 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Optional;
 
+/**
+ * Patient details component used within patient details frame
+ * <br>
+ * @author  Group 4
+ * @since   15/11/2016
+ */
 public class PatientComponent extends BaseInfoComponent {
+	/** The optional patient */
 	private Optional<Patient> patient;
+	/** Text box for patient's title */
 	private final JTextField titleField;
+	/** Text box for patient's first name */
 	private final JTextField firstNameField;
+	/** Text box for patient's last name */
 	private final JTextField lastNameField;
+	/** 
+	 * Text box for patient's date of birth.
+	 * Selected with a JDatePicker
+	 */
 	private final JTextField dobField;
+	/** Text box for patient's phone number */
 	private final JTextField phoneNumberField;
+	/** Address details panel  */
 	private final AddressComponent addressField;
 	
 	public PatientComponent(Patient patient){

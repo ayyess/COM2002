@@ -51,10 +51,16 @@ public class Treatment {
 		return cost;
 	}
 	
+	/**
+	 * @return The name of this treatment
+	 */
 	public String getName() {
 		return name;
 	}
 	
+	/**
+	 * @return The type of this treatment one of: REPAIR, HYGIENE or CHECKUP
+	 */
 	public String getType() {
 		return type;
 	}

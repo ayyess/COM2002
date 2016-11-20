@@ -196,6 +196,11 @@ public class AppointmentUtils {
 		});
 	}
     
+	/**
+	 * Updates the database to save the given appointment and mark it as in/complete
+	 * @param appointment Appointment - The appointment to update
+	 * @param complete boolean - The new completion status of this appointment
+	 */
 	public static void updateCompleteAppointment(Appointment appointment, boolean complete) {
 		appointment.setComplete(complete);
 		ConnectionManager.withStatement("UPDATE appointments SET complete=? WHERE date=? AND partner=? AND start=?",(stmt)-> {

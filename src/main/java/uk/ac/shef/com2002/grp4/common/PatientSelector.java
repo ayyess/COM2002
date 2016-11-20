@@ -23,6 +23,7 @@ import java.util.Optional;
  * Created on 11/11/2016.
  */
 public class PatientSelector extends JPanel implements ActionListener {
+
 	private PatientComponent displayField;
 	private JButton findPatientButton;
 	private JButton createPatientButton;

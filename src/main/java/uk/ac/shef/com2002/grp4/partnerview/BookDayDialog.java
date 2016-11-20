@@ -15,17 +15,35 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * Used to book whole days to prevent appointments from being made 
+ * while the partner is not available
+ * <br>
+ * @author  Group 4
+ * @version 1.0
+ * @since   13/11/2016
+ */
 public class BookDayDialog extends BaseDialog {
 
+	/** The date picker to select which days to book */
 	final JDatePicker datePicker;
+	/** Spinner to select the number of days to book stating from the date chosen */
 	final JSpinner daysSpinner;
+	/** Simple integer number model for the spinner */
 	final SpinnerNumberModel dayModel;
 	
+	/** Cancel button to cancel the dialog if needed */
 	final JButton cancel;
+	/** Book button to confirm the reservation of the days */
 	final JButton book;
-	
+	/** The partner attempting to book days */
 	Partner partner;
 	
+	/**
+	 * Constructs a new day booking dialog for the given partner
+	 * @param c Frame - The parent frame   
+	 * @param partner Partner - The partner who is booking
+	 */
 	public BookDayDialog(Frame c, Partner partner) {
 		super(c, "Book day");
 		this.partner = partner;
@@ -63,6 +81,9 @@ public class BookDayDialog extends BaseDialog {
 		pack();
 	}
 	
+	/**
+	 * Creates a Reserved appointment within the database using the 'reserved' patient
+	 */
 	void book() {
 		LocalDate date = LocalDate.of(datePicker.getModel().getYear(), datePicker.getModel().getMonth()+1, datePicker.getModel().getDay());
 		for (int i = 0; i < dayModel.getNumber().intValue(); i++) {

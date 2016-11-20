@@ -92,6 +92,7 @@ public class AppointmentFrame extends BaseDialog {
 		AppointmentUtils.deleteAppointment(appointment);
 	}
 	
+	/** Opens the payment dialog so that the receipt and cost can be show to the patient/secretary */
 	public void pay() {
 		new PaymentDialog(this, patient).setVisible(true);
 	}

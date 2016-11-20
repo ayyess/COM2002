@@ -119,21 +119,21 @@ public class Receipt implements Printable {
 			TreatmentApplication ta = tp.treatmentApplication;
 			Treatment t = tp.treatment;
 			ta.setTreatment(t);
-			if (t.getType().equals("REPAIR")) {
+			if (t.getType().equals(REPAIR)) {
 				int repairs = plan.getRemainingRepairs();
 				if (validPlan && repairs>0) {
 					plan.useRepair();
 					savings += ta.getCount()*t.getCost();
 				}
 				subTotal += ta.getCount()*t.getCost();
-			} else if (t.getType().equals("HYGIENE")) {
+			} else if (t.getType().equals(HYGIENE)) {
 				int hygiene = plan.getRemainingHygieneVisits();
 				if (validPlan && hygiene>0) {
 					plan.useHygiene();
 					savings += ta.getCount()*t.getCost();
 				}
 				subTotal += ta.getCount()*t.getCost();
-			} else if (t.getType().equals("CHECKUP")) {
+			} else if (t.getType().equals(CHECKUP)) {
 				int checkups = plan.getRemainingCheckups();
 				if (validPlan && checkups>0) {
 					plan.useCheckup();
@@ -186,6 +186,12 @@ public class Receipt implements Printable {
 		return PAGE_EXISTS; //Success
 	}
 	
+	/**
+	 * Searches through the list of treatments to find the treatment with the name given
+	 * @param treatments Treatment[] - The array to search through
+	 * @param name String - The name to search for
+	 * @return The treatment if found, else returns null
+	 */
 	Treatment getByName(List<Treatment> treatments, String name) {
 		for (Treatment t : treatments) {
 			if (t.getName().equalsIgnoreCase(name)) {

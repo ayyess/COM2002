@@ -155,18 +155,22 @@ public class PatientPlan {
 		return usedRepairs;
 	}
 	
+	/** Uses a single checkup from the patients health care plan */
 	public void useCheckup() {
 		usedCheckUps += 1;
 	}
 	
+	/** Uses a single hygiene visit from the patients health care plan */
 	public void useHygiene() {
 		usedHygiene += 1;
 	}
 	
+	/** Uses a single repair from the patients health care plan */
 	public void useRepair() {
 		usedRepairs += 1;
 	}
 	
+	/** Looks up the number of remaining checkups this plan has */
 	public int getRemainingCheckups() {
 		if (name.equals(DEFAULT_PLAN_NAME)) return 0;
 		Plan plan = PlanUtils.getDetailsByName(name);
@@ -174,6 +178,7 @@ public class PatientPlan {
 		return plan.getCheckups() - getUsedCheckUps();
 	}
 	
+	/** Looks up the number of remaining hygiene visits this plan has */
 	public int getRemainingHygieneVisits() {
 		if (name.equals(DEFAULT_PLAN_NAME)) return 0;
 		Plan plan = PlanUtils.getDetailsByName(name);
@@ -181,6 +186,7 @@ public class PatientPlan {
 		return plan.getHygieneVisits() - getUsedHygieneVisits();
 	}
 	
+	/** Looks up the number of remaining repairs this plan has */
 	public int getRemainingRepairs() {
 		if (name.equals(DEFAULT_PLAN_NAME)) return 0;
 		Plan plan = PlanUtils.getDetailsByName(name);
@@ -188,6 +194,7 @@ public class PatientPlan {
 		return plan.getRepairs() - getUsedRepairs();
 	}
 	
+	/** Checks that the patient plan is has not expired */
 	public boolean checkPlanValid() {
 		if (name.equals(DEFAULT_PLAN_NAME)) return false;
 		Plan plan = PlanUtils.getDetailsByName(name);
@@ -198,6 +205,9 @@ public class PatientPlan {
 		return true;
 	}
 
+	/**
+	 * @return The date that this patient plan was started on
+	 */
 	public LocalDate getStartDate() {
 		return startDate;
 	}

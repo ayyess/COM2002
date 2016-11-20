@@ -141,6 +141,11 @@ public class PatientUtils {
 		});
 	}
 
+	/**
+	 * Finds the patient in the database who represents the reservation patient for
+	 * booking days as reserved.
+	 * @return The 'reserved' patient 
+	 */
 	public static Patient getReservedPatient() {
 		return ConnectionManager.withStatement("SELECT * FROM patients WHERE first_name='RESERVED'",(stmt)-> {
 			ResultSet res = stmt.executeQuery();

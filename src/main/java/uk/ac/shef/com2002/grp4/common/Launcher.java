@@ -10,16 +10,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * <Doc here>
+ * The entry point of the dental care system
  * <p>
  * Created on 19/11/2016.
  */
 public class Launcher extends JFrame implements ActionListener {
 
+	/** Button for secrtary's view */
 	private final JButton secretaryViewButton;
+	/** Button for dentists's view */
 	private final JButton dentistViewButton;
+	/** Button for hygienist's view */
 	private final JButton hygenistViewButton;
 
+	/** Constructs a Launcher and opens the view selection window */
 	public Launcher() {
 		super();
 		setLayout(new GridBagLayout());

@@ -17,6 +17,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Used to select treatments for a certain appointment
+ * <br>
+ * @author  Group 4
+ * @version 1.0
+ * @since   13/11/2016
+ */
 public class FindTreatment extends BaseDialog {
 
 	/** The list of selected treatments, used when dialog has closed */
@@ -106,6 +113,9 @@ public class FindTreatment extends BaseDialog {
 		}
 	}
 	
+	/**
+	 * Updates the selected list and closes the dialog
+	 */
 	void done(){
 		setModal(true);
 		count = spinnerModel.getNumber().intValue();

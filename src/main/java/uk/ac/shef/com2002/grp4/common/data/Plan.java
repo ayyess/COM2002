@@ -95,18 +95,22 @@ public class Plan {
 			.toHashCode();
 	}
 	
+	/** @return The cost of this plan */
 	public int getCost() {
 		return cost;
 	}
 
+	/** @return The number of checkups this plan gives to the patient  */
 	public int getCheckups() {
 		return checkups;
 	}
 
+	/** @return The number of hygiene visits this plan gives to the patient */
 	public int getHygieneVisits() {
 		return hygieneVisits;
 	}
 
+	/** @return The number of repair this plan gives to the patient */
 	public int getRepairs() {
 		return repairs;
 	}

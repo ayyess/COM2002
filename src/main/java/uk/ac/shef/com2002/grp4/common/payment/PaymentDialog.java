@@ -35,6 +35,9 @@ import java.util.List;
  */
 public class PaymentDialog extends BaseDialog {
 
+	/**
+	 * Amount the patient is going to pay today
+	 */
 	int payAmount = 0;
 	
 	/**
@@ -52,6 +55,7 @@ public class PaymentDialog extends BaseDialog {
 		TreatmentApplication[] treatmentApplications = TreatmentApplicationUtils.getRemainingTreatments(p);
 		DefaultListModel<TreatmentPrice> model = new DefaultListModel<TreatmentPrice>();
 		
+		//Fetch the plan and if there isn't one then just use the default one
 		PatientPlan pl = PatientPlanUtils.getPlanByPatientID(p.getID());
 		PatientPlan plan;
 		if (pl == null) {
@@ -126,6 +130,10 @@ public class PaymentDialog extends BaseDialog {
 		JTextField payAmountText = new JTextField(4);
 		addLabeledComponent("Amount to pay", payAmountText);
 		
+		JTextField owedAmountText = new JTextField(4);
+		addLabeledComponent("Total owed", owedAmountText);
+		owedAmountText.setText(CostUtil.costToDecimalString(total));
+		
 		treatmentList.addListSelectionListener(new ListSelectionListener() {
 			
 			@Override
@@ -179,6 +187,13 @@ public class PaymentDialog extends BaseDialog {
 		pack();
 	}
 	
+	/**
+	 * Searches through the list of treatments and returns that
+	 * first one that has the same name.
+	 * @param treatments Treatment[] - The list to look through 
+	 * @param name String - The name of the treatment to search for
+	 * @return
+	 */
 	Treatment getByName(Treatment[] treatments, String name) {
 		for (Treatment t : treatments) {
 			if (t.getName().equalsIgnoreCase(name)) {
@@ -188,30 +203,4 @@ public class PaymentDialog extends BaseDialog {
 		return null;
 	}
 
-}
-
-class TreatmentPrice {
-	
-	String name;
-	int cost;
-	int discountedCost;
-	Treatment treatment;
-	TreatmentApplication treatmentApplication;
-	
-	public TreatmentPrice(String name, int cost, int discountedCost, Treatment t, TreatmentApplication ta) {
-		this.name = name;
-		this.cost = cost;
-		this.discountedCost = discountedCost;
-		this.treatment = t;
-		this.treatmentApplication = ta;
-	}
-	
-	public String toString() {
-		return treatmentApplication.getCount() + "x" + name + " " + CostUtil.costToDecimalString(discountedCost);
-	}
-	
-	public String toStringWithoutPrice() {
-		return treatmentApplication.getCount() + "x" + name;
-	}
-	
 }

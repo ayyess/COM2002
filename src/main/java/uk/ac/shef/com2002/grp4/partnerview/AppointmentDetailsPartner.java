@@ -22,6 +22,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The partner's view of the appointment to show details
+ * and add treatments as well as marking as in/complete
+ * <br>
+ * @author  Group 4
+ * @version 1.0
+ * @since   17/11/2016
+ */
 public class AppointmentDetailsPartner extends BaseDialog {
 	
 	/** The appointment this dialog will show/modify the details of */
