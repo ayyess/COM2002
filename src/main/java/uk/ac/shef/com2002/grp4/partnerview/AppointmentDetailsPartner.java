@@ -24,6 +24,7 @@ import uk.ac.shef.com2002.grp4.common.Partner;
 import uk.ac.shef.com2002.grp4.common.data.Appointment;
 import uk.ac.shef.com2002.grp4.common.data.Patient;
 import uk.ac.shef.com2002.grp4.common.data.Treatment;
+import uk.ac.shef.com2002.grp4.common.data.TreatmentApplication;
 import uk.ac.shef.com2002.grp4.common.databases.AppointmentUtils;
 import uk.ac.shef.com2002.grp4.common.databases.PatientUtils;
 import uk.ac.shef.com2002.grp4.common.databases.TreatmentApplicationUtils;
@@ -37,13 +38,11 @@ public class AppointmentDetailsPartner extends BaseDialog {
 	/** Scroll pane for the list treatments this appointment has */
 	JScrollPane treatmentScroll;
 	/** The List of treatments that this appointment has */
-	JList<Treatment> treatmentList = new JList<Treatment>();
+	JList<TreatmentApplication> treatmentList = new JList<TreatmentApplication>();
 	/** Model for the list of appointments */
-	DefaultListModel<Treatment> model = new DefaultListModel<Treatment>();
+	DefaultListModel<TreatmentApplication> model = new DefaultListModel<TreatmentApplication>();
 	/** Treatments this appointment had when the dialog was opened */
-	Treatment[] oldTreatments = null;
-	/** The new set of treatments this appointment will have */
-	Treatment[] newTreatments = null;
+	TreatmentApplication[] oldTreatments = null;
 	/** The partner of this appointment */
 	Partner partner;
 	
@@ -83,7 +82,8 @@ public class AppointmentDetailsPartner extends BaseDialog {
 		setTreatmentButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setTreatments();
+				addTreatments();
+				repaint();
 			}
 		});
 	
@@ -115,28 +115,39 @@ public class AppointmentDetailsPartner extends BaseDialog {
 	}
 
 	/**
-	 * Sets the treatments for this appointment by opening the treatment finding dialog
+	 * Adds a treatment for this appointment by opening the treatment finding dialog
 	 * <p>
 	 * This does not save the changes it only changes the list for this dialog.
 	 * Call {@code save()} to save the changes and close the dialog
 	 */
-	void setTreatments() {
-		FindTreatment treatmentDialog = new FindTreatment(this, oldTreatments);
+	void addTreatments() {
+		FindTreatment treatmentDialog = new FindTreatment(this);
 		treatmentDialog.setVisible(true);
-		if (treatmentDialog.wasCanceled()) {
+		if (treatmentDialog.wasCanceled() || (treatmentDialog.selected == null)) {
 			//If the user decided to cancel don't make any changes
 			return;
 		}
-		newTreatments = treatmentDialog.selectedTreatments;
-		model.removeAllElements();
-		if (newTreatments != null) {
-			int start = model.getSize();
-			for (int i = 0; i < newTreatments.length; i++) {
-				
-				model.add(start+i, newTreatments[i]);
+		
+		TreatmentApplication selected = new TreatmentApplication(treatmentDialog.selected, appointment, treatmentDialog.count);
+		boolean found = false;
+		int j = -1;
+		for (j = 0; j < model.getSize(); j++) {
+			if (model.get(j) != null) {
+				if (selected.getTreatmentName().equals(model.get(j).getTreatmentName())) {
+					found = true; 
+					break;
+				} else {
+					
+				}
 			}
 		}
-		oldTreatments = newTreatments.clone();
+		if (found) {
+			TreatmentApplication ta = model.get(j).clone();
+			ta.setCount(model.get(j).getCount()+1);
+			model.set(j, ta); 
+		} else {
+			model.add(j, selected.clone());
+		}
 	}
 
 	/**
@@ -145,12 +156,16 @@ public class AppointmentDetailsPartner extends BaseDialog {
 	void save() {
 		//Update appointment to be complete
 		AppointmentUtils.updateCompleteAppointment(appointment, completedCheck.isSelected());
-		if (newTreatments == null) {
-			//Message to say no changes
-			return;
-		}
+		Object[] o = model.toArray();
+
+		TreatmentApplication[] newTreatments = new TreatmentApplication[o.length];
+		
+		for (int i = 0; i < newTreatments.length; i++) {
+			newTreatments[i] = ((TreatmentApplication) o[i]).clone();
+		} 
+		
 		//Save the treatments to the database
-		TreatmentApplicationUtils.replace(oldTreatments, newTreatments, appointment.getDate(), appointment.getStart(), partner);
+		TreatmentApplicationUtils.replace(oldTreatments, newTreatments);
 	}
 	
 }

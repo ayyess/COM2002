@@ -47,7 +47,8 @@ CREATE TABLE IF NOT EXISTS treatment_applications(
     appointment_date DATE NOT NULL,
     appointment_time TIME NOT NULL,
     partner VARCHAR(255) NOT NULL,
-    PRIMARY KEY(treatment_name,appointment_date,appointment_time,partner),
+    count INT NOT NULL,
+    PRIMARY KEY(treatment_name,appointment_date,appointment_time,partner,count),
     FOREIGN KEY(treatment_name)
         REFERENCES treatments(name)
 	ON DELETE CASCADE,

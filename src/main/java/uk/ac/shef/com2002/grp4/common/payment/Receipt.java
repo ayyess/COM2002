@@ -22,6 +22,7 @@ import java.util.List;
 
 import uk.ac.shef.com2002.grp4.common.data.Patient;
 import uk.ac.shef.com2002.grp4.common.data.Treatment;
+import uk.ac.shef.com2002.grp4.common.util.CostUtil;
 /**
  * Used to print patient a receipt.
  * <br>
@@ -100,13 +101,13 @@ public class Receipt implements Printable {
 		for (Treatment t : treatments) {
 			g2.drawString(t.toString(), 0, linePos);
 			total += t.getCost();
-			String costString = costToDecimalString(t.getCost());
+			String costString = CostUtil.costToDecimalString(t.getCost());
 			g2.drawString(costString, width-fm.stringWidth(costString), linePos);
 			linePos += lineHeight;
 		}
 		
 		g2.drawString("Sub-Total:", 0, linePos);
-		String preSavingCostString = costToDecimalString(total); 
+		String preSavingCostString = CostUtil.costToDecimalString(total); 
 		g2.drawString(preSavingCostString, width-fm.stringWidth(preSavingCostString), linePos);
 		linePos += lineHeight;
 		
@@ -115,7 +116,7 @@ public class Receipt implements Printable {
 		//TODO calculate savings
 		if (savings > 0) {
 			g2.drawString("Savings:", 0, linePos);
-			String savingsString = costToDecimalString(savings); 
+			String savingsString = CostUtil.costToDecimalString(savings); 
 			g2.drawString(savingsString, width-fm.stringWidth(savingsString), linePos);
 			linePos += lineHeight;
 		}
@@ -126,27 +127,18 @@ public class Receipt implements Printable {
 		//inePos += lineHeight;
 		
 		g2.drawString("Paid today:", 0, linePos);
-		String costString = costToDecimalString(cost);
+		String costString = CostUtil.costToDecimalString(cost);
 		g2.drawString(costString, width-fm.stringWidth(costString), linePos);
 		linePos += lineHeight;
 		
 		int remaining = (total - savings) - cost;
 		
 		g2.drawString("Remaining:", 0, linePos);
-		String remainingCostString = costToDecimalString(remaining);
+		String remainingCostString = CostUtil.costToDecimalString(remaining);
 		g2.drawString(remainingCostString, width-fm.stringWidth(remainingCostString), linePos);
 		linePos += lineHeight;
 		
 		return PAGE_EXISTS; //Success
 	}
 
-	/**
-	 * This converts the cost of a treatment to a string.
-	 * @param cost - the cost as an integer
-	 * @return a String representation of the cost
-	 */
-	private String costToDecimalString(int cost) {
-		return '\u00A3' + String.valueOf(cost / 100.0);
-	}
-	
 }

@@ -92,7 +92,7 @@ public class PartnerApp extends JFrame {
         
         pack();
 
-		//this makes it open centered
+		//this makes it open centred
 		setLocationRelativeTo(null);
 
         setVisible(true);
