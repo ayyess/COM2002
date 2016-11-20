@@ -9,7 +9,8 @@
 
 package uk.ac.shef.com2002.grp4.common.data;
 
-import java.util.Objects;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * Used to store the Treatment Plan details temporarily
@@ -63,19 +64,37 @@ public class Plan {
 	 * @return - a Boolean which is true if the two objects are equal
 	 */
 	@Override
-	public boolean equals(Object obj) {
-		if(!(obj instanceof Plan)){
+	public boolean equals(final Object obj){
+		if(obj instanceof Plan){
+			final Plan other = (Plan) obj;
+			return new EqualsBuilder()
+				.append(name, other.name)
+				.append(cost, other.cost)
+				.append(checkups, other.checkups)
+				.append(hygieneVisits, other.hygieneVisits)
+				.append(repairs, other.repairs)
+				.isEquals();
+		} else{
 			return false;
 		}
-		Plan rhs = (Plan) obj;
-		return
-			Objects.equals(name, rhs.name) &&
-			cost == rhs.cost &&
-			checkups == rhs.checkups &&
-			hygieneVisits == rhs.hygieneVisits &&
-			repairs == rhs.repairs;
 	}
 
+	/**
+	 * Returns a hash code for this object.
+	 *
+	 * @return - a hash code value for this object.
+	 */
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder()
+			.append(name)
+			.append(cost)
+			.append(checkups)
+			.append(hygieneVisits)
+			.append(repairs)
+			.toHashCode();
+	}
+	
 	public int getCost() {
 		return cost;
 	}

@@ -10,8 +10,9 @@
 package uk.ac.shef.com2002.grp4.common.data;
 
 import uk.ac.shef.com2002.grp4.common.databases.AddressUtils;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -151,17 +152,34 @@ public class Address {
 	 * @return - a Boolean which is true if the two objects are equal
 	 */
 	@Override
-	public boolean equals(Object obj) {
-		if(!(obj instanceof Address)){
+	public boolean equals(final Object obj){
+		if(obj instanceof Address){
+			final Address other = (Address) obj;
+			return new EqualsBuilder()
+				.append(houseNumber, other.houseNumber)
+				.append(street, other.street)
+				.append(district, other.district)
+				.append(city, other.city)
+				.append(postcode, other.postcode)
+				.isEquals();
+		} else{
 			return false;
 		}
-		Address rhs = (Address) obj;
-		return
-			//private Optional<Long> id;
-			Objects.equals(houseNumber, rhs.houseNumber) &&
-			Objects.equals(street, rhs.street) &&
-			Objects.equals(district, rhs.district) &&
-			Objects.equals(city, rhs.city) &&
-			Objects.equals(postcode, rhs.postcode);
+	}
+
+	/**
+	 * Returns a hash code for this object.
+	 *
+	 * @return - a hash code value for this object.
+	 */
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder()
+			.append(houseNumber)
+			.append(street)
+			.append(district)
+			.append(city)
+			.append(postcode)
+			.toHashCode();
 	}
 }

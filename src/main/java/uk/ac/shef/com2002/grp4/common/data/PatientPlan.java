@@ -13,7 +13,9 @@ import uk.ac.shef.com2002.grp4.common.databases.PatientPlanUtils;
 import uk.ac.shef.com2002.grp4.common.databases.PlanUtils;
 
 import java.time.LocalDate;
-import java.util.Objects;
+import uk.ac.shef.com2002.grp4.common.databases.PatientPlanUtils;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * Used to store the details of a Patient Plan temporarily
@@ -32,7 +34,6 @@ public class PatientPlan {
     private LocalDate startDate;
 	/** This stores the remaining Check Ups. */
     private int usedCheckUps;
-
 	/** This stores the remaining Hygiene Visits. */
     private int usedHygiene;
 	/** This stores the remaining Repairs. */
@@ -100,20 +101,39 @@ public class PatientPlan {
 	 * @return - a Boolean which is true if the two objects are equal
 	 */
 	@Override
-	public boolean equals(Object obj) {
-		if(!(obj instanceof PatientPlan)){
+	public boolean equals(final Object obj){
+		if(obj instanceof PatientPlan){
+			final PatientPlan other = (PatientPlan) obj;
+			return new EqualsBuilder()
+				.append(patientID, other.patientID)
+				.append(name, other.name)
+				.append(startDate, other.startDate)
+				.append(usedCheckUps, other.usedCheckUps)
+				.append(usedHygiene, other.usedHygiene)
+				.append(usedRepairs, other.usedRepairs)
+				.isEquals();
+		} else{
 			return false;
 		}
-		PatientPlan rhs = (PatientPlan) obj;
-		return
-			patientID == rhs.patientID &&
-			Objects.equals(name, rhs.name) &&
-			Objects.equals(getStartDate(), rhs.getStartDate()) &&
-			usedCheckUps == rhs.usedCheckUps &&
-			usedHygiene == rhs.usedHygiene &&
-			usedRepairs == rhs.usedRepairs;
 	}
-	
+
+	/**
+	 * Returns a hash code for this object.
+	 *
+	 * @return - a hash code value for this object.
+	 */
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder()
+			.append(patientID)
+			.append(name)
+			.append(startDate)
+			.append(usedCheckUps)
+			.append(usedHygiene)
+			.append(usedRepairs)
+			.toHashCode();
+	}
+
 	/** 
 	 * @return The number of used check ups, that this patient has used 
 	 */

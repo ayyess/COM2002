@@ -11,7 +11,8 @@ package uk.ac.shef.com2002.grp4.common.data;
 
 import uk.ac.shef.com2002.grp4.common.util.CostUtil;
 
-import java.util.Objects;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * Used to store the Treatment details temporarily
@@ -66,16 +67,32 @@ public class Treatment {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if(!(obj instanceof Treatment)){
+		if(obj instanceof Treatment){
+			final Treatment other = (Treatment) obj;
+			return new EqualsBuilder()
+				.append(name, other.name)
+				.append(cost, other.cost)
+				.append(type, other.type)
+				.isEquals();
+		} else{
 			return false;
 		}
-		Treatment rhs = (Treatment) obj;
-		return
-			Objects.equals(name, rhs.name) &&
-			cost == rhs.cost &&
-			Objects.equals(type, rhs.type);
 	}
-	
+
+	/**
+	 * Returns a hash code for this object.
+	 *
+	 * @return - a hash code value for this object.
+	 */
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder()
+			.append(name)
+			.append(cost)
+			.append(type)
+			.toHashCode();
+	}
+
 	public String toString() {
 		return name + " " + CostUtil.costToDecimalString(cost);
 	}
