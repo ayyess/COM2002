@@ -161,4 +161,22 @@ public class TreatmentApplicationUtils {
 		}
 	}
 	
+	/**
+	 * Updates a given treatment application so that it has been paid
+	 * @param ta TreatmentApplication - The treatment application to mark as paid
+	 */
+	public static void setAsPaid(TreatmentApplication ta) {
+		ConnectionManager.withStatement(
+				"UPDATE treatment_applications SET paid=TRUE " +
+				"WHERE treatment_name=? AND appointment_date=? AND appointment_time=? AND partner=? AND count=?",(stmt)-> {
+			stmt.setString(1, ta.getTreatmentName());
+			stmt.setDate(2, Date.valueOf(ta.getDate()));
+			stmt.setTime(3, Time.valueOf(ta.getTime()));
+			stmt.setString(4, ta.getPartner().toString());
+			stmt.setInt(5, ta.getCount());
+			stmt.executeUpdate();
+			return null;
+		});
+	}
+	
 }

@@ -212,4 +212,13 @@ public class PatientPlan {
 		return startDate;
 	}
 
+	/** Used for displaying the plan in a JLabel */
+	public String toString() {
+		return "<html>" + name + "<br />" +
+				"Remaining checkups: " + getRemainingCheckups() + "<br />" +
+				"Remaining hygine visits: " + getRemainingHygieneVisits() + "<br />" + 
+				"Remaining repairs: " + getRemainingRepairs() + "<br />" +
+				"</html>";
+	}
+	
 }

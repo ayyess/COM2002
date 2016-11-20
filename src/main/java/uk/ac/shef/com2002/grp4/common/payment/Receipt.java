@@ -13,6 +13,7 @@ import uk.ac.shef.com2002.grp4.common.data.Patient;
 import uk.ac.shef.com2002.grp4.common.data.PatientPlan;
 import uk.ac.shef.com2002.grp4.common.data.Treatment;
 import uk.ac.shef.com2002.grp4.common.data.TreatmentApplication;
+import uk.ac.shef.com2002.grp4.common.databases.TreatmentApplicationUtils;
 import uk.ac.shef.com2002.grp4.common.util.CostUtil;
 
 import java.awt.*;
@@ -117,6 +118,7 @@ public class Receipt implements Printable {
 		for (TreatmentPrice tp : payingTreatments) {
 			// Deduct savings
 			TreatmentApplication ta = tp.treatmentApplication;
+			TreatmentApplicationUtils.setAsPaid(ta);
 			Treatment t = tp.treatment;
 			ta.setTreatment(t);
 			if (t.getType().equals(REPAIR)) {

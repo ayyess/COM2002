@@ -18,11 +18,14 @@ import uk.ac.shef.com2002.grp4.common.databases.PatientPlanUtils;
 import uk.ac.shef.com2002.grp4.common.databases.TreatmentApplicationUtils;
 import uk.ac.shef.com2002.grp4.common.databases.TreatmentUtils;
 import uk.ac.shef.com2002.grp4.common.util.CostUtil;
+import uk.ac.shef.com2002.grp4.common.UserFacingException;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +43,19 @@ public class PaymentDialog extends BaseDialog {
 	 */
 	int payAmount = 0;
 	
+	/** Total cost for the patient's treatments */
+	int total = 0;
+	
+	/** The patient who's details are being shown */
+	Patient patient;
+	
+	/** Treatments to show */
+	TreatmentApplication[] treatmentApplications;
+	DefaultListModel<TreatmentPrice> model;
+	
+	/** The patient's health care plan */
+	PatientPlan plan;
+	
 	/**
 	 * This creates a new PaymentDialog.
 	 *
@@ -48,76 +64,14 @@ public class PaymentDialog extends BaseDialog {
 	 */
 	public PaymentDialog(Component o, Patient p) {
 		super(o, "Payment");
+		this.patient = p;
 		
 		addLabeledComponent("Patient", new JLabel(p.getName()));
 
 		
-		TreatmentApplication[] treatmentApplications = TreatmentApplicationUtils.getRemainingTreatments(p);
-		DefaultListModel<TreatmentPrice> model = new DefaultListModel<TreatmentPrice>();
+		model = new DefaultListModel<TreatmentPrice>();
 		
-		//Fetch the plan and if there isn't one then just use the default one
-		PatientPlan pl = PatientPlanUtils.getPlanByPatientID(p.getID());
-		PatientPlan plan;
-		if (pl == null) {
-			plan = PatientPlan.defaultFor(p);
-		} else {
-			plan = pl;
-		}
-		
-		Treatment[] treatments = TreatmentUtils.getTreatments(); 
-		
-		
-		
-		int total = 0;
-		int savings = 0;
-		boolean validPlan = plan.checkPlanValid();
-		
-		int i = 0;
-		
-		int repairs = plan.getRemainingRepairs();
-		int hygiene = plan.getRemainingHygieneVisits();
-		int checkups = plan.getRemainingCheckups();
-		
-		for (TreatmentApplication ta : treatmentApplications) {
-			// Deduct savings
-			int cost = 0;
-			Treatment t = getByName(treatments, ta.getTreatmentName());
-			ta.setTreatment(t);
-			if (t.getType().equals("REPAIR")) {
-				if (validPlan && repairs>0) {
-					repairs -= 1;
-					savings += t.getCost();
-					cost = 0;
-				} else  {
-					total += t.getCost();
-					cost = t.getCost();
-				}
-			} else if (t.getType().equals("HYGIENE")) {
-				if (validPlan && hygiene>0) {
-					hygiene -= 1;
-					savings += t.getCost();
-					cost = 0;
-				} else  {
-					total += t.getCost();
-					cost = t.getCost();
-				} 
-			} else if (t.getType().equals("CHECKUP")) {
-				if (validPlan && checkups>0) {
-					checkups -= 1;
-					savings += t.getCost();
-					cost = 0;
-				} else  {
-					total += t.getCost();
-					cost = t.getCost();
-				} 
-			} else {
-				total += t.getCost();
-			}
-			TreatmentPrice tp = new TreatmentPrice(t.getName(), t.getCost(), cost, t, ta);
-			model.add(i++, tp);
-		}
-		
-		
+		addTreatments();
 		
 		JList<TreatmentPrice> treatmentList = new JList<TreatmentPrice>();
 		treatmentList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -175,7 +129,15 @@ public class PaymentDialog extends BaseDialog {
 			}
 			
 			Receipt r = new Receipt(p, plan, payingTreatments, treatmentsLeft, payAmount);
+			PrinterJob job = PrinterJob.getPrinterJob();
+			job.setPrintable(r);
+			try {
+				job.print();
+			} catch (PrinterException pe) {
+				throw new UserFacingException(pe.getLocalizedMessage());
+			}
 			//new PrintPreview(r);
+			addTreatments();
 		});
 		
 		JButton close = new JButton("Close");
@@ -203,4 +165,69 @@ public class PaymentDialog extends BaseDialog {
 		return null;
 	}
 
+	public void addTreatments() {
+		model.removeAllElements();
+		treatmentApplications = TreatmentApplicationUtils.getRemainingTreatments(patient);
+		//Fetch the plan and if there isn't one then just use the default one
+		PatientPlan pl = PatientPlanUtils.getPlanByPatientID(patient.getID());
+		if (pl == null) {
+			plan = PatientPlan.defaultFor(patient);
+		} else {
+			plan = pl;
+		}
+		
+		Treatment[] treatments = TreatmentUtils.getTreatments(); 
+		
+		
+		
+		int total = 0;
+		int savings = 0;
+		boolean validPlan = plan.checkPlanValid();
+		
+		int i = 0;
+		
+		int repairs = plan.getRemainingRepairs();
+		int hygiene = plan.getRemainingHygieneVisits();
+		int checkups = plan.getRemainingCheckups();
+		
+		for (TreatmentApplication ta : treatmentApplications) {
+			// Deduct savings
+			int cost = 0;
+			Treatment t = getByName(treatments, ta.getTreatmentName());
+			ta.setTreatment(t);
+			if (t.getType().equals("REPAIR")) {
+				if (validPlan && repairs>0) {
+					repairs -= 1;
+					savings += t.getCost();
+					cost = 0;
+				} else  {
+					total += t.getCost();
+					cost = t.getCost();
+				}
+			} else if (t.getType().equals("HYGIENE")) {
+				if (validPlan && hygiene>0) {
+					hygiene -= 1;
+					savings += t.getCost();
+					cost = 0;
+				} else  {
+					total += t.getCost();
+					cost = t.getCost();
+				} 
+			} else if (t.getType().equals("CHECKUP")) {
+				if (validPlan && checkups>0) {
+					checkups -= 1;
+					savings += t.getCost();
+					cost = 0;
+				} else  {
+					total += t.getCost();
+					cost = t.getCost();
+				} 
+			} else {
+				total += t.getCost();
+			}
+			TreatmentPrice tp = new TreatmentPrice(t.getName(), t.getCost(), cost, t, ta);
+			model.add(i++, tp);
+		}
+	}
+	
 }
