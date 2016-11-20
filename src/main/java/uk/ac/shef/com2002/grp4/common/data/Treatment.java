@@ -11,6 +11,8 @@ package uk.ac.shef.com2002.grp4.common.data;
 
 import java.util.Objects;
 
+import uk.ac.shef.com2002.grp4.common.util.CostUtil;
+
 /**
  * Used to store the Treatment details temporarily
  * <br>
@@ -75,6 +77,6 @@ public class Treatment {
 	}
 	
 	public String toString() {
-		return name + " " + cost;
+		return name + " " + CostUtil.costToDecimalString(cost);
 	}
 }

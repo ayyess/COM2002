@@ -19,7 +19,9 @@ import javax.swing.DefaultListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerNumberModel;
 
 import uk.ac.shef.com2002.grp4.common.BaseDialog;
 import uk.ac.shef.com2002.grp4.common.data.Treatment;
@@ -28,7 +30,7 @@ import uk.ac.shef.com2002.grp4.common.databases.TreatmentUtils;
 public class FindTreatment extends BaseDialog {
 
 	/** The list of selected treatments, used when dialog has closed */
-	Treatment[] selectedTreatments;
+	Treatment selected;
 	
 	/** List showing all possible treatments to select from */
 	final JList<Treatment> treatmentList;
@@ -36,6 +38,12 @@ public class FindTreatment extends BaseDialog {
 	final DefaultListModel<Treatment> treatmentModel;
 	/** Scroll pane for the list of treatments */
 	final JScrollPane scroll;
+	
+	final SpinnerNumberModel spinnerModel;
+	final JSpinner countSpinner;
+	
+	int count;
+	
 	
 	/**
 	 * Constructs a new dialog to select a list of possible treatments
@@ -45,7 +53,7 @@ public class FindTreatment extends BaseDialog {
 		super(owner, "Treatments");
 		treatmentList = new JList<Treatment>();
 		treatmentModel = new DefaultListModel<Treatment>();
-		treatmentList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		treatmentList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		treatmentList.setModel(treatmentModel);
 		
 		// Fetch all of the possible treatments and add them to the list
@@ -84,6 +92,9 @@ public class FindTreatment extends BaseDialog {
 			}
 		});
 		
+		spinnerModel = new SpinnerNumberModel(1, 1, 100, 1);
+		countSpinner = new JSpinner();
+		
 		addButtons(cancelButton,doneButton);
 		pack();
 	}
@@ -95,30 +106,20 @@ public class FindTreatment extends BaseDialog {
 	 * @param owner - The parent component of this dialog
 	 * @param treatments - The treatments to select by default
 	 */
-	public FindTreatment(Component owner, Treatment[] treatments) {
+	public FindTreatment(Component owner, Treatment defaultTreatment) {
 		this(owner);
-		int[] selected = new int[treatments.length];
-		for (int i = 0; i < selected.length; i++) {
-			selected[i] = -1;
-		}
 		for (int i = 0; i < treatmentModel.getSize(); i++) {
-			for (int j = 0; j < treatments.length; j++) {
-				if (treatmentModel.get(i).equals(treatments[j])) {
-					selected[j] = i;
-				}
+			if (treatmentModel.get(i).equals(defaultTreatment)) {
+				treatmentList.setSelectedIndex(i);
+				break;
 			}
 		}
-		
-		treatmentList.setSelectedIndices(selected);
 	}
 	
 	void done(){
 		setModal(true);
-		int[] selected = treatmentList.getSelectedIndices();
-		selectedTreatments = new Treatment[selected.length];
-		for (int i = 0; i < selected.length; i++) {
-			selectedTreatments[i] = treatmentModel.get(selected[i]);
-		}
+		count = spinnerModel.getNumber().intValue();
+		selected = treatmentList.getSelectedValue();
 		this.dispose();
 	}
 

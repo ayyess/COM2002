@@ -12,6 +12,7 @@ import uk.ac.shef.com2002.grp4.common.data.Appointment;
 import uk.ac.shef.com2002.grp4.common.data.Patient;
 import uk.ac.shef.com2002.grp4.common.data.PatientPlan;
 import uk.ac.shef.com2002.grp4.common.data.Treatment;
+import uk.ac.shef.com2002.grp4.common.data.TreatmentApplication;
 
 public class TreatmentApplicationUtils {
 
@@ -24,8 +25,9 @@ public class TreatmentApplicationUtils {
     public static Treatment[] getPatientTreatments(Patient p) {
         ArrayList<Treatment> treatments = new ArrayList<Treatment>();
         return ConnectionManager.withStatement(
-        		"SELECT t.* FROM treatment_applications t " + 
-        		"INNER JOIN appointments a ON a.date=t.appointment_date " + 
+        		"SELECT t.* FROM treatments t " +
+        		"INNER JOIN treatment_applications ta ON ta.treatment_name=t.name " + 
+        		"INNER JOIN appointments a ON a.date=ta.appointment_date AND a.start=ta.appointment_time " + 
         		"INNER JOIN patients p ON p.id=a.patient_id " + 
         		"WHERE p.id=?;",
         		(stmt)-> {
@@ -45,12 +47,11 @@ public class TreatmentApplicationUtils {
      * @param a - The appointment to fetch the treatments for
      * @return Array of treatments that the given appointment has
      */
-    public static Treatment[] getAppointmentTreatments(Appointment a) {
-        ArrayList<Treatment> treatments = new ArrayList<Treatment>();
+    public static TreatmentApplication[] getAppointmentTreatments(Appointment a) {
+        ArrayList<TreatmentApplication> treatments = new ArrayList<TreatmentApplication>();
         return ConnectionManager.withStatement(
-        		"SELECT t.* FROM treatments t " + 
-				"INNER JOIN treatment_applications ta ON ta.treatment_name=t.name " +
-        		"INNER JOIN appointments a ON a.date=ta.appointment_date " +
+				"SELECT ta.* FROM treatment_applications ta " +
+        		"INNER JOIN appointments a ON a.date=ta.appointment_date AND a.start=ta.appointment_time " +
         		"WHERE a.partner=? AND a.start=? AND a.patient_id=?;",
         		(stmt)-> {
             stmt.setString(1, a.getPartner());
@@ -58,10 +59,9 @@ public class TreatmentApplicationUtils {
             stmt.setLong(3, a.getPatientId());
         	ResultSet res = stmt.executeQuery();
             while (res.next()) {
-                treatments.add(new Treatment(res.getString(1), res.getInt(2), res.getString(3)));
-                System.out.println(res.getString(1) + " " + res.getInt(2) + " " + res.getString(3));
+                treatments.add(new TreatmentApplication(res.getString(1), res.getDate(2).toLocalDate(), res.getTime(3).toLocalTime(), res.getString(4), res.getInt(5)));
             }
-            Treatment[] tp = new Treatment[treatments.size()];
+            TreatmentApplication[] tp = new TreatmentApplication[treatments.size()];
             treatments.toArray(tp);
             return tp;
         });
@@ -73,8 +73,8 @@ public class TreatmentApplicationUtils {
      * @param appointment - Appointment to link the treatment to
      * @param p - The partner that the appointment is with
      */
-    public static void insertTreatmentApplication(Treatment treatment, Appointment appointment, Partner p) {
-    	insertTreatmentApplication(treatment.getName(), appointment.getDate(), appointment.getStart(), p);
+    public static void insertTreatmentApplication(Treatment treatment, Appointment appointment, Partner p, int count) {
+    	insertTreatmentApplication(treatment.getName(), appointment.getDate(), appointment.getStart(), p, count);
     }
     
     /**
@@ -84,8 +84,8 @@ public class TreatmentApplicationUtils {
      * @param time - The start time of the appointment 
      * @param p - The partner that the appointment is with
      */
-	public static void insertTreatmentApplication(String treatmentName, LocalDate date, LocalTime time, Partner p) {
-		ConnectionManager.withStatement("INSERT INTO treatment_applications VALUES (?,?,?,?)",(stmt)-> {
+	public static void insertTreatmentApplication(String treatmentName, LocalDate date, LocalTime time, Partner p, int count) {
+		ConnectionManager.withStatement("INSERT INTO treatment_applications VALUES (?,?,?,?,?)",(stmt)-> {
 			Date appointmentDate = Date.valueOf(date);
 			Time appointmentTime = Time.valueOf(time);
 			String partner = p.toString();
@@ -93,6 +93,7 @@ public class TreatmentApplicationUtils {
 			stmt.setDate(2, appointmentDate);
 			stmt.setTime(3, appointmentTime);
 			stmt.setString(4, partner);
+			stmt.setInt(5, count);
 			stmt.executeUpdate();
 			return null;
 		});
@@ -105,14 +106,15 @@ public class TreatmentApplicationUtils {
 	 * @param time - The start time of the appointment
 	 * @param p - The partner that the appointment is with
 	 */
-	public static void delete(String treatmentName, LocalDate date, LocalTime time, Partner p) {
+	public static void delete(String treatmentName, LocalDate date, LocalTime time, Partner p, int count) {
 		ConnectionManager.withStatement(
 				"DELETE FROM treatment_applications WHERE " +
-				"treatment_name=? AND appointment_date=? AND appointment_time=? AND partner=?",(stmt)-> {
+				"treatment_name=? AND appointment_date=? AND appointment_time=? AND partner=? AND count=?",(stmt)-> {
 			stmt.setString(1, treatmentName);
 			stmt.setDate(2, Date.valueOf(date));
 			stmt.setTime(3, Time.valueOf(time));
 			stmt.setString(4, p.toString());
+			stmt.setInt(5, count);
 			stmt.executeUpdate();
 			return null;
 		});
@@ -126,12 +128,13 @@ public class TreatmentApplicationUtils {
 	 * @param time - The start time of the appointment
 	 * @param p - The partner that the appointment is with
 	 */
-	public static void replace(Treatment[] oldTreatments, Treatment[] newTreatments, LocalDate date, LocalTime time, Partner p) {
-		for (Treatment t : oldTreatments) {
-			delete(t.getName(), date, time, p);
+	public static void replace(TreatmentApplication[] oldTreatments, TreatmentApplication[] newTreatments) {
+		for (TreatmentApplication t : oldTreatments) {
+			delete(t.getTreatmentName(), t.getDate(), t.getTime(), t.getPartner(), t.getCount());
 		}
-		for (Treatment t : newTreatments) {
-			insertTreatmentApplication(t.getName(), date, time, p);
+		for (TreatmentApplication t : newTreatments) {
+			if (t == null) continue;
+			insertTreatmentApplication(t.getTreatmentName(), t.getDate(), t.getTime(), t.getPartner(), t.getCount());
 		}
 	}
 	
