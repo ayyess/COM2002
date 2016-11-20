@@ -9,15 +9,15 @@
 
 package uk.ac.shef.com2002.grp4.common;
 
-import java.awt.*;
-import java.util.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.util.List;
-import javax.swing.*;
-
 import uk.ac.shef.com2002.grp4.common.data.Address;
 import uk.ac.shef.com2002.grp4.common.databases.AddressUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * This class is creates a dialog where the user can find a patient in the database.

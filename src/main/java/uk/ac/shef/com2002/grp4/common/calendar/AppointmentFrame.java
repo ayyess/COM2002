@@ -10,17 +10,16 @@
 package uk.ac.shef.com2002.grp4.common.calendar;
 
 import uk.ac.shef.com2002.grp4.common.BaseDialog;
+import uk.ac.shef.com2002.grp4.common.data.Appointment;
+import uk.ac.shef.com2002.grp4.common.data.Patient;
+import uk.ac.shef.com2002.grp4.common.databases.AppointmentUtils;
+import uk.ac.shef.com2002.grp4.common.databases.PatientUtils;
+import uk.ac.shef.com2002.grp4.common.payment.PaymentDialog;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import uk.ac.shef.com2002.grp4.common.databases.AppointmentUtils;
-import uk.ac.shef.com2002.grp4.common.databases.PatientUtils;
-import uk.ac.shef.com2002.grp4.common.payment.PaymentDialog;
-import uk.ac.shef.com2002.grp4.common.data.Patient;
-import uk.ac.shef.com2002.grp4.common.data.Appointment;
 
 /**
  * This is used to view the details of a booked

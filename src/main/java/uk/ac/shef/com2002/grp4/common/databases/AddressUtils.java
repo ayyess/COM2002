@@ -12,7 +12,9 @@ package uk.ac.shef.com2002.grp4.common.databases;
 import uk.ac.shef.com2002.grp4.common.data.Address;
 
 import java.sql.ResultSet;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Used to control database interaction.
@@ -33,8 +35,11 @@ public class AddressUtils {
         return ConnectionManager.withStatement("SELECT * FROM addresses WHERE id=?",(stmt)->{
             stmt.setLong(1,id);
             ResultSet res = stmt.executeQuery();
-			res.next();
-            return new Address(Optional.of(res.getLong(1)),res.getInt(2),res.getString(3),res.getString(4),res.getString(5),res.getString(6));
+			if(res.next()) {
+				return new Address(Optional.of(res.getLong(1)), res.getInt(2), res.getString(3), res.getString(4), res.getString(5), res.getString(6));
+			}else{
+				return null;
+			}
         });
     }
 
@@ -69,7 +74,12 @@ public class AddressUtils {
         return ConnectionManager.withStatement("SELECT id FROM addresses WHERE house_number=?, postcode=?",(stmt)->{
             stmt.setInt(1,houseNumber);
             stmt.setString(2,postcode);
-            return stmt.executeQuery().getInt(1);
+			ResultSet res = stmt.executeQuery();
+			if(res.next()) {
+				return res.getInt(1);
+			}else{
+				return null;
+			}
         });
     }
 
@@ -115,8 +125,11 @@ public class AddressUtils {
             stmt.setString(5, postcode);
             stmt.executeUpdate();
 			ResultSet generatedKeys = stmt.getGeneratedKeys();
-			generatedKeys.next();
-            return generatedKeys.getLong(1);
+			if(generatedKeys.next()) {
+				return generatedKeys.getLong(1);
+			}else{
+				return null;
+			}
         });
     }
 }

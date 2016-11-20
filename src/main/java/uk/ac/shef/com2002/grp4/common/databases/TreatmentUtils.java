@@ -9,11 +9,10 @@
 
 package uk.ac.shef.com2002.grp4.common.databases;
 
+import uk.ac.shef.com2002.grp4.common.data.Treatment;
+
 import java.sql.ResultSet;
 import java.util.ArrayList;
-
-import uk.ac.shef.com2002.grp4.common.data.Patient;
-import uk.ac.shef.com2002.grp4.common.data.Treatment;
 
 /**
  * Used to control database interaction.

@@ -10,8 +10,8 @@
 package uk.ac.shef.com2002.grp4.common.data;
 
 import uk.ac.shef.com2002.grp4.common.databases.AddressUtils;
-import java.util.Objects;
 
+import java.util.Objects;
 import java.util.Optional;
 
 /**

@@ -9,10 +9,10 @@
 
 package uk.ac.shef.com2002.grp4.common.data;
 
-import java.util.Objects;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Objects;
 
 /**
  * Used to store the appointment details temporarily.

@@ -1,10 +1,10 @@
 package uk.ac.shef.com2002.grp4.common.data;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-
 import uk.ac.shef.com2002.grp4.common.Partner;
 import uk.ac.shef.com2002.grp4.common.databases.TreatmentUtils;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class TreatmentApplication {
 

@@ -9,10 +9,10 @@
 
 package uk.ac.shef.com2002.grp4.common;
 
+import uk.ac.shef.com2002.grp4.common.data.Address;
+
 import javax.swing.*;
 import java.util.Optional;
-
-import uk.ac.shef.com2002.grp4.common.data.Address;
 
 /**
  * Used to output address details to the GUI.

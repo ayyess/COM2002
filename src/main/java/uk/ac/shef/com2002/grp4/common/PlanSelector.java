@@ -8,13 +8,16 @@
  */
 package uk.ac.shef.com2002.grp4.common;
 
-import java.util.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.Component;
-import java.awt.event.*;
-import uk.ac.shef.com2002.grp4.common.databases.PlanUtils;
 import uk.ac.shef.com2002.grp4.common.data.Plan;
+import uk.ac.shef.com2002.grp4.common.databases.PlanUtils;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlanSelector extends JPanel{
 	JComboBox<Plan> planSelector;

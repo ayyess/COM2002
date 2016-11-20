@@ -8,22 +8,15 @@
  */
 package uk.ac.shef.com2002.grp4.partnerview;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.event.MouseEvent;
-import java.time.LocalDate;
-
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-
 import uk.ac.shef.com2002.grp4.common.Partner;
 import uk.ac.shef.com2002.grp4.common.calendar.AppointmentComp;
 import uk.ac.shef.com2002.grp4.common.calendar.CalendarClickListener;
 import uk.ac.shef.com2002.grp4.common.calendar.CalendarView;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.time.LocalDate;
 
 public class PartnerApp extends JFrame {
 

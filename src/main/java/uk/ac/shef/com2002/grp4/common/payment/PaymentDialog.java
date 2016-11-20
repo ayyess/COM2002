@@ -9,23 +9,6 @@
 
 package uk.ac.shef.com2002.grp4.common.payment;
 
-import java.awt.Component;
-import java.awt.print.PageFormat;
-import java.awt.print.Printable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
 import uk.ac.shef.com2002.grp4.common.BaseDialog;
 import uk.ac.shef.com2002.grp4.common.data.Patient;
 import uk.ac.shef.com2002.grp4.common.data.PatientPlan;
@@ -35,6 +18,13 @@ import uk.ac.shef.com2002.grp4.common.databases.PatientPlanUtils;
 import uk.ac.shef.com2002.grp4.common.databases.TreatmentApplicationUtils;
 import uk.ac.shef.com2002.grp4.common.databases.TreatmentUtils;
 import uk.ac.shef.com2002.grp4.common.util.CostUtil;
+
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Used to manage a patient's payment.

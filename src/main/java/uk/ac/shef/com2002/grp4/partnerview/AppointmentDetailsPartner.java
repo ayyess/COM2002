@@ -8,26 +8,19 @@
  */
 package uk.ac.shef.com2002.grp4.partnerview;
 
-import java.awt.Frame;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JScrollPane;
-
 import uk.ac.shef.com2002.grp4.common.BaseDialog;
 import uk.ac.shef.com2002.grp4.common.Partner;
 import uk.ac.shef.com2002.grp4.common.data.Appointment;
 import uk.ac.shef.com2002.grp4.common.data.Patient;
-import uk.ac.shef.com2002.grp4.common.data.Treatment;
 import uk.ac.shef.com2002.grp4.common.data.TreatmentApplication;
 import uk.ac.shef.com2002.grp4.common.databases.AppointmentUtils;
 import uk.ac.shef.com2002.grp4.common.databases.PatientUtils;
 import uk.ac.shef.com2002.grp4.common.databases.TreatmentApplicationUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class AppointmentDetailsPartner extends BaseDialog {
 	

@@ -12,9 +12,9 @@ package uk.ac.shef.com2002.grp4.common.databases;
 import uk.ac.shef.com2002.grp4.common.data.Patient;
 
 import java.sql.ResultSet;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.time.*;
 
 /**
  * Used to control database interaction.

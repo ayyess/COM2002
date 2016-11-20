@@ -9,21 +9,16 @@
 
 package uk.ac.shef.com2002.grp4.common.calendar;
 
-import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import uk.ac.shef.com2002.grp4.common.Partner;
+import uk.ac.shef.com2002.grp4.common.data.Appointment;
+import uk.ac.shef.com2002.grp4.common.databases.AppointmentUtils;
+
+import javax.swing.*;
+import java.awt.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-
-import uk.ac.shef.com2002.grp4.common.Partner;
-import uk.ac.shef.com2002.grp4.common.data.Appointment;
-import uk.ac.shef.com2002.grp4.common.databases.AppointmentUtils;
 
 /**
  * Used to view multiple calendars alongside one another

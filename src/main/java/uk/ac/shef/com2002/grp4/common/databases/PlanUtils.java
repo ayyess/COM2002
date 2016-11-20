@@ -12,7 +12,8 @@ package uk.ac.shef.com2002.grp4.common.databases;
 import uk.ac.shef.com2002.grp4.common.data.Plan;
 
 import java.sql.ResultSet;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Used to control database interaction.

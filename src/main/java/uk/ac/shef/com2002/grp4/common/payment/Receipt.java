@@ -9,24 +9,19 @@
 
 package uk.ac.shef.com2002.grp4.common.payment;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import uk.ac.shef.com2002.grp4.common.data.Patient;
+import uk.ac.shef.com2002.grp4.common.data.PatientPlan;
+import uk.ac.shef.com2002.grp4.common.data.Treatment;
+import uk.ac.shef.com2002.grp4.common.data.TreatmentApplication;
+import uk.ac.shef.com2002.grp4.common.util.CostUtil;
+
+import java.awt.*;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.util.HashMap;
 import java.util.List;
-
-import uk.ac.shef.com2002.grp4.common.data.Patient;
-import uk.ac.shef.com2002.grp4.common.data.PatientPlan;
-import uk.ac.shef.com2002.grp4.common.data.Treatment;
-import uk.ac.shef.com2002.grp4.common.data.TreatmentApplication;
-import uk.ac.shef.com2002.grp4.common.databases.PatientPlanUtils;
-import uk.ac.shef.com2002.grp4.common.util.CostUtil;
 /**
  * Used to print patient a receipt.
  * <br>

@@ -9,10 +9,9 @@
 
 package uk.ac.shef.com2002.grp4.common.calendar;
 
-import javax.swing.*;
-
 import uk.ac.shef.com2002.grp4.common.Partner;
 
+import javax.swing.*;
 import java.awt.*;
 import java.time.LocalTime;
 

@@ -9,8 +9,6 @@
 
 package uk.ac.shef.com2002.grp4.secretaryview;
 
-import uk.ac.shef.com2002.grp4.common.util.DPIScaling;
-
 import javax.swing.*;
 import java.awt.*;
 

@@ -8,13 +8,6 @@
  */
 package uk.ac.shef.com2002.grp4.secretaryview;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.*;
-import javax.swing.event.*;
-import java.util.Optional;
-
 import uk.ac.shef.com2002.grp4.common.BaseDialog;
 import uk.ac.shef.com2002.grp4.common.PatientComponent;
 import uk.ac.shef.com2002.grp4.common.PlanSelector;
@@ -22,8 +15,13 @@ import uk.ac.shef.com2002.grp4.common.data.Patient;
 import uk.ac.shef.com2002.grp4.common.data.PatientPlan;
 import uk.ac.shef.com2002.grp4.common.data.Treatment;
 import uk.ac.shef.com2002.grp4.common.databases.TreatmentApplicationUtils;
-import uk.ac.shef.com2002.grp4.common.databases.TreatmentUtils;
-import uk.ac.shef.com2002.grp4.common.payment.PaymentDialog;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Optional;
 
 public class PatientDetailsDialog extends BaseDialog implements ActionListener {
 	

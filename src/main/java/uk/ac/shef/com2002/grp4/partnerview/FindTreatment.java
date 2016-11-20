@@ -8,24 +8,14 @@
  */
 package uk.ac.shef.com2002.grp4.partnerview;
 
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.DefaultListModel;
-import javax.swing.DefaultListSelectionModel;
-import javax.swing.JButton;
-import javax.swing.JList;
-import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
-import javax.swing.ListSelectionModel;
-import javax.swing.SpinnerNumberModel;
-
 import uk.ac.shef.com2002.grp4.common.BaseDialog;
 import uk.ac.shef.com2002.grp4.common.data.Treatment;
 import uk.ac.shef.com2002.grp4.common.databases.TreatmentUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class FindTreatment extends BaseDialog {
 

@@ -1,17 +1,17 @@
 package uk.ac.shef.com2002.grp4.common.databases;
 
+import uk.ac.shef.com2002.grp4.common.Partner;
+import uk.ac.shef.com2002.grp4.common.data.Appointment;
+import uk.ac.shef.com2002.grp4.common.data.Patient;
+import uk.ac.shef.com2002.grp4.common.data.Treatment;
+import uk.ac.shef.com2002.grp4.common.data.TreatmentApplication;
+
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-
-import uk.ac.shef.com2002.grp4.common.Partner;
-import uk.ac.shef.com2002.grp4.common.data.Appointment;
-import uk.ac.shef.com2002.grp4.common.data.Patient;
-import uk.ac.shef.com2002.grp4.common.data.Treatment;
-import uk.ac.shef.com2002.grp4.common.data.TreatmentApplication;
 
 public class TreatmentApplicationUtils {
 

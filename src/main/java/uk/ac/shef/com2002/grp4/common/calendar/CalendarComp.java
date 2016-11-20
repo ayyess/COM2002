@@ -9,9 +9,12 @@
 
 package uk.ac.shef.com2002.grp4.common.calendar;
 
-import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import uk.ac.shef.com2002.grp4.common.Partner;
+import uk.ac.shef.com2002.grp4.common.data.Appointment;
+import uk.ac.shef.com2002.grp4.common.util.DPIScaling;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.Duration;
@@ -21,16 +24,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import uk.ac.shef.com2002.grp4.common.Partner;
-import uk.ac.shef.com2002.grp4.common.data.Appointment;
-import uk.ac.shef.com2002.grp4.common.data.Patient;
-import uk.ac.shef.com2002.grp4.common.databases.PatientUtils;
-import uk.ac.shef.com2002.grp4.common.util.DPIScaling;
 
 /**
  * Used to create a panel showing all appointments in a day.

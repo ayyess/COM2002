@@ -10,10 +10,8 @@
 package uk.ac.shef.com2002.grp4.common.databases;
 
 import uk.ac.shef.com2002.grp4.common.data.PatientPlan;
-import uk.ac.shef.com2002.grp4.common.data.Plan;
 
 import java.sql.ResultSet;
-import java.time.LocalDate;
 
 /**
  * Used to control database interaction.

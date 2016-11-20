@@ -9,15 +9,15 @@
 
 package uk.ac.shef.com2002.grp4.common.databases;
 
-import uk.ac.shef.com2002.grp4.common.data.Appointment;
 import uk.ac.shef.com2002.grp4.common.UserFacingException;
+import uk.ac.shef.com2002.grp4.common.data.Appointment;
 
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Time;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

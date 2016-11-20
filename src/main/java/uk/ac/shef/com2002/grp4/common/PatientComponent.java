@@ -8,11 +8,11 @@
  */
 package uk.ac.shef.com2002.grp4.common;
 
+import uk.ac.shef.com2002.grp4.common.data.Patient;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Optional;
-
-import uk.ac.shef.com2002.grp4.common.data.Patient;
 
 public class PatientComponent extends BaseInfoComponent {
 	private Optional<Patient> patient;

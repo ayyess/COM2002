@@ -9,18 +9,20 @@
 
 package uk.ac.shef.com2002.grp4.common.calendar;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.time.*;
-
 import uk.ac.shef.com2002.grp4.common.BaseDialog;
 import uk.ac.shef.com2002.grp4.common.Partner;
 import uk.ac.shef.com2002.grp4.common.PatientSelector;
 import uk.ac.shef.com2002.grp4.common.UserFacingException;
-import uk.ac.shef.com2002.grp4.common.databases.AppointmentUtils;
 import uk.ac.shef.com2002.grp4.common.data.Patient;
+import uk.ac.shef.com2002.grp4.common.databases.AppointmentUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 /**
  * Dialog used to create an appointment

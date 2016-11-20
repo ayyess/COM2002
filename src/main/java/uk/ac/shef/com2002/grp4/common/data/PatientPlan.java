@@ -9,10 +9,10 @@
 
 package uk.ac.shef.com2002.grp4.common.data;
 
-import java.time.LocalDate;
 import uk.ac.shef.com2002.grp4.common.databases.PatientPlanUtils;
 import uk.ac.shef.com2002.grp4.common.databases.PlanUtils;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**

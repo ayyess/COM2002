@@ -1,25 +1,19 @@
 package uk.ac.shef.com2002.grp4.partnerview;
 
-import java.awt.Frame;
+import org.jdatepicker.JDatePicker;
+import uk.ac.shef.com2002.grp4.common.BaseDialog;
+import uk.ac.shef.com2002.grp4.common.Partner;
+import uk.ac.shef.com2002.grp4.common.UserFacingException;
+import uk.ac.shef.com2002.grp4.common.databases.AppointmentUtils;
+import uk.ac.shef.com2002.grp4.common.databases.PatientUtils;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-
-import javax.swing.JButton;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerModel;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.JOptionPane;
-
-import org.jdatepicker.JDatePicker;
-
-import uk.ac.shef.com2002.grp4.common.BaseDialog;
-import uk.ac.shef.com2002.grp4.common.Partner;
-import uk.ac.shef.com2002.grp4.common.databases.AppointmentUtils;
-import uk.ac.shef.com2002.grp4.common.databases.PatientUtils;
-import uk.ac.shef.com2002.grp4.common.UserFacingException;
 
 public class BookDayDialog extends BaseDialog {
 

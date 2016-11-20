@@ -9,14 +9,14 @@
 
 package uk.ac.shef.com2002.grp4.common.data;
 
-import uk.ac.shef.com2002.grp4.common.databases.PatientUtils;
-import uk.ac.shef.com2002.grp4.common.databases.PatientPlanUtils;
 import uk.ac.shef.com2002.grp4.common.databases.AddressUtils;
+import uk.ac.shef.com2002.grp4.common.databases.PatientPlanUtils;
+import uk.ac.shef.com2002.grp4.common.databases.PatientUtils;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Used to store the patient details temporarily

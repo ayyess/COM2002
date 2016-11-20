@@ -10,18 +10,19 @@
 package uk.ac.shef.com2002.grp4.secretaryview;
 
 import uk.ac.shef.com2002.grp4.common.CreatePatientDialog;
-import uk.ac.shef.com2002.grp4.common.util.DPIScaling;
 import uk.ac.shef.com2002.grp4.common.data.Patient;
 import uk.ac.shef.com2002.grp4.common.databases.PatientUtils;
+import uk.ac.shef.com2002.grp4.common.util.DPIScaling;
 
 import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.table.*;
-import java.time.format.DateTimeFormatter;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 /**

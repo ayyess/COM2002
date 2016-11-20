@@ -9,28 +9,18 @@
 
 package uk.ac.shef.com2002.grp4.secretaryview;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import org.jdatepicker.JDatePanel;
+import org.jdatepicker.UtilDateModel;
+import uk.ac.shef.com2002.grp4.common.calendar.*;
+import uk.ac.shef.com2002.grp4.common.util.DPIScaling;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.time.LocalTime;
-
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import org.jdatepicker.JDatePanel;
-import org.jdatepicker.UtilDateModel;
-
-import uk.ac.shef.com2002.grp4.common.calendar.AppointmentComp;
-import uk.ac.shef.com2002.grp4.common.calendar.AppointmentCreationFrame;
-import uk.ac.shef.com2002.grp4.common.calendar.AppointmentFrame;
-import uk.ac.shef.com2002.grp4.common.calendar.CalendarClickListener;
-import uk.ac.shef.com2002.grp4.common.calendar.CalendarComp;
-import uk.ac.shef.com2002.grp4.common.calendar.CalendarView;
-import uk.ac.shef.com2002.grp4.common.calendar.EmptyAppointment;
-import uk.ac.shef.com2002.grp4.common.util.DPIScaling;
 
 /**
  * Panel for appointment interaction workflow
