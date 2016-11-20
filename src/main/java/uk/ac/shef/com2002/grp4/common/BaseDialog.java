@@ -33,7 +33,7 @@ abstract public class BaseDialog extends JDialog {
 	 *
 	 * @return the value of the next row
 	 */
-	protected int nextRow(){
+	protected int nextRow() {
 		return row++;
 	}
 
@@ -42,7 +42,7 @@ abstract public class BaseDialog extends JDialog {
 	 *
 	 * @return the GridBagConstraints
 	 */
-	protected GridBagConstraints getBaseConstraints(){
+	protected GridBagConstraints getBaseConstraints() {
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(5,5,5,5);
 		c.gridy = row;
@@ -55,7 +55,7 @@ abstract public class BaseDialog extends JDialog {
 	 * @param label - a label for the component
 	 * @param input - a new component
 	 */
-	protected void addLabeledComponent(String label,JComponent input){
+	protected void addLabeledComponent(String label,JComponent input) {
 		Container contentPane = rootPane.getContentPane();
 		GridBagConstraints c = getBaseConstraints();
 
@@ -81,10 +81,10 @@ abstract public class BaseDialog extends JDialog {
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout());
 		c.fill=GridBagConstraints.HORIZONTAL;
-		for(JButton button: buttons) {
+		for (JButton button: buttons) {
 			buttonPanel.add(button);
 		}
-		
+
 		contentPane.add(buttonPanel, c);
 
 		nextRow();
@@ -96,7 +96,7 @@ abstract public class BaseDialog extends JDialog {
 	 * @param c - a component
 	 * @param title - a title for the dialog
 	 */
-	public BaseDialog(Component c, String title){
+	public BaseDialog(Component c, String title) {
 		this((Frame)SwingUtilities.getWindowAncestor(c).getOwner(),title);
 	}
 
@@ -106,7 +106,7 @@ abstract public class BaseDialog extends JDialog {
 	 * @param owner - a frame
 	 * @param title - a title for the dialog
 	 */
-	public BaseDialog(Frame owner,String title){
+	public BaseDialog(Frame owner,String title) {
 		super(owner,title,true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		Container contentPane = rootPane.getContentPane();
@@ -114,7 +114,7 @@ abstract public class BaseDialog extends JDialog {
 	}
 
 	@Override
-	public void setVisible(boolean visible){
+	public void setVisible(boolean visible) {
 		//this makes it open centered
 		setLocationRelativeTo(null);
 		super.setVisible(visible);
@@ -132,7 +132,7 @@ abstract public class BaseDialog extends JDialog {
 	/**
 	 * This cancels and disposes the dialog.
 	 */
-	public void cancel(){
+	public void cancel() {
 		canceled = true;
 		dispose();
 	}

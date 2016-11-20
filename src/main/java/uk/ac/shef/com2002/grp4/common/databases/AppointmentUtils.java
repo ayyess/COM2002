@@ -38,17 +38,17 @@ public class AppointmentUtils {
 	 * @param id - the id of the patient
 	 * @return an ArrayList of Appointment(s)
 	 */
-    public static List<Appointment> getAppointmentByPatientID(int id) {
-        List<Appointment> appointments = new ArrayList<>();
-        return ConnectionManager.withStatement("SELECT * FROM appointments WHERE id=?",(stmt)->{
-            stmt.setInt(1,id);
-            ResultSet res = stmt.executeQuery();
-            while(res.next()){
-                appointments.add(new Appointment(res.getDate(1).toLocalDate(), res.getTime(4).toLocalTime(),res.getInt(5), res.getString(2), res.getLong(3), res.getBoolean(6)));
-            }
-            return appointments;
-        });
-    }
+	public static List<Appointment> getAppointmentByPatientID(int id) {
+		List<Appointment> appointments = new ArrayList<>();
+		return ConnectionManager.withStatement("SELECT * FROM appointments WHERE id=?",(stmt)-> {
+			stmt.setInt(1,id);
+			ResultSet res = stmt.executeQuery();
+			while (res.next()) {
+				appointments.add(new Appointment(res.getDate(1).toLocalDate(), res.getTime(4).toLocalTime(),res.getInt(5), res.getString(2), res.getLong(3), res.getBoolean(6)));
+			}
+			return appointments;
+		});
+	}
 
 	/**
 	 * This gets the appointments on a particular day.
@@ -58,16 +58,16 @@ public class AppointmentUtils {
 	 */
 	public static List<Appointment> getAppointmentByDate(LocalDate date) {
 		java.sql.Date sqlDate = java.sql.Date.valueOf(date);
-        List<Appointment> appointments = new ArrayList<>();
-        return ConnectionManager.withStatement("SELECT * FROM appointments WHERE date=?",(stmt)-> {
-            stmt.setDate(1, sqlDate);
-            ResultSet res = stmt.executeQuery();
-            while (res.next()) {
-                appointments.add(new Appointment(res.getDate(1).toLocalDate(), res.getTime(4).toLocalTime(),res.getInt(5), res.getString(2), res.getLong(3), res.getBoolean(6)));
-            }
-            return appointments;
-        });
-    }
+		List<Appointment> appointments = new ArrayList<>();
+		return ConnectionManager.withStatement("SELECT * FROM appointments WHERE date=?",(stmt)-> {
+			stmt.setDate(1, sqlDate);
+			ResultSet res = stmt.executeQuery();
+			while (res.next()) {
+				appointments.add(new Appointment(res.getDate(1).toLocalDate(), res.getTime(4).toLocalTime(),res.getInt(5), res.getString(2), res.getLong(3), res.getBoolean(6)));
+			}
+			return appointments;
+		});
+	}
 
 	/**
 	 * This gets all appointments that fall within a certain date range.
@@ -103,14 +103,14 @@ public class AppointmentUtils {
 	public static boolean isOverlapping(LocalTime start1, LocalTime end1, LocalTime start2, LocalTime end2) {
 		/*
 		  -----        ------    -----     -----
-            ----     ---------    --         ------
+		    ----     ---------    --         ------
 		 */
 		return
-			end1.isAfter(start2) && end1.isBefore(end2) ||
-			start1.isAfter(start2) && end1.isBefore(end2) ||
-			start1.isBefore(start2) && end1.isAfter(end2) ||
-			start1.isAfter(start2) && start1.isBefore(end2) ||
-			end1.equals(end2);
+		    end1.isAfter(start2) && end1.isBefore(end2) ||
+		    start1.isAfter(start2) && end1.isBefore(end2) ||
+		    start1.isBefore(start2) && end1.isAfter(end2) ||
+		    start1.isAfter(start2) && start1.isBefore(end2) ||
+		    end1.equals(end2);
 	}
 
 	/**
@@ -132,9 +132,9 @@ public class AppointmentUtils {
 				appointments.add(new Appointment(res.getDate(1).toLocalDate(), res.getTime(4).toLocalTime(), res.getInt(5), res.getString(2), res.getLong(3), res.getBoolean(6)));
 			}
 			return appointments.stream()
-				.filter(a -> isOverlapping(start, end, a.getStart(), a.getEnd()))
-				.collect(Collectors.toList());
-			});
+			.filter(a -> isOverlapping(start, end, a.getStart(), a.getEnd()))
+			.collect(Collectors.toList());
+		});
 	}
 
 	/**
@@ -154,30 +154,30 @@ public class AppointmentUtils {
 		if (start.isBefore(LocalTime.of(9, 0)) || end.isAfter(LocalTime.of(17,0))) {
 			throw new UserFacingException("Appointment outside of appointment hours.");
 		}
-		
+
 		List<Appointment> appointmentsAtTime = getAppointmentByTimeRange(date, start, end);
 		if (appointmentsAtTime.stream()
-			.filter(p -> p.getPartner().equals(partner))
-			.count() > 0) {
+		        .filter(p -> p.getPartner().equals(partner))
+		        .count() > 0) {
 			throw new UserFacingException("The partner already has an appointment at this time.");
 		}
 		if (appointmentsAtTime.stream()
-			.filter(p -> p.getPatientId() == patient_id)
-			.count() > 0) {
+		        .filter(p -> p.getPatientId() == patient_id)
+		        .count() > 0) {
 			throw new UserFacingException("The patient already has an appointment at this time.");
 		}
 
 		ConnectionManager.withStatement("INSERT INTO appointments VALUES (?,?,?,?,?,?)",(stmt)-> {
-            stmt.setDate(1, sqlDate);
-            stmt.setString(2, partner);
-            stmt.setLong(3, patient_id);
-            stmt.setTime(4, sqlStartTime);
-            stmt.setInt(5, (int)duration.toMinutes());
-            stmt.setBoolean(6, complete);
-            stmt.executeUpdate();
-            return null;
-        });
-    }
+			stmt.setDate(1, sqlDate);
+			stmt.setString(2, partner);
+			stmt.setLong(3, patient_id);
+			stmt.setTime(4, sqlStartTime);
+			stmt.setInt(5, (int)duration.toMinutes());
+			stmt.setBoolean(6, complete);
+			stmt.executeUpdate();
+			return null;
+		});
+	}
 
 	/**
 	 * This deletes a particular Appointment from the database.
@@ -188,14 +188,14 @@ public class AppointmentUtils {
 		java.sql.Date sqlDate = java.sql.Date.valueOf(appointment.getDate());
 		java.sql.Time sqlStartTime = java.sql.Time.valueOf(appointment.getStart());
 		ConnectionManager.withStatement("DELETE FROM appointments WHERE date=? AND partner=? AND start=?",(stmt)-> {
-				stmt.setDate(1, sqlDate);
-				stmt.setString(2, appointment.getPartner());
-				stmt.setTime(3, sqlStartTime);
-				stmt.executeUpdate();
+			stmt.setDate(1, sqlDate);
+			stmt.setString(2, appointment.getPartner());
+			stmt.setTime(3, sqlStartTime);
+			stmt.executeUpdate();
 			return null;
 		});
 	}
-    
+
 	public static void updateCompleteAppointment(Appointment appointment, boolean complete) {
 		appointment.setComplete(complete);
 		ConnectionManager.withStatement("UPDATE appointments SET complete=? WHERE date=? AND partner=? AND start=?",(stmt)-> {
@@ -204,8 +204,8 @@ public class AppointmentUtils {
 			stmt.setString(3, appointment.getPartner());
 			stmt.setTime(4, Time.valueOf(appointment.getStart()));
 			stmt.executeUpdate();
-		return null;
-	});
+			return null;
+		});
 	}
-	
+
 }

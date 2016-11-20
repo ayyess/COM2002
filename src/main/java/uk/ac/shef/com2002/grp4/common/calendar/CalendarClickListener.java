@@ -46,16 +46,16 @@ public abstract class CalendarClickListener {
 	 */
 	public void notify(MouseEvent e) {
 		switch (e.getID()) {
-		case MouseEvent.MOUSE_CLICKED:
-			onClick(e);
-			break;
-		case MouseEvent.MOUSE_PRESSED:
-			onPressed(e);
-			break;
-		case MouseEvent.MOUSE_RELEASED:
-			onRelease(e);
-			break;
+			case MouseEvent.MOUSE_CLICKED:
+				onClick(e);
+				break;
+			case MouseEvent.MOUSE_PRESSED:
+				onPressed(e);
+				break;
+			case MouseEvent.MOUSE_RELEASED:
+				onRelease(e);
+				break;
 		}
 	}
-	
+
 }

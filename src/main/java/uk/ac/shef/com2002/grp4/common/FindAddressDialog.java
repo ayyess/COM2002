@@ -26,7 +26,7 @@ import java.util.Optional;
  * @version 1.0
  * @since   11/11/2016
  */
-public class FindAddressDialog extends BaseDialog implements ActionListener{
+public class FindAddressDialog extends BaseDialog implements ActionListener {
 	/** A text field where the postcode can be entered. */
 	private final JTextField postcodeField;
 	/** A list of addresses. */
@@ -43,7 +43,7 @@ public class FindAddressDialog extends BaseDialog implements ActionListener{
 	 *
 	 * @param owner - Takes a component that will parent the dialog
 	 */
-	public FindAddressDialog(Component owner){
+	public FindAddressDialog(Component owner) {
 		super(owner,"Find address");
 
 		Container contentPane = rootPane.getContentPane();
@@ -55,7 +55,7 @@ public class FindAddressDialog extends BaseDialog implements ActionListener{
 		searchResults = new JList<>(new DefaultListModel<>());
 		GridBagConstraints c = getBaseConstraints();
 		c.gridwidth = 2;
-		
+
 		contentPane.add(new JScrollPane(searchResults),c);
 
 		nextRow();
@@ -76,18 +76,18 @@ public class FindAddressDialog extends BaseDialog implements ActionListener{
 	 * @param e - an ActionEvent
 	 */
 	@Override
-	public void actionPerformed(ActionEvent e){
-		if(e.getSource() == postcodeField){
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == postcodeField) {
 			List<Address> addresses = AddressUtils.findAddresses(postcodeField.getText());
 			DefaultListModel<Address> model = (DefaultListModel<Address>) searchResults.getModel();
 			model.clear();
-			for(Address a : addresses){
+			for (Address a : addresses) {
 				model.addElement(a);
 			}
-		}else if(e.getSource() == selectButton){
+		} else if (e.getSource() == selectButton) {
 			address = Optional.ofNullable(searchResults.getSelectedValue());
 			dispose();
-		}else if(e.getSource() == cancelButton){
+		} else if (e.getSource() == cancelButton) {
 			dispose();
 		}
 	}

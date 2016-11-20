@@ -25,66 +25,66 @@ import java.time.LocalTime;
  */
 public class AppointmentComp extends JPanel {
 
-    /** The start of an appointment. */
+	/** The start of an appointment. */
 	LocalTime start;
 
-    /** The end of an appointment. */
+	/** The end of an appointment. */
 	LocalTime end;
 
-    /** The duration of an appointment. */
+	/** The duration of an appointment. */
 	Duration duration;
 
-    /** A single Appointment. */
-    Appointment appointment;
+	/** A single Appointment. */
+	Appointment appointment;
 
-    /** A JLabel to manage when the slot starts. */
+	/** A JLabel to manage when the slot starts. */
 	JLabel startLabel;
 
-    /** A JLabel to manage the duration of the slot. */
+	/** A JLabel to manage the duration of the slot. */
 	JLabel durationLabel;
 
-    /**
-     * This constructor takes an appointment and creates the box that
-     * will appear on the calendar output.
-     *
-     * @param appointment - an Appointment slot
-     */
+	/**
+	 * This constructor takes an appointment and creates the box that
+	 * will appear on the calendar output.
+	 *
+	 * @param appointment - an Appointment slot
+	 */
 	public AppointmentComp(Appointment appointment) {
 		this.appointment = appointment;
 		this.start = appointment.getStart();
 		this.end = appointment.getEnd();
 		this.duration = Duration.between(this.start,this.end);
-		
+
 		setLayout(new FlowLayout());
 		setOpaque(true);
 		setBorder(BorderFactory.createLineBorder(Color.black));
-		
+
 		startLabel = new JLabel(appointment.getStart().toString());
 		durationLabel = new JLabel(""+duration);
-		
+
 		startLabel.setHorizontalAlignment(JLabel.CENTER);
 		durationLabel.setHorizontalAlignment(JLabel.CENTER);
-		
+
 		add(startLabel);
 		add(durationLabel);
 	}
 
-    /**
-     * This function sets the background color of the appointment slot.
-     *
-     * @param c - a Color
-     */
+	/**
+	 * This function sets the background color of the appointment slot.
+	 *
+	 * @param c - a Color
+	 */
 	public void setColor(Color c) {
 		setBackground(c);
 	}
 
-    /**
-     * This function gets the appointment the slot is representing.
-     *
-     * @return an Appointment
-     */
+	/**
+	 * This function gets the appointment the slot is representing.
+	 *
+	 * @return an Appointment
+	 */
 	public Appointment getAppointment() {
 		return appointment;
 	}
-	
+
 }

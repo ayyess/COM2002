@@ -34,17 +34,17 @@ public class Receipt implements Printable {
 	private final static String REPAIR = "REPAIR";
 	private final static String HYGIENE = "HYGIENE";
 	private final static String CHECKUP = "CHECKUP";
-	
+
 	/** This stores the Patient object. */
 	private Patient patient;
 	/** The amount to be paid. */
 	private int paidToday;
 	/** This stores the treatments being invoiced for. */
 	private List<TreatmentPrice> payingTreatments;
-	
+
 	/** This stores the treatments to pay after today. */
 	private List<TreatmentPrice> treatmentsLeft;
-	
+
 	private PatientPlan plan;
 
 	/**
@@ -75,7 +75,7 @@ public class Receipt implements Printable {
 	 * @param g - the Graphics to draw the receipt on to
 	 * @param pageFormat - The format of the page to print on to
 	 * @param pageIndex - The index of which page to draw
-	 * @return PAGE_EXISTS or NO_SUCH_PAGE  
+	 * @return PAGE_EXISTS or NO_SUCH_PAGE
 	 * @throws PrinterException
 	 */
 	@Override
@@ -87,33 +87,33 @@ public class Receipt implements Printable {
 		if (pageFormat.getOrientation() != PageFormat.PORTRAIT) {
 			return NO_SUCH_PAGE; // Fail
 		}
-		
+
 		Graphics2D g2 = (Graphics2D) g;
 		g2.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
-		
+
 		int width = (int) pageFormat.getImageableWidth();
 		int height = (int) pageFormat.getImageableHeight();
 		FontMetrics fm = g.getFontMetrics();
 		Font font = g.getFont();
-		
-		int lineHeight = font.getSize()*2; 
-		
+
+		int lineHeight = font.getSize()*2;
+
 		int linePos = 0;
-		
+
 		g2.setColor(Color.BLACK);
 		g2.fillRect(0, 0, width, font.getSize());
 		linePos += lineHeight;
-		
+
 		g2.drawString(patient.getName(), 0, linePos);
 		linePos += lineHeight;
-		
-		int savings = 0; 
+
+		int savings = 0;
 		int subTotal = 0;
-		
+
 		int i = 0;
-		
-		HashMap<Integer, TreatmentApplication> modelMap = new HashMap<Integer, TreatmentApplication>(); 
-		
+
+		HashMap<Integer, TreatmentApplication> modelMap = new HashMap<Integer, TreatmentApplication>();
+
 		for (TreatmentPrice tp : payingTreatments) {
 			// Deduct savings
 			TreatmentApplication ta = tp.treatmentApplication;
@@ -144,48 +144,48 @@ public class Receipt implements Printable {
 				subTotal += ta.getCount()*t.getCost();
 			}
 			modelMap.put(i, ta);
-			
+
 			g2.drawString(tp.toStringWithoutPrice(), 0, linePos);
 			String costString = CostUtil.costToDecimalString(t.getCost()*ta.getCount());
 			g2.drawString(costString, width-fm.stringWidth(costString), linePos);
 			linePos += lineHeight;
 		}
-		
+
 		g2.drawString("Sub-Total:", 0, linePos);
-		String preSavingCostString = CostUtil.costToDecimalString(subTotal); 
+		String preSavingCostString = CostUtil.costToDecimalString(subTotal);
 		g2.drawString(preSavingCostString, width-fm.stringWidth(preSavingCostString), linePos);
 		linePos += lineHeight;
-		
-		
+
+
 		if (savings > 0) {
 			g2.drawString("Savings:", 0, linePos);
-			String savingsString = CostUtil.costToDecimalString(savings); 
+			String savingsString = CostUtil.costToDecimalString(savings);
 			g2.drawString(savingsString, width-fm.stringWidth(savingsString), linePos);
 			linePos += lineHeight;
 		}
-		
+
 		g2.drawString("Total:", 0, linePos);
 		String totalString = CostUtil.costToDecimalString(subTotal-savings);
 		g2.drawString(totalString, width-fm.stringWidth(totalString), linePos);
 		linePos += lineHeight;
-		
+
 		g2.drawString("Paid today:", 0, linePos);
 		String costString = CostUtil.costToDecimalString(paidToday);
 		g2.drawString(costString, width-fm.stringWidth(costString), linePos);
 		linePos += lineHeight;
-		
+
 		g2.drawString("Remaining:", 0, linePos);
 		linePos += lineHeight;
 		for (TreatmentPrice tp : treatmentsLeft) {
 			g2.drawString(tp.toStringWithoutPrice(), fm.stringWidth("Remaining:")+1 , linePos);
 			linePos += lineHeight;
 		}
-		
+
 		plan.update();
-		
+
 		return PAGE_EXISTS; //Success
 	}
-	
+
 	Treatment getByName(List<Treatment> treatments, String name) {
 		for (Treatment t : treatments) {
 			if (t.getName().equalsIgnoreCase(name)) {

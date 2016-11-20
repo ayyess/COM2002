@@ -96,9 +96,9 @@ public class Address {
 
 	/** This saves the address permanently in the database. */
 	public void save() {
-		if(id.isPresent()){
+		if (id.isPresent()) {
 			AddressUtils.updateAddressByID(id.get(),houseNumber,street,district,city,postcode);
-		}else{
+		} else {
 			id = Optional.of(AddressUtils.insertAddress(houseNumber,street,district,city,postcode));
 		}
 	}
@@ -113,35 +113,35 @@ public class Address {
 	/** This gets the house number.
 	 * @return houseNumber
 	 */
-	public int getHouseNumber(){
+	public int getHouseNumber() {
 		return houseNumber;
 	}
 
 	/** This gets the street.
 	 * @return street
 	 */
-	public String getStreet(){
+	public String getStreet() {
 		return street;
 	}
 
 	/** This gets the district.
 	 * @return district
 	 */
-	public String getDistrict(){
+	public String getDistrict() {
 		return district;
 	}
 
 	/** This gets the city.
 	 * @return city
 	 */
-	public String getCity(){
+	public String getCity() {
 		return city;
 	}
 
 	/** This gets the postcode.
 	 * @return postcode
 	 */
-	public String getPostcode(){
+	public String getPostcode() {
 		return postcode;
 	}
 
@@ -152,17 +152,17 @@ public class Address {
 	 * @return - a Boolean which is true if the two objects are equal
 	 */
 	@Override
-	public boolean equals(final Object obj){
-		if(obj instanceof Address){
+	public boolean equals(final Object obj) {
+		if (obj instanceof Address) {
 			final Address other = (Address) obj;
 			return new EqualsBuilder()
-				.append(houseNumber, other.houseNumber)
-				.append(street, other.street)
-				.append(district, other.district)
-				.append(city, other.city)
-				.append(postcode, other.postcode)
-				.isEquals();
-		} else{
+			       .append(houseNumber, other.houseNumber)
+			       .append(street, other.street)
+			       .append(district, other.district)
+			       .append(city, other.city)
+			       .append(postcode, other.postcode)
+			       .isEquals();
+		} else {
 			return false;
 		}
 	}
@@ -175,11 +175,11 @@ public class Address {
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder()
-			.append(houseNumber)
-			.append(street)
-			.append(district)
-			.append(city)
-			.append(postcode)
-			.toHashCode();
+		       .append(houseNumber)
+		       .append(street)
+		       .append(district)
+		       .append(city)
+		       .append(postcode)
+		       .toHashCode();
 	}
 }

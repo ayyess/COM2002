@@ -25,15 +25,15 @@ public class ConnectionManager {
 	private static <RETURN> RETURN withConnection(With<Connection, RETURN, SQLException> with) {
 		//try with resources will auto close the connection
 		try (Connection conn =
-					 DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team004?user=team004&password=492cebac")) {
+			            DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team004?user=team004&password=492cebac")) {
 			return with.with(conn);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 			if (ex instanceof com.mysql.jdbc.exceptions.jdbc4.CommunicationsException) {
 				JOptionPane.showMessageDialog(null,
-						"Failed to connect to the database (check vpn connection)",
-						"Database error",
-						JOptionPane.ERROR_MESSAGE);
+				                              "Failed to connect to the database (check vpn connection)",
+				                              "Database error",
+				                              JOptionPane.ERROR_MESSAGE);
 				System.exit(0);
 			}
 		}

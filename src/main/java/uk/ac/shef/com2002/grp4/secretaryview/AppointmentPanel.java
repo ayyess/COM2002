@@ -34,9 +34,9 @@ public class AppointmentPanel extends JPanel {
 
 		JPanel leftPanel = new JPanel();
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-		
+
 		CalendarView calendar = new CalendarView(LocalDate.now());
-		
+
 		UtilDateModel model = new UtilDateModel();
 		JDatePanel datePanel = new JDatePanel(model);
 
@@ -56,9 +56,9 @@ public class AppointmentPanel extends JPanel {
 		this.add(leftPanel, BorderLayout.LINE_START);
 
 		this.add(calendar, BorderLayout.CENTER);
-		
+
 		calendar.addSlotClickListener(new CalendarClickListener() {
-			
+
 			public void onRelease(MouseEvent e) {
 				EmptyAppointment slot = (EmptyAppointment)e.getSource();
 				CalendarComp c = ((CalendarComp) slot.getParent());
@@ -68,18 +68,18 @@ public class AppointmentPanel extends JPanel {
 				//Update
 				calendar.setDate(calendar.getDate());
 			}
-			
+
 			public void onClick(MouseEvent e) {}
 			public void onPressed(MouseEvent e) {}
-			
-		}); 
-		
+
+		});
+
 		calendar.addAppointmentClickListener(new CalendarClickListener() {
 
 			public void onRelease(MouseEvent e) {
 				//Show details about the appointment maybe?
 			}
-			
+
 			public void onPressed(MouseEvent e) {
 				AppointmentComp comp = (AppointmentComp)e.getSource();
 				AppointmentFrame f = new AppointmentFrame(calendar, comp.getAppointment());
@@ -88,10 +88,10 @@ public class AppointmentPanel extends JPanel {
 				calendar.setDate(calendar.getDate());
 			}
 			public void onClick(MouseEvent e) {}
-		}); 
-		
+		});
+
 		calendar.setDate(LocalDate.now());
-		
+
 	}
-	
+
 }

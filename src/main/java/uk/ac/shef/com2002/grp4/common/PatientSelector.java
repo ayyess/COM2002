@@ -29,7 +29,7 @@ public class PatientSelector extends JPanel implements ActionListener {
 
 	private Optional<Patient> patient = Optional.empty();
 
-	public PatientSelector(){
+	public PatientSelector() {
 		super(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(0,0,0,0);
@@ -53,28 +53,28 @@ public class PatientSelector extends JPanel implements ActionListener {
 		add(createPatientButton,c);
 	}
 
-	public void setPatient(Patient patient){
+	public void setPatient(Patient patient) {
 		setPatient(Optional.ofNullable(patient));
 	}
 
-	public void setPatient(Optional<Patient> patient){
+	public void setPatient(Optional<Patient> patient) {
 		this.patient = patient;
 		displayField.setPatient(patient);
 		//FIXME there has to be a better way to get the dialog to resize if needed
 		SwingUtilities.getWindowAncestor(this).pack();
 	}
 
-	public Optional<Patient> getPatient(){
+	public Optional<Patient> getPatient() {
 		return patient;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == findPatientButton){
+		if (e.getSource() == findPatientButton) {
 			FindPatientDialog finder = new FindPatientDialog(this);
 			finder.setVisible(true);
 			setPatient(finder.getPatient());
-		}else if(e.getSource() == createPatientButton){
+		} else if (e.getSource() == createPatientButton) {
 			CreatePatientDialog creator = new CreatePatientDialog(this);
 			creator.setVisible(true);
 			setPatient(creator.getPatient());

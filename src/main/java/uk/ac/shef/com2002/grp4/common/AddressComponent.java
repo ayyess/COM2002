@@ -47,7 +47,7 @@ public class AddressComponent extends BaseInfoComponent {
 	 *
 	 * @param address - an Address object
 	 */
-	public AddressComponent(Address address){
+	public AddressComponent(Address address) {
 		this(Optional.ofNullable(address));
 	}
 
@@ -57,7 +57,7 @@ public class AddressComponent extends BaseInfoComponent {
 	 * @param address - an Address object
 	 *                --Optional
 	 */
-	public AddressComponent(Optional<Address> address){
+	public AddressComponent(Optional<Address> address) {
 		super();
 
 		houseNumberField = new JTextField(20);
@@ -90,7 +90,7 @@ public class AddressComponent extends BaseInfoComponent {
 	 *
 	 * @param address - an Address object
 	 */
-	public void setAddress(Address address){
+	public void setAddress(Address address) {
 		setAddress(Optional.ofNullable(address));
 	}
 
@@ -100,16 +100,16 @@ public class AddressComponent extends BaseInfoComponent {
 	 * @param newAddress - an Address object
 	 *                   --Optional
 	 */
-	public void setAddress(Optional<Address> newAddress){
+	public void setAddress(Optional<Address> newAddress) {
 		address = newAddress;
-		if(address.isPresent()){
+		if (address.isPresent()) {
 			houseNumberField.setText(Integer.toString(address.get().getHouseNumber()));
 			streetField.setText(address.get().getStreet());
 			districtField.setText(address.get().getDistrict());
 			cityField.setText(address.get().getCity());
 			postcodeField.setText(address.get().getPostcode());
 
-		}else{
+		} else {
 			houseNumberField.setText("");
 			streetField.setText("");
 			districtField.setText("");

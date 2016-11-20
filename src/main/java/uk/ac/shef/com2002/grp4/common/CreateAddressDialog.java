@@ -50,7 +50,7 @@ public class CreateAddressDialog extends BaseDialog implements ActionListener {
 	 *
 	 * @param c - Takes a component that will parent the dialog
 	 */
-	public CreateAddressDialog(Component c){
+	public CreateAddressDialog(Component c) {
 		super(c,"Create Address");
 		cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(this);
@@ -79,9 +79,9 @@ public class CreateAddressDialog extends BaseDialog implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == cancelButton){
+		if (e.getSource() == cancelButton) {
 			cancel();
-		}else if(e.getSource() == createButton){
+		} else if (e.getSource() == createButton) {
 			Address address = new Address(Integer.parseInt(houseNumberField.getText()),
 			                              streetField.getText(),
 			                              districtField.getText(),

@@ -35,7 +35,7 @@ public class AppointmentFrame extends BaseDialog {
 	private final Appointment appointment;
 
 	private Patient patient;
-	
+
 	/**
 	 * This constructor creates a frame which contains the booked appointment
 	 * details and allows the user to delete this appointment if they wish to.
@@ -56,20 +56,20 @@ public class AppointmentFrame extends BaseDialog {
 
 		JButton deleteButton = new JButton("Delete");
 		deleteButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent ae){
-                    delete();
-					close();
-                }
-            });
+			public void actionPerformed(ActionEvent ae) {
+				delete();
+				close();
+			}
+		});
 		JButton closeButton = new JButton("Close");
 		closeButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent ae){
-                    close();
-                }
-            });
+			public void actionPerformed(ActionEvent ae) {
+				close();
+			}
+		});
 		JButton payButton = new JButton("Pay");
 		payButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				pay();
@@ -81,7 +81,7 @@ public class AppointmentFrame extends BaseDialog {
 	}
 
 	/** This disposes of the frame. */
-	void close(){
+	void close() {
 		setModal(true);
 		//getOwner().setEnabled(true);
 		AppointmentFrame.this.dispose();
@@ -91,9 +91,9 @@ public class AppointmentFrame extends BaseDialog {
 	void delete() {
 		AppointmentUtils.deleteAppointment(appointment);
 	}
-	
+
 	public void pay() {
 		new PaymentDialog(this, patient).setVisible(true);
 	}
-	
+
 }

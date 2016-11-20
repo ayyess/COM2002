@@ -23,7 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AppointmentDetailsPartner extends BaseDialog {
-	
+
 	/** The appointment this dialog will show/modify the details of */
 	private final Appointment appointment;
 	/** Check box for setting/seeing the completion status of the appointment */
@@ -38,39 +38,39 @@ public class AppointmentDetailsPartner extends BaseDialog {
 	TreatmentApplication[] oldTreatments = null;
 	/** The partner of this appointment */
 	Partner partner;
-	
+
 	/**
 	 * Constructs a new dialog to modify the appointment and assign new treatments to the appointment.
-	 * 
+	 *
 	 * @param owner - The parent frame for this dialog
 	 * @param appointment - The appointment to show details on
 	 */
 	public AppointmentDetailsPartner(Frame owner, Appointment appointment) {
 		super(owner, "Appointment");
 		this.appointment = appointment;
-		
+
 		//Fetch the patient for the appointment from the database
 		Patient patient = PatientUtils.getPatientByID(appointment.getPatientId());
 		this.partner = Partner.valueOfIngnoreCase(appointment.getPartner());
-		
+
 		addLabeledComponent("Partner", new JLabel(appointment.getPartner()));
 		addLabeledComponent("Patient", new JLabel(patient.getName()));
 		addLabeledComponent("Duration", new JLabel(Integer.toString(appointment.getDuration()) + " minutes"));
-		
+
 		//Fetch and add all of the treatments this appointment has if any
 		treatmentList.setModel(model);
 		oldTreatments = TreatmentApplicationUtils.getAppointmentTreatments(appointment);
 		for (int i = 0; i < oldTreatments.length; i++) {
 			model.add(i, oldTreatments[i]);
 		}
-		
+
 		treatmentScroll = new JScrollPane(treatmentList);
 		addLabeledComponent("Treatments", treatmentScroll);
-		
+
 		//Show the completion field
 		completedCheck.setSelected(appointment.isComplete());
 		addLabeledComponent("Completed", completedCheck);
-		
+
 		JButton addTreatmentButton = new JButton("Add Treatments");
 		addTreatmentButton.addActionListener(new ActionListener() {
 			@Override
@@ -79,7 +79,7 @@ public class AppointmentDetailsPartner extends BaseDialog {
 				repaint();
 			}
 		});
-	
+
 		JButton saveButton = new JButton("Save");
 		saveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
@@ -87,7 +87,7 @@ public class AppointmentDetailsPartner extends BaseDialog {
 				dispose();
 			}
 		});
-		
+
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
@@ -98,7 +98,7 @@ public class AppointmentDetailsPartner extends BaseDialog {
 		addButtons(addTreatmentButton, saveButton, cancelButton);
 		pack();
 	}
-	
+
 	/**
 	 * Deletes the appointment from the database
 	 * This is not used so that only the secretary can modify the calendar
@@ -120,24 +120,24 @@ public class AppointmentDetailsPartner extends BaseDialog {
 			//If the user decided to cancel don't make any changes
 			return;
 		}
-		
+
 		TreatmentApplication selected = new TreatmentApplication(treatmentDialog.selected, appointment, treatmentDialog.count);
 		boolean found = false;
 		int j = -1;
 		for (j = 0; j < model.getSize(); j++) {
 			if (model.get(j) != null) {
 				if (selected.getTreatmentName().equals(model.get(j).getTreatmentName())) {
-					found = true; 
+					found = true;
 					break;
 				} else {
-					
+
 				}
 			}
 		}
 		if (found) {
 			TreatmentApplication ta = model.get(j).clone();
 			ta.setCount(model.get(j).getCount()+1);
-			model.set(j, ta); 
+			model.set(j, ta);
 		} else {
 			model.add(j, selected.clone());
 		}
@@ -152,13 +152,13 @@ public class AppointmentDetailsPartner extends BaseDialog {
 		Object[] o = model.toArray();
 
 		TreatmentApplication[] newTreatments = new TreatmentApplication[o.length];
-		
+
 		for (int i = 0; i < newTreatments.length; i++) {
 			newTreatments[i] = ((TreatmentApplication) o[i]).clone();
-		} 
-		
+		}
+
 		//Save the treatments to the database
 		TreatmentApplicationUtils.replace(oldTreatments, newTreatments);
 	}
-	
+
 }

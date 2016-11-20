@@ -26,7 +26,7 @@ import java.util.Optional;
  * @version 1.0
  * @since   11/11/2016
  */
-public class FindPatientDialog extends BaseDialog implements ActionListener{
+public class FindPatientDialog extends BaseDialog implements ActionListener {
 
 	/** A text field where a name can be entered. */
 	private final JTextField nameField;
@@ -87,18 +87,18 @@ public class FindPatientDialog extends BaseDialog implements ActionListener{
 	 * @param e - an ActionEvent
 	 */
 	@Override
-	public void actionPerformed(ActionEvent e){
-		if(e.getSource() == nameField){
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == nameField) {
 			List<Patient> patients = PatientUtils.fuzzyFindPatientByFirstName(nameField.getText());
 			DefaultListModel<Patient> model = (DefaultListModel<Patient>) searchResults.getModel();
 			model.clear();
-			for(Patient p : patients){
+			for (Patient p : patients) {
 				model.addElement(p);
 			}
-		}else if(e.getSource() == selectButton){
+		} else if (e.getSource() == selectButton) {
 			patient = Optional.ofNullable(searchResults.getSelectedValue());
 			dispose();
-		}else if(e.getSource() == cancelButton){
+		} else if (e.getSource() == cancelButton) {
 			dispose();
 		}
 	}

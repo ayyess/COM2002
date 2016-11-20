@@ -36,7 +36,7 @@ import java.util.List;
 public class PaymentDialog extends BaseDialog {
 
 	int payAmount = 0;
-	
+
 	/**
 	 * This creates a new PaymentDialog.
 	 *
@@ -45,13 +45,13 @@ public class PaymentDialog extends BaseDialog {
 	 */
 	public PaymentDialog(Component o, Patient p) {
 		super(o, "Payment");
-		
+
 		addLabeledComponent("Patient", new JLabel(p.getName()));
 
-		
+
 		TreatmentApplication[] treatmentApplications = TreatmentApplicationUtils.getRemainingTreatments(p);
 		DefaultListModel<TreatmentPrice> model = new DefaultListModel<TreatmentPrice>();
-		
+
 		PatientPlan pl = PatientPlanUtils.getPlanByPatientID(p.getID());
 		PatientPlan plan;
 		if (pl == null) {
@@ -59,21 +59,21 @@ public class PaymentDialog extends BaseDialog {
 		} else {
 			plan = pl;
 		}
-		
-		Treatment[] treatments = TreatmentUtils.getTreatments(); 
-		
-		
-		
+
+		Treatment[] treatments = TreatmentUtils.getTreatments();
+
+
+
 		int total = 0;
 		int savings = 0;
 		boolean validPlan = plan.checkPlanValid();
-		
+
 		int i = 0;
-		
+
 		int repairs = plan.getRemainingRepairs();
 		int hygiene = plan.getRemainingHygieneVisits();
 		int checkups = plan.getRemainingCheckups();
-		
+
 		for (TreatmentApplication ta : treatmentApplications) {
 			// Deduct savings
 			int cost = 0;
@@ -96,7 +96,7 @@ public class PaymentDialog extends BaseDialog {
 				} else  {
 					total += t.getCost();
 					cost = t.getCost();
-				} 
+				}
 			} else if (t.getType().equals("CHECKUP")) {
 				if (validPlan && checkups>0) {
 					checkups -= 1;
@@ -105,29 +105,29 @@ public class PaymentDialog extends BaseDialog {
 				} else  {
 					total += t.getCost();
 					cost = t.getCost();
-				} 
+				}
 			} else {
 				total += t.getCost();
 			}
 			TreatmentPrice tp = new TreatmentPrice(t.getName(), t.getCost(), cost, t, ta);
 			model.add(i++, tp);
 		}
-		
-		
-		
+
+
+
 		JList<TreatmentPrice> treatmentList = new JList<TreatmentPrice>();
 		treatmentList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		treatmentList.setModel(model);
-		
+
 		addLabeledComponent("Treatments", treatmentList);
-		
+
 		addLabeledComponent("Plan", new JLabel(plan.toString()));
-		
+
 		JTextField payAmountText = new JTextField(4);
 		addLabeledComponent("Amount to pay", payAmountText);
-		
+
 		treatmentList.addListSelectionListener(new ListSelectionListener() {
-			
+
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				int[] selected = treatmentList.getSelectedIndices();
@@ -136,22 +136,22 @@ public class PaymentDialog extends BaseDialog {
 					TreatmentPrice tp = model.get(selected[s]);
 					cost+= tp.discountedCost * tp.treatmentApplication.getCount();
 				}
-				
+
 				payAmount = cost;
 				payAmountText.setText(CostUtil.costToDecimalString(cost));
 			}
 		});
-		
+
 		JButton pay = new JButton("Pay");
 		pay.addActionListener((e) -> {
 			//Print dialog
 			int[] selected = treatmentList.getSelectedIndices();
 			List<TreatmentPrice> payingTreatments = new ArrayList<TreatmentPrice>();
-			
+
 			for (int s = 0; s < selected.length; s++) {
 				payingTreatments.add(model.get(selected[s]));
 			}
-			
+
 			List<TreatmentPrice> treatmentsLeft = new ArrayList<TreatmentPrice>();
 			for (int m = 0; m < model.size(); m++) {
 				boolean found = false;
@@ -165,20 +165,20 @@ public class PaymentDialog extends BaseDialog {
 					treatmentsLeft.add(model.get(m));
 				}
 			}
-			
+
 			Receipt r = new Receipt(p, plan, payingTreatments, treatmentsLeft, payAmount);
 			//new PrintPreview(r);
 		});
-		
+
 		JButton close = new JButton("Close");
 		close.addActionListener((e) -> {
 			dispose();
 		});
-		
+
 		addButtons(pay, close);
 		pack();
 	}
-	
+
 	Treatment getByName(Treatment[] treatments, String name) {
 		for (Treatment t : treatments) {
 			if (t.getName().equalsIgnoreCase(name)) {
@@ -191,13 +191,13 @@ public class PaymentDialog extends BaseDialog {
 }
 
 class TreatmentPrice {
-	
+
 	String name;
 	int cost;
 	int discountedCost;
 	Treatment treatment;
 	TreatmentApplication treatmentApplication;
-	
+
 	public TreatmentPrice(String name, int cost, int discountedCost, Treatment t, TreatmentApplication ta) {
 		this.name = name;
 		this.cost = cost;
@@ -205,13 +205,13 @@ class TreatmentPrice {
 		this.treatment = t;
 		this.treatmentApplication = ta;
 	}
-	
+
 	public String toString() {
 		return treatmentApplication.getCount() + "x" + name + " " + CostUtil.costToDecimalString(discountedCost);
 	}
-	
+
 	public String toStringWithoutPrice() {
 		return treatmentApplication.getCount() + "x" + name;
 	}
-	
+
 }

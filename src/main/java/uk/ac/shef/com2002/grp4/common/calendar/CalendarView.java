@@ -37,7 +37,7 @@ public class CalendarView extends JPanel {
 	private boolean day = false;
 
 	/** The start date of the calendar view. */
-	private LocalDate startDate; 
+	private LocalDate startDate;
 
 	/** A JTabbedPane which will hold the different partners calendars. */
 	JTabbedPane tabbedPane = new JTabbedPane();
@@ -81,14 +81,14 @@ public class CalendarView extends JPanel {
 	public CalendarView(Partner p) {
 		this.setLayout(new BorderLayout());
 		switch (p) {
-		case DENTIST:
-			add(dentistPanel, BorderLayout.CENTER);
-			break;
-		case HYGIENIST:
-			add(hygienstPanel, BorderLayout.CENTER);
-			break;
-		default:
-			break;
+			case DENTIST:
+				add(dentistPanel, BorderLayout.CENTER);
+				break;
+			case HYGIENIST:
+				add(hygienstPanel, BorderLayout.CENTER);
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -107,17 +107,17 @@ public class CalendarView extends JPanel {
 	 *
 	 * @param day - a boolean
 	 *             True = a day view
-	 * 	           False = a week view
+	 *             False = a week view
 	 */
 	public void setView(boolean day) {
 		this.day = day;
 		dentist = createCalendars(day, startDate, Partner.DENTIST, dentistPanel, slotListeners, appointmentListeners);
 		hygienist = createCalendars(day, startDate, Partner.HYGIENIST, hygienstPanel, slotListeners, appointmentListeners);
 	}
-	
+
 	/**
 	 * This adds the given listener to all empty slots within the calendars.
-	 * When an empty slot is clicked the onClick/onPressed/onReleased 
+	 * When an empty slot is clicked the onClick/onPressed/onReleased
 	 * method of the listener will be called.
 	 *
 	 * @param l - Listener to add
@@ -125,10 +125,10 @@ public class CalendarView extends JPanel {
 	public void addSlotClickListener(CalendarClickListener l) {
 		slotListeners.add(l);
 	}
-	
+
 	/**
 	 * This adds the given listener to all appointments within the calendars.
-	 * When an appointment is clicked the onClick/onPressed/onReleased 
+	 * When an appointment is clicked the onClick/onPressed/onReleased
 	 * method of the listener will be called.
 	 *
 	 * @param l - Listener to add
@@ -166,9 +166,9 @@ public class CalendarView extends JPanel {
 			List<Appointment> appointments = AppointmentUtils.getAppointmentByDate(date);
 			GridBagConstraints constraints = new GridBagConstraints();
 			calendars[0] = new CalendarComp(appointments.stream()
-											.filter((appt)->appt.getPartner().equals(p.toString()))
-											.collect(Collectors.toList())
-											,date, p);
+			                                .filter((appt)->appt.getPartner().equals(p.toString()))
+			                                .collect(Collectors.toList())
+			                                ,date, p);
 			for (CalendarClickListener slotL : slotListeners) {
 				calendars[0].addSlotClickListener(slotL);
 			}
@@ -187,9 +187,9 @@ public class CalendarView extends JPanel {
 				GridBagConstraints constraints = new GridBagConstraints();
 				//filter the appointments as required in java
 				CalendarComp c = new CalendarComp(appointments.stream().filter((appt)->
-					appt.getPartner().equals(p.toString())
-							&& appt.getDate().equals(dayDate)
-				).collect(Collectors.toList()),dayDate, p);
+				                                  appt.getPartner().equals(p.toString())
+				                                  && appt.getDate().equals(dayDate)
+				                                                              ).collect(Collectors.toList()),dayDate, p);
 				calendars[i] = c;
 				for (CalendarClickListener slotL : slotListeners) {
 					calendars[i].addSlotClickListener(slotL);
@@ -220,5 +220,5 @@ public class CalendarView extends JPanel {
 		scroll.getViewport().add(child);
 		return scroll;
 	}
-	
+
 }
