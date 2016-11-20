@@ -169,18 +169,18 @@ public class PatientPanel extends JPanel implements DocumentListener, ActionList
 		public Object getValueAt(int rowIndex, int columnIndex) {
 			Patient p = data.get(rowIndex);
 			switch (columnIndex) {
-				case 0:
-					return p.getTitle();
-				case 1:
-					return p.getForename();
-				case 2:
-					return p.getSurname();
-				case 3:
-					return p.getDob().format(DATE_FORMAT);
-				case 4:
-					return p.getPhoneNumber();
-				default:
-					throw new IllegalArgumentException();
+			case 0:
+				return p.getTitle();
+			case 1:
+				return p.getForename();
+			case 2:
+				return p.getSurname();
+			case 3:
+				return p.getDob().format(DATE_FORMAT);
+			case 4:
+				return p.getPhoneNumber();
+			default:
+				throw new IllegalArgumentException();
 			}
 		}
 		@Override

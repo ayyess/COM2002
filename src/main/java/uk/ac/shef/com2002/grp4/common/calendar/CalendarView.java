@@ -81,14 +81,14 @@ public class CalendarView extends JPanel {
 	public CalendarView(Partner p) {
 		this.setLayout(new BorderLayout());
 		switch (p) {
-			case DENTIST:
-				add(dentistPanel, BorderLayout.CENTER);
-				break;
-			case HYGIENIST:
-				add(hygienstPanel, BorderLayout.CENTER);
-				break;
-			default:
-				break;
+		case DENTIST:
+			add(dentistPanel, BorderLayout.CENTER);
+			break;
+		case HYGIENIST:
+			add(hygienstPanel, BorderLayout.CENTER);
+			break;
+		default:
+			break;
 		}
 	}
 
