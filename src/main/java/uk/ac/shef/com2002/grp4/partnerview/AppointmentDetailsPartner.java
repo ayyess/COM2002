@@ -78,8 +78,8 @@ public class AppointmentDetailsPartner extends BaseDialog {
 		completedCheck.setSelected(appointment.isComplete());
 		addLabeledComponent("Completed", completedCheck);
 		
-		JButton setTreatmentButton = new JButton("Set Treatments");
-		setTreatmentButton.addActionListener(new ActionListener() {
+		JButton addTreatmentButton = new JButton("Add Treatments");
+		addTreatmentButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				addTreatments();
@@ -102,7 +102,7 @@ public class AppointmentDetailsPartner extends BaseDialog {
 				dispose();
 			}
 		});
-		addButtons(setTreatmentButton, saveButton, cancelButton);
+		addButtons(addTreatmentButton, saveButton, cancelButton);
 		pack();
 	}
 	
