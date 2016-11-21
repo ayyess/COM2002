@@ -16,14 +16,22 @@ import java.awt.event.ActionListener;
  */
 public class Launcher extends JFrame implements ActionListener {
 
-	/** Button for secrtary's view */
+	/**
+	 * Button for secrtary's view
+	 */
 	private final JButton secretaryViewButton;
-	/** Button for dentists's view */
+	/**
+	 * Button for dentists's view
+	 */
 	private final JButton dentistViewButton;
-	/** Button for hygienist's view */
+	/**
+	 * Button for hygienist's view
+	 */
 	private final JButton hygenistViewButton;
 
-	/** Constructs a Launcher and opens the view selection window */
+	/**
+	 * Constructs a Launcher and opens the view selection window
+	 */
 	public Launcher() {
 		super();
 		setLayout(new GridBagLayout());
@@ -41,9 +49,9 @@ public class Launcher extends JFrame implements ActionListener {
 		c.gridx = 1;
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridy = GridBagConstraints.RELATIVE;
-		add(secretaryViewButton,c);
-		add(dentistViewButton,c);
-		add(hygenistViewButton,c);
+		add(secretaryViewButton, c);
+		add(dentistViewButton, c);
+		add(hygenistViewButton, c);
 
 		pack();
 
@@ -54,31 +62,29 @@ public class Launcher extends JFrame implements ActionListener {
 	}
 
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					UIManager.setLookAndFeel(
-					UIManager.getSystemLookAndFeelClassName());
+		SwingUtilities.invokeLater(() -> {
+			try {
+				UIManager.setLookAndFeel(
+						UIManager.getSystemLookAndFeelClassName());
 
-					DPIScaling.rescaleFonts();
-				} catch (Exception e) {
-					//we can ignore any exceptions here as they won't change the functionality of the program, it just won't look native
-				}
-
-				new Launcher();
+				DPIScaling.rescaleFonts();
+			} catch (Exception e) {
+				//we can ignore any exceptions here as they won't change the functionality of the program, it just won't look native
 			}
+
+			new Launcher();
 		});
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == secretaryViewButton){
+		if (e.getSource() == secretaryViewButton) {
 			dispose();
 			new SecretaryApp();
-		}else if(e.getSource() == dentistViewButton){
+		} else if (e.getSource() == dentistViewButton) {
 			dispose();
 			new PartnerApp(Partner.DENTIST);
-		}else if(e.getSource() == hygenistViewButton){
+		} else if (e.getSource() == hygenistViewButton) {
 			dispose();
 			new PartnerApp(Partner.HYGIENIST);
 		}

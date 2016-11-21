@@ -23,39 +23,52 @@ import java.util.stream.Collectors;
 /**
  * Used to view multiple calendars alongside one another
  * <br>
- * @author  Group 4
+ *
+ * @author Group 4
  * @version 1.0
- * @since   03/11/2016
+ * @since 03/11/2016
  */
 public class CalendarView extends JPanel {
 
-	/** This controls what sort of view is shown.
+	/**
+	 * A JTabbedPane which will hold the different partners calendars.
+	 */
+	JTabbedPane tabbedPane = new JTabbedPane();
+	/**
+	 * A JPanel which will hold the dentists calendar(s).
+	 */
+	JPanel dentistPanel = new JPanel(new GridBagLayout());
+	/**
+	 * A JPanel which will hold the hygienists calendar(s).
+	 */
+	JPanel hygienstPanel = new JPanel(new GridBagLayout());
+	/**
+	 * An array of CalendarComp which will store the dentists calendars.
+	 */
+	CalendarComp[] dentist;
+	/**
+	 * An array of CalendarComp which will store the hygienists calendars.
+	 */
+	CalendarComp[] hygienist;
+	/**
+	 * An ArrayList of filled Appointment listeners.
+	 */
+	List<CalendarClickListener> appointmentListeners = new ArrayList<>();
+	/**
+	 * An ArrayList of empty slot listeners.
+	 */
+	List<CalendarClickListener> slotListeners = new ArrayList<>();
+	/**
+	 * This controls what sort of view is shown.
 	 * <p>
 	 * True = a day view
 	 * False = a week view
 	 */
 	private boolean day = false;
-
-	/** The start date of the calendar view. */
-	private LocalDate startDate; 
-
-	/** A JTabbedPane which will hold the different partners calendars. */
-	JTabbedPane tabbedPane = new JTabbedPane();
-
-	/** A JPanel which will hold the dentists calendar(s). */
-	JPanel dentistPanel = new JPanel(new GridBagLayout());
-	/** A JPanel which will hold the hygienists calendar(s). */
-	JPanel hygienstPanel = new JPanel(new GridBagLayout());
-
-	/** An array of CalendarComp which will store the dentists calendars. */
-	CalendarComp[] dentist;
-	/** An array of CalendarComp which will store the hygienists calendars. */
-	CalendarComp[] hygienist;
-
-	/** An ArrayList of filled Appointment listeners. */
-	List<CalendarClickListener> appointmentListeners = new ArrayList<CalendarClickListener>();
-	/** An ArrayList of empty slot listeners. */
-	List<CalendarClickListener> slotListeners = new ArrayList<CalendarClickListener>();
+	/**
+	 * The start date of the calendar view.
+	 */
+	private LocalDate startDate;
 
 	/**
 	 * This constructor creates a CalendarView based on a
@@ -81,77 +94,27 @@ public class CalendarView extends JPanel {
 	public CalendarView(Partner p) {
 		this.setLayout(new BorderLayout());
 		switch (p) {
-		case DENTIST:
-			add(dentistPanel, BorderLayout.CENTER);
-			break;
-		case HYGIENIST:
-			add(hygienstPanel, BorderLayout.CENTER);
-			break;
-		default:
-			break;
+			case DENTIST:
+				add(dentistPanel, BorderLayout.CENTER);
+				break;
+			case HYGIENIST:
+				add(hygienstPanel, BorderLayout.CENTER);
+				break;
+			default:
+				break;
 		}
-	}
-
-	/**
-	 * This sets the date for which the calendar is starting at.
-	 *
-	 * @param date - a start date
-	 */
-	public void setDate(LocalDate date) {
-		startDate = date;
-		setView(day);
-	}
-
-	/**
-	 * This sets the style of view for the calendar.
-	 *
-	 * @param day - a boolean
-	 *             True = a day view
-	 * 	           False = a week view
-	 */
-	public void setView(boolean day) {
-		this.day = day;
-		dentist = createCalendars(day, startDate, Partner.DENTIST, dentistPanel, slotListeners, appointmentListeners);
-		hygienist = createCalendars(day, startDate, Partner.HYGIENIST, hygienstPanel, slotListeners, appointmentListeners);
-	}
-	
-	/**
-	 * This adds the given listener to all empty slots within the calendars.
-	 * When an empty slot is clicked the onClick/onPressed/onReleased 
-	 * method of the listener will be called.
-	 *
-	 * @param l - Listener to add
-	 */
-	public void addSlotClickListener(CalendarClickListener l) {
-		slotListeners.add(l);
-	}
-	
-	/**
-	 * This adds the given listener to all appointments within the calendars.
-	 * When an appointment is clicked the onClick/onPressed/onReleased 
-	 * method of the listener will be called.
-	 *
-	 * @param l - Listener to add
-	 */
-	public void addAppointmentClickListener(CalendarClickListener l) {
-		appointmentListeners.add(l);
-	}
-
-	/** This gets the start date of the calendar. */
-	public LocalDate getDate() {
-		return startDate;
 	}
 
 	/**
 	 * This creates a horizontal list of calendars.
 	 *
-	 * @param day - a Boolean
-	 *             True = a day view
-	 *             False = a week view
-	 * @param date - Date that the calendar should generate from
-	 * @param p - Partner whose appointments need to be viewed
-	 * @param panel - a JPanel which the whole calendar will be put on
-	 * @param slotListeners - an ArrayList of listeners for empty slots
+	 * @param day                  - a Boolean
+	 *                             True = a day view
+	 *                             False = a week view
+	 * @param date                 - Date that the calendar should generate from
+	 * @param p                    - Partner whose appointments need to be viewed
+	 * @param panel                - a JPanel which the whole calendar will be put on
+	 * @param slotListeners        - an ArrayList of listeners for empty slots
 	 * @param appointmentListeners - an ArrayList of listeners for booked appointments
 	 * @return an Array of CalendarComp
 	 */
@@ -159,16 +122,16 @@ public class CalendarView extends JPanel {
 		CalendarComp[] calendars = new CalendarComp[7];
 		panel.removeAll();
 		GridBagLayout layout = new GridBagLayout();
-		layout.columnWidths = new int[] {1,1,1,1,1,1,1};
-		layout.columnWeights = new double[] {1,1,1,1,1,1,1};
+		layout.columnWidths = new int[]{1, 1, 1, 1, 1, 1, 1};
+		layout.columnWeights = new double[]{1, 1, 1, 1, 1, 1, 1};
 		panel.setLayout(layout);
 		if (day) {
 			List<Appointment> appointments = AppointmentUtils.getAppointmentByDate(date);
 			GridBagConstraints constraints = new GridBagConstraints();
 			calendars[0] = new CalendarComp(appointments.stream()
-											.filter((appt)->appt.getPartner().equals(p.toString()))
-											.collect(Collectors.toList())
-											,date, p);
+					.filter((appt) -> appt.getPartner().equals(p.toString()))
+					.collect(Collectors.toList())
+					, date, p);
 			for (CalendarClickListener slotL : slotListeners) {
 				calendars[0].addSlotClickListener(slotL);
 			}
@@ -181,15 +144,15 @@ public class CalendarView extends JPanel {
 			panel.add(calendars[0], constraints);
 		} else {
 			//get *all* required appointments once to reduce waiting on network (up to 7x speedup)
-			List<Appointment> appointments = AppointmentUtils.getAppointmentByDateRange(date,date.plusDays(calendars.length-1));
+			List<Appointment> appointments = AppointmentUtils.getAppointmentByDateRange(date, date.plusDays(calendars.length - 1));
 			for (int i = 0; i < calendars.length; i++) {
 				LocalDate dayDate = date.plusDays(i);
 				GridBagConstraints constraints = new GridBagConstraints();
 				//filter the appointments as required in java
-				CalendarComp c = new CalendarComp(appointments.stream().filter((appt)->
-					appt.getPartner().equals(p.toString())
-							&& appt.getDate().equals(dayDate)
-				).collect(Collectors.toList()),dayDate, p);
+				CalendarComp c = new CalendarComp(appointments.stream().filter((appt) ->
+						appt.getPartner().equals(p.toString())
+								&& appt.getDate().equals(dayDate)
+				).collect(Collectors.toList()), dayDate, p);
 				calendars[i] = c;
 				for (CalendarClickListener slotL : slotListeners) {
 					calendars[i].addSlotClickListener(slotL);
@@ -220,5 +183,57 @@ public class CalendarView extends JPanel {
 		scroll.getViewport().add(child);
 		return scroll;
 	}
-	
+
+	/**
+	 * This sets the style of view for the calendar.
+	 *
+	 * @param day - a boolean
+	 *            True = a day view
+	 *            False = a week view
+	 */
+	public void setView(boolean day) {
+		this.day = day;
+		dentist = createCalendars(day, startDate, Partner.DENTIST, dentistPanel, slotListeners, appointmentListeners);
+		hygienist = createCalendars(day, startDate, Partner.HYGIENIST, hygienstPanel, slotListeners, appointmentListeners);
+	}
+
+	/**
+	 * This adds the given listener to all empty slots within the calendars.
+	 * When an empty slot is clicked the onClick/onPressed/onReleased
+	 * method of the listener will be called.
+	 *
+	 * @param l - Listener to add
+	 */
+	public void addSlotClickListener(CalendarClickListener l) {
+		slotListeners.add(l);
+	}
+
+	/**
+	 * This adds the given listener to all appointments within the calendars.
+	 * When an appointment is clicked the onClick/onPressed/onReleased
+	 * method of the listener will be called.
+	 *
+	 * @param l - Listener to add
+	 */
+	public void addAppointmentClickListener(CalendarClickListener l) {
+		appointmentListeners.add(l);
+	}
+
+	/**
+	 * This gets the start date of the calendar.
+	 */
+	public LocalDate getDate() {
+		return startDate;
+	}
+
+	/**
+	 * This sets the date for which the calendar is starting at.
+	 *
+	 * @param date - a start date
+	 */
+	public void setDate(LocalDate date) {
+		startDate = date;
+		setView(day);
+	}
+
 }

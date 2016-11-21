@@ -19,44 +19,45 @@ import java.util.List;
  * Used to control database interaction.
  * Specifically the treatment_plans table
  * <br>
- * @author  Group 4
+ *
+ * @author Group 4
  * @version 1.0
- * @since   1/11/2016
+ * @since 1/11/2016
  */
 public class PlanUtils {
 
-    /**
-     * This will get the details of a TreatmentPlan by the plan name.
-     *
-     * @param s - the plan name
-     * @return a new Plan object
-     */
-    public static Plan getDetailsByName(String s) {
-        return ConnectionManager.withStatement("SELECT * FROM treatment_plans WHERE name=?",(stmt)-> {
-            stmt.setString(1, s);
-            ResultSet res = stmt.executeQuery();
-            if (res.next()) {
-            	return new Plan(res.getString(1), res.getInt(2), res.getInt(3), res.getInt(4), res.getInt(5));
-            }
-            return null;
-        });
-    }
+	/**
+	 * This will get the details of a TreatmentPlan by the plan name.
+	 *
+	 * @param s - the plan name
+	 * @return a new Plan object
+	 */
+	public static Plan getDetailsByName(String s) {
+		return ConnectionManager.withStatement("SELECT * FROM treatment_plans WHERE name=?", (stmt) -> {
+			stmt.setString(1, s);
+			ResultSet res = stmt.executeQuery();
+			if (res.next()) {
+				return new Plan(res.getString(1), res.getInt(2), res.getInt(3), res.getInt(4), res.getInt(5));
+			}
+			return null;
+		});
+	}
 
-    /**
-     * This will get a list of available TreatmentPlans.
-     *
-     * @return an ArrayList containing all TreatmentPlans
-     */
-    public static List<Plan> getTreatmentPlans() {
-        ArrayList<Plan> plans = new ArrayList<Plan>();
+	/**
+	 * This will get a list of available TreatmentPlans.
+	 *
+	 * @return an ArrayList containing all TreatmentPlans
+	 */
+	public static List<Plan> getTreatmentPlans() {
+		ArrayList<Plan> plans = new ArrayList<>();
 
-        ConnectionManager.withStatement("SELECT * FROM treatment_plans",(stmt)-> {
-            ResultSet res = stmt.executeQuery();
-            while (res.next()) {
-                plans.add(new Plan(res.getString(1), res.getInt(2), res.getInt(3), res.getInt(4), res.getInt(5)));
-            }
-            return null;
-        });
+		ConnectionManager.withStatement("SELECT * FROM treatment_plans", (stmt) -> {
+			ResultSet res = stmt.executeQuery();
+			while (res.next()) {
+				plans.add(new Plan(res.getString(1), res.getInt(2), res.getInt(3), res.getInt(4), res.getInt(5)));
+			}
+			return null;
+		});
 		return plans;
-    }
+	}
 }

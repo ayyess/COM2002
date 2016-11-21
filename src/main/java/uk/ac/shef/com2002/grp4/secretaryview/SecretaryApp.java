@@ -14,7 +14,7 @@ import java.awt.*;
 
 public class SecretaryApp extends JFrame {
 
-    public SecretaryApp() {
+	public SecretaryApp() {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setPreferredSize(new Dimension(800, 600));
 

@@ -9,44 +9,57 @@
 
 package uk.ac.shef.com2002.grp4.common.data;
 
-import java.util.Objects;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * Used to store the appointment details temporarily.
  * <br>
- * @author  Group 4
+ *
+ * @author Group 4
  * @version 1.0
- * @since   1/11/2016
+ * @since 1/11/2016
  */
 public class Appointment {
 
-	/** Stores the date of the appointment. */
+	/**
+	 * Stores the date of the appointment.
+	 */
 	private LocalDate date;
-	/** Stores the start time of the appointment. */
+	/**
+	 * Stores the start time of the appointment.
+	 */
 	private LocalTime start;
-	/** Stores the end time of the appointment. */
+	/**
+	 * Stores the end time of the appointment.
+	 */
 	private LocalTime end;
-	/** Stores the partner of the appointment. */
+	/**
+	 * Stores the partner of the appointment.
+	 */
 	private String partner;
-	/** Stores the id of the patient. */
+	/**
+	 * Stores the id of the patient.
+	 */
 	private long patientId;
-	/** Stores whether the appointment was attended and finished */
+	/**
+	 * Stores whether the appointment was attended and finished
+	 */
 	private boolean complete;
 
 	/**
 	 * This constructor creates an Appointment object.
-	 *
+	 * <p>
 	 * This sets the appointment to be incomplete by default.
 	 *
-	 * @param date - the date of the appointment
-	 * @param start - the start time of the appointment
-	 * @param duration - the duration of the appointment
-	 * @param partner - the partner who is being seen
+	 * @param date      - the date of the appointment
+	 * @param start     - the start time of the appointment
+	 * @param duration  - the duration of the appointment
+	 * @param partner   - the partner who is being seen
 	 * @param patientId - the patient of the appointment
 	 */
 	public Appointment(LocalDate date, LocalTime start, int duration, String partner, long patientId) {
@@ -56,32 +69,25 @@ public class Appointment {
 		this.partner = partner;
 		this.patientId = patientId;
 	}
-	
+
 	/**
 	 * This constructor creates an Appointment object.
 	 *
-	 * @param date - the date of the appointment
-	 * @param start - the start time of the appointment
-	 * @param duration - the duration of the appointment
-	 * @param partner - the partner who is being seen
+	 * @param date      - the date of the appointment
+	 * @param start     - the start time of the appointment
+	 * @param duration  - the duration of the appointment
+	 * @param partner   - the partner who is being seen
 	 * @param patientId - the patient of the appointment
-	 * @param complete - the status of the appointment
+	 * @param complete  - the status of the appointment
 	 */
 	public Appointment(LocalDate date, LocalTime start, int duration, String partner, long patientId, boolean complete) {
 		this(date, start, duration, partner, patientId);
-		this.complete = complete;	
+		this.complete = complete;
 	}
 
 	/**
-	 * Sets this appointment to complete
-	 * @param complete
-	 */
-	public void setComplete(boolean complete) {
-		this.complete = complete;
-	}
-	
-	/**
 	 * This gets the date of the appointment.
+	 *
 	 * @return date
 	 */
 	public LocalDate getDate() {
@@ -90,6 +96,7 @@ public class Appointment {
 
 	/**
 	 * This gets the start time of the appointment.
+	 *
 	 * @return start
 	 */
 	public LocalTime getStart() {
@@ -98,6 +105,7 @@ public class Appointment {
 
 	/**
 	 * This gets the end of the appointment.
+	 *
 	 * @return end
 	 */
 	public LocalTime getEnd() {
@@ -106,6 +114,7 @@ public class Appointment {
 
 	/**
 	 * This gets the partner who is being seen.
+	 *
 	 * @return partner
 	 */
 	public String getPartner() {
@@ -114,6 +123,7 @@ public class Appointment {
 
 	/**
 	 * This gets the id of the patient.
+	 *
 	 * @return patientId
 	 */
 	public long getPatientId() {
@@ -122,17 +132,27 @@ public class Appointment {
 
 	/**
 	 * This gets the duration of the appointment.
+	 *
 	 * @return duration
 	 */
 	public int getDuration() {
-		return (int) Duration.between(start, end).getSeconds()/60;
+		return (int) Duration.between(start, end).getSeconds() / 60;
 	}
-	
+
 	/**
-	 * @return if the appointment is complete 
+	 * @return if the appointment is complete
 	 */
 	public boolean isComplete() {
 		return complete;
+	}
+
+	/**
+	 * Sets this appointment to complete
+	 *
+	 * @param complete - whether to set complete, or incomplete
+	 */
+	public void setComplete(boolean complete) {
+		this.complete = complete;
 	}
 
 	/**
@@ -159,16 +179,16 @@ public class Appointment {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof Appointment){
+		if (obj instanceof Appointment) {
 			final Appointment other = (Appointment) obj;
 			return new EqualsBuilder()
-				.append(date, other.date)
-				.append(start, other.start)
-				.append(end, other.end)
-				.append(partner, other.partner)
-				.append(patientId, other.patientId)
-				.isEquals();
-		} else{
+					.append(date, other.date)
+					.append(start, other.start)
+					.append(end, other.end)
+					.append(partner, other.partner)
+					.append(patientId, other.patientId)
+					.isEquals();
+		} else {
 			return false;
 		}
 	}
@@ -181,12 +201,12 @@ public class Appointment {
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder()
-			.append(date)
-			.append(start)
-			.append(end)
-			.append(partner)
-			.append(patientId)
-			.toHashCode();
+				.append(date)
+				.append(start)
+				.append(end)
+				.append(partner)
+				.append(patientId)
+				.toHashCode();
 	}
 
 }

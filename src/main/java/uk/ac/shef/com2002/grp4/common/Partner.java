@@ -14,23 +14,31 @@ public enum Partner {
 	DENTIST("Dentist"),
 	HYGIENIST("Hygienist");
 
-	/** Member to hold the name */
+	/**
+	 * Member to hold the name
+	 */
 	private String name;
 
-	/** constructor to set the string */
+	/**
+	 * constructor to set the string
+	 */
 	Partner(String name) {
 		this.name = name;
 	}
-	
-	/** the toString just returns the given name */
+
+	/**
+	 * Same as value of but ignores the case of the given String
+	 */
+	public static Partner valueOfIngnoreCase(String p) {
+		return valueOf(p.toUpperCase(Locale.ENGLISH));
+	}
+
+	/**
+	 * the toString just returns the given name
+	 */
 	@Override
 	public String toString() {
 		return name;
 	}
-	
-	/** Same as value of but ignores the case of the given String */
-	public static Partner valueOfIngnoreCase(String p) {
-		return valueOf(p.toUpperCase(Locale.ENGLISH));
-	}
-	
+
 }

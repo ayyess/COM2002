@@ -19,25 +19,21 @@ import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlanSelector extends JPanel{
+public class PlanSelector extends JPanel {
 	JComboBox<Plan> planSelector;
 	List<ChangeListener> changeListeners = new ArrayList<>();
-	public PlanSelector(){
+
+	public PlanSelector() {
 		this(PlanUtils.getTreatmentPlans());
 	}
 
-	public PlanSelector(List<Plan> treatmentPlans){
-		planSelector = new JComboBox<Plan>(treatmentPlans.toArray(new Plan[treatmentPlans.size()]));
+	public PlanSelector(List<Plan> treatmentPlans) {
+		planSelector = new JComboBox<>(treatmentPlans.toArray(new Plan[treatmentPlans.size()]));
 		planSelector.setEditable(false);
-		planSelector.setRenderer(new ListCellRenderer<Plan>(){
-			@Override
-			public Component getListCellRendererComponent(JList<? extends Plan> list,Plan value, int index, boolean isSelected, boolean cellHasFocus){
-				return new JLabel(value.getName());
-			}
-		});
-		planSelector.addItemListener((ItemEvent ev)->{
-			if(ev.getStateChange() == ItemEvent.SELECTED){
-				for(ChangeListener listener:changeListeners){
+		planSelector.setRenderer((list, value, index, isSelected, cellHasFocus) -> new JLabel(value.getName()));
+		planSelector.addItemListener((ItemEvent ev) -> {
+			if (ev.getStateChange() == ItemEvent.SELECTED) {
+				for (ChangeListener listener : changeListeners) {
 					listener.stateChanged(new ChangeEvent(this));
 				}
 			}
@@ -46,11 +42,15 @@ public class PlanSelector extends JPanel{
 		add(planSelector);
 	}
 
-	public void addChangeListener(ChangeListener listener){
+	public void addChangeListener(ChangeListener listener) {
 		changeListeners.add(listener);
 	}
 
-	public Plan getSelectedItem(){
-		return (Plan)planSelector.getSelectedItem();
+	public Plan getSelectedItem() {
+		return (Plan) planSelector.getSelectedItem();
+	}
+
+	public void setSelectedItem(Plan plan) {
+		planSelector.setSelectedItem(plan);
 	}
 }

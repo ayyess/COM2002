@@ -25,27 +25,30 @@ import java.awt.event.ActionListener;
  * This is used to view the details of a booked
  * appointment slot
  * <br>
- * @author  Group 4
+ *
+ * @author Group 4
  * @version 1.0
- * @since   03/11/2016
+ * @since 03/11/2016
  */
 public class AppointmentFrame extends BaseDialog {
 
-	/** A single booked Appointment. */
+	/**
+	 * A single booked Appointment.
+	 */
 	private final Appointment appointment;
 
 	private Patient patient;
-	
+
 	/**
 	 * This constructor creates a frame which contains the booked appointment
 	 * details and allows the user to delete this appointment if they wish to.
 	 *
-	 * @param owner - This sets what the dialog is created relative to. If set to
-	 *              null, it is created relative to the centre of the screen.
-	 * @param appointment
+	 * @param owner       - This sets what the dialog is created relative to. If set to
+	 *                    null, it is created relative to the centre of the screen.
+	 * @param appointment - The appointment to show details of
 	 */
 	public AppointmentFrame(Component owner, Appointment appointment) {
-		super(owner,"View Appointment");
+		super(owner, "View Appointment");
 		this.appointment = appointment;
 
 		patient = PatientUtils.getPatientByID(appointment.getPatientId());
@@ -55,46 +58,40 @@ public class AppointmentFrame extends BaseDialog {
 		addLabeledComponent("Duration", new JLabel(Integer.toString(appointment.getDuration()) + " minutes"));
 
 		JButton deleteButton = new JButton("Delete");
-		deleteButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent ae){
-                    delete();
-					close();
-                }
-            });
-		JButton closeButton = new JButton("Close");
-		closeButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent ae){
-                    close();
-                }
-            });
-		JButton payButton = new JButton("Pay");
-		payButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				pay();
-			}
+		deleteButton.addActionListener(ae -> {
+			delete();
+			close();
 		});
+		JButton closeButton = new JButton("Close");
+		closeButton.addActionListener(ae -> close());
+		JButton payButton = new JButton("Pay");
+		payButton.addActionListener(e -> pay());
 		addButtons(payButton, deleteButton, closeButton);
 		pack();
 
 	}
 
-	/** This disposes of the frame. */
-	void close(){
+	/**
+	 * This disposes of the frame.
+	 */
+	void close() {
 		setModal(true);
 		//getOwner().setEnabled(true);
 		AppointmentFrame.this.dispose();
 	}
 
-	/** This deletes an appointment in the database. */
+	/**
+	 * This deletes an appointment in the database.
+	 */
 	void delete() {
 		AppointmentUtils.deleteAppointment(appointment);
 	}
-	
-	/** Opens the payment dialog so that the receipt and cost can be show to the patient/secretary */
+
+	/**
+	 * Opens the payment dialog so that the receipt and cost can be show to the patient/secretary
+	 */
 	public void pay() {
 		new PaymentDialog(this, patient).setVisible(true);
 	}
-	
+
 }

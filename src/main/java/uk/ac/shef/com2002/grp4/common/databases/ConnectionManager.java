@@ -13,13 +13,17 @@ import javax.swing.*;
 import java.sql.*;
 
 
+interface With<T, R, EXCEPTION_TYPE extends Exception> {
+	R with(T t) throws EXCEPTION_TYPE;
+}
 
 /**
  * Manages the connection between the Utility Classes and the Database server.
  * <br>
- * @author  Group 4
+ *
+ * @author Group 4
  * @version 1.0
- * @since   1/11/2016
+ * @since 1/11/2016
  */
 public class ConnectionManager {
 	private static <RETURN> RETURN withConnection(With<Connection, RETURN, SQLException> with) {
@@ -66,8 +70,4 @@ public class ConnectionManager {
 			return null;
 		});
 	}
-}
-
-interface With<T, R, EXCEPTION_TYPE extends Exception> {
-	R with(T t) throws EXCEPTION_TYPE;
 }

@@ -28,54 +28,83 @@ import java.util.List;
 /**
  * Used to create a panel showing all appointments in a day.
  * <br>
- * @author  Group 4
+ *
+ * @author Group 4
  * @version 1.0
- * @since   03/11/2016
+ * @since 03/11/2016
  */
 public class CalendarComp extends JPanel {
 
-	/** The date that the Calendar will return the appointments of. */
-	LocalDate date;
-
-	/** The layout used for the Calendar. */
-	private final GridBagLayout layout;
-
-	/** The divide of each appointment in minutes. */
+	/**
+	 * The divide of each appointment in minutes.
+	 */
 	final static int DIV = 20;
-	/** The vertical height in pixels of each slot. */
+	/**
+	 * The vertical height in pixels of each slot.
+	 */
 	final static int SLOT_SIZE = 30;
-	/** The start time of the calendar. */
-	final static LocalTime START = LocalTime.of(9,0);
-	/** The end time of the calendar. */
-	final static LocalTime END = LocalTime.of(17,0);
-	/** This acts as padding above each appointment. */
+	/**
+	 * The start time of the calendar.
+	 */
+	final static LocalTime START = LocalTime.of(9, 0);
+	/**
+	 * The end time of the calendar.
+	 */
+	final static LocalTime END = LocalTime.of(17, 0);
+	/**
+	 * This acts as padding above each appointment.
+	 */
 	final static int HEADER_SIZE = 2;
-
-	/** This is the color that a dentists appointment will show in. */
-	private static final Color DENTIST_COLOUR = Color.getHSBColor(0.0f,0.5f,1.0f);//Light red
-	/** This is the color that a dentists appointment will show in when marked as complete. */
-	private static final Color DENTIST_COMPLETE_COLOUR = Color.getHSBColor(0.0f,0.5f,0.8f); //Darker red
-	
-	/** This is the color that a hygienists appointment will show in. */
-	private static final Color HYGIENIST_COLOUR = Color.getHSBColor(0.69f,0.5f,1.0f); //Light blue
-	/** This is the color that a hygienists appointment will show in when marked as complete. */
-	private static final Color HYGIENIST_COMPLETE_COLOUR = Color.getHSBColor(0.69f,0.5f,0.8f); //Darker blue
-	
-	/** This is the color that a reserved appointment will show in. */
+	/**
+	 * This is the color that a dentists appointment will show in.
+	 */
+	private static final Color DENTIST_COLOUR = Color.getHSBColor(0.0f, 0.5f, 1.0f);//Light red
+	/**
+	 * This is the color that a dentists appointment will show in when marked as complete.
+	 */
+	private static final Color DENTIST_COMPLETE_COLOUR = Color.getHSBColor(0.0f, 0.5f, 0.8f); //Darker red
+	/**
+	 * This is the color that a hygienists appointment will show in.
+	 */
+	private static final Color HYGIENIST_COLOUR = Color.getHSBColor(0.69f, 0.5f, 1.0f); //Light blue
+	/**
+	 * This is the color that a hygienists appointment will show in when marked as complete.
+	 */
+	private static final Color HYGIENIST_COMPLETE_COLOUR = Color.getHSBColor(0.69f, 0.5f, 0.8f); //Darker blue
+	/**
+	 * This is the color that a reserved appointment will show in.
+	 */
 	private static final Color RESERVED_COLOUR = Color.GRAY;
+	/**
+	 * The layout used for the Calendar.
+	 */
+	private final GridBagLayout layout;
+	/**
+	 * The date that the Calendar will return the appointments of.
+	 */
+	LocalDate date;
+	/**
+	 * An ArrayList of AppointmentComp.
+	 */
+	ArrayList<AppointmentComp> appointments = new ArrayList<>();
 
-	/** An ArrayList of AppointmentComp. */
-	ArrayList<AppointmentComp> appointments = new ArrayList<AppointmentComp>();
+	/**
+	 * An ArrayList of filled Appointment listeners.
+	 */
+	ArrayList<CalendarClickListener> appointmentListeners = new ArrayList<>();
+	/**
+	 * An ArrayList of empty slot listeners.
+	 */
+	ArrayList<CalendarClickListener> slotListeners = new ArrayList<>();
 
-	/** An ArrayList of filled Appointment listeners. */
-	ArrayList<CalendarClickListener> appointmentListeners = new ArrayList<CalendarClickListener>();
-	/** An ArrayList of empty slot listeners. */
-	ArrayList<CalendarClickListener> slotListeners = new ArrayList<CalendarClickListener>();
-
-	/** The color of the calendar. */
+	/**
+	 * The color of the calendar.
+	 */
 	Color calendarColor;
 
-	/** The partner whose calendar is being viewed. */
+	/**
+	 * The partner whose calendar is being viewed.
+	 */
 	Partner partner;
 
 	/**
@@ -85,9 +114,11 @@ public class CalendarComp extends JPanel {
 		public void mouseClicked(MouseEvent e) {
 			notifyAppointmentListeners(e);
 		}
+
 		public void mousePressed(MouseEvent e) {
 			notifyAppointmentListeners(e);
 		}
+
 		public void mouseReleased(MouseEvent e) {
 			notifyAppointmentListeners(e);
 		}
@@ -100,9 +131,11 @@ public class CalendarComp extends JPanel {
 		public void mouseClicked(MouseEvent e) {
 			notifySlotListeners(e);
 		}
+
 		public void mousePressed(MouseEvent e) {
 			notifySlotListeners(e);
 		}
+
 		public void mouseReleased(MouseEvent e) {
 			notifySlotListeners(e);
 		}
@@ -113,22 +146,22 @@ public class CalendarComp extends JPanel {
 	 * (constant START) and end time (constant END) for a particular partner.
 	 *
 	 * @param appointmentsOnDate - List of Appointments on a particular date
-	 * @param date - The date for which the calendar should be generated
-	 * @param partner - The partner for which the calendar should be generated
+	 * @param date               - The date for which the calendar should be generated
+	 * @param partner            - The partner for which the calendar should be generated
 	 */
-	public CalendarComp(List<Appointment> appointmentsOnDate,LocalDate date, Partner partner) {
+	public CalendarComp(List<Appointment> appointmentsOnDate, LocalDate date, Partner partner) {
 		super();
 		this.partner = partner;
 		if (partner == Partner.DENTIST) calendarColor = DENTIST_COLOUR;
 		else if (partner == Partner.HYGIENIST) calendarColor = HYGIENIST_COLOUR;
 		layout = new GridBagLayout();
-		layout.columnWidths = new int[] {1};
-		layout.rowHeights = new int[(int)(HEADER_SIZE+(Duration.between(START,END).toMinutes()/DIV))];
+		layout.columnWidths = new int[]{1};
+		layout.rowHeights = new int[(int) (HEADER_SIZE + (Duration.between(START, END).toMinutes() / DIV))];
 		//set all slot sizes to SLOT_SIZE, later we just choose how many of these slots to use with gridheight
-		Arrays.fill(layout.rowHeights, (int) (SLOT_SIZE*DPIScaling.get()));
+		Arrays.fill(layout.rowHeights, (int) (SLOT_SIZE * DPIScaling.get()));
 		setLayout(layout);
 
-		setAppointmentsAndDate(appointmentsOnDate,date);
+		setAppointmentsAndDate(appointmentsOnDate, date);
 	}
 
 	/**
@@ -139,14 +172,14 @@ public class CalendarComp extends JPanel {
 		removeAll();
 		addHeaders();
 		//default value is false, so no need to fill
-		boolean[] times = new boolean[(int)(Duration.between(START,END).toMinutes()/DIV)];
+		boolean[] times = new boolean[(int) (Duration.between(START, END).toMinutes() / DIV)];
 		for (AppointmentComp a : appointments) {
 			if (a.appointment.getPatientId() == 1) {
 				a.setColor(RESERVED_COLOUR);
 			} else {
 				Color color = Color.CYAN;
 				if (a.appointment.getPartner().endsWith(Partner.DENTIST.toString())) {
-					color = a.appointment.isComplete() ? DENTIST_COMPLETE_COLOUR : DENTIST_COLOUR;  
+					color = a.appointment.isComplete() ? DENTIST_COMPLETE_COLOUR : DENTIST_COLOUR;
 				} else if (a.appointment.getPartner().endsWith(Partner.HYGIENIST.toString())) {
 					color = a.appointment.isComplete() ? HYGIENIST_COMPLETE_COLOUR : HYGIENIST_COLOUR;
 				}
@@ -154,12 +187,12 @@ public class CalendarComp extends JPanel {
 			}
 			a.removeMouseListener(appointmentAdapter);
 			if (!a.start.isBefore(START)) {
-				Duration gap = Duration.between(START,a.start);
+				Duration gap = Duration.between(START, a.start);
 				GridBagConstraints c = new GridBagConstraints();
 				a.addMouseListener(appointmentAdapter);
-				Arrays.fill(times,(int)gap.toMinutes()/DIV,(int)gap.plus(a.duration).toMinutes()/DIV,true);
-				c.gridy = (int)(HEADER_SIZE+(gap.toMinutes()/DIV));
-				c.gridheight = (int)a.duration.toMinutes()/DIV;
+				Arrays.fill(times, (int) gap.toMinutes() / DIV, (int) gap.plus(a.duration).toMinutes() / DIV, true);
+				c.gridy = (int) (HEADER_SIZE + (gap.toMinutes() / DIV));
+				c.gridheight = (int) a.duration.toMinutes() / DIV;
 				c.weightx = 1.0;
 				c.fill = GridBagConstraints.BOTH;
 				add(a, c);
@@ -169,16 +202,16 @@ public class CalendarComp extends JPanel {
 			if (!times[t]) {
 				GridBagConstraints c = new GridBagConstraints();
 				times[t] = true;
-				c.gridy = HEADER_SIZE+t;
+				c.gridy = HEADER_SIZE + t;
 				c.weightx = 1.0;
 				c.fill = GridBagConstraints.BOTH;
-				EmptyAppointment gap = new EmptyAppointment(START.plusMinutes(t*DIV), partner);
+				EmptyAppointment gap = new EmptyAppointment(START.plusMinutes(t * DIV), partner);
 				gap.addMouseListener(slotAdapter);
 				add(gap, c);
 			}
 		}
 	}
-	
+
 	/**
 	 * This adds headers above the calendar to show exactly who's
 	 * appointments are below.
@@ -195,7 +228,7 @@ public class CalendarComp extends JPanel {
 		date.setHorizontalAlignment(JLabel.CENTER);
 		date.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		add(date, c);
-		
+
 		//Add dentist/hygienist label
 		String p = partner.toString();
 		c.gridwidth = 1;
@@ -208,14 +241,15 @@ public class CalendarComp extends JPanel {
 		d.setBackground(calendarColor);
 		add(d, c);
 	}
-	
+
 	/***
 	 * This changes the appointments and the date that are being shown on
 	 * this calendar object.
-	 * 
-	 * @param date
+	 *
+	 * @param appointmentsOnDate - The appointments to show
+	 * @param date               - the date to show
 	 */
-	public void setAppointmentsAndDate(List<Appointment> appointmentsOnDate,LocalDate date){
+	public void setAppointmentsAndDate(List<Appointment> appointmentsOnDate, LocalDate date) {
 		this.date = date;
 		appointments.clear();
 		for (Appointment a : appointmentsOnDate) {
@@ -225,19 +259,21 @@ public class CalendarComp extends JPanel {
 		}
 		showAll();
 	}
-	
+
 	/**
 	 * This adds the given listener. When a empty slot is clicked the onClick/onPressed/onReleased
-	 * method of the listener will be called. 
+	 * method of the listener will be called.
+	 *
 	 * @param l - Listener to add
 	 */
 	public void addSlotClickListener(CalendarClickListener l) {
 		slotListeners.add(l);
 	}
-	
+
 	/**
 	 * This adds the given listener. When an appointment is clicked the onClick/onPressed/onReleased
-	 * method of the listener will be called. 
+	 * method of the listener will be called.
+	 *
 	 * @param l - Listener to add
 	 */
 	public void addAppointmentClickListener(CalendarClickListener l) {
@@ -266,9 +302,11 @@ public class CalendarComp extends JPanel {
 		}
 	}
 
-	/** This gets the date for which the calendar is showing. */
+	/**
+	 * This gets the date for which the calendar is showing.
+	 */
 	public LocalDate getDate() {
 		return date;
 	}
-	
+
 }

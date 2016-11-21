@@ -24,7 +24,7 @@ import java.time.LocalTime;
 
 /**
  * Panel for appointment interaction workflow
- *
+ * <p>
  * Created on 28/10/2016.
  */
 public class AppointmentPanel extends JPanel {
@@ -34,17 +34,15 @@ public class AppointmentPanel extends JPanel {
 
 		JPanel leftPanel = new JPanel();
 		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-		
+
 		CalendarView calendar = new CalendarView(LocalDate.now());
-		
+
 		UtilDateModel model = new UtilDateModel();
 		JDatePanel datePanel = new JDatePanel(model);
 
-		datePanel.getModel().addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				UtilDateModel source = (UtilDateModel) e.getSource();
-				calendar.setDate(LocalDate.of(source.getYear(), source.getMonth() + 1, source.getDay()));
-			}
+		datePanel.getModel().addChangeListener(e -> {
+			UtilDateModel source = (UtilDateModel) e.getSource();
+			calendar.setDate(LocalDate.of(source.getYear(), source.getMonth() + 1, source.getDay()));
 		});
 		int dpiScaling = (int) DPIScaling.get();
 		datePanel.setPreferredSize(new Dimension(200 * dpiScaling, 180 * dpiScaling));
@@ -56,11 +54,11 @@ public class AppointmentPanel extends JPanel {
 		this.add(leftPanel, BorderLayout.LINE_START);
 
 		this.add(calendar, BorderLayout.CENTER);
-		
+
 		calendar.addSlotClickListener(new CalendarClickListener() {
-			
+
 			public void onRelease(MouseEvent e) {
-				EmptyAppointment slot = (EmptyAppointment)e.getSource();
+				EmptyAppointment slot = (EmptyAppointment) e.getSource();
 				CalendarComp c = ((CalendarComp) slot.getParent());
 				LocalTime time = slot.getTime();
 				AppointmentCreationFrame f = new AppointmentCreationFrame(calendar, c.getDate(), time, slot.getPartner());
@@ -68,30 +66,35 @@ public class AppointmentPanel extends JPanel {
 				//Update
 				calendar.setDate(calendar.getDate());
 			}
-			
-			public void onClick(MouseEvent e) {}
-			public void onPressed(MouseEvent e) {}
-			
-		}); 
-		
+
+			public void onClick(MouseEvent e) {
+			}
+
+			public void onPressed(MouseEvent e) {
+			}
+
+		});
+
 		calendar.addAppointmentClickListener(new CalendarClickListener() {
 
 			public void onRelease(MouseEvent e) {
 				//Show details about the appointment maybe?
 			}
-			
+
 			public void onPressed(MouseEvent e) {
-				AppointmentComp comp = (AppointmentComp)e.getSource();
+				AppointmentComp comp = (AppointmentComp) e.getSource();
 				AppointmentFrame f = new AppointmentFrame(calendar, comp.getAppointment());
 				f.setVisible(true);
 				//Update
 				calendar.setDate(calendar.getDate());
 			}
-			public void onClick(MouseEvent e) {}
-		}); 
-		
+
+			public void onClick(MouseEvent e) {
+			}
+		});
+
 		calendar.setDate(LocalDate.now());
-		
+
 	}
-	
+
 }

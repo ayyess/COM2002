@@ -18,12 +18,14 @@ public class UserFacingException extends java.lang.RuntimeException {
 	/**
 	 * Constructs a new user facing runtime exception with the specified detail message.
 	 */
-	public UserFacingException(String message){
+	public UserFacingException(String message) {
 		super(message);
 	}
 
-	/** Shows the error this exception as a JDialog */
+	/**
+	 * Shows the error this exception as a JDialog
+	 */
 	public void showError() {
-		JOptionPane.showMessageDialog(null, getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(null, getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 	}
 }

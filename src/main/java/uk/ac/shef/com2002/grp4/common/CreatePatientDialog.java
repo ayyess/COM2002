@@ -24,29 +24,48 @@ import java.util.Optional;
 /**
  * This class is creates a dialog where the user can input a new patient.
  * <br>
- * @author  Group 4
+ *
+ * @author Group 4
  * @version 1.0
- * @since   11/11/2016
+ * @since 11/11/2016
  */
 public class CreatePatientDialog extends BaseDialog implements ActionListener {
 
-	/** This stores the number of rows in the dialog. */
+	/**
+	 * This stores the number of rows in the dialog.
+	 */
 	private int row = 0;
-	/** A button to create the patient. */
+	/**
+	 * A button to create the patient.
+	 */
 	private JButton createButton;
-	/** A button to cancel the process. */
+	/**
+	 * A button to cancel the process.
+	 */
 	private JButton cancelButton;
-	/** A field to store the title of the patient. */
+	/**
+	 * A field to store the title of the patient.
+	 */
 	private JTextField titleField;
-	/** A field to store the forename of the patient. */
+	/**
+	 * A field to store the forename of the patient.
+	 */
 	private JTextField forenameField;
-	/** A field to store the surname of the patient. */
+	/**
+	 * A field to store the surname of the patient.
+	 */
 	private JTextField surnameField;
-	/** A field to store the date of birth of the patient. */
+	/**
+	 * A field to store the date of birth of the patient.
+	 */
 	private JDatePicker dobField;
-	/** A field to store the contact number of the patient. */
+	/**
+	 * A field to store the contact number of the patient.
+	 */
 	private JTextField phoneField;
-	/** A selector to choose the address of the patient. */
+	/**
+	 * A selector to choose the address of the patient.
+	 */
 	private AddressSelector addressField;
 
 	/**
@@ -60,8 +79,8 @@ public class CreatePatientDialog extends BaseDialog implements ActionListener {
 	 *
 	 * @param owner - Takes a component that will parent the dialog
 	 */
-	public CreatePatientDialog(Component owner){
-		super(owner,"Create Patient");
+	public CreatePatientDialog(Component owner) {
+		super(owner, "Create Patient");
 
 		titleField = new JTextField();
 		forenameField = new JTextField();
@@ -71,23 +90,23 @@ public class CreatePatientDialog extends BaseDialog implements ActionListener {
 		phoneField.setInputVerifier(new InputVerifier() {
 			@Override
 			public boolean verify(JComponent input) {
-				JTextField field = (JTextField)input;
+				JTextField field = (JTextField) input;
 				return field.getText().matches("^[0-9 \\-]+$");
 			}
 		});
 		addressField = new AddressSelector();
-		addLabeledComponent("Title",titleField);
-		addLabeledComponent("Forename",forenameField);
-		addLabeledComponent("Surname",surnameField);
-		addLabeledComponent("DoB",dobField);
-		addLabeledComponent("Phone number",phoneField);
-		addLabeledComponent("Address",addressField);
+		addLabeledComponent("Title", titleField);
+		addLabeledComponent("Forename", forenameField);
+		addLabeledComponent("Surname", surnameField);
+		addLabeledComponent("DoB", dobField);
+		addLabeledComponent("Phone number", phoneField);
+		addLabeledComponent("Address", addressField);
 
 		createButton = new JButton("Create");
 		createButton.addActionListener(this);
 		cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(this);
-		addButtons(cancelButton,createButton);
+		addButtons(cancelButton, createButton);
 
 		pack();
 	}
@@ -99,31 +118,31 @@ public class CreatePatientDialog extends BaseDialog implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == createButton){
+		if (e.getSource() == createButton) {
 			String title = titleField.getText();
 			String forename = forenameField.getText();
 			String surname = surnameField.getText();
 			Calendar cal = (Calendar) dobField.getModel().getValue();
-			if(cal == null){
-				JOptionPane.showMessageDialog(this,"You must select a date","Validation error",JOptionPane.ERROR_MESSAGE);
+			if (cal == null) {
+				JOptionPane.showMessageDialog(this, "You must select a date", "Validation error", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-			LocalDate dob = LocalDate.of(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH));
+			LocalDate dob = LocalDate.of(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
 			String phoneNumber = phoneField.getText();
 			Optional<Address> optAddress = addressField.getAddress();
 
-			if(!optAddress.isPresent()) {
+			if (!optAddress.isPresent()) {
 				JOptionPane.showMessageDialog(this, "You must select an address", "Validation error", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 
-			Patient patient = new Patient(Optional.empty(),title,forename,surname,dob,phoneNumber,optAddress,optAddress.get().getId());
+			Patient patient = new Patient(Optional.empty(), title, forename, surname, dob, phoneNumber, optAddress, optAddress.get().getId());
 			patient.save();
 			this.patient = Optional.of(patient);
 
 			dispose();
 
-		}else if(e.getSource() == cancelButton){
+		} else if (e.getSource() == cancelButton) {
 			cancel();
 		}
 	}

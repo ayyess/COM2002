@@ -9,6 +9,8 @@
 
 package uk.ac.shef.com2002.grp4.common.data;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import uk.ac.shef.com2002.grp4.common.databases.AddressUtils;
 import uk.ac.shef.com2002.grp4.common.databases.PatientPlanUtils;
 import uk.ac.shef.com2002.grp4.common.databases.PatientUtils;
@@ -16,15 +18,14 @@ import uk.ac.shef.com2002.grp4.common.databases.PatientUtils;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * Used to store the patient details temporarily
  * <br>
- * @author  Group 4
+ *
+ * @author Group 4
  * @version 1.0
- * @since   1/11/2016
+ * @since 1/11/2016
  */
 public class Patient {
 
@@ -38,88 +39,97 @@ public class Patient {
 	 * --Optional
 	 */
 	private Optional<Long> id;
-	/** This stores the title of the patient. */
+	/**
+	 * This stores the title of the patient.
+	 */
 	private String title;
-	/** This stores the forename of the patient. */
+	/**
+	 * This stores the forename of the patient.
+	 */
 	private String forename;
-	/** This stores the surname of the patient. */
+	/**
+	 * This stores the surname of the patient.
+	 */
 	private String surname;
-	/** This stores the date of birth of the patient. */
+	/**
+	 * This stores the date of birth of the patient.
+	 */
 	private LocalDate dob;
-	/** This stores the phone number of the patient. */
+	/**
+	 * This stores the phone number of the patient.
+	 */
 	private String phoneNumber;
 
-	/** This stores the id of the address of the patient. */
+	/**
+	 * This stores the id of the address of the patient.
+	 */
 	private long addressId;
 	/**
 	 * This stores the patients Address object
 	 * --Optional
 	 */
 	private Optional<Address> address;
-	
-	//TODO Add creation from db?
 
 	/**
 	 * This constructor create a Patient object with no patient_id.
 	 * This is for when a new patient is being created and it hasn't
 	 * been assigned.
 	 *
-	 * @param title - title of patient
-	 * @param forename - forename of patient
-	 * @param surname - surname of patient
-	 * @param dob - date of birth of patient
+	 * @param title       - title of patient
+	 * @param forename    - forename of patient
+	 * @param surname     - surname of patient
+	 * @param dob         - date of birth of patient
 	 * @param phoneNumber - contact number of patient
-	 * @param addressId - address id of patient
+	 * @param addressId   - address id of patient
 	 */
-	public Patient(String title, String forename, String surname, LocalDate dob, String phoneNumber,long addressId) {
-		this(Optional.empty(),title,forename,surname,dob,phoneNumber,addressId);
+	public Patient(String title, String forename, String surname, LocalDate dob, String phoneNumber, long addressId) {
+		this(Optional.empty(), title, forename, surname, dob, phoneNumber, addressId);
 	}
 
 	/**
 	 * This constructor creates a Patient object.
 	 *
-	 * @param id - id of patient
-	 * @param title - title of patient
-	 * @param forename - forename of patient
-	 * @param surname - surname of patient
-	 * @param dob - date of birth of patient
+	 * @param id          - id of patient
+	 * @param title       - title of patient
+	 * @param forename    - forename of patient
+	 * @param surname     - surname of patient
+	 * @param dob         - date of birth of patient
 	 * @param phoneNumber - contact number of patient
-	 * @param addressId - address id of patient
+	 * @param addressId   - address id of patient
 	 */
-	public Patient(long id, String title, String forename, String surname, LocalDate dob, String phoneNumber,long addressId) {
-		this(Optional.of(id),title,forename,surname,dob,phoneNumber,addressId);
+	public Patient(long id, String title, String forename, String surname, LocalDate dob, String phoneNumber, long addressId) {
+		this(Optional.of(id), title, forename, surname, dob, phoneNumber, addressId);
 	}
 
 	/**
 	 * This creates a Patient object when their id may or may not exist.
 	 *
-	 * @param id - id of patient
-	 *           --Optional
-	 * @param title - title of patient
-	 * @param forename - forename of patient
-	 * @param surname - surname of patient
-	 * @param dob - date of birth of patient
+	 * @param id          - id of patient
+	 *                    --Optional
+	 * @param title       - title of patient
+	 * @param forename    - forename of patient
+	 * @param surname     - surname of patient
+	 * @param dob         - date of birth of patient
 	 * @param phoneNumber - contact number of patient
-	 * @param addressId - address id of patient
+	 * @param addressId   - address id of patient
 	 */
-	public Patient(Optional<Long> id, String title, String forename, String surname, LocalDate dob, String phoneNumber,long addressId) {
-		this(id,title,forename,surname,dob,phoneNumber,Optional.empty(),addressId);
+	public Patient(Optional<Long> id, String title, String forename, String surname, LocalDate dob, String phoneNumber, long addressId) {
+		this(id, title, forename, surname, dob, phoneNumber, Optional.empty(), addressId);
 	}
 
 	/**
-	 *
-	 * @param id - id of patient
-	 *           --Optional
-	 * @param title - title of patient
-	 * @param forename - forename of patient
-	 * @param surname - surname of patient
-	 * @param dob - date of birth of patient
+	 * @param id          - id of patient
+	 *                    --Optional
+	 * @param title       - title of patient
+	 * @param forename    - forename of patient
+	 * @param surname     - surname of patient
+	 * @param dob         - date of birth of patient
 	 * @param phoneNumber - contact number of patient
-	 * @param address - full Address object of patient
-	 *                --Optional
-	 * @param addressId - address id of patient
+	 * @param address     - full Address object of patient
+	 *                    --Optional
+	 * @param addressId   - address id of patient
 	 */
-	public Patient(Optional<Long> id, String title, String forename, String surname, LocalDate dob, String phoneNumber, Optional<Address> address,long addressId) {
+	public Patient(Optional<Long> id, String title, String forename, String surname, LocalDate dob, String phoneNumber, Optional<Address> address, long addressId) {
 		this.title = title;
 		this.forename = forename;
 		this.surname = surname;
@@ -151,6 +161,7 @@ public class Patient {
 
 	/**
 	 * This gets the title of the patient.
+	 *
 	 * @return title
 	 */
 	public String getTitle() {
@@ -159,6 +170,7 @@ public class Patient {
 
 	/**
 	 * This gets the forename of the patient.
+	 *
 	 * @return forename
 	 */
 	public String getForename() {
@@ -167,6 +179,7 @@ public class Patient {
 
 	/**
 	 * This gets the surname of the patient.
+	 *
 	 * @return surname
 	 */
 	public String getSurname() {
@@ -175,6 +188,7 @@ public class Patient {
 
 	/**
 	 * This gets the date of birth of the patient.
+	 *
 	 * @return dob
 	 */
 	public LocalDate getDob() {
@@ -183,6 +197,7 @@ public class Patient {
 
 	/**
 	 * This gets the date of birth in the form dd-MM-yyyy
+	 *
 	 * @return a formatted date
 	 */
 	public String getFormattedDob() {
@@ -191,6 +206,7 @@ public class Patient {
 
 	/**
 	 * This gets the contact number of the patient.
+	 *
 	 * @return phoneNumber
 	 */
 	public String getPhoneNumber() {
@@ -199,6 +215,7 @@ public class Patient {
 
 	/**
 	 * This gets the id if it exists.
+	 *
 	 * @return id
 	 */
 	public long getId() {
@@ -207,22 +224,22 @@ public class Patient {
 
 	/**
 	 * This gets the Patient Plan if the patient has one.
+	 *
 	 * @return the Patient Plan
 	 */
-	public Optional<PatientPlan> getPatientPlan(){
-		return id.map((id)->{
-			return PatientPlanUtils.getPlanByPatientID(id);
-		});
+	public Optional<PatientPlan> getPatientPlan() {
+		return id.map(PatientPlanUtils::getPlanByPatientID);
 	}
 
 	/**
 	 * This gets the Address object that relates to the patient.
+	 *
 	 * @return an Address object
 	 */
-	public Address getAddress(){
-		if(address.isPresent()){
+	public Address getAddress() {
+		if (address.isPresent()) {
 			return address.get();
-		}else{
+		} else {
 			Address addr = AddressUtils.getAddressByID(addressId);
 			address = Optional.of(addr);
 			return addr;
@@ -233,10 +250,10 @@ public class Patient {
 	 * This saves the details of the Patient permanently in the database.
 	 */
 	public void save() {
-		if(id.isPresent()){
-			PatientUtils.updatePatientByID(id.get(),title,forename,surname,phoneNumber);
-		}else{
-			id = Optional.of(PatientUtils.insertPatient(title,forename,surname,dob,phoneNumber,getAddress().getId()));
+		if (id.isPresent()) {
+			PatientUtils.updatePatientByID(id.get(), title, forename, surname, phoneNumber);
+		} else {
+			id = Optional.of(PatientUtils.insertPatient(title, forename, surname, dob, phoneNumber, getAddress().getId()));
 		}
 	}
 
@@ -244,7 +261,7 @@ public class Patient {
 	 * This deletes a patient from the database.
 	 */
 	public void delete() {
-		if(id.isPresent()) {
+		if (id.isPresent()) {
 			PatientUtils.deleteByID(getId());
 		}
 		//else not in db
@@ -257,19 +274,19 @@ public class Patient {
 	 * @return - a Boolean which is true if the two objects are equal
 	 */
 	@Override
-	public boolean equals(final Object obj){
-		if(obj instanceof Patient){
+	public boolean equals(final Object obj) {
+		if (obj instanceof Patient) {
 			final Patient other = (Patient) obj;
 			return new EqualsBuilder()
-				.append(id, other.id)
-				.append(title, other.title)
-				.append(forename, other.forename)
-				.append(surname, other.surname)
-				.append(dob, other.dob)
-				.append(phoneNumber, other.phoneNumber)
-				.append(addressId, other.addressId)
-				.isEquals();
-		} else{
+					.append(id, other.id)
+					.append(title, other.title)
+					.append(forename, other.forename)
+					.append(surname, other.surname)
+					.append(dob, other.dob)
+					.append(phoneNumber, other.phoneNumber)
+					.append(addressId, other.addressId)
+					.isEquals();
+		} else {
 			return false;
 		}
 	}
@@ -282,13 +299,13 @@ public class Patient {
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder()
-			.append(id)
-			.append(title)
-			.append(forename)
-			.append(surname)
-			.append(dob)
-			.append(phoneNumber)
-			.append(addressId)
-			.toHashCode();
+				.append(id)
+				.append(title)
+				.append(forename)
+				.append(surname)
+				.append(dob)
+				.append(phoneNumber)
+				.append(addressId)
+				.toHashCode();
 	}
 }

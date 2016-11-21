@@ -21,70 +21,81 @@ import java.util.Optional;
  * This class allows the user to select whether a patients address is known already, and therefore
  * in the database. Or the user can choose to create a new address.
  * <br>
- * @author  Group 4
+ *
+ * @author Group 4
  * @version 1.4
- * @since   08/11/2016
+ * @since 08/11/2016
  */
 public class AddressSelector extends JPanel implements ActionListener {
 
-	/** This stores the area where the output will be displayed. */
+	/**
+	 * This stores the area where the output will be displayed.
+	 */
 	private AddressComponent displayField;
 
-	/** This stores the find address button. */
+	/**
+	 * This stores the find address button.
+	 */
 	private JButton findAddressButton;
 
-	/** This stores the create address button. */
+	/**
+	 * This stores the create address button.
+	 */
 	private JButton createAddressButton;
 
-	/** This stores the address if it exists. */
+	/**
+	 * This stores the address if it exists.
+	 */
 	private Optional<Address> address = Optional.empty();
 
 	/**
 	 * This constructor initialises the address selector output.
 	 */
-	public AddressSelector(){
+	public AddressSelector() {
 		super(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-		c.insets = new Insets(0,0,0,0);
+		c.insets = new Insets(0, 0, 0, 0);
 		c.gridwidth = 2;
 		c.gridx = 0;
 		c.weighty = 1;
 		c.fill = GridBagConstraints.BOTH;
 		displayField = new AddressComponent(Optional.empty());
 		displayField.setEnabled(false);
-		add(displayField,c);
+		add(displayField, c);
 
 		c.weighty = 0;
 		c.gridwidth = 1;
 		c.gridx = 0;
 		findAddressButton = new JButton("Find");
 		findAddressButton.addActionListener(this);
-		add(findAddressButton,c);
+		add(findAddressButton, c);
 		c.gridx = 1;
 		createAddressButton = new JButton("Create");
 		createAddressButton.addActionListener(this);
-		add(createAddressButton,c);
-	}
-
-	/**
-	 * This function sets the address and gets the addresses details.
-	 * <br>
-	 * @param address - This is (optionally) an Address object. It may or may not exist.
-	 */
-	public void setAddress(Optional<Address> address){
-		this.address = address;
-		displayField.setAddress(address);
-		//FIXME there has to be a better way to get the dialog to resize if needed
-		SwingUtilities.getWindowAncestor(this).pack();
+		add(createAddressButton, c);
 	}
 
 	/**
 	 * This function gets the Address.
 	 * <br>
+	 *
 	 * @return an Address object if it exists.
 	 */
-	public Optional<Address> getAddress(){
+	public Optional<Address> getAddress() {
 		return address;
+	}
+
+	/**
+	 * This function sets the address and gets the addresses details.
+	 * <br>
+	 *
+	 * @param address - This is (optionally) an Address object. It may or may not exist.
+	 */
+	public void setAddress(Optional<Address> address) {
+		this.address = address;
+		displayField.setAddress(address);
+		//FIXME there has to be a better way to get the dialog to resize if needed
+		SwingUtilities.getWindowAncestor(this).pack();
 	}
 
 	/**
@@ -99,11 +110,11 @@ public class AddressSelector extends JPanel implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == findAddressButton){
+		if (e.getSource() == findAddressButton) {
 			FindAddressDialog finder = new FindAddressDialog(this);
 			finder.setVisible(true);
 			setAddress(finder.getAddress());
-		} else if(e.getSource() == createAddressButton){
+		} else if (e.getSource() == createAddressButton) {
 			CreateAddressDialog creator = new CreateAddressDialog(this);
 			creator.setVisible(true);
 			setAddress(creator.getAddress());

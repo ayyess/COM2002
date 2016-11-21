@@ -10,6 +10,7 @@
 package uk.ac.shef.com2002.grp4.common.payment;
 
 import uk.ac.shef.com2002.grp4.common.BaseDialog;
+import uk.ac.shef.com2002.grp4.common.UserFacingException;
 import uk.ac.shef.com2002.grp4.common.data.Patient;
 import uk.ac.shef.com2002.grp4.common.data.PatientPlan;
 import uk.ac.shef.com2002.grp4.common.data.Treatment;
@@ -18,7 +19,6 @@ import uk.ac.shef.com2002.grp4.common.databases.PatientPlanUtils;
 import uk.ac.shef.com2002.grp4.common.databases.TreatmentApplicationUtils;
 import uk.ac.shef.com2002.grp4.common.databases.TreatmentUtils;
 import uk.ac.shef.com2002.grp4.common.util.CostUtil;
-import uk.ac.shef.com2002.grp4.common.UserFacingException;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -32,9 +32,10 @@ import java.util.List;
 /**
  * Used to manage a patient's payment.
  * <br>
- * @author  Group 4
+ *
+ * @author Group 4
  * @version 1.0
- * @since   14/11/2016
+ * @since 14/11/2016
  */
 public class PaymentDialog extends BaseDialog {
 
@@ -42,20 +43,28 @@ public class PaymentDialog extends BaseDialog {
 	 * Amount the patient is going to pay today
 	 */
 	int payAmount = 0;
-	
-	/** Total cost for the patient's treatments */
+
+	/**
+	 * Total cost for the patient's treatments
+	 */
 	int total = 0;
-	
-	/** The patient who's details are being shown */
+
+	/**
+	 * The patient who's details are being shown
+	 */
 	Patient patient;
-	
-	/** Treatments to show */
+
+	/**
+	 * Treatments to show
+	 */
 	TreatmentApplication[] treatmentApplications;
 	DefaultListModel<TreatmentPrice> model;
-	
-	/** The patient's health care plan */
+
+	/**
+	 * The patient's health care plan
+	 */
 	PatientPlan plan;
-	
+
 	/**
 	 * This creates a new PaymentDialog.
 	 *
@@ -65,60 +74,56 @@ public class PaymentDialog extends BaseDialog {
 	public PaymentDialog(Component o, Patient p) {
 		super(o, "Payment");
 		this.patient = p;
-		
+
 		addLabeledComponent("Patient", new JLabel(p.getName()));
 
-		
-		model = new DefaultListModel<TreatmentPrice>();
-		
+
+		model = new DefaultListModel<>();
+
 		addTreatments();
-		
-		JList<TreatmentPrice> treatmentList = new JList<TreatmentPrice>();
+
+		JList<TreatmentPrice> treatmentList = new JList<>();
 		treatmentList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		treatmentList.setModel(model);
-		
+
 		addLabeledComponent("Treatments", treatmentList);
-		
+
 		addLabeledComponent("Plan", new JLabel(plan.toString()));
-		
+
 		JTextField payAmountText = new JTextField(4);
 		addLabeledComponent("Amount to pay", payAmountText);
-		
+
 		JTextField owedAmountText = new JTextField(4);
 		addLabeledComponent("Total owed", owedAmountText);
 		owedAmountText.setText(CostUtil.costToDecimalString(total));
-		
-		treatmentList.addListSelectionListener(new ListSelectionListener() {
-			
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				int[] selected = treatmentList.getSelectedIndices();
-				int cost = 0;
-				for (int s = 0; s < selected.length; s++) {
-					TreatmentPrice tp = model.get(selected[s]);
-					cost+= tp.discountedCost * tp.treatmentApplication.getCount();
-				}
-				
-				payAmount = cost;
-				payAmountText.setText(CostUtil.costToDecimalString(cost));
+
+		treatmentList.addListSelectionListener(e -> {
+			int[] selected = treatmentList.getSelectedIndices();
+			int cost = 0;
+			for (int aSelected : selected) {
+				TreatmentPrice tp = model.get(aSelected);
+				cost += tp.discountedCost * tp.treatmentApplication.getCount();
 			}
+
+			payAmount = cost;
+			payAmountText.setText(CostUtil.costToDecimalString(cost));
 		});
-		
+
 		JButton pay = new JButton("Pay");
 		pay.addActionListener((e) -> {
 			//Print dialog
 			int[] selected = treatmentList.getSelectedIndices();
-			List<TreatmentPrice> payingTreatments = new ArrayList<TreatmentPrice>();
-			
-			for (int s = 0; s < selected.length; s++) {
-				payingTreatments.add(model.get(selected[s]));
+			List<TreatmentPrice> payingTreatments = new ArrayList<>();
+
+			for (int aSelected : selected) {
+				payingTreatments.add(model.get(aSelected));
 			}
-			
-			List<TreatmentPrice> treatmentsLeft = new ArrayList<TreatmentPrice>();
+
+			List<TreatmentPrice> treatmentsLeft = new ArrayList<>();
 			for (int m = 0; m < model.size(); m++) {
 				boolean found = false;
-				for (int s = 0; s < selected.length; s++) {
-					if (m == selected[s]) {
+				for (int aSelected : selected) {
+					if (m == aSelected) {
 						found = true;
 						break;
 					}
@@ -127,7 +132,7 @@ public class PaymentDialog extends BaseDialog {
 					treatmentsLeft.add(model.get(m));
 				}
 			}
-			
+
 			Receipt r = new Receipt(p, plan, payingTreatments, treatmentsLeft, payAmount);
 			PrinterJob job = PrinterJob.getPrinterJob();
 			job.setPrintable(r);
@@ -139,22 +144,21 @@ public class PaymentDialog extends BaseDialog {
 			//new PrintPreview(r);
 			addTreatments();
 		});
-		
+
 		JButton close = new JButton("Close");
-		close.addActionListener((e) -> {
-			dispose();
-		});
-		
+		close.addActionListener((e) -> dispose());
+
 		addButtons(pay, close);
 		pack();
 	}
-	
+
 	/**
 	 * Searches through the list of treatments and returns that
 	 * first one that has the same name.
-	 * @param treatments Treatment[] - The list to look through 
-	 * @param name String - The name of the treatment to search for
-	 * @return
+	 *
+	 * @param treatments Treatment[] - The list to look through
+	 * @param name       String - The name of the treatment to search for
+	 * @return Treatment
 	 */
 	Treatment getByName(Treatment[] treatments, String name) {
 		for (Treatment t : treatments) {
@@ -175,59 +179,45 @@ public class PaymentDialog extends BaseDialog {
 		} else {
 			plan = pl;
 		}
-		
-		Treatment[] treatments = TreatmentUtils.getTreatments(); 
-		
-		
-		
+
+		Treatment[] treatments = TreatmentUtils.getTreatments();
+
+
 		int total = 0;
 		int savings = 0;
 		boolean validPlan = plan.checkPlanValid();
-		
+
 		int i = 0;
-		
+
 		int repairs = plan.getRemainingRepairs();
 		int hygiene = plan.getRemainingHygieneVisits();
 		int checkups = plan.getRemainingCheckups();
-		
+
 		for (TreatmentApplication ta : treatmentApplications) {
 			// Deduct savings
 			int cost = 0;
 			Treatment t = getByName(treatments, ta.getTreatmentName());
 			ta.setTreatment(t);
-			if (t.getType().equals("REPAIR")) {
-				if (validPlan && repairs>0) {
-					repairs -= 1;
-					savings += t.getCost();
-					cost = 0;
-				} else  {
+			switch (t.getType()) {
+				case "REPAIR":
+				case "HYGIENE":
+				case "CHECKUP":
+					if (validPlan && repairs > 0) {
+						repairs -= 1;
+						savings += t.getCost();
+						cost = 0;
+					} else {
+						total += t.getCost();
+						cost = t.getCost();
+					}
+					break;
+				default:
 					total += t.getCost();
-					cost = t.getCost();
-				}
-			} else if (t.getType().equals("HYGIENE")) {
-				if (validPlan && hygiene>0) {
-					hygiene -= 1;
-					savings += t.getCost();
-					cost = 0;
-				} else  {
-					total += t.getCost();
-					cost = t.getCost();
-				} 
-			} else if (t.getType().equals("CHECKUP")) {
-				if (validPlan && checkups>0) {
-					checkups -= 1;
-					savings += t.getCost();
-					cost = 0;
-				} else  {
-					total += t.getCost();
-					cost = t.getCost();
-				} 
-			} else {
-				total += t.getCost();
+					break;
 			}
 			TreatmentPrice tp = new TreatmentPrice(t.getName(), t.getCost(), cost, t, ta);
 			model.add(i++, tp);
 		}
 	}
-	
+
 }

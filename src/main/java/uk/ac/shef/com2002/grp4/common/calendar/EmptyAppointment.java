@@ -18,9 +18,10 @@ import java.time.LocalTime;
 /**
  * Used to make an empty appointment
  * <br>
- * @author  Group 4
+ *
+ * @author Group 4
  * @version 1.0
- * @since   12/11/2016
+ * @since 12/11/2016
  */
 public class EmptyAppointment extends JPanel {
 
@@ -29,15 +30,19 @@ public class EmptyAppointment extends JPanel {
 	 * using (24*60)/20 means this slot is at time*20 min slot
 	 */
 
-	/** Stores a time for which the empty appointment will be made. */
+	/**
+	 * Stores a time for which the empty appointment will be made.
+	 */
 	private LocalTime time;
-	/** Stores a Partner for which the empty appointment will be made. */
+	/**
+	 * Stores a Partner for which the empty appointment will be made.
+	 */
 	private Partner partner;
 
 	/**
 	 * Constructor that creates an EmptyAppointment panel.
 	 *
-	 * @param time - time as an integer
+	 * @param time    - time as an integer
 	 * @param partner - a Partner
 	 */
 	public EmptyAppointment(LocalTime time, Partner partner) {
@@ -45,16 +50,20 @@ public class EmptyAppointment extends JPanel {
 		this.partner = partner;
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		setBackground(Color.WHITE);
-		
+
 		add(new JLabel(time.toString()));
 	}
 
-	/** Gets the time of the empty appointment. */
+	/**
+	 * Gets the time of the empty appointment.
+	 */
 	public LocalTime getTime() {
 		return time;
 	}
 
-	/** Gets the partner of the empty appointment. */
+	/**
+	 * Gets the partner of the empty appointment.
+	 */
 	public Partner getPartner() {
 		return partner;
 	}

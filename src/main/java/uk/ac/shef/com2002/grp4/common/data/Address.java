@@ -9,18 +9,19 @@
 
 package uk.ac.shef.com2002.grp4.common.data;
 
-import uk.ac.shef.com2002.grp4.common.databases.AddressUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import uk.ac.shef.com2002.grp4.common.databases.AddressUtils;
 
 import java.util.Optional;
 
 /**
  * Used to store the address details temporarily
  * <br>
- * @author  Group 4
+ *
+ * @author Group 4
  * @version 1.0
- * @since   1/11/2016
+ * @since 1/11/2016
  */
 public class Address {
 
@@ -29,18 +30,26 @@ public class Address {
 	 * --Optional
 	 */
 	private Optional<Long> id;
-	/** This stores the house number. */
+	/**
+	 * This stores the house number.
+	 */
 	private int houseNumber;
-	/** This stores the street. */
+	/**
+	 * This stores the street.
+	 */
 	private String street;
-	/** This stores the district. */
+	/**
+	 * This stores the district.
+	 */
 	private String district;
-	/** This stores the city. */
+	/**
+	 * This stores the city.
+	 */
 	private String city;
-	/** This stores the postcode. */
+	/**
+	 * This stores the postcode.
+	 */
 	private String postcode;
-
-	//TODO add creation from db?
 
 	/**
 	 * This constructor create an Address object with no address_id.
@@ -48,26 +57,26 @@ public class Address {
 	 * been assigned.
 	 *
 	 * @param houseNumber - the House Number
-	 * @param street - the Street
-	 * @param district - the District
-	 * @param city - the City
-	 * @param postcode - the Postcode
+	 * @param street      - the Street
+	 * @param district    - the District
+	 * @param city        - the City
+	 * @param postcode    - the Postcode
 	 */
 	public Address(int houseNumber, String street, String district, String city, String postcode) {
-		this(Optional.empty(),houseNumber,street,district,city,postcode);
+		this(Optional.empty(), houseNumber, street, district, city, postcode);
 	}
 
 	/**
 	 * This constructor creates an Address object.
 	 *
-	 * @param id - the address_id
+	 * @param id          - the address_id
 	 * @param houseNumber - the House Number
-	 * @param street - the Street
-	 * @param district - the District
-	 * @param city - the City
-	 * @param postcode - the Postcode
+	 * @param street      - the Street
+	 * @param district    - the District
+	 * @param city        - the City
+	 * @param postcode    - the Postcode
 	 */
-	public Address(Optional<Long> id,int houseNumber, String street, String district, String city, String postcode) {
+	public Address(Optional<Long> id, int houseNumber, String street, String district, String city, String postcode) {
 		this.id = id;
 		this.houseNumber = houseNumber;
 		this.street = street;
@@ -94,54 +103,68 @@ public class Address {
 		return houseNumber + " " + street + ", " + district + ", " + city + ", " + postcode;
 	}
 
-	/** This saves the address permanently in the database. */
+	/**
+	 * This saves the address permanently in the database.
+	 */
 	public void save() {
-		if(id.isPresent()){
-			AddressUtils.updateAddressByID(id.get(),houseNumber,street,district,city,postcode);
-		}else{
-			id = Optional.of(AddressUtils.insertAddress(houseNumber,street,district,city,postcode));
+		if (id.isPresent()) {
+			AddressUtils.updateAddressByID(id.get(), houseNumber, street, district, city, postcode);
+		} else {
+			id = Optional.of(AddressUtils.insertAddress(houseNumber, street, district, city, postcode));
 		}
 	}
 
-	/** This gets the address_id.
+	/**
+	 * This gets the address_id.
+	 *
 	 * @return address_id
 	 */
 	public long getId() {
 		return id.orElse(null);
 	}
 
-	/** This gets the house number.
+	/**
+	 * This gets the house number.
+	 *
 	 * @return houseNumber
 	 */
-	public int getHouseNumber(){
+	public int getHouseNumber() {
 		return houseNumber;
 	}
 
-	/** This gets the street.
+	/**
+	 * This gets the street.
+	 *
 	 * @return street
 	 */
-	public String getStreet(){
+	public String getStreet() {
 		return street;
 	}
 
-	/** This gets the district.
+	/**
+	 * This gets the district.
+	 *
 	 * @return district
 	 */
-	public String getDistrict(){
+	public String getDistrict() {
 		return district;
 	}
 
-	/** This gets the city.
+	/**
+	 * This gets the city.
+	 *
 	 * @return city
 	 */
-	public String getCity(){
+	public String getCity() {
 		return city;
 	}
 
-	/** This gets the postcode.
+	/**
+	 * This gets the postcode.
+	 *
 	 * @return postcode
 	 */
-	public String getPostcode(){
+	public String getPostcode() {
 		return postcode;
 	}
 
@@ -152,17 +175,17 @@ public class Address {
 	 * @return - a Boolean which is true if the two objects are equal
 	 */
 	@Override
-	public boolean equals(final Object obj){
-		if(obj instanceof Address){
+	public boolean equals(final Object obj) {
+		if (obj instanceof Address) {
 			final Address other = (Address) obj;
 			return new EqualsBuilder()
-				.append(houseNumber, other.houseNumber)
-				.append(street, other.street)
-				.append(district, other.district)
-				.append(city, other.city)
-				.append(postcode, other.postcode)
-				.isEquals();
-		} else{
+					.append(houseNumber, other.houseNumber)
+					.append(street, other.street)
+					.append(district, other.district)
+					.append(city, other.city)
+					.append(postcode, other.postcode)
+					.isEquals();
+		} else {
 			return false;
 		}
 	}
@@ -175,11 +198,11 @@ public class Address {
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder()
-			.append(houseNumber)
-			.append(street)
-			.append(district)
-			.append(city)
-			.append(postcode)
-			.toHashCode();
+				.append(houseNumber)
+				.append(street)
+				.append(district)
+				.append(city)
+				.append(postcode)
+				.toHashCode();
 	}
 }

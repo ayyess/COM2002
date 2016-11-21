@@ -20,27 +20,43 @@ import java.util.Optional;
 /**
  * This class is creates a dialog where the user can input a new address.
  * <br>
- * @author  Group 4
+ *
+ * @author Group 4
  * @version 1.0
- * @since   11/11/2016
+ * @since 11/11/2016
  */
 public class CreateAddressDialog extends BaseDialog implements ActionListener {
 
-	/** A button to cancel the process. */
+	/**
+	 * A button to cancel the process.
+	 */
 	private JButton cancelButton;
-	/** A buttom to create the address. */
+	/**
+	 * A buttom to create the address.
+	 */
 	private JButton createButton;
-	/** A field to store the house number. */
+	/**
+	 * A field to store the house number.
+	 */
 	private JTextField houseNumberField;
-	/** A field to store the street. */
+	/**
+	 * A field to store the street.
+	 */
 	private JTextField streetField;
-	/** A field to store the district. */
+	/**
+	 * A field to store the district.
+	 */
 	private JTextField districtField;
-	/** A field to store the city. */
+	/**
+	 * A field to store the city.
+	 */
 	private JTextField cityField;
-	/** A field to store the postcode. */
+	/**
+	 * A field to store the postcode.
+	 */
 	private JTextField postcodeField;
-	/** A field to store the Address object.
+	/**
+	 * A field to store the Address object.
 	 * --Optional
 	 */
 	private Optional<Address> address = Optional.empty();
@@ -50,8 +66,8 @@ public class CreateAddressDialog extends BaseDialog implements ActionListener {
 	 *
 	 * @param c - Takes a component that will parent the dialog
 	 */
-	public CreateAddressDialog(Component c){
-		super(c,"Create Address");
+	public CreateAddressDialog(Component c) {
+		super(c, "Create Address");
 		cancelButton = new JButton("Cancel");
 		cancelButton.addActionListener(this);
 		createButton = new JButton("Create");
@@ -61,13 +77,13 @@ public class CreateAddressDialog extends BaseDialog implements ActionListener {
 		districtField = new JTextField(20);
 		cityField = new JTextField(20);
 		postcodeField = new JTextField(20);
-		addLabeledComponent("House Number",houseNumberField);
-		addLabeledComponent("Street",streetField);
-		addLabeledComponent("District",districtField);
-		addLabeledComponent("City",cityField);
-		addLabeledComponent("Postcode",postcodeField);
+		addLabeledComponent("House Number", houseNumberField);
+		addLabeledComponent("Street", streetField);
+		addLabeledComponent("District", districtField);
+		addLabeledComponent("City", cityField);
+		addLabeledComponent("Postcode", postcodeField);
 
-		addButtons(cancelButton,createButton);
+		addButtons(cancelButton, createButton);
 
 		pack();
 	}
@@ -79,14 +95,14 @@ public class CreateAddressDialog extends BaseDialog implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == cancelButton){
+		if (e.getSource() == cancelButton) {
 			cancel();
-		}else if(e.getSource() == createButton){
+		} else if (e.getSource() == createButton) {
 			Address address = new Address(Integer.parseInt(houseNumberField.getText()),
-			                              streetField.getText(),
-			                              districtField.getText(),
-			                              cityField.getText(),
-			                              postcodeField.getText());
+					streetField.getText(),
+					districtField.getText(),
+					cityField.getText(),
+					postcodeField.getText());
 			address.save();
 			this.address = Optional.of(address);
 			dispose();

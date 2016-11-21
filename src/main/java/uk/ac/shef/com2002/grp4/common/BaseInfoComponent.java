@@ -15,21 +15,31 @@ import java.awt.*;
 /**
  * This class is the base of the GUI and will contain other components
  * <br>
- * @author  Group 4
+ *
+ * @author Group 4
  * @version 1.0
- * @since   02/11/2016
+ * @since 02/11/2016
  */
 abstract public class BaseInfoComponent extends JPanel {
 
-	/** This stores the number of rows required in the component. */
+	/**
+	 * This stores the number of rows required in the component.
+	 */
 	private int row = 0;
+
+	/**
+	 * This constructor creates a new BaseInfoComponent.
+	 */
+	public BaseInfoComponent() {
+		super(new GridBagLayout());
+	}
 
 	/**
 	 * This will add another row to the component.
 	 *
 	 * @return the value of the next row
 	 */
-	protected int nextRow(){
+	protected int nextRow() {
 		return row++;
 	}
 
@@ -38,9 +48,9 @@ abstract public class BaseInfoComponent extends JPanel {
 	 *
 	 * @return the GridBagConstraints
 	 */
-	protected GridBagConstraints getBaseConstraints(){
+	protected GridBagConstraints getBaseConstraints() {
 		GridBagConstraints c = new GridBagConstraints();
-		c.insets = new Insets(5,5,5,5);
+		c.insets = new Insets(5, 5, 5, 5);
 		c.gridy = row;
 		return c;
 	}
@@ -51,23 +61,16 @@ abstract public class BaseInfoComponent extends JPanel {
 	 * @param label - a label for the component
 	 * @param input - a new component
 	 */
-	protected void addLabeledComponent(String label,JComponent input){
+	protected void addLabeledComponent(String label, JComponent input) {
 		GridBagConstraints c = getBaseConstraints();
 
-		c.fill=GridBagConstraints.HORIZONTAL;
-		c.anchor=GridBagConstraints.EAST;
-		add(new JLabel(label+":"),c);
-		c.anchor=GridBagConstraints.WEST;
-		add(input,c);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.EAST;
+		add(new JLabel(label + ":"), c);
+		c.anchor = GridBagConstraints.WEST;
+		add(input, c);
 
 		nextRow();
-	}
-
-	/**
-	 * This constructor creates a new BaseInfoComponent.
-	 */
-	public BaseInfoComponent(){
-		super(new GridBagLayout());
 	}
 
 }

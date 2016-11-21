@@ -9,25 +9,31 @@
 
 package uk.ac.shef.com2002.grp4.common.data;
 
-import uk.ac.shef.com2002.grp4.common.util.CostUtil;
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import uk.ac.shef.com2002.grp4.common.util.CostUtil;
 
 /**
  * Used to store the Treatment details temporarily
  * <br>
- * @author  Group 4
+ *
+ * @author Group 4
  * @version 1.0
- * @since   1/11/2016
+ * @since 1/11/2016
  */
 public class Treatment {
 
-	/** This stores the name of the treatment. */
+	/**
+	 * This stores the name of the treatment.
+	 */
 	private String name;
-	/** This stores the cost of the treatment. */
+	/**
+	 * This stores the cost of the treatment.
+	 */
 	private int cost;
-	/** This stores the type of treatment it is. */
+	/**
+	 * This stores the type of treatment it is.
+	 */
 	private String type;
 
 	/**
@@ -45,19 +51,20 @@ public class Treatment {
 
 	/**
 	 * This gets the cost of the Treatment
+	 *
 	 * @return cost
 	 */
 	public int getCost() {
 		return cost;
 	}
-	
+
 	/**
 	 * @return The name of this treatment
 	 */
 	public String getName() {
 		return name;
 	}
-	
+
 	/**
 	 * @return The type of this treatment one of: REPAIR, HYGIENE or CHECKUP
 	 */
@@ -73,14 +80,14 @@ public class Treatment {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof Treatment){
+		if (obj instanceof Treatment) {
 			final Treatment other = (Treatment) obj;
 			return new EqualsBuilder()
-				.append(name, other.name)
-				.append(cost, other.cost)
-				.append(type, other.type)
-				.isEquals();
-		} else{
+					.append(name, other.name)
+					.append(cost, other.cost)
+					.append(type, other.type)
+					.isEquals();
+		} else {
 			return false;
 		}
 	}
@@ -93,10 +100,10 @@ public class Treatment {
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder()
-			.append(name)
-			.append(cost)
-			.append(type)
-			.toHashCode();
+				.append(name)
+				.append(cost)
+				.append(type)
+				.toHashCode();
 	}
 
 	public String toString() {

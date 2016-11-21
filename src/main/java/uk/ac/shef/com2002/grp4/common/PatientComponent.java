@@ -17,77 +17,91 @@ import java.util.Optional;
 /**
  * Patient details component used within patient details frame
  * <br>
- * @author  Group 4
- * @since   15/11/2016
+ *
+ * @author Group 4
+ * @since 15/11/2016
  */
 public class PatientComponent extends BaseInfoComponent {
-	/** The optional patient */
-	private Optional<Patient> patient;
-	/** Text box for patient's title */
+	/**
+	 * Text box for patient's title
+	 */
 	private final JTextField titleField;
-	/** Text box for patient's first name */
+	/**
+	 * Text box for patient's first name
+	 */
 	private final JTextField firstNameField;
-	/** Text box for patient's last name */
+	/**
+	 * Text box for patient's last name
+	 */
 	private final JTextField lastNameField;
-	/** 
+	/**
 	 * Text box for patient's date of birth.
 	 * Selected with a JDatePicker
 	 */
 	private final JTextField dobField;
-	/** Text box for patient's phone number */
+	/**
+	 * Text box for patient's phone number
+	 */
 	private final JTextField phoneNumberField;
-	/** Address details panel  */
+	/**
+	 * Address details panel
+	 */
 	private final AddressComponent addressField;
-	
-	public PatientComponent(Patient patient){
+	/**
+	 * The optional patient
+	 */
+	private Optional<Patient> patient;
+
+	public PatientComponent(Patient patient) {
 		this(Optional.ofNullable(patient));
 	}
-	public PatientComponent(Optional<Patient> patient){
+
+	public PatientComponent(Optional<Patient> patient) {
 		super();
 
 		titleField = new JTextField(10);
 		titleField.setEditable(false);
-		addLabeledComponent("Title",titleField);
+		addLabeledComponent("Title", titleField);
 
 		firstNameField = new JTextField(10);
 		firstNameField.setEditable(false);
-		addLabeledComponent("First Name",firstNameField);
+		addLabeledComponent("First Name", firstNameField);
 
 		lastNameField = new JTextField(10);
 		lastNameField.setEditable(false);
-		addLabeledComponent("Last Name",lastNameField);
+		addLabeledComponent("Last Name", lastNameField);
 
 		dobField = new JTextField(5);
 		dobField.setEditable(false);
-		addLabeledComponent("Date of Birth",dobField);
+		addLabeledComponent("Date of Birth", dobField);
 
 		phoneNumberField = new JTextField(5);
 		phoneNumberField.setEditable(false);
-		addLabeledComponent("Phone Number",phoneNumberField);
-		
+		addLabeledComponent("Phone Number", phoneNumberField);
+
 		addressField = new AddressComponent(Optional.empty());
 		addressField.setBorder(BorderFactory.createTitledBorder("Address"));
 		GridBagConstraints c = getBaseConstraints();
 		c.gridwidth = 2;
-		add(addressField,c);
-		
+		add(addressField, c);
+
 		setPatient(patient);
 	}
 
-	public void setPatient(Patient patient){
+	public void setPatient(Patient patient) {
 		setPatient(Optional.ofNullable(patient));
 	}
 
-	public void setPatient(Optional<Patient> newPatient){
+	public void setPatient(Optional<Patient> newPatient) {
 		this.patient = newPatient;
-		if(patient.isPresent()){
+		if (patient.isPresent()) {
 			titleField.setText(patient.get().getTitle());
 			firstNameField.setText(patient.get().getForename());
 			lastNameField.setText(patient.get().getSurname());
 			dobField.setText(patient.get().getFormattedDob());
 			phoneNumberField.setText(patient.get().getPhoneNumber());
 			addressField.setAddress(patient.map(Patient::getAddress));
-		}else{
+		} else {
 			titleField.setText("");
 			firstNameField.setText("");
 			lastNameField.setText("");

@@ -14,26 +14,30 @@ import java.awt.event.MouseEvent;
 /**
  * Used to listen for clicks on the calendar.
  * <br>
- * @author  Group 4
+ *
+ * @author Group 4
  * @version 1.0
- * @since   03/11/2016
+ * @since 03/11/2016
  */
 public abstract class CalendarClickListener {
 
 	/**
 	 * Listens for a mouse click
+	 *
 	 * @param e - a MouseEvent
 	 */
 	public abstract void onClick(MouseEvent e);
 
 	/**
 	 * Listens for a mouse press
+	 *
 	 * @param e - a MouseEvent
 	 */
 	public abstract void onPressed(MouseEvent e);
 
 	/**
 	 * Listens for a mouse release
+	 *
 	 * @param e - a MouseEvent
 	 */
 	public abstract void onRelease(MouseEvent e);
@@ -46,16 +50,16 @@ public abstract class CalendarClickListener {
 	 */
 	public void notify(MouseEvent e) {
 		switch (e.getID()) {
-		case MouseEvent.MOUSE_CLICKED:
-			onClick(e);
-			break;
-		case MouseEvent.MOUSE_PRESSED:
-			onPressed(e);
-			break;
-		case MouseEvent.MOUSE_RELEASED:
-			onRelease(e);
-			break;
+			case MouseEvent.MOUSE_CLICKED:
+				onClick(e);
+				break;
+			case MouseEvent.MOUSE_PRESSED:
+				onPressed(e);
+				break;
+			case MouseEvent.MOUSE_RELEASED:
+				onRelease(e);
+				break;
 		}
 	}
-	
+
 }

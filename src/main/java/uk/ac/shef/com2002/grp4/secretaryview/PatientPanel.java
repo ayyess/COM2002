@@ -27,47 +27,46 @@ import java.util.List;
 
 /**
  * Panel for patient record interaction workflow
- *
+ * <p>
  * Created on 28/10/2016.
  */
-public class PatientPanel extends JPanel implements DocumentListener, ActionListener{
+public class PatientPanel extends JPanel implements DocumentListener, ActionListener {
+	private static final String[] columnNames = {"Title", "First Name", "Last Name", "DoB", "Phone Number"};
 	private JTextField firstNameField;
 	private String searchText = "";
 	private PatientTableModel searchResults;
 	private JButton addPatientButton;
 
-	//TODO searching patients: should mostly work now, but untested
-	//TODO adding patients
-	public PatientPanel(){
+	public PatientPanel() {
 		super(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		firstNameField = new JTextField(20);
 		firstNameField.getDocument().addDocumentListener(this);
 		firstNameField.addActionListener(this);
 		c.gridx = 0;
-		add(new JLabel("First Name:"),c);
+		add(new JLabel("First Name:"), c);
 		c.gridx = 1;
 		c.anchor = GridBagConstraints.EAST;
-		add(firstNameField,c);
+		add(firstNameField, c);
 
 		searchResults = new PatientTableModel();
 		JTable searchResultsDisplay = new JTable(searchResults);
-		int dpiScaling = (int)DPIScaling.get();
-		searchResultsDisplay.setRowHeight(searchResultsDisplay.getRowHeight()*dpiScaling);
+		int dpiScaling = (int) DPIScaling.get();
+		searchResultsDisplay.setRowHeight(searchResultsDisplay.getRowHeight() * dpiScaling);
 		searchResultsDisplay.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		searchResultsDisplay.getSelectionModel().addListSelectionListener((ev)->{
+		searchResultsDisplay.getSelectionModel().addListSelectionListener((ev) -> {
 			//the index values on the event change oddly, so just get the row t=from the table instead
 			int row = searchResultsDisplay.getSelectedRow();
-			if(row<0){
+			if (row < 0) {
 				//this can apparently happen
 				//so just refresh the search results and return
 				doSearch();
 				return;
 			}
 			Patient selected = searchResults.getValueAt(row);
-			PatientDetailsDialog details = new PatientDetailsDialog(selected,this);
+			PatientDetailsDialog details = new PatientDetailsDialog(selected, this);
 			details.setVisible(true);
-			if(details.getModified()){
+			if (details.getModified()) {
 				doSearch();
 			}
 			//TODO: check if we need to refresh here
@@ -79,7 +78,7 @@ public class PatientPanel extends JPanel implements DocumentListener, ActionList
 		c.gridwidth = 2;
 		c.gridy = 1;
 		c.fill = GridBagConstraints.BOTH;
-		add(new JScrollPane(searchResultsDisplay),c);
+		add(new JScrollPane(searchResultsDisplay), c);
 
 		addPatientButton = new JButton("New Patient");
 		addPatientButton.addActionListener(this);
@@ -91,52 +90,52 @@ public class PatientPanel extends JPanel implements DocumentListener, ActionList
 		c.gridy = 2;
 		c.fill = GridBagConstraints.NONE;
 		c.anchor = GridBagConstraints.EAST;
-		add(addPatientButton,c);
+		add(addPatientButton, c);
 		doSearch();
 	}
 
-	private void setSearchText(String text){
+	private void setSearchText(String text) {
 		searchText = text;
 	}
 
 	@Override
-		public void changedUpdate(DocumentEvent ev){
-		try{
+	public void changedUpdate(DocumentEvent ev) {
+		try {
 			int len = ev.getDocument().getLength();
-			setSearchText(ev.getDocument().getText(0,len));
-		}catch(Exception e){
+			setSearchText(ev.getDocument().getText(0, len));
+		} catch (Exception e) {
 			e.printStackTrace();//FIXME
 		}
 	}
 
 	@Override
-	public void insertUpdate(DocumentEvent ev){
-		try{
+	public void insertUpdate(DocumentEvent ev) {
+		try {
 			int len = ev.getDocument().getLength();
-			setSearchText(ev.getDocument().getText(0,len));
-		}catch(Exception e){
+			setSearchText(ev.getDocument().getText(0, len));
+		} catch (Exception e) {
 			e.printStackTrace();//FIXME
 		}
 	}
 
 	@Override
-	public void removeUpdate(DocumentEvent ev){
-		try{
+	public void removeUpdate(DocumentEvent ev) {
+		try {
 			int len = ev.getDocument().getLength();
-			setSearchText(ev.getDocument().getText(0,len));
-		}catch(Exception e){
+			setSearchText(ev.getDocument().getText(0, len));
+		} catch (Exception e) {
 			e.printStackTrace();//FIXME
 		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == firstNameField) {
+		if (e.getSource() == firstNameField) {
 			doSearch();
-		}else if(e.getSource() == addPatientButton){
+		} else if (e.getSource() == addPatientButton) {
 			CreatePatientDialog createDialog = new CreatePatientDialog(this);
 			createDialog.setVisible(true);
-			if(!createDialog.wasCanceled()){
+			if (!createDialog.wasCanceled()) {
 				//we think a patient was created, so refresh search results
 				doSearch();
 			}
@@ -149,26 +148,29 @@ public class PatientPanel extends JPanel implements DocumentListener, ActionList
 		searchResults.addAll(found);
 	}
 
-	private static final String[] columnNames = {"Title","First Name","Last Name","DoB","Phone Number"};
 	class PatientTableModel extends AbstractTableModel {
 		private final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 		private List<Patient> data = new ArrayList<>();
+
 		@Override
-		public int getColumnCount(){
+		public int getColumnCount() {
 			return columnNames.length;
 		}
+
 		@Override
-		public String getColumnName(int columnIndex){
+		public String getColumnName(int columnIndex) {
 			return columnNames[columnIndex];
 		}
+
 		@Override
-		public int getRowCount(){
+		public int getRowCount() {
 			return data.size();
 		}
-		@Override 
-		public Object getValueAt(int rowIndex, int columnIndex){
+
+		@Override
+		public Object getValueAt(int rowIndex, int columnIndex) {
 			Patient p = data.get(rowIndex);
-			switch(columnIndex){
+			switch (columnIndex) {
 				case 0:
 					return p.getTitle();
 				case 1:
@@ -183,24 +185,29 @@ public class PatientPanel extends JPanel implements DocumentListener, ActionList
 					throw new IllegalArgumentException();
 			}
 		}
+
 		@Override
-		public boolean isCellEditable(int rowIndex, int columnIndex){
+		public boolean isCellEditable(int rowIndex, int columnIndex) {
 			return false;
 		}
-		public void removeRow(int index){
+
+		public void removeRow(int index) {
 			data.remove(index);
-			fireTableRowsDeleted(index,index);
+			fireTableRowsDeleted(index, index);
 		}
-		public void clear(){
+
+		public void clear() {
 			int length = data.size();
 			data.clear();
-			fireTableRowsDeleted(0,length);
+			fireTableRowsDeleted(0, length);
 		}
-		public void addAll(List<Patient> patients){
+
+		public void addAll(List<Patient> patients) {
 			data = patients;
-			fireTableRowsInserted(0,data.size());
+			fireTableRowsInserted(0, data.size());
 		}
-		public Patient getValueAt(int index){
+
+		public Patient getValueAt(int index) {
 			return data.get(index);
 		}
 	}
