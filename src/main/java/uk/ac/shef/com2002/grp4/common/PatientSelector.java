@@ -18,18 +18,38 @@ import java.awt.event.ActionListener;
 import java.util.Optional;
 
 /**
- * <Doc here>
- * <p>
- * Created on 11/11/2016.
+ * This class allows the user to select a patient if known already, and therefore
+ * in the database. Or the user can choose to create a new patient.
+ * <br>
+ *
+ * @author Group 4
+ * @version 1.4
+ * @since 08/11/2016
  */
 public class PatientSelector extends JPanel implements ActionListener {
 
+	/**
+	 * This stores the area where the output will be displayed.
+	 */
 	private PatientComponent displayField;
+
+	/**
+	 * This stores the find patient button.
+	 */
 	private JButton findPatientButton;
+	/**
+	 * This stores the create patient button.
+	 */
 	private JButton createPatientButton;
 
+	/**
+	 * This stores the patient if it exists.
+	 */
 	private Optional<Patient> patient = Optional.empty();
 
+	/**
+	 * This constructor initialises the patient selector output.
+	 */
 	public PatientSelector() {
 		super(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -54,14 +74,30 @@ public class PatientSelector extends JPanel implements ActionListener {
 		add(createPatientButton, c);
 	}
 
-	public void setPatient(Patient patient) {
-		setPatient(Optional.ofNullable(patient));
-	}
-
+	/**
+	 * This function gets the Patient.
+	 * <br>
+	 *
+	 * @return a Patient object if it exists.
+	 */
 	public Optional<Patient> getPatient() {
 		return patient;
 	}
 
+	/**
+	 * @see PatientSelector#setPatient(Optional<Patient>)
+	 * @param patient
+	 */
+	public void setPatient(Patient patient) {
+		setPatient(Optional.ofNullable(patient));
+	}
+
+	/**
+	 * This function sets the patient and gets the addresses details.
+	 * <br>
+	 *
+	 * @param patient - This is (optionally) a Patient object. It may or may not exist.
+	 */
 	public void setPatient(Optional<Patient> patient) {
 		this.patient = patient;
 		displayField.setPatient(patient);
@@ -69,6 +105,16 @@ public class PatientSelector extends JPanel implements ActionListener {
 		SwingUtilities.getWindowAncestor(this).pack();
 	}
 
+	/**
+	 * This function behaves if a certain action is performed.
+	 * <br>
+	 * If the find address button is pressed, it creates a new finder dialog
+	 * and outputs the patient.
+	 * If the create address button is pressed, it creates a new creator dialog
+	 * and allows the user to create a new patient.
+	 *
+	 * @param e - an ActionEvent
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == findPatientButton) {

@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
 import java.util.Optional;
 
 /**
- * This class allows the user to select whether a patients address is known already, and therefore
+ * This class allows the user to select an address if known already, and therefore
  * in the database. Or the user can choose to create a new address.
  * <br>
  *
