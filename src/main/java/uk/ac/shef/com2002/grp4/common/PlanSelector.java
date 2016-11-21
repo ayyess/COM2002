@@ -19,14 +19,24 @@ import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Swing component to select a patient plan
+ */
 public class PlanSelector extends JPanel {
 	JComboBox<Plan> planSelector;
 	List<ChangeListener> changeListeners = new ArrayList<>();
 
+	/**
+	 * Construct getting available plans from the db
+	 */
 	public PlanSelector() {
 		this(PlanUtils.getTreatmentPlans());
 	}
 
+	/**
+	 * Construct with available planns being those passed in
+	 * @param treatmentPlans The plans to allow choosing from
+	 */
 	public PlanSelector(List<Plan> treatmentPlans) {
 		planSelector = new JComboBox<>(treatmentPlans.toArray(new Plan[treatmentPlans.size()]));
 		planSelector.setEditable(false);
@@ -42,13 +52,26 @@ public class PlanSelector extends JPanel {
 		add(planSelector);
 	}
 
+	/**
+	 * Add a listener for changes in the selected plan
+	 * @param listener the listner to add
+	 */
 	public void addChangeListener(ChangeListener listener) {
 		changeListeners.add(listener);
 	}
 
+	/**
+	 * Get the plan shown as selected
+	 * @return the selected plan
+	 */
 	public Plan getSelectedItem() {
 		return (Plan) planSelector.getSelectedItem();
 	}
+
+	/**
+	 * set the plan shown as selected
+	 * @param plan the plan to be shown as selected
+	 */
 
 	public void setSelectedItem(Plan plan) {
 		planSelector.setSelectedItem(plan);
