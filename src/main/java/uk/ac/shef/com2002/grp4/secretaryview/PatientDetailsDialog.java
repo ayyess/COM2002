@@ -47,18 +47,13 @@ public class PatientDetailsDialog extends BaseDialog implements ActionListener {
 		addLabeledComponent("Plan", planSelector);
 		//set selector to initial value
 		{
-			Optional<PatientPlan> plan = patient.getPatientPlan();
-			if (plan.isPresent()) {
-				planSelector.setSelectedItem(plan.get().getPlan());
-			}
+			PatientPlan plan = patient.getPatientPlan();
+			planSelector.setSelectedItem(plan.getPlan());
 		}
 		planSelector.addChangeListener((ChangeEvent ev) -> {
-			Optional<PatientPlan> plan = patient.getPatientPlan();
-			if (!plan.isPresent()) {
-				plan = Optional.of(PatientPlan.defaultFor(patient));
-			}
-			plan.get().setPlan(planSelector.getSelectedItem());
-			plan.get().update();
+			PatientPlan plan = patient.getPatientPlan();
+			plan.setPlan(planSelector.getSelectedItem());
+			plan.update();
 			modified = true;
 		});
 		nextRow();

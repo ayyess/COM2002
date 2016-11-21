@@ -250,4 +250,7 @@ public class PatientPlan {
 				"</html>";
 	}
 
+	public void save() {
+		PatientPlanUtils.create(patientID,name,startDate,usedCheckUps,usedHygiene,usedRepairs);
+	}
 }

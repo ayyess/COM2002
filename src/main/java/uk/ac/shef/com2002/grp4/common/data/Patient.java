@@ -227,8 +227,12 @@ public class Patient {
 	 *
 	 * @return the Patient Plan
 	 */
-	public Optional<PatientPlan> getPatientPlan() {
-		return id.map(PatientPlanUtils::getPlanByPatientID);
+	public PatientPlan getPatientPlan() {
+		return id.map(PatientPlanUtils::getPlanByPatientID).orElseGet(()->{
+			PatientPlan p = PatientPlan.defaultFor(this);
+			p.save();
+			return p;
+		});
 	}
 
 	/**

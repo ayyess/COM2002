@@ -12,6 +12,7 @@ package uk.ac.shef.com2002.grp4.common.databases;
 import uk.ac.shef.com2002.grp4.common.data.PatientPlan;
 
 import java.sql.ResultSet;
+import java.time.LocalDate;
 
 /**
  * Used to control database interaction.
@@ -108,6 +109,19 @@ public class PatientPlanUtils {
 			stmt.setInt(4, patientPlan.getUsedHygieneVisits());
 			stmt.setInt(5, patientPlan.getUsedRepairs());
 			stmt.setLong(6, id);
+			stmt.executeUpdate();
+			return null;
+		});
+	}
+
+	public static void create(long patientID, String name, LocalDate startDate, int usedCheckUps, int usedHygiene, int usedRepairs) {
+		ConnectionManager.withStatement("INSERT INTO patient_plans (patient_id,plan_name,start_date,used_checkups,used_hygiene_visits,used_repairs) VALUES (?,?,?,?,?,?)", (stmt) -> {
+			stmt.setLong(1, patientID);
+			stmt.setString(2, name);
+			stmt.setDate(3, java.sql.Date.valueOf(startDate));
+			stmt.setInt(4,usedCheckUps);
+			stmt.setInt(5, usedHygiene);
+			stmt.setInt(6, usedRepairs);
 			stmt.executeUpdate();
 			return null;
 		});

@@ -204,7 +204,6 @@ public class PatientPanel extends JPanel implements DocumentListener, ActionList
 
 		public void addAll(List<Patient> patients) {
 			data = patients;
-			fireTableRowsInserted(0, data.size());
 		}
 
 		public Patient getValueAt(int index) {
