@@ -13,6 +13,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
+/**
+ * Holds the sql operations for {@link TreatmentApplication}s
+ */
 public class TreatmentApplicationUtils {
 
 	/**
