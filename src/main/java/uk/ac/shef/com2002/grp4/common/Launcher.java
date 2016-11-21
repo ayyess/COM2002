@@ -61,6 +61,10 @@ public class Launcher extends JFrame implements ActionListener {
 		setVisible(true);
 	}
 
+	/**
+	 * Main entry point of the program
+	 * @param args unused
+	 */
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(() -> {
 			try {
@@ -76,6 +80,10 @@ public class Launcher extends JFrame implements ActionListener {
 		});
 	}
 
+	/**
+	 * Invoked when the user chooses a view
+	 * @param e the event holding the choice
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == secretaryViewButton) {

@@ -52,10 +52,20 @@ public class PatientComponent extends BaseInfoComponent {
 	 */
 	private Optional<Patient> patient;
 
+	/**
+	 * Construct a patient component that filled with a patients details.
+	 * A null patient will give empty fields.
+	 * @param patient the patient whose details to use
+	 */
 	public PatientComponent(Patient patient) {
 		this(Optional.ofNullable(patient));
 	}
 
+	/**
+	 * Construct a patient component that filled with a patients details.
+	 * A null patient will give empty fields.
+	 * @param patient the patient whose details to use
+	 */
 	public PatientComponent(Optional<Patient> patient) {
 		super();
 
@@ -88,13 +98,23 @@ public class PatientComponent extends BaseInfoComponent {
 		setPatient(patient);
 	}
 
+	/**
+	 * Update the fields with a ptients details
+	 * A null patient resets the fields to empty
+	 * @param patient the patient whose details to use
+	 */
 	public void setPatient(Patient patient) {
 		setPatient(Optional.ofNullable(patient));
 	}
 
-	public void setPatient(Optional<Patient> newPatient) {
-		this.patient = newPatient;
-		if (patient.isPresent()) {
+	/**
+	 * Update the fields with a ptients details
+	 * A null patient resets the fields to empty
+	 * @param patient the patient whose details to use
+	 */
+	public void setPatient(Optional<Patient> patient){
+		this.patient = patient;
+		if(patient.isPresent()){
 			titleField.setText(patient.get().getTitle());
 			firstNameField.setText(patient.get().getForename());
 			lastNameField.setText(patient.get().getSurname());
