@@ -65,6 +65,26 @@ public class AddressUtils {
 	}
 
 	/**
+	 * This gets all Addresses with a particular postcode.
+	 *fuzzyFindAddresses
+	 * @param postcode - a postcode
+	 * @return - an ArrayList of Address(es)
+	 */
+	public static List<Address> fuzzyFindAddresses(String postcode) {
+		List<Address> addresses = new ArrayList<>();
+		ConnectionManager.withStatement("SELECT * FROM addresses WHERE postcode LIKE ?", (stmt) -> {
+			stmt.setString(1, "%"+postcode+"%");
+			ResultSet res = stmt.executeQuery();
+			while (res.next()) {
+				addresses.add(new Address(Optional.of(res.getLong(1)), res.getInt(2), res.getString(3), res.getString(4), res.getString(5), res.getString(6)));
+			}
+			return null;
+		});
+		return addresses;
+
+	}
+
+	/**
 	 * This gets the id of an address by its house_number and postcode.
 	 *
 	 * @param houseNumber - a houseNumber

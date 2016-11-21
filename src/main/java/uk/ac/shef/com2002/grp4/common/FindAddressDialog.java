@@ -89,7 +89,7 @@ public class FindAddressDialog extends BaseDialog implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == postcodeField) {
-			List<Address> addresses = AddressUtils.findAddresses(postcodeField.getText());
+			List<Address> addresses = AddressUtils.fuzzyFindAddresses(postcodeField.getText());
 			DefaultListModel<Address> model = (DefaultListModel<Address>) searchResults.getModel();
 			model.clear();
 			for (Address a : addresses) {
