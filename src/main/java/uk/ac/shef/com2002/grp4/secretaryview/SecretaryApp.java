@@ -12,8 +12,14 @@ package uk.ac.shef.com2002.grp4.secretaryview;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The main window for the secretary view sub app
+ */
 public class SecretaryApp extends JFrame {
 
+	/**
+	 * Construct the window and show it
+	 */
 	public SecretaryApp() {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setPreferredSize(new Dimension(800, 600));

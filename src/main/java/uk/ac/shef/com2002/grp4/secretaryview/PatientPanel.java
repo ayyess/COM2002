@@ -27,16 +27,33 @@ import java.util.List;
 
 /**
  * Panel for patient record interaction workflow
- * <p>
+ * <br/>
  * Created on 28/10/2016.
  */
 public class PatientPanel extends JPanel implements DocumentListener, ActionListener {
+	/**
+	 * Names of columns in the search results
+	 */
 	private static final String[] columnNames = {"Title", "First Name", "Last Name", "DoB", "Phone Number"};
+	/**
+	 * Field to enter search text
+	 */
 	private JTextField firstNameField;
+	/**
+	 * Search text set by the field listeners
+	 */
 	private String searchText = "";
+	/**
+	 * List of serarch results in a format {@link JTable} can display
+	 */
 	private PatientTableModel searchResults;
+	/**
+	 * Button for adding patients
+	 */
 	private JButton addPatientButton;
-
+	/**
+	 * Create the panel with defalt layout and showing all patients
+	 */
 	public PatientPanel() {
 		super(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
@@ -94,10 +111,18 @@ public class PatientPanel extends JPanel implements DocumentListener, ActionList
 		doSearch();
 	}
 
+	/**
+	 * Set the text that will be searched
+	 * @param text the text  to be searched
+	 */
 	private void setSearchText(String text) {
 		searchText = text;
 	}
-
+	
+	/**
+	 * Listen for changes in the searchField
+	 * @param ev the change event
+	 */
 	@Override
 	public void changedUpdate(DocumentEvent ev) {
 		try {
@@ -108,6 +133,10 @@ public class PatientPanel extends JPanel implements DocumentListener, ActionList
 		}
 	}
 
+	/**
+	 * Listen for changes in the searchField
+	 * @param ev the change event
+	 */
 	@Override
 	public void insertUpdate(DocumentEvent ev) {
 		try {
@@ -118,6 +147,10 @@ public class PatientPanel extends JPanel implements DocumentListener, ActionList
 		}
 	}
 
+	/**
+	 * Listen for changes in the searchField
+	 * @param ev the change event
+	 */
 	@Override
 	public void removeUpdate(DocumentEvent ev) {
 		try {
@@ -128,6 +161,10 @@ public class PatientPanel extends JPanel implements DocumentListener, ActionList
 		}
 	}
 
+	/**
+	 * Listen for ui interaction
+	 * @param e the ui event
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == firstNameField) {
@@ -142,14 +179,26 @@ public class PatientPanel extends JPanel implements DocumentListener, ActionList
 		}
 	}
 
+	/**
+	 * Trigger a fuzzy search by the current {@link searchText} in the db
+	 */
 	private void doSearch() {
 		List<Patient> found = PatientUtils.fuzzyFindPatientByFirstName(searchText);
 		searchResults.clear();
 		searchResults.addAll(found);
 	}
 
+	/**
+	 * An adapater to show a list of {@link uk.ac.shef.com2002.grp4.common.data.Patient}s in a JTable
+	 */
 	class PatientTableModel extends AbstractTableModel {
+		/**
+		 * A formatter for the time format requested in the spec
+		 */
 		private final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		/**
+		 * The list of patients to display
+		 */
 		private List<Patient> data = new ArrayList<>();
 
 		@Override
@@ -191,21 +240,36 @@ public class PatientPanel extends JPanel implements DocumentListener, ActionList
 			return false;
 		}
 
+		/**
+		 * Remove a row from the displayed table
+		 * @param index the index of thee row to remove
+		 */
 		public void removeRow(int index) {
 			data.remove(index);
 			fireTableRowsDeleted(index, index);
 		}
 
+		/**
+		 * Remove all rows from the displayed table
+		 */
 		public void clear() {
 			int length = data.size();
 			data.clear();
 			fireTableRowsDeleted(0, length);
 		}
 
+		/**
+		 * Add all elements in a list to the displayed table
+		 * @param patients the list of patients to add
+		 */
 		public void addAll(List<Patient> patients) {
 			data = patients;
 		}
 
+		/**
+		 * Get the patient from a row of the table
+		 * @param index the row to get
+		 */
 		public Patient getValueAt(int index) {
 			return data.get(index);
 		}
