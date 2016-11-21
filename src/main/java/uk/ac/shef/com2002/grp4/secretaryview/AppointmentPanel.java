@@ -24,11 +24,17 @@ import java.time.LocalTime;
 
 /**
  * Panel for appointment interaction workflow
+ *
+ * The panel shows a date picker and a calendar view of appointments.
+ * The date picker updates the calendar's date.
  * <p>
  * Created on 28/10/2016.
  */
 public class AppointmentPanel extends JPanel {
 
+	/**
+	 * Constructs a panel showing a date picker and a view of the calendar
+	 */
 	public AppointmentPanel() {
 		super(new BorderLayout());
 
