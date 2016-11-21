@@ -23,17 +23,33 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Optional;
 
+/**
+ * A dialog showing a patients details
+ */
 public class PatientDetailsDialog extends BaseDialog implements ActionListener {
 
+	/** The button the delete the patient */
 	private final JButton deleteButton;
+	/** The button to close this dialog */
 	private final JButton closeButton;
+	/** The panel to select the patients plan */
 	private final PlanSelector planSelector;
+	/** The scrollable pane that holds the patient treatment history */
 	private final JScrollPane listScroll;
+	/** The patients treatment history */
 	private final JList<Treatment> pastTreatmentList;
+	/** The model linking treatements to their corresponding swing components */
 	private final DefaultListModel<Treatment> treatmentListModel;
+	/** The patient whose details to query */
 	private Patient patient;
+	/** Flag to mark when the patients details have been changed in */
 	private boolean modified;
 
+	/**
+	 * Construct a dialog showing a patients details
+	 * @param patient the patient to query
+	 * @param owner the component to attach this dialog to
+	 */
 	public PatientDetailsDialog(Patient patient, Component owner) {
 		super(owner, "Patient Details");
 		this.patient = patient;
@@ -98,6 +114,10 @@ public class PatientDetailsDialog extends BaseDialog implements ActionListener {
 		}
 	}
 
+	/**
+	 * Check if the patient was modified
+	 * @return  true if the patient was modified
+	 */
 	public boolean getModified() {
 		return modified;
 	}
