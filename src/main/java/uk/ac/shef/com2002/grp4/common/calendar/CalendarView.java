@@ -119,19 +119,20 @@ public class CalendarView extends JPanel {
 	 * @return an Array of CalendarComp
 	 */
 	public static CalendarComp[] createCalendars(boolean day, LocalDate date, Partner p, JPanel panel, List<CalendarClickListener> slotListeners, List<CalendarClickListener> appointmentListeners) {
-		CalendarComp[] calendars = new CalendarComp[7];
+		CalendarComp[] calendars = new CalendarComp[5];
+		LocalDate startDate = date.minusDays(date.getDayOfWeek().ordinal());
 		panel.removeAll();
 		GridBagLayout layout = new GridBagLayout();
-		layout.columnWidths = new int[]{1, 1, 1, 1, 1, 1, 1};
-		layout.columnWeights = new double[]{1, 1, 1, 1, 1, 1, 1};
+		layout.columnWidths = new int[]{1, 1, 1, 1, 1};
+		layout.columnWeights = new double[]{1, 1, 1, 1, 1};
 		panel.setLayout(layout);
 		if (day) {
-			List<Appointment> appointments = AppointmentUtils.getAppointmentByDate(date);
+			List<Appointment> appointments = AppointmentUtils.getAppointmentByDate(startDate);
 			GridBagConstraints constraints = new GridBagConstraints();
 			calendars[0] = new CalendarComp(appointments.stream()
 					.filter((appt) -> appt.getPartner().equals(p.toString()))
 					.collect(Collectors.toList())
-					, date, p);
+					, startDate, p);
 			for (CalendarClickListener slotL : slotListeners) {
 				calendars[0].addSlotClickListener(slotL);
 			}
@@ -144,9 +145,9 @@ public class CalendarView extends JPanel {
 			panel.add(calendars[0], constraints);
 		} else {
 			//get *all* required appointments once to reduce waiting on network (up to 7x speedup)
-			List<Appointment> appointments = AppointmentUtils.getAppointmentByDateRange(date, date.plusDays(calendars.length - 1));
+			List<Appointment> appointments = AppointmentUtils.getAppointmentByDateRange(startDate, startDate.plusDays(calendars.length - 1));
 			for (int i = 0; i < calendars.length; i++) {
-				LocalDate dayDate = date.plusDays(i);
+				LocalDate dayDate = startDate.plusDays(i);
 				GridBagConstraints constraints = new GridBagConstraints();
 				//filter the appointments as required in java
 				CalendarComp c = new CalendarComp(appointments.stream().filter((appt) ->

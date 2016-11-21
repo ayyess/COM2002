@@ -10,17 +10,17 @@
 package uk.ac.shef.com2002.grp4.secretaryview;
 
 import org.jdatepicker.JDatePanel;
+import org.jdatepicker.UtilCalendarModel;
 import org.jdatepicker.UtilDateModel;
 import uk.ac.shef.com2002.grp4.common.calendar.*;
 import uk.ac.shef.com2002.grp4.common.util.DPIScaling;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Calendar;
 
 /**
  * Panel for appointment interaction workflow
@@ -40,6 +40,12 @@ public class AppointmentPanel extends JPanel {
 		UtilDateModel model = new UtilDateModel();
 		JDatePanel datePanel = new JDatePanel(model);
 
+		datePanel.addDateSelectionConstraint(dateModel -> {
+			UtilCalendarModel calModel = (UtilCalendarModel) dateModel;
+			Calendar cal = calModel.getValue();
+			int day = cal.get(Calendar.DAY_OF_WEEK);
+			return day >= Calendar.MONDAY && day <= Calendar.FRIDAY;
+		});
 		datePanel.getModel().addChangeListener(e -> {
 			UtilDateModel source = (UtilDateModel) e.getSource();
 			calendar.setDate(LocalDate.of(source.getYear(), source.getMonth() + 1, source.getDay()));
