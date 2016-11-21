@@ -172,7 +172,7 @@ public class CalendarComp extends JPanel {
 				c.gridy = HEADER_SIZE+t;
 				c.weightx = 1.0;
 				c.fill = GridBagConstraints.BOTH;
-				EmptyAppointment gap = new EmptyAppointment(START.plusMinutes(t), partner);
+				EmptyAppointment gap = new EmptyAppointment(START.plusMinutes(t*DIV), partner);
 				gap.addMouseListener(slotAdapter);
 				add(gap, c);
 			}
