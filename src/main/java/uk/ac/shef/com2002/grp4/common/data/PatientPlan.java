@@ -69,7 +69,7 @@ public class PatientPlan {
 	 */
 	public static PatientPlan defaultFor(Patient p){
 		return new PatientPlan(
-			p.getID(),
+			p.getId(),
 			DEFAULT_PLAN_NAME,
 			LocalDate.now(),
 			0,

@@ -63,8 +63,6 @@ public class CreatePatientDialog extends BaseDialog implements ActionListener {
 	public CreatePatientDialog(Component owner){
 		super(owner,"Create Patient");
 
-		Container contentPane = rootPane.getContentPane();
-
 		titleField = new JTextField();
 		forenameField = new JTextField();
 		surnameField = new JTextField();

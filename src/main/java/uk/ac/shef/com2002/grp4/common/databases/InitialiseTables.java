@@ -38,7 +38,7 @@ public class InitialiseTables {
         StringBuilder data = new StringBuilder();
         try {
             File file = new File(fileName);
-            Scanner scanner = new Scanner(file);
+            Scanner scanner = new Scanner(file, "utf-8");
 
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();

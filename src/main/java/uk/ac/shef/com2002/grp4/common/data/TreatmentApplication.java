@@ -76,6 +76,18 @@ public class TreatmentApplication {
 		this.count = count;
 	}
 
+	/**
+	 * Constructs a copy of a TreatmentApplication 
+	 * @param application - The application to copy
+	 */
+	public TreatmentApplication(TreatmentApplication application) {
+		this.treatment = application.treatment;
+		this.date = application.date;
+		this.time = application.time;
+		this.partner = application.partner;
+		this.count = application.count;
+	}
+
 	/** 
 	 * @return The treatment name
 	 */
@@ -123,11 +135,6 @@ public class TreatmentApplication {
 		this.count = count;
 	}
 	
-	@Override
-	public TreatmentApplication clone() {
-		return new TreatmentApplication(getTreatmentName(), getDate(), getTime(), getPartner().toString(), getCount());
-	}
-
 	/**
 	 * Used to change the treatment link when linked with the 
 	 * database treatment with all information

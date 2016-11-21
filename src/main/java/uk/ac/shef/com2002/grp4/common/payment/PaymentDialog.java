@@ -169,7 +169,7 @@ public class PaymentDialog extends BaseDialog {
 		model.removeAllElements();
 		treatmentApplications = TreatmentApplicationUtils.getRemainingTreatments(patient);
 		//Fetch the plan and if there isn't one then just use the default one
-		PatientPlan pl = PatientPlanUtils.getPlanByPatientID(patient.getID());
+		PatientPlan pl = PatientPlanUtils.getPlanByPatientID(patient.getId());
 		if (pl == null) {
 			plan = PatientPlan.defaultFor(patient);
 		} else {

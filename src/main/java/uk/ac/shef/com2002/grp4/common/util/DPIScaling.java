@@ -9,6 +9,7 @@
 
 package uk.ac.shef.com2002.grp4.common.util;
 
+import java.util.Locale;
 import javax.swing.*;
 import java.awt.*;
 
@@ -39,7 +40,7 @@ public class DPIScaling {
         float dpiScaling = get();
         // Scale the font size of each object which is in the UI
         for(Object key: UIManager.getLookAndFeelDefaults().keySet()) {
-            if(key != null && key.toString().toLowerCase().contains("font")) {
+            if(key != null && key.toString().toLowerCase(Locale.ENGLISH).contains("font")) {
                 Font font = UIManager.getDefaults().getFont(key);
                 if(font != null) {
                     int size = font.getSize();

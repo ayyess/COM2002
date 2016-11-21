@@ -143,11 +143,11 @@ public class AppointmentDetailsPartner extends BaseDialog {
 			}
 		}
 		if (found) {
-			TreatmentApplication ta = model.get(j).clone();
+			TreatmentApplication ta = new TreatmentApplication(model.get(j));
 			ta.setCount(model.get(j).getCount()+1);
 			model.set(j, ta); 
 		} else {
-			model.add(j, selected.clone());
+			model.add(j, new TreatmentApplication(selected));
 		}
 	}
 
@@ -162,7 +162,7 @@ public class AppointmentDetailsPartner extends BaseDialog {
 		TreatmentApplication[] newTreatments = new TreatmentApplication[o.length];
 		
 		for (int i = 0; i < newTreatments.length; i++) {
-			newTreatments[i] = ((TreatmentApplication) o[i]).clone();
+			newTreatments[i] = new TreatmentApplication((TreatmentApplication)o[i]);
 		} 
 		
 		//Save the treatments to the database

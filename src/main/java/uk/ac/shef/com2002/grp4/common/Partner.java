@@ -8,6 +8,8 @@
  */
 package uk.ac.shef.com2002.grp4.common;
 
+import java.util.Locale;
+
 public enum Partner {
 	DENTIST("Dentist"),
 	HYGIENIST("Hygienist");
@@ -28,7 +30,7 @@ public enum Partner {
 	
 	/** Same as value of but ignores the case of the given String */
 	public static Partner valueOfIngnoreCase(String p) {
-		return valueOf(p.toUpperCase());
+		return valueOf(p.toUpperCase(Locale.ENGLISH));
 	}
 	
 }

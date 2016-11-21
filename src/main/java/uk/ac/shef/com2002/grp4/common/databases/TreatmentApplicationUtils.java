@@ -30,7 +30,7 @@ public class TreatmentApplicationUtils {
         		"INNER JOIN patients p ON p.id=a.patient_id " + 
         		"WHERE p.id=?;",
         		(stmt)-> {
-            stmt.setLong(1, p.getID());
+            stmt.setLong(1, p.getId());
         	ResultSet res = stmt.executeQuery();
             while (res.next()) {
                 treatments.add(new Treatment(res.getString(1), res.getInt(2), res.getString(3)));
@@ -79,7 +79,7 @@ public class TreatmentApplicationUtils {
         		"INNER JOIN patients p ON p.id=a.patient_id " + 
         		"WHERE p.id=? AND ta.paid=FALSE;",
         		(stmt)-> {
-            stmt.setLong(1, p.getID());
+            stmt.setLong(1, p.getId());
         	ResultSet res = stmt.executeQuery();
             while (res.next()) {
                 treatments.add(new TreatmentApplication(res.getString(1), res.getDate(2).toLocalDate(), res.getTime(3).toLocalTime(), res.getString(4), res.getInt(5), res.getBoolean(6)));

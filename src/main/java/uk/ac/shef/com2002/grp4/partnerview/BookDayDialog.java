@@ -87,7 +87,7 @@ public class BookDayDialog extends BaseDialog {
 	void book() {
 		LocalDate date = LocalDate.of(datePicker.getModel().getYear(), datePicker.getModel().getMonth()+1, datePicker.getModel().getDay());
 		for (int i = 0; i < dayModel.getNumber().intValue(); i++) {
-			AppointmentUtils.insertAppointment(date.plusDays(i), partner.toString(), PatientUtils.getReservedPatient().getID(), LocalTime.of(9, 0), Duration.ofHours(8), false);
+			AppointmentUtils.insertAppointment(date.plusDays(i), partner.toString(), PatientUtils.getReservedPatient().getId(), LocalTime.of(9, 0), Duration.ofHours(8), false);
 		}
 	}
 	

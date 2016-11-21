@@ -201,7 +201,7 @@ public class Patient {
 	 * This gets the id if it exists.
 	 * @return id
 	 */
-	public long getID() {
+	public long getId() {
 		return id.get();
 	}
 
@@ -245,7 +245,7 @@ public class Patient {
 	 */
 	public void delete() {
 		if(id.isPresent()) {
-			PatientUtils.deleteByID(getID());
+			PatientUtils.deleteByID(getId());
 		}
 		//else not in db
 	}
