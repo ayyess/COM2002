@@ -84,3 +84,9 @@ CREATE TABLE IF NOT EXISTS patient_plans (
 
 INSERT INTO addresses (id,house_number,street,district,city,postcode) VALUES (1,0,'','','','');
 INSERT INTO patients (id,title,first_name,last_name,dob,phone_number,address_id) VALUES (1,'','RESERVED','',CURDATE(),'', LAST_INSERT_ID() );
+
+INSERT INTO treatment_plans (name, cost, checkups, hygiene_visits, repairs) VALUES ('Dental Repair', 3600, 2, 4, 2);
+INSERT INTO treatment_plans (name, cost, checkups, hygiene_visits, repairs) VALUES ('Maintenance Plan', 1500, 2, 2, 0);
+INSERT INTO treatment_plans (name, cost, checkups, hygiene_visits, repairs) VALUES ('NHS', 0, 0, 0, 0);
+INSERT INTO treatment_plans (name, cost, checkups, hygiene_visits, repairs) VALUES ('NHS Kids', 0, 2, 2, 6);
+INSERT INTO treatment_plans (name, cost, checkups, hygiene_visits, repairs) VALUES ('Oral', 2100, 2, 4, 0);
