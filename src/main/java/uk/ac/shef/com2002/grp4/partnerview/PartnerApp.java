@@ -18,18 +18,30 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 
+/**
+ * The window that shows a partner's appointments for the day or week
+ */
 public class PartnerApp extends JFrame {
 
+	/** The buttons to choose between day or week view */
 	JRadioButton day, week;
+	/** The view of the appointments for the chosen time frame */
 	CalendarView calendar;
+	/** The scrollable pane that contains the appointment list */
 	JScrollPane scroll;
+	/** The container of the day and week buttons */
 	ButtonGroup view;
-
+	/** The panel holding the day and week buttons */
 	JPanel buttonPanel;
+	/* The button for booking full days for holiday */
 	JButton bookDayButton;
-
+	/** The partner that is signed in */
 	Partner partner;
 
+	/**
+	 * Construct an app showing the partners appointments
+	 * @param the partner to log in as
+	 */
 	public PartnerApp(Partner partner) {
 		setDefaultCloseOperation(EXIT_ON_CLOSE); // TODO remove and replace with below once merged
 		//setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -90,6 +102,9 @@ public class PartnerApp extends JFrame {
 		setVisible(true);
 	}
 
+	/**
+	 * Open a holiday booking dialog
+	 */
 	public void bookDay() {
 		BookDayDialog bookDayDialog = new BookDayDialog(this, partner);
 		bookDayDialog.setVisible(true);
