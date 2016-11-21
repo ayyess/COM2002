@@ -66,5 +66,4 @@ bin/
 .classpath
 
 .gradle
-gradle
 build
